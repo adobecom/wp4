@@ -657,7 +657,7 @@ export const getConfig = async (originalState, strs = {}) => {
     featuredCards: featuredCards.split(URL_ENCODED_COMMA),
     filterPanel: {
       enabled: state.showFilters,
-      eventFilter: state.filterEvent,
+      eventFilter: state.filterEvent || [],
       type: state.showFilters ? state.filterLocation : 'left',
       showEmptyFilters: state.filtersShowEmpty,
       filters: await getFilterArray(state, country, language, strs),
@@ -824,7 +824,7 @@ export const defaultState = {
   excludeTags: [],
   fallbackEndpoint: '',
   featuredCards: [],
-  filterEvent: '',
+  filterEvent: [],
   filterBuildPanel: 'automatic',
   filterLocation: 'left',
   filterLogic: 'or',

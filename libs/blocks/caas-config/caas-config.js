@@ -121,9 +121,8 @@ const defaultOptions = {
     custom: 'Custom',
   },
   filterEvent: {
-    '': 'All',
-    live: 'Live',
-    upcoming: 'Upcoming',
+    'live': 'Live',
+    'upcoming': 'Upcoming',
     'on-demand': 'On Demand',
     'not-timed': 'Not Timed',
   },
@@ -581,11 +580,21 @@ const FilterPanel = ({ tagsData }) => {
     });
   };
 
+  const updateEventFilters = (prop) => (selections) => {
+    context.dispatch({
+      type: 'MULTI_SELECT_CHANGE',
+      prop,
+      value: selections,
+    });
+    console.log(prop);
+    console.log(selections);
+  };
+
   const FilterOptions = html`
     <${Input} label="Show Empty Filters" prop="filtersShowEmpty" type="checkbox" />
     <${Select} label="Filter Location" prop="filterLocation" options=${defaultOptions.filterLocation} />
     <${Select} label="Filter logic within each tag panel" prop="filterLogic" options=${defaultOptions.filterLogic} />
-    <${Select} label="Event Filter" prop="filterEvent" options=${defaultOptions.filterEvent} />
+    <${DropdownSelect} id="filterEvent" options=${defaultOptions.filterEvent} prop="filterEvent" label="Event Filter" />
     <${Select} label="Automatic or Custom Panel" prop="filterBuildPanel" options=${defaultOptions.filterBuildPanel} />
   `;
 
