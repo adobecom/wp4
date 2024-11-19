@@ -22,7 +22,7 @@ const ATTRIBUTE_IMS = 'ims';
 export async function getFragmentById(baseUrl, id, author, headers) {
     const endpoint = author
         ? `${baseUrl}/adobe/sites/cf/fragments/${id}`
-        : `https://qa-odin.adobe.com//adobe/sites/fragments/${id}`;
+        : `https://qa-odin.adobe.com/adobe/sites/fragments/${id}`;
     const response = await fetch(endpoint, {
         cache: 'default',
         credentials: 'omit',
