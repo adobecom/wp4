@@ -121,8 +121,8 @@ const defaultOptions = {
     custom: 'Custom',
   },
   filterEvent: {
-    'live': 'Live',
-    'upcoming': 'Upcoming',
+    live: 'Live',
+    upcoming: 'Upcoming',
     'on-demand': 'On Demand',
     'not-timed': 'Not Timed',
   },
