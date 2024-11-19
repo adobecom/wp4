@@ -580,16 +580,6 @@ const FilterPanel = ({ tagsData }) => {
     });
   };
 
-  const updateEventFilters = (prop) => (selections) => {
-    context.dispatch({
-      type: 'MULTI_SELECT_CHANGE',
-      prop,
-      value: selections,
-    });
-    console.log(prop);
-    console.log(selections);
-  };
-
   const FilterOptions = html`
     <${Input} label="Show Empty Filters" prop="filtersShowEmpty" type="checkbox" />
     <${Select} label="Filter Location" prop="filterLocation" options=${defaultOptions.filterLocation} />
