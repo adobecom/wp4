@@ -28,3 +28,4 @@ import{html as e,css as i,LitElement as s}from"../lit-all.min.js";var t=class ex
             <slot name="icon"></slot>
             <slot name="description">${this.description}</slot>
         `}};customElements.define("merch-mnemonic-list",t);export{t as MerchMnemonicList};
+//# sourceMappingURL=merch-mnemonic-list.js.map

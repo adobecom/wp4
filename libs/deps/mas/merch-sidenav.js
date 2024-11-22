@@ -140,3 +140,4 @@ import{html as k,css as H,LitElement as P}from"/libs/deps/lit-all.min.js";var r=
             ><h2>${this.sidenavTitle}</h2>
             <slot></slot
         ></sp-theme>`}get dialog(){return this.shadowRoot.querySelector("sp-dialog-base")}closeModal(e){e.preventDefault(),this.dialog?.close(),document.body.classList.remove("merch-modal")}openModal(){this.updateComplete.then(async()=>{T(this.dialog),document.body.classList.add("merch-modal");let e={trigger:this.#e,notImmediatelyClosable:!0,type:"auto"},t=await window.__merch__spectrum_Overlay.open(this.dialog,e);t.addEventListener("close",()=>{this.modal=!1,document.body.classList.remove("merch-modal"),w(this.dialog)}),this.shadowRoot.querySelector("sp-theme").append(t)})}updated(){this.modal&&this.openModal()}showModal({target:e}){this.#e=e,this.modal=!0}};customElements.define("merch-sidenav",f);export{f as MerchSideNav};
+//# sourceMappingURL=merch-sidenav.js.map

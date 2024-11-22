@@ -29,3 +29,4 @@ import{LitElement as h,html as e,css as s}from"../lit-all.min.js";var t=class ex
             height: var(--img-height);
         }
     `};customElements.define("merch-icon",t);export{t as default};
+//# sourceMappingURL=merch-icon.js.map

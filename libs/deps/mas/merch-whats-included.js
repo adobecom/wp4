@@ -40,3 +40,4 @@ import{html as e,css as o,LitElement as l}from"../lit-all.min.js";var t=class ex
             ${this.isMobile&&this.rows.length>this.mobileRows?e`<div @click=${this.toggle} class="see-more">
                       ${this.showAll?"- See less":"+ See more"}
                   </div>`:e``}`}get isMobile(){return window.matchMedia("(max-width: 767px)").matches}get rows(){return this.querySelectorAll("merch-mnemonic-list")}};customElements.define("merch-whats-included",t);export{t as MerchWhatsIncluded};
+//# sourceMappingURL=merch-whats-included.js.map

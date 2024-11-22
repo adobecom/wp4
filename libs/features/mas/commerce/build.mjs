@@ -13,6 +13,7 @@ const { metafile } = await build({
     outfile: '../../../../libs/deps/mas/commerce.js',
     platform: 'browser',
     target: ['es2020'],
+    sourcemap: true,
 });
 
 fs.writeFileSync('stats.json', JSON.stringify(metafile));

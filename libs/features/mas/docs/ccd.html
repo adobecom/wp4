@@ -62,7 +62,7 @@
         Switch Theme: <a href="?theme=dark">Dark</a> OR <a href="?theme=light">Light</a>
 
         <h2 id="ccd-slice-card" tabindex="-1">CCD Slice Card <a class="header-anchor" href="#ccd-slice-card" href="#ccd-slice-card" title="Permalink to this heading">#</a></h2>
-        <div class="gallery-grid-3">
+        <!-- <div class="gallery-grid-3">
           <div>
             <h3>Percentage</h3>
             <merch-card><aem-fragment fragment="0ef2a804-e788-4959-abb8-b4d96a18b0ef"></aem-fragment></merch-card>
@@ -84,19 +84,19 @@
             <h3>With Badge</h3>
             <merch-card><aem-fragment fragment="3d26df5b-0784-4967-8149-8a9e59131084"></aem-fragment></merch-card>
           </div>
-        </div>
+        </div> -->
 
         <h2 id="ccd-slice-wide-card" tabindex="-1">CCD Slice Wide Card <a class="header-anchor" href="#ccd-slice-wide-card" href="#ccd-slice-wide-card" title="Permalink to this heading">#</a></h2>
         <div class="gallery-grid-1">
           <merch-card><aem-fragment fragment="bdf40d06-5914-4f1f-aa10-77c5676fe671"></aem-fragment></merch-card>
           <merch-card><aem-fragment fragment="31205553-b453-4c9e-a2ef-7b6aa7bfdc72"></aem-fragment></merch-card>
-          <merch-card><aem-fragment fragment="f3e5f2e7-df41-4300-87b9-465b3ad11abc"></aem-fragment></merch-card>
+          <!-- <merch-card><aem-fragment fragment="f3e5f2e7-df41-4300-87b9-465b3ad11abc"></aem-fragment></merch-card>
           <merch-card><aem-fragment fragment="c25b20cc-e8a3-4854-b94f-51eec7d0ec25"></aem-fragment></merch-card>
-          <merch-card><aem-fragment fragment="6b3c6c4e-e19f-4d08-914f-fcfd9f77ca14"></aem-fragment></merch-card>
+          <merch-card><aem-fragment fragment="6b3c6c4e-e19f-4d08-914f-fcfd9f77ca14"></aem-fragment></merch-card> -->
         </div>
 
         <h2 id="ccd-suggested-card" tabindex="-1">CCD Suggested Card <a class="header-anchor" href="#ccd-suggested-card" href="#ccd-suggested-card" title="Permalink to this heading">#</a></h2>
-        <div class="gallery-grid-3">
+        <!-- <div class="gallery-grid-3">
           <div>
             <h3>With eyebrow</h3>
             <merch-card><aem-fragment fragment="0a2ac7c9-1965-488e-beca-856849305313"></aem-fragment></merch-card>
@@ -129,13 +129,18 @@
             <h3>Wide strip with seat text</h3>
             <merch-card><aem-fragment fragment="d23182d8-fc92-483d-bcfe-d1fe3d3ce737"></aem-fragment></merch-card>
           </div>
-          </div>
+          </div> -->
       </div>
     </sp-theme>
     <script type="module">
       if (new URLSearchParams(document.location.search)?.get('theme')?.toLowerCase() === 'dark') {
         document.querySelectorAll('sp-theme').forEach((theme) => theme.setAttribute('color', 'dark'));
       }
+      document.addEventListener('mas:ready', (event) => {
+        console.log(event.target);
+        const frag = event.target?.querySelector('aem-fragment');
+        console.log(frag?.getAttribute('fragment'));
+      });
     </script>
   </main>
 </body>
