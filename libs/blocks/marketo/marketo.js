@@ -42,6 +42,21 @@ const FORM_MAP = {
 export const FORM_PARAM = 'form';
 
 export const formValidate = (formEl) => {
+  const marketo = formEl.closest('.marketo');
+  if (marketo.classList.contains('step-1')) {
+    marketo.classList.remove('step-1');
+    marketo.classList.add('step-2');
+    formEl.classList.add('hide-errors');
+    formEl.classList.remove('show-warnings');
+    return;
+  }
+  if (marketo.classList.contains('step-2') && marketo.classList.contains('multi-3')) {
+    marketo.classList.remove('step-2');
+    marketo.classList.add('step-3');
+    formEl.classList.add('hide-errors');
+    formEl.classList.remove('show-warnings');
+    return;
+  }
   formEl.classList.remove('hide-errors');
   formEl.classList.add('show-warnings');
 };
@@ -262,6 +277,19 @@ export default function init(el) {
   fragment.append(formWrapper);
   el.replaceChildren(fragment);
   el.classList.add('loading');
+  if (el.classList.contains('multi-2') || el.classList.contains('multi-3')) {
+    el.classList.add('multi-step');
+    el.classList.add('step-1');
+    const backBtn = createTag('button', { class: 'back-btn', type: 'button' }, 'Back');
+    backBtn.addEventListener('click', () => {
+      el.classList.remove('step-2');
+      el.classList.add('step-1');
+    });
+    const totalSteps = el.classList.contains('multi-3') ? 3 : 2;
+    const stepEl = createTag('p', { class: 'step' }, `Step 1 of ${totalSteps}`);
+    const stepWrapper = createTag('div', { class: 'step-details' }, stepEl);
+    formWrapper.append(stepWrapper);
+  }
 
   loadLink(`https://${baseURL}`, { rel: 'dns-prefetch' });
 

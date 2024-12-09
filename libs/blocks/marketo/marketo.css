@@ -85,6 +85,59 @@
   display: contents;
 }
 
+.marketo.multi-step.step-1 .mktoFormRow.mktoFormRowTop,
+.marketo.multi-step.step-2 .mktoFormRow.mktoFormRowTop,
+.marketo.multi-step.step-3 .mktoFormRow.mktoFormRowTop {
+  display: none;
+}
+
+.marketo.multi-step.step-1 .mktoFormRow.mktoFormRowTop[data-mktofield="Email"],
+.marketo.multi-step.step-1 .mktoFormRow.mktoFormRowTop[data-mktofield="Country"] {
+  display: block;
+}
+
+.marketo.multi-step.step-2 .mktoFormRow.mktoFormRowTop.name,
+.marketo.multi-step.step-2 .mktoFormRow.mktoFormRowTop[data-mkto_vis_src="phone"],
+.marketo.multi-step.step-2 .mktoFormRow.mktoFormRowTop[data-mktofield="mktoFormsJobTitle"],
+.marketo.multi-step.step-2 .mktoFormRow.mktoFormRowTop[data-mktofield="mktoFormsFunctionalArea"] {
+  display: block;
+}
+
+.marketo.multi-step.multi-3.step-3 .mktoFormRow.mktoFormRowTop[data-mkto_vis_src="company"],
+.marketo.multi-step.multi-3.step-3 .mktoFormRow.mktoFormRowTop.state,
+.marketo.multi-step.multi-3.step-3 .mktoFormRow.mktoFormRowTop.postcode,
+.marketo.multi-step.multi-3.step-3 .mktoFormRow.mktoFormRowTop[data-mktofield="mktoFormsPrimaryProductInterest"] {
+  display: block;
+}
+
+.marketo.multi-step.multi-2.step-2 .mktoFormRow.mktoFormRowTop {
+  display: block;
+}
+
+.marketo.multi-step.multi-2.step-2 .mktoFormRow.mktoFormRowTop[data-mktofield="Email"],
+.marketo.multi-step.multi-2.step-2 .mktoFormRow.mktoFormRowTop[data-mktofield="Country"] {
+  display: none;
+}
+
+.marketo.multi-step .hide-errors .mktoFormRow.mktoFormRowTop.msg-error .mktoFormCol {
+  display: none;
+}
+
+.marketo.multi-step .step-details {
+  display: flex;
+  justify-content: center;
+  font-size: var(--type-body-xs-size);
+  line-height: var(--type-body-xs-lh);
+}
+
+.marketo.multi-step .step-details button {
+  background: none!important;
+  border: none;
+  padding: 0!important;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .marketo .mktoFormCol.mktoVisible {
   width: 100%;
   margin-bottom: 11px;
