@@ -42,7 +42,14 @@ const getStageDomainsMap = (stageDomainsMap) => (
 );
 
 // Production Domain
-const prodDomains = ['milo.adobe.com', 'business.adobe.com', 'www.adobe.com', 'adobecom.github.io'];
+const prodDomains = [
+  'milo.adobe.com',
+  'business.adobe.com',
+  'www.adobe.com',
+  'helpx.adobe.com',
+  'stock.adobe.com',
+  'adobecom.github.io',
+];
 
 function getParamsConfigs(configs) {
   return blockConfig.reduce((acc, block) => {

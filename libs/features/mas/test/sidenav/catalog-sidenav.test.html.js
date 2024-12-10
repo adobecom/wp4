@@ -196,12 +196,14 @@ runTests(async () => {
 
         it('does refresh from url state', async () => {
             const search = document.querySelector('sp-search');
+            const sidenavItemCD = document.querySelector('sp-sidenav-item[label="Creativity And Design"]');
             search.value = '';
-            pushState({ search: 'photoshop' });
+            pushState({ search: 'photoshop', filter: 'creativitydesign' });
             await refreshElement(
                 document.querySelector('merch-search').parentElement,
             );
             expect(search.value).to.equal('photoshop');
+            expect(sidenavItemCD.expanded).to.be.true;
         });
     });
 });

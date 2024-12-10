@@ -55,9 +55,6 @@ export class MerchSidenavList extends LitElement {
         if (element.parentNode.tagName === 'SP-SIDENAV-ITEM') {
             this.selectElement(element.parentNode, false);
         }
-        if (element.firstElementChild?.tagName === 'SP-SIDENAV-ITEM') {
-            element.expanded = true;
-        }
         if (selected) {
             this.selectedElement = element;
             this.selectedText = element.label;
@@ -91,6 +88,10 @@ export class MerchSidenavList extends LitElement {
             );
             if (!element) return;
             this.updateComplete.then(() => {
+                const sideNavItemTagName = 'SP-SIDENAV-ITEM';
+                if (element.firstElementChild?.tagName === sideNavItemTagName) {
+                  element.expanded = true;
+                }
                 this.selectElement(element);
             });
         }

@@ -63,7 +63,7 @@ export default class Table {
       // verify tooltip information
       if (tooltip) {
         const headerColumnTooltip = await headerColumn.locator('.milo-tooltip');
-        await expect(await headerColumnTooltip.locator('.icon-milo-info')).toBeVisible();
+        await expect(await headerColumnTooltip.locator('.icon-milo')).toBeVisible();
         await expect(await headerColumnTooltip).toHaveAttribute('data-tooltip', tooltip.tooltipText);
         await headerColumnTooltip.hover();
       }
@@ -94,7 +94,7 @@ export default class Table {
         }
         if (column.tooltip) {
           const tooltip = await sectionRowColumn.locator('.milo-tooltip');
-          await expect(await tooltip.locator('.icon-milo-info')).toBeVisible();
+          await expect(await tooltip.locator('.icon-milo')).toBeVisible();
           await expect(await tooltip).toHaveAttribute('data-tooltip', column.tooltipText);
           await tooltip.hover();
         }

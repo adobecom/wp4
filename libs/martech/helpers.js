@@ -1,3 +1,5 @@
+const AMCV_COOKIE = 'AMCV_9E1005A551ED61CA0A490D45@AdobeOrg';
+
 /**
  * Generates a random UUIDv4 using cryptographically secure random values.
  * This implementation follows the RFC 4122 specification for UUIDv4.
@@ -68,7 +70,7 @@ function getTargetPropertyBasedOnPageRegion(env) {
     return 'ba5bc9e8-8fb4-037a-12c8-682384720007';
   }
 
-  return 'bc8dfa27-29cc-625c-22ea-f7ccebfc6231'; // Default
+  return '4db35ee5-63ad-59f6-cec6-82ef8863b22d'; // Default
 }
 
 /**
@@ -92,14 +94,11 @@ function getDeviceInfo() {
  * @param {string} key - The cookie key.
  * @returns {string|null} The cookie value, or null if the cookie doesn't exist.
  */
-function getCookie(key, sendFullCookie) {
+function getCookie(key) {
   const cookie = document.cookie.split(';')
-    .map((x) => x.trim().split('='))
+    .map((x) => decodeURIComponent(x.trim()).split(/=(.*)/s))
     .find(([k]) => k === key);
 
-  if (sendFullCookie) {
-    return cookie;
-  }
   return cookie ? cookie[1] : null;
 }
 
@@ -133,11 +132,10 @@ function setCookie(key, value, options = {}) {
  *     { FPID: [{ id: string, authenticatedState: string, primary: boolean }] }
  */
 function getOrGenerateUserId() {
-  const experienceCloudCookieName = 'AMCV_9E1005A551ED61CA0A490D45%40AdobeOrg';
-  const amcvCookieValue = getCookie(experienceCloudCookieName);
+  const amcvCookieValue = getCookie(AMCV_COOKIE);
 
   // If ECID is not found, generate and return FPID
-  if (!amcvCookieValue) {
+  if (!amcvCookieValue || (amcvCookieValue.indexOf('MCMID|') === -1)) {
     const fpidValue = generateUUIDv4();
     return {
       FPID: [{
@@ -148,11 +146,9 @@ function getOrGenerateUserId() {
     };
   }
 
-  // ECID found, return structured ECID object
-  const extractedEcid = amcvCookieValue.substring(6); // Extract the ECID value from the cookie
   return {
     ECID: [{
-      id: extractedEcid,
+      id: amcvCookieValue.match(/MCMID\|([^|]+)/)?.[1],
       authenticatedState: 'ambiguous',
       primary: true,
     }],
@@ -318,7 +314,7 @@ function createRequestPayload({ updatedContext, pageName, locale, env }) {
  * @param {Object} data - The response data from the API.
  * @returns {string|null} The ECID value, or null if not found.
  */
-function extractECID(data) {
+function extractECIDFromResp(data) {
   return data.handle
     .flatMap((item) => item.payload)
     .find((p) => p.namespace?.code === 'ECID')?.id || null;
@@ -330,12 +326,36 @@ function extractECID(data) {
  * @param {string} ECID - The Experience Cloud ID (ECID).
  */
 function updateAMCVCookie(ECID) {
-  const cookieName = 'AMCV_9E1005A551ED61CA0A490D45%40AdobeOrg';
-  const cookieValue = `MCMID|${ECID}`;
+  const cookieValue = getCookie(AMCV_COOKIE);
 
-  if (getCookie(cookieName) !== cookieValue) {
-    setCookie(cookieName, `MCMID|${ECID}`);
+  if (!cookieValue) {
+    setCookie(encodeURIComponent(AMCV_COOKIE), `MCMID|${ECID}`);
+  } else if (cookieValue.indexOf('MCMID|') === -1) {
+    setCookie(encodeURIComponent(AMCV_COOKIE), `${cookieValue}|MCMID|${ECID}`);
   }
+}
+
+function getUrl() {
+  const PAGE_URL = new URL(window.location.href);
+  const { host } = window.location;
+  const query = PAGE_URL.searchParams.get('env');
+  const url = 'https://edge.adobedc.net/ee/v2/interact';
+
+  /* c8 ignore start */
+  if (query || host.includes('localhost') || host.includes('.page')
+    || host.includes('.live')) {
+    return url;
+  }
+
+  /* c8 ignore start */
+  if (host.includes('stage.adobe')
+    || host.includes('corp.adobe')
+    || host.includes('graybox.adobe')) {
+    return 'https://www.stage.adobe.com/experienceedge/ee/v2/interact';
+  }
+
+  const { origin } = window.location;
+  return `${origin}/experienceedge/ee/v2/interact`;
 }
 
 /**
@@ -351,17 +371,15 @@ function updateAMCVCookie(ECID) {
  * personalization propositions fetched from Adobe Target.
  */
 export const loadAnalyticsAndInteractionData = async ({ locale, env, calculatedTimeout }) => {
-  const value = getCookie('kndctr_9E1005A551ED61CA0A490D45_AdobeOrg_consent', true);
-  const isRejectedDecodedURI = value?.[2] === undefined && decodeURIComponent(value?.[1]) === 'general=out';
-  const isRejectedURI = value?.[1] === 'general' && value?.[2] === 'out';
+  const value = getCookie('kndctr_9E1005A551ED61CA0A490D45_AdobeOrg_consent');
 
-  if (isRejectedDecodedURI || isRejectedURI) {
+  if (value === 'general=out') {
     return Promise.reject(new Error('Consent Cookie doesnt allow interact'));
   }
 
   // Define constants based on environment
   const DATA_STREAM_ID = env === 'prod' ? '5856abb0-95d8-4f9a-bb92-37f99d2bd492' : '87f9b644-5fd3-4015-81d5-f68ad81c3561';
-  const TARGET_API_URL = 'https://edge.adobedc.net/ee/v2/interact';
+  const TARGET_API_URL = getUrl();
 
   // Device and viewport information
   const {
@@ -407,7 +425,7 @@ export const loadAnalyticsAndInteractionData = async ({ locale, env, calculatedT
       throw new Error('Failed to fetch interact call');
     }
     const targetRespJson = await targetResp.json();
-    const ECID = extractECID(targetRespJson);
+    const ECID = extractECIDFromResp(targetRespJson);
 
     // Update the AMCV cookie with ECID
     updateAMCVCookie(ECID);

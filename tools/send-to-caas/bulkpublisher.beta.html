@@ -51,8 +51,8 @@
                 <h4>Advanced Options</h4>
 
                 <div class="field">
-                  <label for="caasEnvSelector">CaaS Enviroment<span class="help caas-env" title="Help about this functionality">(?)</span></label>
-                  <select name="caasEnvSelector" id="caasEnvSelector">
+                  <label for="caasEnv">CaaS Enviroment<span class="help caas-env" title="Help about this functionality">(?)</span></label>
+                  <select name="caasEnv" id="caasEnv">
                     <option value="dev">Dev</option>
                     <option value="stage">Stage</option>
                     <option value="prod" selected>Production</option>
@@ -62,7 +62,7 @@
                 <div class="field">
                   <label for="contentType">ContentType Fallback: <span class="help content-type-fallback" title="Help about this functionality">(?)</span></label>
                   <select name="contentType" id="contentType">
-                    <option value="">Auto Detect</option>
+                    <option value="auto">Auto Detect</option>
                     <option value="caas:content-type/announcements">Announcements</option>
                     <option value="caas:content-type/application">Application</option>
                     <option value="caas:content-type/article">Article</option>
@@ -132,7 +132,7 @@
                 </div>
                 <div id="use-preview-cb" class="field checkbox">
                   <input type="checkbox" id="usePreview" name="usePreview" />
-                  <label for="usePreview">Use Preview Content <span class="help use-preview" title="Help about this functionality">(?)</span></label>
+                  <label for="usePreview">Use Preview Content (*.page)<span class="help use-preview" title="Help about this functionality">(?)</span></label>
                 </div>
                 <!--
                 <div class="field">
@@ -153,7 +153,7 @@
 
           <div class="urls">
             <h2>URLs</h2>
-            <p>Note: This tool is in <b>BETA</b> stage. Please report any issues in the <b>#javelin-friends</b> channel on Slack.</p>
+            <p><i><b>Note</b>: This tool is in <b>BETA</b> stage. Please report any issues in the <b>#javelin-friends</b> channel on Slack.</i></p>
             <p>Enter a URL or list of URLs, each on a separate line, to be sent to CaaS.</p>
             <textarea id="urls" 
               name="urls" 

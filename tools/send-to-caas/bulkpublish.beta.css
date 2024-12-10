@@ -44,7 +44,7 @@ body {
 
 .main {
   display: flex;
-  height: calc(100% - 126px);
+  min-height: calc(100% - 126px);
 }
 
 .bulk-publisher .title {
@@ -58,7 +58,7 @@ body {
   background: linear-gradient(45deg, #aaa, #eee);
   border-right: solid 1px #aaa;
   overflow-y: auto;
-  height: 100%;
+  min-height: 100%;
 }
 
 dd.content {

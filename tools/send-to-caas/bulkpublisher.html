@@ -2,10 +2,30 @@
   <head>
     <link rel="stylesheet" href="/libs/ui/controls/accordion.css" />
     <link rel="stylesheet" href="./bulkpublish.css" />
+    <style>
+      .bpv2 {
+        background: linear-gradient(90deg, #6F9B0033, #6F9B00);
+        font-family: system-ui, sans-serif;
+        text-align: right;
+        padding: 8px;
+        color: white;
+        animation: slide-bg 1.5s;
+      }
+      .bpv2 a {
+        color: white;
+      }
+      @keyframes slide-bg {
+        from {background-position: -1600px}
+        to {background-position: 0}
+      }
+    </style>
   </head>
 
   <body>
     <div class="bulk-publisher">
+      <p class="bpv2">
+        Try the new <a href="./bulkpublisher.beta.html">CaaS Bulk Publisher v2 (Beta)</a>
+      </p>
       <div class="main">
         <div class="options-panel">
           <dt class="title is-expanded">

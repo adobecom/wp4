@@ -17,11 +17,11 @@ import {
 import comEnterpriseToCaasTagMap from './comEnterpriseToCaasTagMap.js';
 
 const BODY = document.body;
-const SIGNEDIN = BODY.querySelector('.status-signed-in');
-const SIGNEDOUT = BODY.querySelector('.status-signed-out');
+const SIGNEDIN_EL = BODY.querySelector('.status-signed-in');
+const SIGNEDOUT_EL = BODY.querySelector('.status-signed-out');
 
 const LS_KEY = 'bulk-publish-caas';
-const FIELDS = ['presetSelector', 'host', 'repo', 'owner', 'caasEnvSelector', 'urls', 'contentType', 'publishToFloodgate'];
+const FIELDS = ['presetSelector', 'host', 'repo', 'owner', 'caasEnv', 'urls', 'contentType', 'publishToFloodgate'];
 const FIELDS_CB = ['draftOnly', 'useHtml', 'usePreview'];
 const DEFAULT_VALUES = {
   preset: 'default',
@@ -246,15 +246,14 @@ const processData = async (data, accessToken) => {
         errorArr.push([pageUrl, response]);
       }
     } catch (e) {
-      // eslint-disable-next-line no-console
-      console.log(`ERROR: ${e.message}`);
+      errorArr.push(['Error:', e.message]);
     }
   }
 
   if (statusModal.modal) statusModal.close();
 
-  SIGNEDIN.style.display = 'none';
-  SIGNEDOUT.style.display = 'none';
+  SIGNEDIN_EL.style.display = 'none';
+  SIGNEDOUT_EL.style.display = 'none';
   resetResultsTables();
   if (successArr.length) {
     showSuccessTable(successArr);
@@ -307,34 +306,34 @@ const loadFromLS = () => {
 const publishWarning = document.querySelector('.publish-warning');
 const checkCaasEnv = () => {
   // eslint-disable-next-line no-undef
-  const caasEnvValue = caasEnvSelector.value || 'prod';
-  // eslint-disable-next-line no-undef
-  if (caasEnvValue === 'prod' && !draftOnly.checked) {
+  if (caasEnv.value === 'prod' && !draftOnly.checked) {
     publishWarning.style.height = '30px';
   } else {
     publishWarning.style.height = '0';
   }
 };
 
-// preset options
+// presets options
 const presetsJsonPath = 'https://milo.adobe.com/drafts/caas/bppresets.json';
 let presetsData = {};
-
-fetchExcelJson(presetsJsonPath).then((presets) => {
-  const separator = document.querySelector('.separator');
-  const parent = separator.parentElement;
-  presetsData = presets;
-  presets.forEach((preset) => {
-    const option = document.createElement('option');
-    option.value = preset.repo;
-    option.text = `${preset.name} (${preset.repo})`;
-    parent.insertBefore(option, separator);
+const getPresetsData = async () => {
+  fetchExcelJson(presetsJsonPath).then((presets) => {
+    const separator = document.querySelector('.separator');
+    const parent = separator.parentElement;
+    presetsData = presets;
+    presets.forEach((preset) => {
+      const option = document.createElement('option');
+      option.value = preset.repo;
+      option.text = `${preset.name} (${preset.repo})`;
+      parent.insertBefore(option, separator);
+    });
   });
-});
+};
 
 const resetAdvancedOptions = () => {
   /* eslint-disable no-undef */
-  caasEnvSelector.value = 'prod';
+  caasEnv.value = 'prod';
+  contentType.value = 'auto';
   draftOnly.checked = false;
   useHtml.checked = false;
   usePreview.checked = false;
@@ -342,20 +341,18 @@ const resetAdvancedOptions = () => {
   /* eslint-enable no-undef */
 };
 
-/* eslint-disable no-nested-ternary */
-const useDarkTheme = localStorage.getItem('bp-theme') === 'dark'
-  ? true
-  : localStorage.getItem('bp-theme') === 'light'
-    ? false
-    : window.matchMedia('(prefers-color-scheme: dark)').matches;
-/* eslint-enable no-nested-ternary */
+const setTheme = () => {
+  const theme = localStorage.getItem('bp-theme');
+  const useDarkTheme = theme === 'dark'
+    || (theme !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
-if (useDarkTheme) {
-  document.querySelector('.bulk-publisher').classList.add('dark');
-  document.querySelector('#option-dark').checked = true;
-} else {
-  document.querySelector('#option-light').checked = true;
-}
+  if (useDarkTheme) {
+    document.querySelector('.bulk-publisher').classList.add('dark');
+    document.querySelector('#option-dark').checked = true;
+  } else {
+    document.querySelector('#option-light').checked = true;
+  }
+};
 
 // eslint-disable-next-line no-undef
 presetSelector.addEventListener('change', () => {
@@ -378,11 +375,17 @@ presetSelector.addEventListener('change', () => {
   const ls = localStorage.getItem(LS_KEY);
   const config = ls ? JSON.parse(ls) : {};
   config.presetSelector = selectedPreset.id || 'default';
+  // eslint-disable-next-line no-undef
+  config.caasEnv = caasEnv.value;
   config.host = selectedPreset.host || '';
   config.owner = selectedPreset.owner || '';
   config.repo = selectedPreset.repo || '';
-  config.contentType = selectedPreset.contentType;
   config.useHtml = selectedPreset.useHtml === 'true';
+  if (selectedPreset.contentType === '' || selectedPreset.contentType?.toLowerCase() === 'auto') {
+    config.contentType = 'auto';
+  } else {
+    config.contentType = selectedPreset.contentType;
+  }
 
   setConfig(config);
   window.localStorage.setItem(LS_KEY, JSON.stringify(getConfig()));
@@ -395,11 +398,11 @@ const clearResultsButton = document.querySelector('.clear-results');
 clearResultsButton.addEventListener('click', () => {
   resetResultsTables();
   clearResultsButton.style.display = 'none';
-  SIGNEDIN.style.display = 'block';
+  SIGNEDIN_EL.style.display = 'block';
 });
 
 // eslint-disable-next-line no-undef
-caasEnvSelector.addEventListener('change', () => {
+caasEnv.addEventListener('change', () => {
   checkCaasEnv();
 });
 
@@ -412,10 +415,10 @@ const checkUserStatus = async () => {
   const accessToken = await checkIms(false);
   if (accessToken) {
     document.querySelector('.status-checking').style.display = 'none';
-    SIGNEDIN.style.display = 'block';
+    SIGNEDIN_EL.style.display = 'block';
   } else {
     document.querySelector('.status-checking').style.display = 'none';
-    SIGNEDOUT.style.display = 'block';
+    SIGNEDOUT_EL.style.display = 'block';
   }
   return true;
 };
@@ -457,7 +460,7 @@ helpButtons.forEach((btn) => {
 
       case 'content-type-fallback':
         showAlert(`<p><b>ContentType Fallback</b></p>
-          <p>This is the <b>content-type</b> tag that will be applied to all cards that do not have 
+          <p>This is the <b>content-type</b> tag that will be applied to all cards that do not have
           a specific <b>content-type</b> tag included in their metadata.</p>`);
         break;
 
@@ -485,7 +488,7 @@ helpButtons.forEach((btn) => {
       case 'use-preview':
         showAlert(`<p><b>Use Preview Content</b>
           <p>When this option is checked, the tool will publish content from:
-          <p><tt>https://main--{repo}--{owner}.hlx.<b>page</b></tt>
+          <p><tt>https://stage--{repo}--{owner}.hlx.<b>page</b></tt>
           <p>This can be useful for testing before publishing to production.</p>`);
         break;
 
@@ -510,6 +513,8 @@ themeOptions.forEach((btn) => {
 });
 
 const init = async () => {
+  setTheme();
+  await getPresetsData();
   await loadTingleModalFiles(loadScript, loadStyle);
   await loadCaasTags();
   loadFromLS();
@@ -532,7 +537,7 @@ const init = async () => {
       host: document.getElementById('host').value,
       project: '',
       branch: 'main',
-      caasEnv: document.getElementById('caasEnvSelector').value || 'prod',
+      caasEnv: document.getElementById('caasEnv').value || 'prod',
       contentType: document.getElementById('contentType').value,
       repo: document.getElementById('repo').value,
       owner: document.getElementById('owner').value,
