@@ -86,6 +86,15 @@ function decorateBrickIconStack(el) {
     const liTxt = liEl.textContent?.trim();
     if (!liTxt || (liTxt === aTxt)) return;
     const pic = liEl.querySelector('picture');
+    // TODO: Remove after fix from Helix5
+    const pElements = liEl.querySelectorAll('p');
+    pElements.forEach((pElement) => {
+      while (pElement.firstChild) {
+        pElement.parentNode.insertBefore(pElement.firstChild, pElement);
+      }
+      pElement.remove();
+    });
+    // END TODO: Remove after fix from Helix5
     let icn = pic;
     if (pic && pic.parentElement !== liEl) {
       icn = pic.parentElement.cloneNode(false);
