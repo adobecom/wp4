@@ -215,7 +215,24 @@ function decorateLayout(el) {
   } else if (!iconArea) {
     foreground?.classList.add('no-image');
   }
-  if (el.classList.contains('split')) decorateIconStack(el);
+  if (el.classList.contains('split')) {
+    decorateIconStack(el);
+    // TODO: Remove after fix from Helix5
+    const icnStk = el.querySelector('.icon-stack-area');
+    if (icnStk) {
+      const liELs = icnStk.querySelectorAll('li');
+      [...liELs].forEach((liEl) => {
+        const pElements = liEl.querySelectorAll('p');
+        pElements.forEach((pElement) => {
+          while (pElement.firstChild) {
+            pElement.parentNode.insertBefore(pElement.firstChild, pElement);
+          }
+          pElement.remove();
+        });
+      });
+    }
+    // END TODO: Remove after fix from Helix5
+  }
   return foreground;
 }
 
