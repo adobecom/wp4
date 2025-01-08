@@ -217,7 +217,7 @@ function decorateLayout(el) {
   }
   if (el.classList.contains('split')) {
     decorateIconStack(el);
-    // TODO: Remove after fix from Helix5
+    // TODO: Remove after bugfix PR adobe/helix-html2md#556 is merged
     const icnStk = el.querySelector('.icon-stack-area');
     if (icnStk) {
       const liELs = icnStk.querySelectorAll('li');
@@ -231,7 +231,7 @@ function decorateLayout(el) {
         });
       });
     }
-    // END TODO: Remove after fix from Helix5
+    // TODO: Remove after bugfix PR adobe/helix-html2md#556 is merged
   }
   return foreground;
 }
