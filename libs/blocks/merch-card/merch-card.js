@@ -453,15 +453,17 @@ export default async function init(el) {
   if (!el.querySelector(INNER_ELEMENTS_SELECTOR)) return el;
   // TODO: Remove after bugfix PR adobe/helix-html2md#556 is merged
   const liELs = el.querySelector('ul')?.querySelectorAll('li');
-  [...liELs].forEach((liEl) => {
-    const pElements = liEl.querySelectorAll('p');
-    pElements.forEach((pElement) => {
-      while (pElement?.firstChild) {
-        pElement.parentNode.insertBefore(pElement.firstChild, pElement);
-      }
-      pElement.remove();
+  if (liELs) {
+    [...liELs].forEach((liEl) => {
+      const pElements = liEl.querySelectorAll('p');
+      pElements.forEach((pElement) => {
+        while (pElement?.firstChild) {
+          pElement.parentNode.insertBefore(pElement.firstChild, pElement);
+        }
+        pElement.remove();
+      });
     });
-  });
+  }
   // TODO: Remove after bugfix PR adobe/helix-html2md#556 is merged
   const styles = [...el.classList];
   const cardType = getPodType(styles) || PRODUCT;
