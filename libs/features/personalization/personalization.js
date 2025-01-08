@@ -518,7 +518,7 @@ export function handleCommands(
   const section1 = document.querySelector('main > div');
   commands.forEach((cmd) => {
     const { action, content, selector } = cmd;
-    cmd.content = forceInline ? addHash(content, INLINE_HASH) : content;
+    cmd.content = forceInline && getSelectorType(content) === 'fragment' ? addHash(content, INLINE_HASH) : content;
     if (selector.startsWith(IN_BLOCK_SELECTOR_PREFIX)) {
       registerInBlockActions(cmd);
       cmd.selectorType = IN_BLOCK_SELECTOR_PREFIX;
@@ -1272,13 +1272,9 @@ export async function init(enablements = {}) {
       manifests = config.mep.targetManifests;
     }
   }
-  if (!manifests || !manifests.length) return;
   try {
-    await applyPers(manifests);
-    if (config.mep.preview) {
-      const { saveToMmm } = await import('./preview.js');
-      saveToMmm();
-    }
+    if (manifests?.length) await applyPers(manifests);
+    if (config.mep?.preview) await import('./preview.js').then(({ saveToMmm }) => saveToMmm());
   } catch (e) {
     log(`MEP Error: ${e.toString()}`);
     window.lana?.log(`MEP Error: ${e.toString()}`);

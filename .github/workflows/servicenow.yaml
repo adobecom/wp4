@@ -1,0 +1,44 @@
+# This workflow will install Python dependencies, run CMR creation in ServiceNow
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: Create CMR in ServiceNow
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+env:
+  IMSACCESS_CLIENT_ID: ${{ secrets.IMSACCESS_CLIENT_ID }}
+  IMSACCESS_CLIENT_SECRET: ${{ secrets.IMSACCESS_CLIENT_SECRET_PROD }}
+  IMSACCESS_AUTH_CODE: ${{ secrets.IMSACCESS_AUTH_CODE_PROD }}
+  IPAAS_KEY: ${{ secrets.IPAAS_KEY_PROD }}
+  PR_TITLE: ${{ github.event.pull_request.title }}
+  PR_BODY: ${{ github.event.pull_request.body }}
+  PR_NUMBER: ${{ github.event.pull_request.number }}
+  PR_CREATED_AT: ${{ github.event.pull_request.created_at }}
+  PR_MERGED_AT: ${{ github.event.pull_request.merged_at }}
+
+jobs:
+  build:
+    # Only run this workflow on pull requests that have merged and not manually closed by user
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.x, latest minor release
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.x"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip requests timedelta
+    - name: Execute script for creating and closing CMR
+      run: |
+        python ./.github/workflows/servicenow.py

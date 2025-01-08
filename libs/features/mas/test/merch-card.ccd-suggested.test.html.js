@@ -30,6 +30,8 @@ runTests(async () => {
           const ccdSliceWideCard = document.querySelector('merch-card[variant="ccd-suggested"][background-image]');
           expect(ccdSliceWideCard.getAttribute('variant')).to.equal('ccd-suggested');
           expect(ccdSliceWideCard.getAttribute('background-image')).to.exist;
+          expect(ccdSliceWideCard.className).to.equal('');
+
       });
 
      it('should have dark theme', async () => {

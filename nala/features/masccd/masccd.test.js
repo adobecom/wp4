@@ -48,7 +48,7 @@ test.describe('CCD Merchcard feature test suite', () => {
       await expect(await CCD.getCardPrice(data.id, 'suggested')).toBeVisible();
       await expect(await CCD.getCardPrice(data.id, 'suggested')).toContainText(data.price);
       await expect(await CCD.getCardCTA(data.id, 'suggested')).toBeVisible();
-      await expect(await CCD.getCardCTA(data.id, 'suggested')).toHaveAttribute('variant', 'primary');
+      await expect(await CCD.getCardCTA(data.id, 'suggested')).toHaveAttribute('class', /primary/);
       await expect(await CCD.getCardCTA(data.id, 'suggested')).toContainText(data.cta);
       await expect(await CCD.getCardCTALink(data.id, 'suggested')).toHaveAttribute('href', new RegExp(`${data.offerid}`));
       await expect(await CCD.getCardCTALink(data.id, 'suggested')).toHaveAttribute('data-analytics-id', /.*/);
@@ -65,10 +65,10 @@ test.describe('CCD Merchcard feature test suite', () => {
     });
 
     await test.step('step-4: Go to CCD Merch Card feature test page in dark mode', async () => {
-      const darkThemePage = `${baseURL}${features[0].path}${features[0].browserParams}&${miloLibs}`;
+      const darkThemePage = `${baseURL}${features[0].path}${features[0].browserParams}`;
       await page.goto(darkThemePage);
       await page.waitForLoadState('domcontentloaded');
-      await expect(page).toHaveURL(`${baseURL}${features[0].path}${features[0].browserParams}&${miloLibs}`);
+      await expect(page).toHaveURL(`${baseURL}${features[0].path}${features[0].browserParams}`);
     });
 
     await test.step('step-5: Verify CCD Merch Card spec', async () => {
@@ -114,7 +114,7 @@ test.describe('CCD Merchcard feature test suite', () => {
       await expect(await CCD.getCardPrice(data.id, 'suggested')).toContainText(data.price);
       await expect(await CCD.getCardPrice(data.id, 'suggested')).toContainText(data.strikethroughPrice);
       await expect(await CCD.getCardCTA(data.id, 'suggested')).toBeVisible();
-      await expect(await CCD.getCardCTA(data.id, 'suggested')).toHaveAttribute('variant', 'primary');
+      await expect(await CCD.getCardCTA(data.id, 'suggested')).toHaveAttribute('class', /primary/);
       await expect(await CCD.getCardCTA(data.id, 'suggested')).toContainText(data.cta);
       await expect(await CCD.getCardCTALink(data.id, 'suggested')).toHaveAttribute('href', new RegExp(`${data.offerid}`));
       await expect(await CCD.getCardCTALink(data.id, 'suggested')).toHaveAttribute('data-analytics-id', data.ctaAnalyticsId);
@@ -127,17 +127,17 @@ test.describe('CCD Merchcard feature test suite', () => {
       expect(await webUtil.verifyCSS(await CCD.getCardEyebrow(data.id, 'suggested'), CCD.suggestedCssProp.eyebrow.light)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardTitle(data.id, 'suggested'), CCD.suggestedCssProp.title.light)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardDescription(data.id, 'suggested'), CCD.suggestedCssProp.description.light)).toBeTruthy();
-      expect(await webUtil.verifyCSS(await CCD.getCardLegalLink(data.id, 'suggested'), CCD.suggestedCssProp.legalLink)).toBeTruthy();
+      expect(await webUtil.verifyCSS(await CCD.getCardLegalLink(data.id, 'suggested'), CCD.suggestedCssProp.legalLink.light)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardPrice(data.id, 'suggested'), CCD.suggestedCssProp.price.light)).toBeTruthy();
-      expect(await webUtil.verifyCSS(await CCD.getCardPriceStrikethrough(data.id, 'suggested'), CCD.suggestedCssProp.strikethroughPrice)).toBeTruthy();
+      expect(await webUtil.verifyCSS(await CCD.getCardPriceStrikethrough(data.id, 'suggested'), CCD.suggestedCssProp.strikethroughPrice.light)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardCTA(data.id, 'suggested'), CCD.suggestedCssProp.cta.light)).toBeTruthy();
     });
 
     await test.step('step-4: Go to CCD Merch Card feature test page in dark mode', async () => {
-      const darkThemePage = `${baseURL}${features[1].path}${features[1].browserParams}&${miloLibs}`;
+      const darkThemePage = `${baseURL}${features[1].path}${features[1].browserParams}`;
       await page.goto(darkThemePage);
       await page.waitForLoadState('domcontentloaded');
-      await expect(page).toHaveURL(`${baseURL}${features[1].path}${features[1].browserParams}&${miloLibs}`);
+      await expect(page).toHaveURL(`${baseURL}${features[1].path}${features[1].browserParams}`);
     });
 
     await test.step('step-5: Verify CCD Merch Card spec', async () => {
@@ -146,10 +146,10 @@ test.describe('CCD Merchcard feature test suite', () => {
       expect(await webUtil.verifyCSS(await CCD.getCardIcon(data.id, 'suggested'), CCD.suggestedCssProp.icon)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardEyebrow(data.id, 'suggested'), CCD.suggestedCssProp.eyebrow.dark)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardTitle(data.id, 'suggested'), CCD.suggestedCssProp.title.dark)).toBeTruthy();
-      // expect(await webUtil.verifyCSS(await CCD.getCardLegalLink(data.id, "suggested"), CCD.suggestedCssProp.legalLink)).toBeTruthy();
+      expect(await webUtil.verifyCSS(await CCD.getCardLegalLink(data.id, 'suggested'), CCD.suggestedCssProp.legalLink.dark)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardDescription(data.id, 'suggested'), CCD.suggestedCssProp.description.dark)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardPrice(data.id, 'suggested'), CCD.suggestedCssProp.price.dark)).toBeTruthy();
-      expect(await webUtil.verifyCSS(await CCD.getCardPriceStrikethrough(data.id, 'suggested'), CCD.suggestedCssProp.strikethroughPrice)).toBeTruthy();
+      expect(await webUtil.verifyCSS(await CCD.getCardPriceStrikethrough(data.id, 'suggested'), CCD.suggestedCssProp.strikethroughPrice.dark)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardCTA(data.id, 'suggested'), CCD.suggestedCssProp.cta.dark)).toBeTruthy();
     });
   });
@@ -181,7 +181,7 @@ test.describe('CCD Merchcard feature test suite', () => {
       await expect(await CCD.getCardPrice(data.id, 'suggested')).toContainText(data.price);
       expect(await (await CCD.getCardPrice(data.id, 'suggested')).locator('.price-unit-type').innerText()).not.toBe('');
       await expect(await CCD.getCardCTA(data.id, 'suggested')).toBeVisible();
-      await expect(await CCD.getCardCTA(data.id, 'suggested')).toHaveAttribute('variant', 'primary');
+      await expect(await CCD.getCardCTA(data.id, 'suggested')).toHaveAttribute('class', /primary/);
       await expect(await CCD.getCardCTA(data.id, 'suggested')).toContainText(data.cta);
       await expect(await CCD.getCardCTALink(data.id, 'suggested')).toHaveAttribute('href', new RegExp(`${data.offerid}`));
       await expect(await CCD.getCardCTALink(data.id, 'suggested')).toHaveAttribute('data-analytics-id', /.*/);
@@ -198,10 +198,10 @@ test.describe('CCD Merchcard feature test suite', () => {
     });
 
     await test.step('step-4: Go to CCD Merch Card feature test page in dark mode', async () => {
-      const darkThemePage = `${baseURL}${features[2].path}${features[2].browserParams}&${miloLibs}`;
+      const darkThemePage = `${baseURL}${features[2].path}${features[2].browserParams}`;
       await page.goto(darkThemePage);
       await page.waitForLoadState('domcontentloaded');
-      await expect(page).toHaveURL(`${baseURL}${features[2].path}${features[2].browserParams}&${miloLibs}`);
+      await expect(page).toHaveURL(`${baseURL}${features[2].path}${features[2].browserParams}`);
     });
 
     await test.step('step-5: Verify CCD Merch Card spec', async () => {
@@ -242,7 +242,7 @@ test.describe('CCD Merchcard feature test suite', () => {
       await expect(await CCD.getCardPrice(data.id, 'suggested')).toBeVisible();
       await expect(await CCD.getCardPrice(data.id, 'suggested')).toContainText(data.price);
       await expect(await CCD.getCardCTA(data.id, 'suggested')).toBeVisible();
-      await expect(await CCD.getCardCTA(data.id, 'suggested')).toHaveAttribute('variant', 'primary');
+      await expect(await CCD.getCardCTA(data.id, 'suggested')).toHaveAttribute('class', /primary/);
       await expect(await CCD.getCardCTA(data.id, 'suggested')).toContainText(data.cta);
       await expect(await CCD.getCardCTALink(data.id, 'suggested')).toHaveAttribute('href', new RegExp(`${data.offerid}`));
       await expect(await CCD.getCardCTALink(data.id, 'suggested')).toHaveAttribute('data-analytics-id', /.*/);
@@ -260,10 +260,10 @@ test.describe('CCD Merchcard feature test suite', () => {
     });
 
     await test.step('step-4: Go to CCD Merch Card feature test page in dark mode', async () => {
-      const darkThemePage = `${baseURL}${features[0].path}${features[0].browserParams}&${miloLibs}`;
+      const darkThemePage = `${baseURL}${features[0].path}${features[0].browserParams}`;
       await page.goto(darkThemePage);
       await page.waitForLoadState('domcontentloaded');
-      await expect(page).toHaveURL(`${baseURL}${features[0].path}${features[0].browserParams}&${miloLibs}`);
+      await expect(page).toHaveURL(`${baseURL}${features[0].path}${features[0].browserParams}`);
     });
 
     await test.step('step-5: Verify CCD Merch Card spec', async () => {
@@ -308,7 +308,7 @@ test.describe('CCD Merchcard feature test suite', () => {
       await expect(await CCD.getCardPrice(data.id, 'suggested')).toContainText(data.price);
       await expect(await CCD.getCardPrice(data.id, 'suggested')).toContainText('Starting at');
       await expect(await CCD.getCardCTA(data.id, 'suggested')).toBeVisible();
-      await expect(await CCD.getCardCTA(data.id, 'suggested')).toHaveAttribute('variant', 'primary');
+      await expect(await CCD.getCardCTA(data.id, 'suggested')).toHaveAttribute('class', /primary/);
       await expect(await CCD.getCardCTA(data.id, 'suggested')).toContainText(data.cta);
       await expect(await CCD.getCardCTALink(data.id, 'suggested')).toHaveAttribute('href', new RegExp(`${data.offerid}`));
       await expect(await CCD.getCardCTALink(data.id, 'suggested')).toHaveAttribute('data-analytics-id', /.*/);
@@ -321,16 +321,16 @@ test.describe('CCD Merchcard feature test suite', () => {
       expect(await webUtil.verifyCSS(await CCD.getCardEyebrow(data.id, 'suggested'), CCD.suggestedCssProp.eyebrow.light)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardTitle(data.id, 'suggested'), CCD.suggestedCssProp.title.light)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardDescription(data.id, 'suggested'), CCD.suggestedCssProp.description.light)).toBeTruthy();
-      expect(await webUtil.verifyCSS(await CCD.getCardLegalLink(data.id, 'suggested'), CCD.suggestedCssProp.legalLink)).toBeTruthy();
+      expect(await webUtil.verifyCSS(await CCD.getCardLegalLink(data.id, 'suggested'), CCD.suggestedCssProp.legalLink.light)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardPrice(data.id, 'suggested'), CCD.suggestedCssProp.price.light)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardCTA(data.id, 'suggested'), CCD.suggestedCssProp.cta.light)).toBeTruthy();
     });
 
     await test.step('step-4: Go to CCD Merch Card feature test page in dark mode', async () => {
-      const darkThemePage = `${baseURL}${features[4].path}${features[4].browserParams}&${miloLibs}`;
+      const darkThemePage = `${baseURL}${features[4].path}${features[4].browserParams}`;
       await page.goto(darkThemePage);
       await page.waitForLoadState('domcontentloaded');
-      await expect(page).toHaveURL(`${baseURL}${features[4].path}${features[4].browserParams}&${miloLibs}`);
+      await expect(page).toHaveURL(`${baseURL}${features[4].path}${features[4].browserParams}`);
     });
 
     await test.step('step-5: Verify CCD Merch Card spec', async () => {
@@ -339,7 +339,7 @@ test.describe('CCD Merchcard feature test suite', () => {
       expect(await webUtil.verifyCSS(await CCD.getCardIcon(data.id, 'suggested'), CCD.suggestedCssProp.icon)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardEyebrow(data.id, 'suggested'), CCD.suggestedCssProp.eyebrow.dark)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardTitle(data.id, 'suggested'), CCD.suggestedCssProp.title.dark)).toBeTruthy();
-      // expect(await webUtil.verifyCSS(await CCD.getCardLegalLink(data.id, "suggested"), CCD.suggestedCssProp.legalLink)).toBeTruthy();
+      expect(await webUtil.verifyCSS(await CCD.getCardLegalLink(data.id, 'suggested'), CCD.suggestedCssProp.legalLink.dark)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardDescription(data.id, 'suggested'), CCD.suggestedCssProp.description.dark)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardPrice(data.id, 'suggested'), CCD.suggestedCssProp.price.dark)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardCTA(data.id, 'suggested'), CCD.suggestedCssProp.cta.dark)).toBeTruthy();
@@ -373,7 +373,7 @@ test.describe('CCD Merchcard feature test suite', () => {
       await expect(await CCD.getCardPrice(data.id, 'suggested')).toContainText(data.price);
       expect(await (await CCD.getCardPrice(data.id, 'suggested')).locator('.price-unit-type').innerText()).not.toBe('');
       await expect(await CCD.getCardCTA(data.id, 'suggested')).toBeVisible();
-      await expect(await CCD.getCardCTA(data.id, 'suggested')).toHaveAttribute('variant', 'primary');
+      await expect(await CCD.getCardCTA(data.id, 'suggested')).toHaveAttribute('class', /primary/);
       await expect(await CCD.getCardCTA(data.id, 'suggested')).toContainText(data.cta);
       await expect(await CCD.getCardCTALink(data.id, 'suggested')).toHaveAttribute('href', new RegExp(`${data.offerid}`));
       await expect(await CCD.getCardCTALink(data.id, 'suggested')).toHaveAttribute('data-analytics-id', /.*/);
@@ -390,10 +390,10 @@ test.describe('CCD Merchcard feature test suite', () => {
     });
 
     await test.step('step-4: Go to CCD Merch Card feature test page in dark mode', async () => {
-      const darkThemePage = `${baseURL}${features[5].path}${features[5].browserParams}&${miloLibs}`;
+      const darkThemePage = `${baseURL}${features[5].path}${features[5].browserParams}`;
       await page.goto(darkThemePage);
       await page.waitForLoadState('domcontentloaded');
-      await expect(page).toHaveURL(`${baseURL}${features[5].path}${features[5].browserParams}&${miloLibs}`);
+      await expect(page).toHaveURL(`${baseURL}${features[5].path}${features[5].browserParams}`);
     });
 
     await test.step('step-5: Verify CCD Merch Card spec', async () => {
@@ -436,7 +436,7 @@ test.describe('CCD Merchcard feature test suite', () => {
       await expect(await CCD.getCardPrice(data.id, 'suggested')).toBeVisible();
       await expect(await CCD.getCardPrice(data.id, 'suggested')).toContainText(data.price);
       await expect(await CCD.getCardCTA(data.id, 'suggested')).toBeVisible();
-      await expect(await CCD.getCardCTA(data.id, 'suggested')).toHaveAttribute('variant', 'primary');
+      await expect(await CCD.getCardCTA(data.id, 'suggested')).toHaveAttribute('class', /primary/);
       await expect(await CCD.getCardCTA(data.id, 'suggested')).toContainText(data.cta);
       await expect(await CCD.getCardCTALink(data.id, 'suggested')).toHaveAttribute('href', new RegExp(`${data.offerid}`));
       await expect(await CCD.getCardCTALink(data.id, 'suggested')).toHaveAttribute('data-analytics-id', /.*/);
@@ -449,16 +449,16 @@ test.describe('CCD Merchcard feature test suite', () => {
       expect(await webUtil.verifyCSS(await CCD.getCardEyebrow(data.id, 'suggested'), CCD.suggestedCssProp.eyebrow.light)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardTitle(data.id, 'suggested'), CCD.suggestedCssProp.title.light)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardDescription(data.id, 'suggested'), CCD.suggestedCssProp.description.light)).toBeTruthy();
-      expect(await webUtil.verifyCSS(await CCD.getCardLegalLink(data.id, 'suggested'), CCD.suggestedCssProp.legalLink)).toBeTruthy();
+      expect(await webUtil.verifyCSS(await CCD.getCardLegalLink(data.id, 'suggested'), CCD.suggestedCssProp.legalLink.light)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardPrice(data.id, 'suggested'), CCD.suggestedCssProp.price.light)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardCTA(data.id, 'suggested'), CCD.suggestedCssProp.cta.light)).toBeTruthy();
     });
 
     await test.step('step-4: Go to CCD Merch Card feature test page in dark mode', async () => {
-      const darkThemePage = `${baseURL}${features[6].path}${features[6].browserParams}&${miloLibs}`;
+      const darkThemePage = `${baseURL}${features[6].path}${features[6].browserParams}`;
       await page.goto(darkThemePage);
       await page.waitForLoadState('domcontentloaded');
-      await expect(page).toHaveURL(`${baseURL}${features[6].path}${features[6].browserParams}&${miloLibs}`);
+      await expect(page).toHaveURL(`${baseURL}${features[6].path}${features[6].browserParams}`);
     });
 
     await test.step('step-5: Verify CCD Merch Card spec', async () => {
@@ -467,7 +467,7 @@ test.describe('CCD Merchcard feature test suite', () => {
       expect(await webUtil.verifyCSS(await CCD.getCardIcon(data.id, 'suggested'), CCD.suggestedCssProp.icon)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardEyebrow(data.id, 'suggested'), CCD.suggestedCssProp.eyebrow.dark)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardTitle(data.id, 'suggested'), CCD.suggestedCssProp.title.dark)).toBeTruthy();
-      // expect(await webUtil.verifyCSS(await CCD.getCardLegalLink(data.id, "suggested"), CCD.suggestedCssProp.legalLink)).toBeTruthy();
+      expect(await webUtil.verifyCSS(await CCD.getCardLegalLink(data.id, 'suggested'), CCD.suggestedCssProp.legalLink.dark)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardDescription(data.id, 'suggested'), CCD.suggestedCssProp.description.dark)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardPrice(data.id, 'suggested'), CCD.suggestedCssProp.price.dark)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardCTA(data.id, 'suggested'), CCD.suggestedCssProp.cta.dark)).toBeTruthy();
@@ -502,7 +502,7 @@ test.describe('CCD Merchcard feature test suite', () => {
       await expect(await CCD.getCardPrice(data.id, 'suggested')).toContainText(data.price);
       expect(await (await CCD.getCardPrice(data.id, 'suggested')).locator('.price-unit-type').innerText()).not.toBe('');
       await expect(await CCD.getCardCTA(data.id, 'suggested')).toBeVisible();
-      await expect(await CCD.getCardCTA(data.id, 'suggested')).toHaveAttribute('variant', 'primary');
+      await expect(await CCD.getCardCTA(data.id, 'suggested')).toHaveAttribute('class', /primary/);
       await expect(await CCD.getCardCTA(data.id, 'suggested')).toContainText(data.cta);
       await expect(await CCD.getCardCTALink(data.id, 'suggested')).toHaveAttribute('href', new RegExp(`${data.offerid}`));
       await expect(await CCD.getCardCTALink(data.id, 'suggested')).toHaveAttribute('data-analytics-id', /.*/);
@@ -519,10 +519,10 @@ test.describe('CCD Merchcard feature test suite', () => {
     });
 
     await test.step('step-4: Go to CCD Merch Card feature test page in dark mode', async () => {
-      const darkThemePage = `${baseURL}${features[7].path}${features[7].browserParams}&${miloLibs}`;
+      const darkThemePage = `${baseURL}${features[7].path}${features[7].browserParams}`;
       await page.goto(darkThemePage);
       await page.waitForLoadState('domcontentloaded');
-      await expect(page).toHaveURL(`${baseURL}${features[7].path}${features[7].browserParams}&${miloLibs}`);
+      await expect(page).toHaveURL(`${baseURL}${features[7].path}${features[7].browserParams}`);
     });
 
     await test.step('step-5: Verify CCD Merch Card spec', async () => {
@@ -564,7 +564,7 @@ test.describe('CCD Merchcard feature test suite', () => {
       await expect(await CCD.getCardLegalLink(data.id, 'slice')).not.toBeVisible();
       await expect(await CCD.getCardPrice(data.id, 'slice')).not.toBeVisible();
       await expect(await CCD.getCardCTA(data.id, 'slice')).toBeVisible();
-      await expect(await CCD.getCardCTA(data.id, 'slice')).toHaveAttribute('variant', 'accent');
+      await expect(await CCD.getCardCTA(data.id, 'slice')).toHaveAttribute('class', /accent/);
       await expect(await CCD.getCardCTA(data.id, 'slice')).toContainText(data.cta);
       await expect(await CCD.getCardCTALink(data.id, 'slice')).toHaveAttribute('href', new RegExp(`${data.offerid}`));
       await expect(await CCD.getCardCTALink(data.id, 'slice')).toHaveAttribute('data-analytics-id', data.ctaAnalyticsId);
@@ -580,10 +580,10 @@ test.describe('CCD Merchcard feature test suite', () => {
     });
 
     await test.step('step-4: Go to CCD Merch Card feature test page in dark mode', async () => {
-      const darkThemePage = `${baseURL}${features[8].path}${features[8].browserParams}&${miloLibs}`;
+      const darkThemePage = `${baseURL}${features[8].path}${features[8].browserParams}`;
       await page.goto(darkThemePage);
       await page.waitForLoadState('domcontentloaded');
-      await expect(page).toHaveURL(`${baseURL}${features[8].path}${features[8].browserParams}&${miloLibs}`);
+      await expect(page).toHaveURL(`${baseURL}${features[8].path}${features[8].browserParams}`);
     });
 
     await test.step('step-5: Verify CCD Merch Card spec', async () => {
@@ -626,7 +626,7 @@ test.describe('CCD Merchcard feature test suite', () => {
       await expect(await CCD.getCardPrice(data.id, 'slice')).toBeVisible();
       await expect(await CCD.getCardPrice(data.id, 'slice')).toContainText(data.price);
       await expect(await CCD.getCardCTA(data.id, 'slice')).toBeVisible();
-      await expect(await CCD.getCardCTA(data.id, 'slice')).toHaveAttribute('variant', 'accent');
+      await expect(await CCD.getCardCTA(data.id, 'slice')).toHaveAttribute('class', /accent/);
       await expect(await CCD.getCardCTA(data.id, 'slice')).toContainText(data.cta);
       await expect(await CCD.getCardCTALink(data.id, 'slice')).toHaveAttribute('href', new RegExp(`${data.offerid}`));
       await expect(await CCD.getCardCTALink(data.id, 'slice')).toHaveAttribute('data-analytics-id', /.*/);
@@ -644,10 +644,10 @@ test.describe('CCD Merchcard feature test suite', () => {
     });
 
     await test.step('step-4: Go to CCD Merch Card feature test page in dark mode', async () => {
-      const darkThemePage = `${baseURL}${features[9].path}${features[9].browserParams}&${miloLibs}`;
+      const darkThemePage = `${baseURL}${features[9].path}${features[9].browserParams}`;
       await page.goto(darkThemePage);
       await page.waitForLoadState('domcontentloaded');
-      await expect(page).toHaveURL(`${baseURL}${features[9].path}${features[9].browserParams}&${miloLibs}`);
+      await expect(page).toHaveURL(`${baseURL}${features[9].path}${features[9].browserParams}`);
     });
 
     await test.step('step-5: Verify CCD Merch Card spec', async () => {
@@ -691,7 +691,7 @@ test.describe('CCD Merchcard feature test suite', () => {
       await expect(await CCD.getCardPrice(data.id, 'slice')).toBeVisible();
       await expect(await CCD.getCardPrice(data.id, 'slice')).toContainText(data.price);
       await expect(await CCD.getCardCTA(data.id, 'slice')).toBeVisible();
-      await expect(await CCD.getCardCTA(data.id, 'slice')).toHaveAttribute('variant', 'accent');
+      await expect(await CCD.getCardCTA(data.id, 'slice')).toHaveAttribute('class', /accent/);
       await expect(await CCD.getCardCTA(data.id, 'slice')).toContainText(data.cta);
       await expect(await CCD.getCardCTALink(data.id, 'slice')).toHaveAttribute('href', new RegExp(`${data.offerid}`));
       await expect(await CCD.getCardCTALink(data.id, 'slice')).toHaveAttribute('data-analytics-id', /.*/);
@@ -708,10 +708,10 @@ test.describe('CCD Merchcard feature test suite', () => {
     });
 
     await test.step('step-4: Go to CCD Merch Card feature test page in dark mode', async () => {
-      const darkThemePage = `${baseURL}${features[10].path}${features[10].browserParams}&${miloLibs}`;
+      const darkThemePage = `${baseURL}${features[10].path}${features[10].browserParams}`;
       await page.goto(darkThemePage);
       await page.waitForLoadState('domcontentloaded');
-      await expect(page).toHaveURL(`${baseURL}${features[10].path}${features[10].browserParams}&${miloLibs}`);
+      await expect(page).toHaveURL(`${baseURL}${features[10].path}${features[10].browserParams}`);
     });
 
     await test.step('step-5: Verify CCD Merch Card spec', async () => {
@@ -754,7 +754,7 @@ test.describe('CCD Merchcard feature test suite', () => {
       await expect(await CCD.getCardLegalLink(data.id, 'slice')).toHaveAttribute('data-analytics-id', /.*/);
       await expect(await CCD.getCardPrice(data.id, 'slice')).not.toBeVisible();
       await expect(await CCD.getCardCTA(data.id, 'slice')).toBeVisible();
-      await expect(await CCD.getCardCTA(data.id, 'slice')).toHaveAttribute('variant', 'accent');
+      await expect(await CCD.getCardCTA(data.id, 'slice')).toHaveAttribute('class', /accent/);
       await expect(await CCD.getCardCTA(data.id, 'slice')).toContainText(data.cta);
       await expect(await CCD.getCardCTALink(data.id, 'slice')).toHaveAttribute('href', new RegExp(`${data.offerid}`));
       await expect(await CCD.getCardCTALink(data.id, 'slice')).toHaveAttribute('data-analytics-id', /.*/);
@@ -770,10 +770,10 @@ test.describe('CCD Merchcard feature test suite', () => {
     });
 
     await test.step('step-4: Go to CCD Merch Card feature test page in dark mode', async () => {
-      const darkThemePage = `${baseURL}${features[11].path}${features[11].browserParams}&${miloLibs}`;
+      const darkThemePage = `${baseURL}${features[11].path}${features[11].browserParams}`;
       await page.goto(darkThemePage);
       await page.waitForLoadState('domcontentloaded');
-      await expect(page).toHaveURL(`${baseURL}${features[11].path}${features[11].browserParams}&${miloLibs}`);
+      await expect(page).toHaveURL(`${baseURL}${features[11].path}${features[11].browserParams}`);
     });
 
     await test.step('step-5: Verify CCD Merch Card spec', async () => {
@@ -813,7 +813,7 @@ test.describe('CCD Merchcard feature test suite', () => {
       await expect(await CCD.getCardLegalLink(data.id, 'slice')).toHaveAttribute('data-analytics-id', /.*/);
       await expect(await CCD.getCardPrice(data.id, 'slice')).not.toBeVisible();
       await expect(await CCD.getCardCTA(data.id, 'slice')).toBeVisible();
-      await expect(await CCD.getCardCTA(data.id, 'slice')).toHaveAttribute('variant', 'accent');
+      await expect(await CCD.getCardCTA(data.id, 'slice')).toHaveAttribute('class', /accent/);
       await expect(await CCD.getCardCTA(data.id, 'slice')).toContainText(data.cta);
       await expect(await CCD.getCardCTALink(data.id, 'slice')).toHaveAttribute('href', new RegExp(`${data.offerid}`));
       await expect(await CCD.getCardCTALink(data.id, 'slice')).toHaveAttribute('data-analytics-id', /.*/);
@@ -828,10 +828,10 @@ test.describe('CCD Merchcard feature test suite', () => {
     });
 
     await test.step('step-4: Go to CCD Merch Card feature test page in dark mode', async () => {
-      const darkThemePage = `${baseURL}${features[12].path}${features[12].browserParams}&${miloLibs}`;
+      const darkThemePage = `${baseURL}${features[12].path}${features[12].browserParams}`;
       await page.goto(darkThemePage);
       await page.waitForLoadState('domcontentloaded');
-      await expect(page).toHaveURL(`${baseURL}${features[12].path}${features[12].browserParams}&${miloLibs}`);
+      await expect(page).toHaveURL(`${baseURL}${features[12].path}${features[12].browserParams}`);
     });
 
     await test.step('step-5: Verify CCD Merch Card spec', async () => {
@@ -871,7 +871,7 @@ test.describe('CCD Merchcard feature test suite', () => {
       await expect(await CCD.getCardPrice(data.id, 'slice')).toBeVisible();
       await expect(await CCD.getCardPrice(data.id, 'slice')).toContainText(data.price);
       await expect(await CCD.getCardCTA(data.id, 'slice')).toBeVisible();
-      await expect(await CCD.getCardCTA(data.id, 'slice')).toHaveAttribute('variant', 'accent');
+      await expect(await CCD.getCardCTA(data.id, 'slice')).toHaveAttribute('class', /accent/);
       await expect(await CCD.getCardCTA(data.id, 'slice')).toContainText(data.cta);
       await expect(await CCD.getCardCTALink(data.id, 'slice')).toHaveAttribute('href', new RegExp(`${data.offerid}`));
       await expect(await CCD.getCardCTALink(data.id, 'slice')).toHaveAttribute('data-analytics-id', /.*/);
@@ -888,10 +888,10 @@ test.describe('CCD Merchcard feature test suite', () => {
     });
 
     await test.step('step-4: Go to CCD Merch Card feature test page in dark mode', async () => {
-      const darkThemePage = `${baseURL}${features[13].path}${features[13].browserParams}&${miloLibs}`;
+      const darkThemePage = `${baseURL}${features[13].path}${features[13].browserParams}`;
       await page.goto(darkThemePage);
       await page.waitForLoadState('domcontentloaded');
-      await expect(page).toHaveURL(`${baseURL}${features[13].path}${features[13].browserParams}&${miloLibs}`);
+      await expect(page).toHaveURL(`${baseURL}${features[13].path}${features[13].browserParams}`);
     });
 
     await test.step('step-5: Verify CCD Merch Card spec', async () => {
@@ -936,7 +936,7 @@ test.describe('CCD Merchcard feature test suite', () => {
       await expect(await CCD.getCardLegalLink(data.id, 'slice-wide')).toHaveAttribute('data-analytics-id', data.linkAnalyticsId);
       await expect(await CCD.getCardLegalLink(data.id, 'slice-wide')).toHaveAttribute('daa-ll', data.linkDaaLL);
       await expect(await CCD.getCardCTA(data.id, 'slice-wide')).toBeVisible();
-      await expect(await CCD.getCardCTA(data.id, 'slice-wide')).toHaveAttribute('variant', 'accent');
+      await expect(await CCD.getCardCTA(data.id, 'slice-wide')).toHaveAttribute('class', /accent/);
       await expect(await CCD.getCardCTA(data.id, 'slice-wide')).toContainText(data.cta);
       // await expect(await CCD.getCardCTALink(data.id, "slice-wide")).toHaveAttribute('href', new RegExp(`${data.offerid}`));
       // await expect(await CCD.getCardCTALink(data.id, 'slice-wide')).toHaveAttribute('data-analytics-id', /.*/);
@@ -953,10 +953,10 @@ test.describe('CCD Merchcard feature test suite', () => {
     });
 
     await test.step('step-4: Go to CCD Merch Card feature test page in dark mode', async () => {
-      const darkThemePage = `${baseURL}${features[14].path}${features[14].browserParams}&${miloLibs}`;
+      const darkThemePage = `${baseURL}${features[14].path}${features[14].browserParams}`;
       await page.goto(darkThemePage);
       await page.waitForLoadState('domcontentloaded');
-      await expect(page).toHaveURL(`${baseURL}${features[14].path}${features[14].browserParams}&${miloLibs}`);
+      await expect(page).toHaveURL(`${baseURL}${features[14].path}${features[14].browserParams}`);
     });
 
     await test.step('step-5: Verify CCD Merch Card spec', async () => {
@@ -998,7 +998,7 @@ test.describe('CCD Merchcard feature test suite', () => {
       await expect(await CCD.getCardLegalLink(data.id, 'slice-wide')).toHaveAttribute('data-analytics-id', /.*/);
       await expect(await CCD.getCardPrice(data.id, 'slice-wide')).not.toBeVisible();
       await expect(await CCD.getCardCTA(data.id, 'slice-wide')).toBeVisible();
-      await expect(await CCD.getCardCTA(data.id, 'slice-wide')).toHaveAttribute('variant', 'accent');
+      await expect(await CCD.getCardCTA(data.id, 'slice-wide')).toHaveAttribute('class', /accent/);
       await expect(await CCD.getCardCTA(data.id, 'slice-wide')).toContainText(data.cta);
       await expect(await CCD.getCardCTALink(data.id, 'slice-wide')).toHaveAttribute('href', new RegExp(`${data.offerid}`));
       await expect(await CCD.getCardCTALink(data.id, 'slice-wide')).toHaveAttribute('data-analytics-id', /.*/);
@@ -1015,10 +1015,10 @@ test.describe('CCD Merchcard feature test suite', () => {
     });
 
     await test.step('step-4: Go to CCD Merch Card feature test page in dark mode', async () => {
-      const darkThemePage = `${baseURL}${features[15].path}${features[15].browserParams}&${miloLibs}`;
+      const darkThemePage = `${baseURL}${features[15].path}${features[15].browserParams}`;
       await page.goto(darkThemePage);
       await page.waitForLoadState('domcontentloaded');
-      await expect(page).toHaveURL(`${baseURL}${features[15].path}${features[15].browserParams}&${miloLibs}`);
+      await expect(page).toHaveURL(`${baseURL}${features[15].path}${features[15].browserParams}`);
     });
 
     await test.step('step-5: Verify CCD Merch Card spec', async () => {
@@ -1061,7 +1061,7 @@ test.describe('CCD Merchcard feature test suite', () => {
       await expect(await CCD.getCardPrice(data.id, 'slice-wide')).toBeVisible();
       await expect(await CCD.getCardPrice(data.id, 'slice-wide')).toContainText(data.price);
       await expect(await CCD.getCardCTA(data.id, 'slice-wide')).toBeVisible();
-      await expect(await CCD.getCardCTA(data.id, 'slice-wide')).toHaveAttribute('variant', 'accent');
+      await expect(await CCD.getCardCTA(data.id, 'slice-wide')).toHaveAttribute('class', /accent/);
       await expect(await CCD.getCardCTA(data.id, 'slice-wide')).toContainText(data.cta);
       await expect(await CCD.getCardCTALink(data.id, 'slice-wide')).toHaveAttribute('href', new RegExp(`${data.offerid}`));
       await expect(await CCD.getCardCTALink(data.id, 'slice-wide')).toHaveAttribute('data-analytics-id', /.*/);
@@ -1078,10 +1078,10 @@ test.describe('CCD Merchcard feature test suite', () => {
     });
 
     await test.step('step-4: Go to CCD Merch Card feature test page in dark mode', async () => {
-      const darkThemePage = `${baseURL}${features[16].path}${features[16].browserParams}&${miloLibs}`;
+      const darkThemePage = `${baseURL}${features[16].path}${features[16].browserParams}`;
       await page.goto(darkThemePage);
       await page.waitForLoadState('domcontentloaded');
-      await expect(page).toHaveURL(`${baseURL}${features[16].path}${features[16].browserParams}&${miloLibs}`);
+      await expect(page).toHaveURL(`${baseURL}${features[16].path}${features[16].browserParams}`);
     });
 
     await test.step('step-5: Verify CCD Merch Card spec', async () => {
@@ -1126,7 +1126,7 @@ test.describe('CCD Merchcard feature test suite', () => {
       await expect(await CCD.getCardPriceStrikethrough(data.id, 'slice-wide')).toBeVisible();
       await expect(await CCD.getCardPriceStrikethrough(data.id, 'slice-wide')).toContainText(data.strikethroughPrice);
       await expect(await CCD.getCardCTA(data.id, 'slice-wide')).toBeVisible();
-      await expect(await CCD.getCardCTA(data.id, 'slice-wide')).toHaveAttribute('variant', 'accent');
+      await expect(await CCD.getCardCTA(data.id, 'slice-wide')).toHaveAttribute('class', /accent/);
       await expect(await CCD.getCardCTA(data.id, 'slice-wide')).toContainText(data.cta);
       await expect(await CCD.getCardCTALink(data.id, 'slice-wide')).toHaveAttribute('href', new RegExp(`${data.offerid}`));
       await expect(await CCD.getCardCTALink(data.id, 'slice-wide')).toHaveAttribute('data-analytics-id', /.*/);
@@ -1139,15 +1139,15 @@ test.describe('CCD Merchcard feature test suite', () => {
       expect(await webUtil.verifyCSS(await CCD.getCardDescription(data.id, 'slice-wide'), CCD.sliceCssProp.description.light)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardLegalLink(data.id, 'slice-wide'), CCD.sliceCssProp.legalLink.light)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardPrice(data.id, 'slice-wide'), CCD.sliceCssProp.price.light)).toBeTruthy();
-      expect(await webUtil.verifyCSS(await CCD.getCardPriceStrikethrough(data.id, 'slice-wide'), CCD.sliceCssProp.strikethroughPrice)).toBeTruthy();
+      expect(await webUtil.verifyCSS(await CCD.getCardPriceStrikethrough(data.id, 'slice-wide'), CCD.sliceCssProp.strikethroughPrice.light)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardCTA(data.id, 'slice-wide'), CCD.sliceCssProp.cta.light)).toBeTruthy();
     });
 
     await test.step('step-4: Go to CCD Merch Card feature test page in dark mode', async () => {
-      const darkThemePage = `${baseURL}${features[17].path}${features[17].browserParams}&${miloLibs}`;
+      const darkThemePage = `${baseURL}${features[17].path}${features[17].browserParams}`;
       await page.goto(darkThemePage);
       await page.waitForLoadState('domcontentloaded');
-      await expect(page).toHaveURL(`${baseURL}${features[17].path}${features[17].browserParams}&${miloLibs}`);
+      await expect(page).toHaveURL(`${baseURL}${features[17].path}${features[17].browserParams}`);
     });
 
     await test.step('step-5: Verify CCD Merch Card spec', async () => {
@@ -1158,7 +1158,7 @@ test.describe('CCD Merchcard feature test suite', () => {
       expect(await webUtil.verifyCSS(await CCD.getCardLegalLink(data.id, 'slice-wide'), CCD.sliceCssProp.legalLink.dark)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardDescription(data.id, 'slice-wide'), CCD.sliceCssProp.description.dark)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardPrice(data.id, 'slice-wide'), CCD.sliceCssProp.price.dark)).toBeTruthy();
-      expect(await webUtil.verifyCSS(await CCD.getCardPriceStrikethrough(data.id, 'slice-wide'), CCD.sliceCssProp.strikethroughPrice)).toBeTruthy();
+      expect(await webUtil.verifyCSS(await CCD.getCardPriceStrikethrough(data.id, 'slice-wide'), CCD.sliceCssProp.strikethroughPrice.dark)).toBeTruthy();
       expect(await webUtil.verifyCSS(await CCD.getCardCTA(data.id, 'slice-wide'), CCD.sliceCssProp.cta.dark)).toBeTruthy();
     });
   });
@@ -1190,7 +1190,7 @@ test.describe('CCD Merchcard feature test suite', () => {
       await expect(await CCD.getCardPrice(data.id, 'slice-wide')).toBeVisible();
       await expect(await CCD.getCardPrice(data.id, 'slice-wide')).toContainText(data.price);
       await expect(await CCD.getCardCTA(data.id, 'slice-wide')).toBeVisible();
-      await expect(await CCD.getCardCTA(data.id, 'slice-wide')).toHaveAttribute('variant', 'accent');
+      await expect(await CCD.getCardCTA(data.id, 'slice-wide')).toHaveAttribute('class', /accent/);
       await expect(await CCD.getCardCTA(data.id, 'slice-wide')).toContainText(data.cta);
       await expect(await CCD.getCardCTALink(data.id, 'slice-wide')).toHaveAttribute('href', new RegExp(`${data.offerid}`));
       await expect(await CCD.getCardCTALink(data.id, 'slice-wide')).toHaveAttribute('data-analytics-id', /.*/);
@@ -1206,10 +1206,10 @@ test.describe('CCD Merchcard feature test suite', () => {
     });
 
     await test.step('step-4: Go to CCD Merch Card feature test page in dark mode', async () => {
-      const darkThemePage = `${baseURL}${features[18].path}${features[18].browserParams}&${miloLibs}`;
+      const darkThemePage = `${baseURL}${features[18].path}${features[18].browserParams}`;
       await page.goto(darkThemePage);
       await page.waitForLoadState('domcontentloaded');
-      await expect(page).toHaveURL(`${baseURL}${features[18].path}${features[18].browserParams}&${miloLibs}`);
+      await expect(page).toHaveURL(`${baseURL}${features[18].path}${features[18].browserParams}`);
     });
 
     await test.step('step-5: Verify CCD Merch Card spec', async () => {

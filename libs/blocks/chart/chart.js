@@ -8,7 +8,6 @@ import {
   formatExcelDate,
 } from './utils.js';
 import getTheme from './chartLightTheme.js';
-import { replaceKey } from '../../features/placeholders.js';
 
 export const SMALL = 'small';
 export const MEDIUM = 'medium';
@@ -192,12 +191,13 @@ export const tooltipFormatter = (params, units) => {
   return tooltip;
 };
 
-export const barSeriesOptions = (chartType, hasOverride, firstDataset, colors, size, yUnits) => {
+export const barSeriesOptions = (chartType, hasOverride, dimensions, colors, size, yUnits) => {
   const isLarge = size === LARGE;
   const isBar = chartType === 'bar';
 
-  return firstDataset.map((value, index) => ({
+  return dimensions.map((value, index) => ({
     type: 'bar',
+    name: value,
     label: {
       show: isBar,
       formatter: `{@[${index + 1}]}${yUnits[0]}`,
@@ -220,11 +220,12 @@ export const barSeriesOptions = (chartType, hasOverride, firstDataset, colors, s
   }));
 };
 
-export const lineSeriesOptions = (series, firstDataset, xUnit, yUnits) => {
+export const lineSeriesOptions = (series, dimensions, xUnit, yUnits) => {
   const marks = processMarkData(series, xUnit);
 
-  return firstDataset.map((value, index) => {
+  return dimensions.map((value, index) => {
     let options = {
+      name: value,
       type: 'line',
       symbol: 'none',
       lineStyle: { width: 3 },
@@ -239,9 +240,10 @@ export const lineSeriesOptions = (series, firstDataset, xUnit, yUnits) => {
   });
 };
 
-export const areaSeriesOptions = (firstDataset) => (
-  firstDataset.map(() => ({
+export const areaSeriesOptions = (dimensions) => (
+  dimensions.map((value) => ({
     type: 'line',
+    name: value,
     symbol: 'none',
     areaStyle: { opacity: 1 },
     stack: 'area',
@@ -351,7 +353,7 @@ export const getChartOptions = ({
 }) => {
   const hasOverride = headers ? hasPropertyCI(headers, 'color') : false;
   const source = dataset?.source;
-  const firstDataset = source?.[1]?.slice() || [];
+  const dimensions = source?.[0]?.slice() || [];
   const isBar = chartType === 'bar';
   const isColumn = chartType === 'column';
   const isPie = chartType === 'pie';
@@ -365,7 +367,7 @@ export const getChartOptions = ({
     yUnits = units.length > 1 ? units.slice(1) : [''];
   }
 
-  firstDataset.shift();
+  dimensions.shift();
 
   let bottomGrid = 90;
 
@@ -386,6 +388,21 @@ export const getChartOptions = ({
       show: true,
       inactiveColor: '#6C6C6C',
       type: 'scroll',
+    },
+    aria: {
+      enabled: true,
+      label: {
+        general: { withTitle: 'This is a chart' },
+        series: {
+          maxCount: 1,
+          multiple:
+          {
+            prefix: '. It consists of {seriesCount} series count ',
+            withName: `with series ${dimensions.join(', ')}. `,
+          },
+        },
+        data: { separator: { middle: `${yUnits}, `, end: yUnits } },
+      },
     },
     title: isDonut ? donutTitleOptions(source, series, yUnits[0], size) : {},
     tooltip: {
@@ -431,10 +448,10 @@ export const getChartOptions = ({
     ))(),
     series: (() => {
       if (isBar || isColumn) {
-        return barSeriesOptions(chartType, hasOverride, firstDataset, colors, size, yUnits);
+        return barSeriesOptions(chartType, hasOverride, dimensions, colors, size, yUnits);
       }
-      if (chartType === 'line') return lineSeriesOptions(series, firstDataset, xUnit, yUnits);
-      if (chartType === 'area') return areaSeriesOptions(firstDataset);
+      if (chartType === 'line') return lineSeriesOptions(series, dimensions, xUnit, yUnits);
+      if (chartType === 'area') return areaSeriesOptions(dimensions);
       if (isDonut) return donutSeriesOptions(size);
       if (isPie) return pieSeriesOptions(size);
       return [];
@@ -464,6 +481,7 @@ const initChart = ({
   const chart = window.echarts?.init(chartWrapper, themeName, { renderer: 'svg' });
 
   chartWrapper.tabIndex = 0;
+  chartWrapper.role = 'img';
   chart.setOption(chartOptions);
 
   if (chartType === 'donut') {
@@ -642,6 +660,8 @@ const init = (el) => {
         </svg>`;
 
         chartWrapper.innerHTML = html;
+        chartWrapper.role = 'img';
+        chartWrapper.ariaLabel = `${number} ${data?.subtitle}`;
       })
       // eslint-disable-next-line no-console
       .catch((error) => console.log('Error loading script:', error));
@@ -692,8 +712,6 @@ const init = (el) => {
         observer.observe(el);
       }
 
-      const title = children[0]?.textContent.trim() || children[1]?.textContent.trim();
-      chartWrapper.setAttribute('aria-label', `${await replaceKey(`${chartType}-chart`, config)}: ${title}`);
       /* c8 ignore next 4 */
       window.addEventListener('resize', throttle(
         1000,

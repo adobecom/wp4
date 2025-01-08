@@ -105,28 +105,6 @@ export class VariantLayout {
         return '[slot="heading-xs"]';
     }
 
-    get stripStyle() {
-        if (this.card.backgroundImage) {
-            const img = new Image();
-            img.src = this.card.backgroundImage;
-            img.onload = () => {
-                if (img.width > 8) {
-                  /* c8 ignore next 4 */
-                    this.card.classList.add('wide-strip');
-                } else if (img.width === 8) {
-                    this.card.classList.add('thin-strip');
-                }
-        };
-        return `
-          background: url("${this.card.backgroundImage}");
-          background-size: auto 100%;
-          background-repeat: no-repeat;
-          background-position: ${this.card.dir === 'ltr' ? 'left' : 'right'};
-        `;
-      }
-      return '';
-    }
-
     get secureLabelFooter() {
         const secureLabel = this.card.secureLabel
             ? html`<span class="secure-transaction-label"

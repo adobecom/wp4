@@ -119,10 +119,7 @@ export default async function init(a) {
   }
 
   const fragment = createTag('div', { class: 'fragment', 'data-path': relHref });
-
-  if (!inline) {
-    fragment.append(...sections);
-  }
+  fragment.append(...sections);
 
   updateFragMap(fragment, a, relHref);
   if (a.dataset.manifestId

@@ -43,6 +43,7 @@ export class MerchCard extends LitElement {
         actionMenu: { type: Boolean, attribute: 'action-menu' },
         customHr: { type: Boolean, attribute: 'custom-hr' },
         consonant: { type: Boolean, attribute: 'consonant' },
+        spectrum: { type: String, attribute: 'spectrum' }, /* css|swc */
         detailBg: { type: String, attribute: 'detail-bg' },
         secureLabel: { type: String, attribute: 'secure-label' },
         checkboxLabel: { type: String, attribute: 'checkbox-label' },
@@ -113,6 +114,7 @@ export class MerchCard extends LitElement {
         this.filters = {};
         this.types = '';
         this.selected = false;
+        this.spectrum = 'css';
         this.handleAemFragmentEvents = this.handleAemFragmentEvents.bind(this);
     }
 
@@ -136,9 +138,9 @@ export class MerchCard extends LitElement {
             changedProperties.has('badgeBackgroundColor') ||
             changedProperties.has('borderColor')
         ) {
-            this.style.setProperty('--merch-card-border', this.computedBorderStyle);
+            this.style.setProperty('--consonant-merch-card-border', this.computedBorderStyle);
         }
-        this.variantLayout?.postCardUpdateHook(this);
+        this.variantLayout?.postCardUpdateHook(changedProperties);
     }
 
     get theme() {
@@ -300,7 +302,7 @@ export class MerchCard extends LitElement {
 
     disconnectedCallback() {
         super.disconnectedCallback();
-        this.variantLayout.disconnectedCallbackHook();
+        this.variantLayout?.disconnectedCallbackHook();
 
         this.removeEventListener(
             EVENT_MERCH_QUANTITY_SELECTOR_CHANGE,

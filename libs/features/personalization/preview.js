@@ -71,9 +71,40 @@ function addPillEventListeners(div) {
     document.body.removeChild(document.querySelector('.mep-preview-overlay'));
   });
 }
+export function parsePageAndUrl(config, windowLocation, prefix) {
+  const { stageDomainsMap, env } = config;
+  const { pathname, origin } = windowLocation;
+  if (env?.name === 'prod' || !stageDomainsMap) {
+    return { page: pathname.replace(`/${prefix}/`, '/'), url: `${origin}${pathname}` };
+  }
+  let path = pathname;
+  let domain = origin;
+  const allowedHosts = [
+    'business.stage.adobe.com',
+    'www.stage.adobe.com',
+    'milo.stage.adobe.com',
+  ];
+  const domainCheck = Object.keys(stageDomainsMap)
+    .find((key) => {
+      try {
+        const { host } = new URL(`https://${key}`);
+        return allowedHosts.includes(host);
+      } catch (e) {
+        /* c8 ignore next 2 */
+        return false;
+      }
+    });
+  if (domainCheck) domain = `https://${domainCheck}`;
+  path = path.replace('/homepage/index-loggedout', '/');
+  if (!path.endsWith('/') && !path.endsWith('.html') && !domain.includes('milo')) {
+    path += '.html';
+  }
+  domain = domain.replace('stage.adobe.com', 'adobe.com');
+  return { page: path.replace(`/${prefix}/`, '/'), url: `${domain}${path}` };
+}
 function parseMepConfig() {
   const config = getConfig();
-  const { mep, locale, stageDomainsMap, env } = config;
+  const { mep, locale } = config;
   const { experiments, targetEnabled, prefix, highlight } = mep;
   const activities = experiments.map((experiment) => {
     const {
@@ -88,36 +119,14 @@ function parseMepConfig() {
       url: manifest,
       disabled,
       source,
-      eventStart: event?.startUtc,
-      eventEnd: event?.endUtc,
+      eventStart: event?.start,
+      eventEnd: event?.end,
       pathname,
       analyticsTitle,
     };
   });
-  const { pathname, origin } = window.location;
-  let page = pathname;
-  let domain = origin;
-  if (env?.name !== 'prod' && stageDomainsMap) {
-    const allowedHosts = [
-      'business.stage.adobe.com',
-      'www.stage.adobe.com',
-      'milo.stage.adobe.com',
-    ];
-    const domainCheck = Object.keys(stageDomainsMap)
-      .find((key) => {
-        try {
-          const { host } = new URL(`https://${key}`);
-          return allowedHosts.includes(host);
-        } catch (e) {
-          return false;
-        }
-      });
-    if (domainCheck) domain = `https://${domainCheck}`;
-    page = page.replace('/homepage/index-loggedout', '/');
-    if (!page.endsWith('/') && !domain.includes('milo')) page += '.html';
-  }
-  domain = domain.replace('stage.adobe.com', 'adobe.com');
-  const url = `${domain}${page}`;
+  const { page, url } = parsePageAndUrl(config, window.location, prefix);
+
   return {
     page: {
       url,
@@ -132,14 +141,17 @@ function parseMepConfig() {
     activities,
   };
 }
-function formatDate(dateTime) {
+function formatDate(dateTime, format = 'local') {
   if (!dateTime) return '';
-  const date = dateTime.toLocaleDateString(false, {
+  let dateObj = dateTime;
+  if (typeof dateObj === 'string') dateObj = new Date(dateObj);
+  if (format === 'iso') return dateObj.toISOString();
+  const date = dateObj.toLocaleDateString(false, {
     year: 'numeric',
     month: 'short',
     day: 'numeric',
   });
-  const time = dateTime.toLocaleTimeString(false, { timeStyle: 'short' });
+  const time = dateObj.toLocaleTimeString(false, { timeStyle: 'short' });
   return `${date} ${time}`;
 }
 function getManifestListDomAndParameter(mepConfig) {
@@ -156,6 +168,9 @@ function getManifestListDomAndParameter(mepConfig) {
       targetActivityName,
       source,
       analyticsTitle,
+      eventStart,
+      eventEnd,
+      disabled,
     } = manifest;
     const editUrl = manifestUrl || manifestPath;
     const editPath = normalizePath(editUrl);
@@ -192,16 +207,10 @@ function getManifestListDomAndParameter(mepConfig) {
       <label for="${editPath}${pageId}--default" ${checked.class}>Default (control)</label>
     </div>`;
 
-    if (manifest.eventStart) {
-      manifest.event = {
-        start: new Date(manifest.eventStart),
-        end: new Date(manifest.eventEnd),
-      };
-    }
-    const scheduled = manifest.event
-      ? `<p class="promo-schedule-info">Scheduled - ${manifest.disabled ? 'inactive' : 'active'}</p>
-         <p>On: ${formatDate(manifest.event.start)} - <a target= "_blank" href="?instant=${manifest.event.start?.toISOString()}">instant</a></p>
-         <p>Off: ${formatDate(manifest.event.end)}</p>` : '';
+    const scheduled = eventStart && eventEnd
+      ? `<p class="promo-schedule-info">Scheduled - ${disabled ? 'inactive' : 'active'}</p>
+         <p>On: ${formatDate(eventStart)} - <a target= "_blank" href="?instant=${formatDate(eventStart, 'iso')}">instant</a></p>
+         <p>Off: ${formatDate(eventEnd)}</p>` : '';
     manifestList += `<div class="mep-manifest-info" title="Manifest location: ${editUrl}&#013;Analytics manifest name: ${analyticsTitle || 'N/A for this manifest type'}">
       <div class="mep-manifest-title">
         ${mIdx + 1}. ${getFileName(manifestPath)}

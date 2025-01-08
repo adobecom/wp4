@@ -145,7 +145,7 @@ const decoratePromo = (elem, index) => {
     let promoImageElem;
 
     if (linkElem instanceof HTMLElement) {
-      promoImageElem = toFragment`<a class="feds-promo-image" href="${linkElem.href}">
+      promoImageElem = toFragment`<a class="feds-promo-image" href="${linkElem.href}" daa-ll="promo-image">
           ${imageElem}
         </a>`;
     } else {
@@ -176,7 +176,7 @@ const decoratePromo = (elem, index) => {
     elem.classList.add('feds-promo--dark');
   }
 
-  return toFragment`<div class="feds-promo-wrapper">
+  return toFragment`<div class="feds-promo-wrapper" daa-lh="promo-card">
       ${elem}
     </div>`;
 };

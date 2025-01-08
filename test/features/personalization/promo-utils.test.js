@@ -78,8 +78,6 @@ describe('getPromoManifests', () => {
           end: new Date('2300-12-15T00:00:00.000Z'),
           cdtEnd: undefined,
           cdtStart: undefined,
-          startUtc: '2000-11-01T00:00:00',
-          endUtc: '2300-12-15T00:00:00',
         },
         source: [
           'promo',
@@ -94,8 +92,6 @@ describe('getPromoManifests', () => {
           end: new Date('2300-12-15T00:00:00.000Z'),
           cdtEnd: undefined,
           cdtStart: undefined,
-          startUtc: '2000-11-01T00:00:00',
-          endUtc: '2300-12-15T00:00:00',
         },
         source: [
           'promo',
@@ -110,8 +106,6 @@ describe('getPromoManifests', () => {
           end: new Date('2000-12-31T00:00:00.000Z'),
           cdtEnd: '2026-08-30T00:00:00',
           cdtStart: '2024-08-26T12:00:00',
-          startUtc: '2000-12-15T00:00:00',
-          endUtc: '2000-12-31T00:00:00',
         },
         source: [
           'promo',

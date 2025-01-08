@@ -1,4 +1,4 @@
-var a=Object.defineProperty;var c=(o,t,e)=>t in o?a(o,t,{enumerable:!0,configurable:!0,writable:!0,value:e}):o[t]=e;var n=(o,t,e)=>(c(o,typeof t!="symbol"?t+"":t,e),e);import{LitElement as m,html as p}from"../lit-all.min.js";import{css as x}from"../lit-all.min.js";var l=x`
+var a=Object.defineProperty;var c=(e,t,o)=>t in e?a(e,t,{enumerable:!0,configurable:!0,writable:!0,value:o}):e[t]=o;var n=(e,t,o)=>c(e,typeof t!="symbol"?t+"":t,o);import{LitElement as m,html as p}from"../lit-all.min.js";import{css as x}from"../lit-all.min.js";var l=x`
     #label {
         align-items: center;
         cursor: pointer;
@@ -18,8 +18,8 @@ var a=Object.defineProperty;var c=(o,t,e)=>t in o?a(o,t,{enumerable:!0,configura
         height: 1em;
         width: 1em;
     }
-`;var d="merch-secure-transaction",i=class extends m{constructor(){super(),this.labelText="",this.showIcon=!0,this.tooltipText=""}render(){let{labelText:t,showIcon:e,tooltipText:s}=this,r=p`
-            <div class="${e?"icon":""}" id="label" slot="trigger">
+`;var d="merch-secure-transaction",i=class extends m{constructor(){super(),this.labelText="",this.showIcon=!0,this.tooltipText=""}render(){let{labelText:t,showIcon:o,tooltipText:s}=this,r=p`
+            <div class="${o?"icon":""}" id="label" slot="trigger">
                 ${t}
             </div>
         `;return s?p`

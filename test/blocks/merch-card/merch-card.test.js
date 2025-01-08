@@ -318,6 +318,71 @@ describe('Mini Compare Chart Merch Card', () => {
       merchCard.style.visibility = 'visible';
     }, 500);
   });
+
+  it('Supports Mini Compare Chart with checkmarks footer rows', async () => {
+    // Test for mobile
+    window.matchMedia = (query) => ({
+      matches: query.includes('(max-width: 767px)'),
+      addListener: () => {},
+      removeListener: () => {},
+    });
+    document.body.innerHTML = await readMockText('/test/blocks/merch-card/mocks/mini-compare-chart-featured-list.html');
+    const merchCards = document.querySelectorAll('.merch-card.mini-compare-chart');
+    const merchCardChevonClose = await init(merchCards[0]);
+    expectToValidateHTMLAssertions(merchCardChevonClose, {
+      elements: [
+        { selector: 'div[slot="footer-rows"] picture.footer-row-icon-checkmark' },
+        { selector: 'div[slot="footer-rows"] .footer-row-cell-description' },
+      ],
+    });
+    const hr = merchCardChevonClose.querySelector('hr');
+    expect(hr).to.exist;
+    expect(hr.style.backgroundColor).to.be.equals('rgb(232, 232, 232)');
+    expect(merchCardChevonClose.querySelector('.checkmark-copy-container').classList.contains('close'));
+    const footerRowsTitle = merchCardChevonClose.querySelector('.footer-rows-title');
+    expect(footerRowsTitle).to.exist;
+    const footerRowCellCheckmark = merchCardChevonClose.querySelectorAll('.footer-row-cell-checkmark');
+    expect(footerRowCellCheckmark).to.exist;
+    for (let i = 0; i < footerRowCellCheckmark.length; i += 1) {
+      expect(footerRowCellCheckmark[i].querySelector('.footer-row-icon-checkmark')).to.exist;
+    }
+
+    // Test for the second merch card (chevron open)
+    if (footerRowsTitle) {
+      footerRowsTitle.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      expect(merchCardChevonClose.querySelector('.checkmark-copy-container').classList.contains('open')).to.be.false;
+      expect(footerRowsTitle.querySelector('.chevron-icon').innerHTML).to.include('svg');
+    }
+
+    // Test for the second merch card (chevron open)
+    const merchCardChevonOpen = await init(merchCards[1]);
+    expectToValidateHTMLAssertions(merchCardChevonOpen, {
+      elements: [
+        { selector: 'div[slot="footer-rows"] picture.footer-row-icon-checkmark' },
+        { selector: 'div[slot="footer-rows"] .footer-row-cell-description' },
+      ],
+    });
+    expect(merchCardChevonOpen.querySelector('.checkmark-copy-container').classList.contains('open')).to.be.false;
+
+    // Simulate click to test chevron toggle
+    const footerRowsTitleOpen = merchCardChevonOpen.querySelector('.footer-rows-title');
+    expect(footerRowsTitleOpen).to.exist;
+    if (footerRowsTitleOpen) {
+      footerRowsTitleOpen.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      expect(merchCardChevonOpen.querySelector('.checkmark-copy-container').classList.contains('open')).to.be.true;
+      expect(footerRowsTitleOpen.querySelector('.chevron-icon').innerHTML).to.include('svg');
+    }
+
+    // Test for desktop
+    window.matchMedia = (query) => ({
+      matches: query.includes('(max-width: 600px)'),
+      addListener: () => {},
+      removeListener: () => {},
+    });
+    const merchCardDesktop = await init(merchCards[2]);
+    expect(merchCardDesktop.querySelector('.checkmark-copy-container')).to.not.be.null;
+    expect(merchCardChevonOpen.querySelector('.checkmark-copy-container').classList.contains('open')).to.be.true;
+  });
 });
 
 describe('TWP Merch Card', () => {

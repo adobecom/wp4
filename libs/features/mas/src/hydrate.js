@@ -7,6 +7,7 @@ const CHECKOUT_LINK_STYLE_PATTERN =
 export const ANALYTICS_TAG = 'mas:product_code/';
 export const ANALYTICS_LINK_ATTR = 'daa-ll';
 export const ANALYTICS_SECTION_ATTR = 'daa-lh';
+const SPECTRUM_BUTTON_SIZES = ['XL', 'L', 'M', 'S'];
 
 export function processMnemonics(fields, merchCard, mnemonicsConfig) {
     const mnemonics = fields.mnemonicIcon?.map((icon, index) => ({
@@ -132,38 +133,41 @@ function processDescription(fields, merchCard, descriptionConfig) {
     }
 }
 
-function createSpectrumButton(cta, strong, aemFragmentMapping, cardVariant) {
-    if (cardVariant === 'ccd-suggested' && !cta.className) {
-        cta.className = 'primary-link'; //workaround for existing ccd-suggested cards
-    }
-    const checkoutLinkStyle =
-        CHECKOUT_LINK_STYLE_PATTERN.exec(cta.className)?.[0] ?? 'accent';
-    const isAccent = checkoutLinkStyle.includes('accent');
-    const isPrimary = checkoutLinkStyle.includes('primary');
-    const isSecondary = checkoutLinkStyle.includes('secondary');
-    const isOutline = checkoutLinkStyle.includes('-outline');
-    const isLink = checkoutLinkStyle.includes('-link');
+function createSpectrumCssButton(cta, aemFragmentMapping, isOutline, variant) {
+    const size = aemFragmentMapping.ctas.size ?? 'M';
+    const variantClass = `spectrum-Button--${variant}`;
+    const treatmentClass = isOutline ? ' spectrum-Button--outline' : '';
+    cta.classList.add('spectrum-Button-label');
+    const sizeClass = SPECTRUM_BUTTON_SIZES.includes(size)
+        ? ` spectrum-Button--size${size}`
+        : ' spectrum-Button--sizeM';
+    const spectrumClass = `spectrum-Button ${variantClass}${treatmentClass}${sizeClass}`;
+    const spectrumCta = createTag(
+        'button',
+        {
+            class: spectrumClass,
+            tabIndex: 0,
+        },
+        cta,
+    );
 
-    if (isLink) {
-        return cta;
-    }
+    spectrumCta.addEventListener('click', (e) => {
+        if (e.target !== cta) {
+            /* c8 ignore next 3 */
+            e.stopPropagation();
+            cta.click();
+        }
+    });
 
+    return spectrumCta;
+}
+
+function createSpectrumSwcButton(cta, aemFragmentMapping, isOutline, variant) {
     let treatment = 'fill';
-    let variant;
-
-    if (isAccent || strong) {
-        variant = 'accent';
-    } else if (isPrimary) {
-        variant = 'primary';
-    } else if (isSecondary) {
-        variant = 'secondary';
-    }
 
     if (isOutline) {
         treatment = 'outline';
     }
-
-    cta.tabIndex = -1;
     const spectrumCta = createTag(
         'sp-button',
         {
@@ -201,14 +205,40 @@ export function processCTAs(fields, merchCard, aemFragmentMapping, variant) {
 
         const ctas = [...footer.querySelectorAll('a')].map((cta) => {
             const strong = cta.parentElement.tagName === 'STRONG';
-            return merchCard.consonant
-                ? processConsonantButton(cta, strong)
-                : createSpectrumButton(
-                      cta,
-                      strong,
-                      aemFragmentMapping,
-                      variant,
-                  );
+            if (merchCard.consonant) return processConsonantButton(cta, strong);
+            const checkoutLinkStyle =
+                CHECKOUT_LINK_STYLE_PATTERN.exec(cta.className)?.[0] ??
+                'accent';
+            const isAccent = checkoutLinkStyle.includes('accent');
+            const isPrimary = checkoutLinkStyle.includes('primary');
+            const isSecondary = checkoutLinkStyle.includes('secondary');
+            const isOutline = checkoutLinkStyle.includes('-outline');
+            const isLink = checkoutLinkStyle.includes('-link');
+            if (isLink) {
+                return cta;
+            }
+            let variant;
+            if (isAccent || strong) {
+                variant = 'accent';
+            } else if (isPrimary) {
+                variant = 'primary';
+            } else if (isSecondary) {
+                variant = 'secondary';
+            }
+            cta.tabIndex = -1;
+            if (merchCard.spectrum === 'swc')
+                return createSpectrumSwcButton(
+                    cta,
+                    aemFragmentMapping,
+                    isOutline,
+                    variant,
+                );
+            return createSpectrumCssButton(
+                cta,
+                aemFragmentMapping,
+                isOutline,
+                variant,
+            );
         });
 
         footer.innerHTML = '';
@@ -218,19 +248,38 @@ export function processCTAs(fields, merchCard, aemFragmentMapping, variant) {
 }
 
 export function processAnalytics(fields, merchCard) {
-  const { tags } = fields;
-  const cardAnalyticsId = tags?.find(tag => tag.startsWith(ANALYTICS_TAG))?.split('/').pop();
-    if(cardAnalyticsId) {
-      merchCard.setAttribute(ANALYTICS_SECTION_ATTR, cardAnalyticsId);
-      merchCard.querySelectorAll(`a[data-analytics-id]`).forEach((link, index) => {
-        link.setAttribute(ANALYTICS_LINK_ATTR, `${link.dataset.analyticsId}-${index + 1}`);
-      });
-    }
+    const { tags } = fields;
+    const cardAnalyticsId = tags
+        ?.find((tag) => tag.startsWith(ANALYTICS_TAG))
+        ?.split('/')
+        .pop();
+    if (!cardAnalyticsId) return;
+    merchCard.setAttribute(ANALYTICS_SECTION_ATTR, cardAnalyticsId);
+    merchCard
+        .querySelectorAll(`a[data-analytics-id]`)
+        .forEach((link, index) => {
+            link.setAttribute(
+                ANALYTICS_LINK_ATTR,
+                `${link.dataset.analyticsId}-${index + 1}`,
+            );
+        });
+}
+
+function updateLinks(merchCard) {
+    [
+        ['primary-link', 'primary'],
+        ['secondary-link', 'secondary'],
+    ].forEach(([className, variant]) => {
+        merchCard.querySelectorAll(`a.${className}`).forEach((link) => {
+            link.classList.remove(className);
+            link.classList.add('spectrum-Link', `spectrum-Link--${variant}`);
+        });
+    });
 }
 
 export async function hydrate(fragment, merchCard) {
-  const { fields } = fragment;
-  const { variant } = fields;
+    const { fields } = fragment;
+    const { variant } = fields;
     if (!variant) return;
 
     // remove all previous slotted content except the default slot
@@ -243,6 +292,8 @@ export async function hydrate(fragment, merchCard) {
     merchCard.removeAttribute('badge-color');
     merchCard.removeAttribute('badge-text');
     merchCard.removeAttribute('size');
+    merchCard.classList.remove('wide-strip');
+    merchCard.classList.remove('thin-strip');
     merchCard.removeAttribute(ANALYTICS_SECTION_ATTR);
 
     merchCard.variant = variant;
@@ -251,14 +302,20 @@ export async function hydrate(fragment, merchCard) {
     const { aemFragmentMapping } = merchCard.variantLayout;
     if (!aemFragmentMapping) return;
 
-    processBackgroundImage(fields,merchCard,aemFragmentMapping.backgroundImage,variant);
-    processBadge(fields, merchCard);
-    processCTAs(fields, merchCard, aemFragmentMapping, variant);
-    processDescription(fields, merchCard, aemFragmentMapping.description);
     processMnemonics(fields, merchCard, aemFragmentMapping.mnemonics);
-    processPrices(fields, merchCard, aemFragmentMapping.prices);
+    processBadge(fields, merchCard);
     processSize(fields, merchCard, aemFragmentMapping.allowedSizes);
-    processSubtitle(fields, merchCard, aemFragmentMapping.subtitle);
     processTitle(fields, merchCard, aemFragmentMapping.title);
+    processSubtitle(fields, merchCard, aemFragmentMapping.subtitle);
+    processPrices(fields, merchCard, aemFragmentMapping.prices);
+    processBackgroundImage(
+        fields,
+        merchCard,
+        aemFragmentMapping.backgroundImage,
+        variant,
+    );
+    processDescription(fields, merchCard, aemFragmentMapping.description);
+    processCTAs(fields, merchCard, aemFragmentMapping, variant);
     processAnalytics(fields, merchCard);
+    updateLinks(merchCard);
 }

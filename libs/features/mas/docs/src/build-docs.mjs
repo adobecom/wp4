@@ -63,6 +63,7 @@ const htmlTemplate = `
     <title>M@S Web Components</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script type="module" src="../../../deps/custom-elements.js"></script>
+    <link rel="stylesheet" href="spectrum.css">
     <link rel="stylesheet" href="https://use.typekit.net/hah7vzn.css">
   
   <script>
@@ -73,10 +74,6 @@ const htmlTemplate = `
       document.head.appendChild(meta);
       }
   </script>
-  <!-- Include your custom element script as an ES6 module -->
-  <script src="../../spectrum-web-components/dist/theme.js" type="module"></script>
-  <script src="../../spectrum-web-components/dist/action-button.js" type="module"></script>
-  <script src="../../spectrum-web-components/dist/button.js" type="module"></script>
   <script type="module" src="../dist/mas.js"></script>
 
   <script type="module">
@@ -95,10 +92,10 @@ const htmlTemplate = `
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<main>
-<sp-theme color="light" scale="medium">
-${htmlContent}
-</sp-theme>
+<main class="spectrum spectrum--medium spectrum--light">
+  <div class="container">
+  ${htmlContent}
+  </div>
 </main>
 <script type="module">
   document.querySelectorAll('code.demo').forEach(el => {

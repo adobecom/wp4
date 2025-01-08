@@ -44,6 +44,7 @@ const MILO_BLOCKS = [
   'iframe',
   'instagram',
   'locui',
+  'locui-create',
   'marketo',
   'marquee',
   'marquee-anchors',
@@ -356,6 +357,16 @@ export function appendHtmlToCanonicalUrl() {
   const pagePath = PAGE_URL.pathname.replace('.html', '');
   if (pagePath !== canonUrl.pathname) return;
   canonEl.setAttribute('href', `${canonEl.href}.html`);
+}
+
+export function appendSuffixToTitles() {
+  const appendage = getMetadata('title-append');
+  if (!appendage) return;
+  document.title = `${document.title} ${appendage}`;
+  const ogTitleEl = document.querySelector('meta[property="og:title"]');
+  if (ogTitleEl) ogTitleEl.setAttribute('content', document.title);
+  const twitterTitleEl = document.querySelector('meta[name="twitter:title"]');
+  if (twitterTitleEl) twitterTitleEl.setAttribute('content', document.title);
 }
 
 export function appendHtmlToLink(link) {
@@ -715,13 +726,11 @@ export function decorateLinks(el) {
       decorateCopyLink(a, copyEvent);
     }
     // Append aria-label
-    const pipeRegex = /\s?\|\s?/;
+    const pipeRegex = /\s?\|([^|]*)$/;
     if (pipeRegex.test(a.textContent) && !/\.[a-z]+/i.test(a.textContent)) {
-      const node = [...a.childNodes].reverse()
-        .find((child) => pipeRegex.test(child.textContent));
-      const ariaLabel = node.textContent.split(pipeRegex).pop();
-      node.textContent = node.textContent
-        .replace(new RegExp(`${pipeRegex.source}${ariaLabel}`), '');
+      const node = [...a.childNodes].reverse()[0];
+      const ariaLabel = node.textContent.match(pipeRegex)[1];
+      node.textContent = node.textContent.replace(pipeRegex, '');
       a.setAttribute('aria-label', ariaLabel.trim());
     }
 
@@ -1278,11 +1287,6 @@ function decorateDocumentExtras() {
 
 async function documentPostSectionLoading(config) {
   decorateFooterPromo();
-
-  const appendage = getMetadata('title-append');
-  if (appendage) {
-    import('../features/title-append/title-append.js').then((module) => module.default(appendage));
-  }
   if (getMetadata('seotech-structured-data') === 'on' || getMetadata('seotech-video-url')) {
     import('../features/seotech/seotech.js').then((module) => module.default(
       { locationUrl: window.location.href, getMetadata, createTag, getConfig },
@@ -1375,6 +1379,7 @@ export async function loadArea(area = document) {
   if (isDoc) {
     await checkForPageMods();
     appendHtmlToCanonicalUrl();
+    appendSuffixToTitles();
   }
   const config = getConfig();
 

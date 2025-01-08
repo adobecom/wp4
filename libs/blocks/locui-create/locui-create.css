@@ -1,0 +1,16 @@
+.locui-create.missing-details {
+  margin: 0 auto;
+  margin-top: 10vh;
+  max-width: 60%;
+  border-radius: 10px;
+  border: 10px solid var(--color-gray-200);
+  padding: 10px 30px 30px;
+}
+
+.locui-create .goto-step ul {
+  list-style-type: disc;
+}
+
+.locui-create .goto-step p {
+  margin: 0;
+}

@@ -3,18 +3,20 @@ import { DESKTOP_UP, TABLET_UP } from './media.js';
 
 export const styles = css`
     :host {
-        --merch-card-border: 1px solid var(--spectrum-gray-200, var(--consonant-merch-card-border-color));
-        position: relative;
+        --consonant-merch-card-background-color: #fff;
+        --consonant-merch-card-border: 1px solid var(--consonant-merch-card-border-color);
+        
+        -webkit-font-smoothing: antialiased;
+        background-color: var(--consonant-merch-card-background-color);
+        border-radius: var(--consonant-merch-spacing-xs);
+        border: var(--consonant-merch-card-border);
+        box-sizing: border-box;
         display: flex;
         flex-direction: column;
-        text-align: start;
-        background-color: var(--merch-card-background-color);
-        grid-template-columns: repeat(auto-fit, minmax(300px, max-content));
-        background-color: var(--merch-card-background-color);
         font-family: var(--merch-body-font-family, 'Adobe Clean');
-        border-radius: var(--consonant-merch-spacing-xs);
-        border: var(--merch-card-border);
-        box-sizing: border-box;
+        grid-template-columns: repeat(auto-fit, minmax(300px, max-content));
+        position: relative;
+        text-align: start;
     }
 
     :host(.placeholder) {
@@ -23,7 +25,6 @@ export const styles = css`
 
     :host([aria-selected]) {
         outline: none;
-        box-sizing: border-box;
         box-shadow: inset 0 0 0 2px var(--color-accent);
     }
 
@@ -217,6 +218,10 @@ export const styles = css`
     slot[name='icons'] {
         display: flex;
         gap: 8px;
+    }
+
+    ::slotted([slot='price']) {
+      color: var(--consonant-merch-card-price-color);
     }
 `;
 

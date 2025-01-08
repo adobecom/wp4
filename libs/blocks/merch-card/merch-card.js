@@ -391,23 +391,98 @@ const getMiniCompareChartFooterRows = (el) => {
   return footerRows;
 };
 
-const decorateFooterRows = (merchCard, footerRows) => {
-  if (footerRows) {
-    const footerRowsSlot = createTag('div', { slot: 'footer-rows' });
-    footerRows.forEach((row) => {
-      const rowIcon = row.firstElementChild.querySelector('picture');
-      const rowText = row.querySelector('div > div:nth-child(2)').innerHTML;
-      const rowTextParagraph = createTag('div', { class: 'footer-row-cell-description' }, rowText);
-      const footerRowCell = createTag('ul', { class: 'footer-row-cell' });
-      if (rowIcon) {
-        rowIcon.classList.add('footer-row-icon');
-        footerRowCell.appendChild(rowIcon);
-      }
-      footerRowCell.appendChild(rowTextParagraph);
-      footerRowsSlot.appendChild(footerRowCell);
+const createFirstRow = async (firstRow, isMobile, checkmarkCopyContainer, defaultChevronState) => {
+  const firstRowText = firstRow.querySelector('div > div:last-child').innerHTML;
+  let firstRowTextParagraph;
+
+  if (isMobile) {
+    const { chevronDownSVG, chevronUpSVG } = await import('./img/chevron.js');
+    const chevronIcon = createTag('span', { class: 'chevron-icon' }, chevronDownSVG);
+    firstRowTextParagraph = createTag('div', { class: 'footer-rows-title' }, firstRowText);
+    firstRowTextParagraph.appendChild(chevronIcon);
+
+    if (defaultChevronState === 'open') {
+      checkmarkCopyContainer.classList.add('open');
+    }
+
+    firstRowTextParagraph.addEventListener('click', () => {
+      const isOpen = checkmarkCopyContainer.classList.toggle('open');
+      chevronIcon.innerHTML = isOpen ? chevronUpSVG : chevronDownSVG;
     });
-    merchCard.appendChild(footerRowsSlot);
+  } else {
+    firstRowTextParagraph = createTag('div', { class: 'footer-rows-title' }, firstRowText);
+    checkmarkCopyContainer.classList.add('open');
   }
+
+  return firstRowTextParagraph;
+};
+
+const createFooterRowCell = (row, isCheckmark) => {
+  const rowIcon = row.firstElementChild.querySelector('picture');
+  const rowText = row.querySelector('div > div:nth-child(2)').innerHTML;
+  const rowTextParagraph = createTag('div', { class: 'footer-row-cell-description' }, rowText);
+  const footerRowCellClass = isCheckmark ? 'footer-row-cell-checkmark' : 'footer-row-cell';
+  const footerRowIconClass = isCheckmark ? 'footer-row-icon-checkmark' : 'footer-row-icon';
+  const footerRowCell = createTag('li', { class: footerRowCellClass });
+
+  if (rowIcon) {
+    rowIcon.classList.add(footerRowIconClass);
+    footerRowCell.appendChild(rowIcon);
+  }
+  footerRowCell.appendChild(rowTextParagraph);
+
+  return footerRowCell;
+};
+
+const decorateFooterRows = async (merchCard, footerRows) => {
+  if (!footerRows) return;
+
+  const footerRowsSlot = createTag('div', { slot: 'footer-rows' });
+  const isCheckmark = merchCard.classList.contains('bullet-list');
+  const isMobile = window.matchMedia('(max-width: 767px)').matches;
+
+  const ulContainer = createTag('ul');
+  if (isCheckmark) {
+    const firstRow = footerRows[0];
+    const firstRowContent = firstRow.querySelector('div > div:first-child').innerHTML.split(',');
+    let bgStyle = '#E8E8E8';
+    let defaultChevronState = 'close';
+
+    firstRowContent.forEach((item) => {
+      const trimmedItem = item.trim();
+      if (trimmedItem.startsWith('#')) {
+        bgStyle = trimmedItem;
+      } else if (trimmedItem === 'open' || trimmedItem === 'close') {
+        defaultChevronState = trimmedItem;
+      }
+    });
+
+    const hrElem = createTag('hr', { style: `background: ${bgStyle};` });
+    footerRowsSlot.appendChild(hrElem);
+    merchCard.classList.add('has-divider');
+
+    ulContainer.classList.add('checkmark-copy-container');
+    const firstRowTextParagraph = await createFirstRow(
+      firstRow,
+      isMobile,
+      ulContainer,
+      defaultChevronState,
+    );
+
+    footerRowsSlot.appendChild(firstRowTextParagraph);
+
+    footerRows.splice(0, 1);
+    footerRowsSlot.style.padding = '0px var(--consonant-merch-spacing-xs)';
+    footerRowsSlot.style.marginBlockEnd = 'var(--consonant-merch-spacing-xs)';
+  }
+  footerRowsSlot.appendChild(ulContainer);
+
+  footerRows.forEach((row) => {
+    const footerRowCell = createFooterRowCell(row, isCheckmark);
+    ulContainer.appendChild(footerRowCell);
+  });
+
+  merchCard.appendChild(footerRowsSlot);
 };
 
 const setMiniCompareOfferSlot = (merchCard, offers) => {
@@ -624,7 +699,7 @@ export default async function init(el) {
     decorateBlockHrs(merchCard);
     simplifyHrs(merchCard);
     if (merchCard.classList.contains('has-divider')) merchCard.setAttribute('custom-hr', true);
-    decorateFooterRows(merchCard, footerRows);
+    await decorateFooterRows(merchCard, footerRows);
   } else {
     parseTwpContent(el, merchCard);
   }

@@ -6,6 +6,7 @@
     <title>M@S Web Components</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script type="module" src="../../../deps/custom-elements.js"></script>
+    <link rel="stylesheet" href="spectrum.css">
     <link rel="stylesheet" href="https://use.typekit.net/hah7vzn.css">
   
   <script>
@@ -16,10 +17,6 @@
       document.head.appendChild(meta);
       }
   </script>
-  <!-- Include your custom element script as an ES6 module -->
-  <script src="../../spectrum-web-components/dist/theme.js" type="module"></script>
-  <script src="../../spectrum-web-components/dist/action-button.js" type="module"></script>
-  <script src="../../spectrum-web-components/dist/button.js" type="module"></script>
   <script type="module" src="../dist/mas.js"></script>
 
   <script type="module">
@@ -38,9 +35,9 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<main>
-<sp-theme color="light" scale="medium">
-<h1 id="merch-at-scale-(mas)" tabindex="-1">Merch At Scale (MAS) <a class="header-anchor" href="#merch-at-scale-(mas)" href="#merch-at-scale-(mas)" title="Permalink to this heading">#</a></h1>
+<main class="spectrum spectrum--medium spectrum--light">
+  <div class="container">
+  <h1 id="merch-at-scale-(mas)" tabindex="-1">Merch At Scale (MAS) <a class="header-anchor" href="#merch-at-scale-(mas)" href="#merch-at-scale-(mas)" title="Permalink to this heading">#</a></h1>
 <h2 id="table-of-contents" tabindex="-1">Table of Contents <a class="header-anchor" href="#table-of-contents" href="#table-of-contents" title="Permalink to this heading">#</a></h2>
 <ol>
 <li><a href="#introduction">Introduction</a></li>
@@ -105,7 +102,7 @@ Once value is set, every link will have 2 attributes:</p>
 <p>Example: if you have 5 cards with buy-now cta on your page, you can take a combination of merch-card daa-lh and link daa-ll:
 ${daa-lh}–${daa-ll}: will result in ‘phlt–buy-now-2’.</p>
 
-</sp-theme>
+  </div>
 </main>
 <script type="module">
   document.querySelectorAll('code.demo').forEach(el => {

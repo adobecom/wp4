@@ -27,6 +27,7 @@ import merch, {
   reopenModal,
   setCtaHash,
   openModal,
+  handleHashChange,
 } from '../../../libs/blocks/merch/merch.js';
 
 import { mockFetch, unmockFetch, readMockText } from './mocks/fetch.js';
@@ -468,6 +469,35 @@ describe('Merch Block', () => {
       const el = document.createElement('a');
       const params = new URLSearchParams();
       expect(await getCheckoutContext(el, params)).to.be.null;
+    });
+  });
+
+  describe('function "handleHashChange"', () => {
+    afterEach(() => {
+      document.querySelector('.dialog-modal')?.remove();
+      document.querySelector('.con-button')?.remove();
+    });
+
+    it('reopen modal after hash change', () => {
+      const cta = document.createElement('a');
+      cta.classList.add('con-button');
+      cta.setAttribute('data-modal-id', 'try-phsp');
+      const clickSpy = sinon.spy(cta, 'click');
+      document.body.append(cta);
+      window.location.hash = 'try-phsp';
+
+      handleHashChange();
+      expect(clickSpy.called).to.be.true;
+      window.location.hash = '';
+    });
+
+    it('close modal after hash change', () => {
+      const div = document.createElement('div');
+      div.classList.add('dialog-modal');
+      div.setAttribute('id', 'try-phsp');
+      document.body.append(div);
+
+      handleHashChange();
     });
   });
 

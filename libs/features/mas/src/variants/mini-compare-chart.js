@@ -28,7 +28,7 @@ export class MiniCompareChart extends VariantLayout {
     return html`<footer>${secureLabel}<slot name="footer"></slot></footer>`;
   }
 
-  adjustMiniCompareBodySlots () {
+  adjustMiniCompareBodySlots() {
     if (this.card.getBoundingClientRect().width <= 2) return;
   
     this.updateCardElementMinHeight(
@@ -36,7 +36,7 @@ export class MiniCompareChart extends VariantLayout {
         'top-section',
     );
   
-    const slots = [
+    let slots = [
         'heading-m',
         'body-m',
         'heading-m-price',
@@ -46,6 +46,9 @@ export class MiniCompareChart extends VariantLayout {
         'promo-text',
         'callout-content',
     ];
+    if (this.card.classList.contains('bullet-list')) {
+        slots.push('footer-rows');
+    }
   
     slots.forEach((slot) =>
         this.updateCardElementMinHeight(
@@ -68,9 +71,9 @@ export class MiniCompareChart extends VariantLayout {
         );
     }
   }
-  adjustMiniCompareFooterRows () {
+  adjustMiniCompareFooterRows() {
     if (this.card.getBoundingClientRect().width === 0) return;
-    const footerRows = this.card.querySelector('[slot="footer-rows"]');
+    const footerRows = this.card.querySelector('[slot="footer-rows"] ul');
     [...footerRows?.children].forEach((el, index) => {
         const height = Math.max(
             FOOTER_ROW_MIN_HEIGHT,
@@ -104,13 +107,18 @@ export class MiniCompareChart extends VariantLayout {
     });
   }
 
-  renderLayout () {
+  renderLayout() {
     return html` <div class="top-section${this.badge ? ' badge' : ''}">
             <slot name="icons"></slot> ${this.badge}
         </div>
         <slot name="heading-m"></slot>
-        <slot name="body-m"></slot>
-        <slot name="heading-m-price"></slot>
+        ${this.card.classList.contains('bullet-list') 
+        ?
+          html`<slot name="heading-m-price"></slot>
+          <slot name="body-m"></slot>`
+        :
+          html`<slot name="body-m"></slot>
+          <slot name="heading-m-price"></slot>`}
         <slot name="body-xxs"></slot>
         <slot name="price-commitment"></slot>
         <slot name="offers"></slot>
@@ -134,6 +142,12 @@ export class MiniCompareChart extends VariantLayout {
     }
     :host([variant='mini-compare-chart']) footer {
         min-height: var(--consonant-merch-card-mini-compare-chart-footer-height);
+        padding: var(--consonant-merch-spacing-s);
+    }
+
+    :host([variant='mini-compare-chart'].bullet-list) footer {
+        flex-flow: column nowrap;
+        min-height: var(--consonant-merch-card-mini-compare-chart-footer-height);
         padding: var(--consonant-merch-spacing-xs);
     }
 
@@ -142,6 +156,17 @@ export class MiniCompareChart extends VariantLayout {
         padding-top: var(--consonant-merch-spacing-s);
         padding-inline-start: var(--consonant-merch-spacing-s);
         height: var(--consonant-merch-card-mini-compare-chart-top-section-height);
+    }
+
+    :host([variant='mini-compare-chart'].bullet-list) .top-section {
+        padding-top: var(--consonant-merch-spacing-xs);
+        padding-inline-start: var(--consonant-merch-spacing-xs);
+    }
+
+    :host([variant='mini-compare-chart'].bullet-list) .secure-transaction-label {
+      align-self: flex-start;
+      flex: none;
+      color: var(--merch-color-grey-700);
     }
 
     @media screen and ${unsafeCSS(TABLET_DOWN)} {
@@ -199,6 +224,9 @@ export class MiniCompareChart extends VariantLayout {
         min-height: var(
             --consonant-merch-card-mini-compare-chart-callout-content-height
         );
+    }
+    :host([variant='mini-compare-chart']) slot[name='footer-rows'] {
+        justify-content: flex-start;
     }
   `;
 };

@@ -170,12 +170,20 @@ p.preflight-content-heading-edit {
 }
 
 a.preflight-edit {
-  background: url('./img/word-icon.svg');
-  background-repeat: no-repeat;
   display: block;
   text-indent: -1000px;
   overflow: hidden;
   height: 32px;
+}
+
+a.preflight-edit.sharepoint-icon {
+  background: url('./img/word-icon.svg');
+  background-repeat: no-repeat;
+}
+
+a.preflight-edit.da-icon {
+  background: url('./img/document-authoring.svg');
+  background-repeat: no-repeat;
 }
 
 .preflight-group-row.preflight-group-detail.not-found::before {

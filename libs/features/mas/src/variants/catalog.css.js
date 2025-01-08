@@ -77,7 +77,7 @@ merch-card[variant="catalog"] [slot="action-menu-content"] p {
 }
 
 merch-card[variant="catalog"] [slot="action-menu-content"] a {
-  color: var(--merch-card-background-color);
+  color: var(--consonant-merch-card-background-color);
   text-decoration: underline;
 }
 

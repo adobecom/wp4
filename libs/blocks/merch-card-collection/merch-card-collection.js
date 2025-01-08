@@ -269,11 +269,14 @@ export default async function init(el) {
     }
   }
 
-  const literalsEl = el.lastElementChild?.firstElementChild;
+  // in case of search literals being fragments, data is marked with a data-path attribute,
+  // and shallower
+  const literalsEl = el.lastElementChild?.firstElementChild?.getAttribute('data-path') !== null
+    ? el.lastElementChild : el.lastElementChild?.firstElementChild;
   // parse literals
   const literalSlots = [];
-  if (literalsEl && /filter/.test(literalsEl.querySelector('u')?.innerText)) {
-    literalsEl.querySelectorAll('u').forEach((u) => {
+  if (/filter/.test(literalsEl?.querySelector('u')?.innerText)) {
+    literalsEl?.querySelectorAll('u').forEach((u) => {
       const text = u.innerText.trim();
       if (DIGITS_ONLY.test(text)) {
         u.outerHTML = '<span data-placeholder="resultCount"></span>';
@@ -284,8 +287,8 @@ export default async function init(el) {
       }
     });
     let index = 0;
-    while (literalsEl.firstElementChild) {
-      const literalEl = literalsEl.firstElementChild;
+    while (literalsEl?.firstElementChild) {
+      const literalEl = literalsEl?.firstElementChild;
       let slot;
       if (literalEl.tagName === 'P') {
         slot = literalEl;

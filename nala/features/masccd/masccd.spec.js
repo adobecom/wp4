@@ -18,7 +18,7 @@ module.exports = {
         offerid: '30404A88D89A328584307175B8B27616',
         iconUrl: '',
       },
-      browserParams: '?theme=dark',
+      browserParams: '?theme=darkest',
       tags: '@mas-ccd @suggested-card @commerce @smoke @regression @milo',
     },
     {
@@ -39,11 +39,11 @@ module.exports = {
         iconUrl: '',
         cardDaaLH: 'ccsn',
         linkAnalyticsId: 'see-terms',
-        linkDaaLL: 'see-terms-2',
+        linkDaaLL: 'see-terms-1',
         ctaAnalyticsId: 'buy-now',
-        ctaDaaLL: 'buy-now-1',
+        ctaDaaLL: 'buy-now-2',
       },
-      browserParams: '?theme=dark',
+      browserParams: '?theme=darkest',
       tags: '@mas-ccd @suggested-card @commerce @smoke @regression @milo',
     },
     {
@@ -59,7 +59,7 @@ module.exports = {
         offerid: 'D5349E66BACCC8C1B3C1EA63348ED949',
         iconUrl: '',
       },
-      browserParams: '?theme=dark',
+      browserParams: '?theme=darkest',
       tags: '@mas-ccd @suggested-card @commerce @smoke @regression @milo',
     },
     {
@@ -77,7 +77,7 @@ module.exports = {
         background: 'media_1d63dab9ee1edbf371d6f0548516c9e12b3ea3ff4.png',
         iconUrl: '',
       },
-      browserParams: '?theme=dark',
+      browserParams: '?theme=darkest',
       tags: '@mas-ccd @suggested-card @commerce @smoke @regression @milo',
     },
     {
@@ -97,7 +97,7 @@ module.exports = {
         iconUrl: '',
         background: 'media_1d63dab9ee1edbf371d6f0548516c9e12b3ea3ff4.png',
       },
-      browserParams: '?theme=dark',
+      browserParams: '?theme=darkest',
       tags: '@mas-ccd @suggested-card @commerce @smoke @regression @milo',
     },
     {
@@ -114,7 +114,7 @@ module.exports = {
         background: 'media_1d63dab9ee1edbf371d6f0548516c9e12b3ea3ff4.png',
         iconUrl: '',
       },
-      browserParams: '?theme=dark',
+      browserParams: '?theme=darkest',
       tags: '@mas-ccd @suggested-card @commerce @smoke @regression @milo',
     },
     {
@@ -134,7 +134,7 @@ module.exports = {
         background: 'media_196e39eda2ba7ce0343ec138f3e3e41e5adcb787f.png',
         iconUrl: '',
       },
-      browserParams: '?theme=dark',
+      browserParams: '?theme=darkest',
       tags: '@mas-ccd @suggested-card @commerce @smoke @regression @milo',
     },
     {
@@ -151,7 +151,7 @@ module.exports = {
         background: 'media_196e39eda2ba7ce0343ec138f3e3e41e5adcb787f.png',
         iconUrl: '',
       },
-      browserParams: '?theme=dark',
+      browserParams: '?theme=darkest',
       tags: '@mas-ccd @suggested-card @commerce @smoke @regression @milo',
     },
     // SLICE CARDS - SINGLE WIDTH
@@ -171,7 +171,7 @@ module.exports = {
         ctadDaaLL: 'buy-now-1',
         ctaAnalyticsId: 'buy-now',
       },
-      browserParams: '?theme=dark',
+      browserParams: '?theme=darkest',
       tags: '@mas-ccd @slice-card @slice-single @commerce @smoke @regression @milo',
     },
     {
@@ -188,7 +188,7 @@ module.exports = {
         iconLink1: 'https://www.adobe.com/products/photoshop.html',
         iconLink2: 'https://www.adobe.com/products/photoshop-lightroom.html',
       },
-      browserParams: '?theme=dark',
+      browserParams: '?theme=darkest',
       tags: '@mas-ccd @slice-card @slice-single @commerce @smoke @regression @milo',
     },
     {
@@ -206,7 +206,7 @@ module.exports = {
         background: 'media_1526ec63ba66eead46d7bde733ac7c4e994d829f1.png',
         // iconLink: '',
       },
-      browserParams: '?theme=dark',
+      browserParams: '?theme=darkest',
       tags: '@mas-ccd @slice-card @slice-single @commerce @smoke @regression @milo',
     },
     {
@@ -224,7 +224,7 @@ module.exports = {
         background: 'media-1508e7aec70760ac0ac13d9152f8030c1b67f70bf.png',
         // iconLink: '',
       },
-      browserParams: '?theme=dark',
+      browserParams: '?theme=darkest',
       tags: '@mas-ccd @slice-card @slice-single @commerce @smoke @regression @milo',
     },
     {
@@ -241,7 +241,7 @@ module.exports = {
         background: '2024-10-16-17-03-43.jpg',
         // iconLink: '',
       },
-      browserParams: '?theme=dark',
+      browserParams: '?theme=darkest',
       tags: '@mas-ccd @slice-card @slice-single @commerce @smoke @regression @milo',
     },
     {
@@ -258,7 +258,7 @@ module.exports = {
         background: 'media_158c1c22b1322dd28d7912d30fb27f29aa79f79b1.png',
         // iconLink: '',
       },
-      browserParams: '?theme=dark',
+      browserParams: '?theme=darkest',
       tags: '@mas-ccd @slice-card @slice-single @commerce @smoke @regression @milo',
     },
     // SLICE CARDS - WIDE (DOUBLE) WIDTH
@@ -277,11 +277,11 @@ module.exports = {
         // iconLink: '',
         cardDaaLH: 'ccsn',
         linkAnalyticsId: 'see-terms',
-        linkDaaLL: 'see-terms-2',
+        linkDaaLL: 'see-terms-1',
         ctaAnalyticsId: 'register-now',
-        ctaDaaLL: 'register-now-1',
+        ctaDaaLL: 'register-now-2',
       },
-      browserParams: '?theme=dark',
+      browserParams: '?theme=darkest',
       tags: '@mas-ccd @slice-card @slice-wide @commerce @smoke @regression @milo',
     },
     {
@@ -299,7 +299,7 @@ module.exports = {
         background: 'media_10bef5ec21c22fd7fe201cb02735082df13bf4960.jpeg',
         // iconLink: '',
       },
-      browserParams: '?theme=dark',
+      browserParams: '?theme=darkest',
       tags: '@mas-ccd @slice-card @slice-wide @commerce @smoke @regression @milo',
     },
     {
@@ -317,7 +317,7 @@ module.exports = {
         background: 'media_10bef5ec21c22fd7fe201cb02735082df13bf4960.jpeg',
         // iconLink: '',
       },
-      browserParams: '?theme=dark',
+      browserParams: '?theme=darkest',
       tags: '@mas-ccd @slice-card @slice-wide @commerce @smoke @regression @milo',
     },
     {
@@ -336,7 +336,7 @@ module.exports = {
         background: 'media_10bef5ec21c22fd7fe201cb02735082df13bf4960.jpeg',
         // iconLink: '',
       },
-      browserParams: '?theme=dark',
+      browserParams: '?theme=darkest',
       tags: '@mas-ccd @slice-card @slice-wide @commerce @smoke @regression @milo',
     },
     {
@@ -354,7 +354,7 @@ module.exports = {
         background: 'media_158c1c22b1322dd28d7912d30fb27f29aa79f79b1.png',
         // iconLink: '',
       },
-      browserParams: '?theme=dark',
+      browserParams: '?theme=darkest',
       tags: '@mas-ccd @slice-card @slice-wide @commerce @smoke @regression @milo',
     },
   ],

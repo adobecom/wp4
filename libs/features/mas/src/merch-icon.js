@@ -28,8 +28,8 @@ export default class MerchIcon extends LitElement {
             --img-width: 32px;
             --img-height: 32px;
             display: block;
-            width: var(--img-width);
-            height: var(--img-height);
+            width: var(--mod-img-width, var(--img-width));
+            height: var(--mod-img-height, var(--img-height));
         }
 
         :host([size='s']) {
@@ -48,8 +48,8 @@ export default class MerchIcon extends LitElement {
         }
 
         img {
-            width: var(--img-width);
-            height: var(--img-height);
+            width: var(--mod-img-width, var(--img-width));
+            height: var(--mod-img-height, var(--img-height));
         }
     `;
 }

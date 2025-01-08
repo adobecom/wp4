@@ -17,7 +17,8 @@
     "lint:css": "stylelint 'libs/blocks/**/*.css' 'libs/styles/*.css'",
     "build:htm-preact": "microbundle ./build/htm-preact.js -o ./libs/deps/htm-preact.js -f modern --no-sourcemap --target web; mv ./libs/deps/htm-preact.modern.mjs ./libs/deps/htm-preact.js",
     "build:preact-debug": "microbundle ./build/htm-preact-debug.js -o ./libs/deps/htm-preact-debug.js -f modern --no-sourcemap --target web; mv ./libs/deps/htm-preact-debug.modern.mjs ./libs/deps/htm-preact-debug.js",
-    "build:gnav-profile": "microbundle ./libs/blocks/global-navigation/blocks/profile/profile-wrapper.js -o ./build/profile-wrapper-build.js -f umd --external none --no-sourcemap --target web; mv ./build/profile-wrapper-build.umd.js ./build/profile.js"
+    "build:gnav-profile": "microbundle ./libs/blocks/global-navigation/blocks/profile/profile-wrapper.js -o ./build/profile-wrapper-build.js -f umd --external none --no-sourcemap --target web; mv ./build/profile-wrapper-build.umd.js ./build/profile.js",
+    "build:echarts": "cp node_modules/echarts/dist/echarts.common.min.js libs/deps/echarts.common.min.js"
   },
   "repository": {
     "type": "git",
@@ -50,6 +51,7 @@
     "chai": "^5.1.1",
     "chalk": "^4.1.2",
     "commander": "^12.1.0",
+    "echarts": "^5.5.1",
     "eslint": "8.11.0",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-nibble": "^8.1.0",

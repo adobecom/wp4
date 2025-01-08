@@ -6,6 +6,7 @@ function handleTopHeight(section) {
   section.style.top = `${headerHeight}px`;
 }
 
+let isFooterStart = false;
 function promoIntersectObserve(el, stickySectionEl, options = {}) {
   const io = new IntersectionObserver((entries, observer) => {
     entries.forEach((entry) => {
@@ -17,7 +18,8 @@ function promoIntersectObserve(el, stickySectionEl, options = {}) {
       const isPromoStart = entry.target === stickySectionEl;
       const abovePromoStart = (isPromoStart && entry.isIntersecting)
         || stickySectionEl?.getBoundingClientRect().y > 0;
-      if (entry.isIntersecting || abovePromoStart) el.classList.add('hide-sticky-section');
+      if (entry.target === document.querySelector('footer')) isFooterStart = entry.isIntersecting;
+      if (entry.isIntersecting || abovePromoStart || isFooterStart) el.classList.add('hide-sticky-section');
       else el.classList.remove('hide-sticky-section');
     });
   }, options);

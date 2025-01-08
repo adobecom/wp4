@@ -13,7 +13,7 @@ export default class MasCCDPage {
     this.suggestedCardDescription = page.locator('div[slot="body-xs"] p').first();
     this.suggestedCardLegalLink = page.locator('div[slot="body-xs"] p > a');
     this.suggestedCardPrice = page.locator('p[slot="price"]');
-    this.suggestedCardCTA = page.locator('div[slot="cta"] > sp-button');
+    this.suggestedCardCTA = page.locator('div[slot="cta"] > button');
     this.suggestedCardCTALink = page.locator('div[slot="cta"] a[is="checkout-link"]');
     // slice cards
     this.sliceCard = page.locator('merch-card[variant="ccd-slice"]');
@@ -21,103 +21,127 @@ export default class MasCCDPage {
     this.sliceCardImage = page.locator('div[slot="image"] img');
     this.sliceCardDescription = page.locator('div[slot="body-s"] p > strong').first();
     this.sliceCardLegalLink = page.locator('div[slot="body-s"] p > a');
-    this.sliceCardCTA = page.locator('div[slot="footer"] > sp-button');
+    this.sliceCardCTA = page.locator('div[slot="footer"] > button');
     this.sliceCardCTALink = page.locator('div[slot="footer"] a[is="checkout-link"]');
 
     // Suggested card properties:
     this.suggestedCssProp = {
       light: {
-        'background-color': 'rgb(248, 248, 248)',
-        'border-bottom-color': 'rgb(230, 230, 230)',
-        'border-left-color': 'rgb(230, 230, 230)',
-        'border-right-color': 'rgb(230, 230, 230)',
-        'border-top-color': 'rgb(230, 230, 230)',
-        'color-scheme': 'light',
+        'background-color': 'rgb(245, 245, 245)',
+        'border-bottom-color': 'rgb(225, 225, 225)',
+        'border-left-color': 'rgb(225, 225, 225)',
+        'border-right-color': 'rgb(225, 225, 225)',
+        'border-top-color': 'rgb(225, 225, 225)',
         width: '305px',
         'min-height': '205px', // change to height when loading fonts is fixed
       },
       dark: {
-        'background-color': 'rgb(34, 34, 34)',
-        'border-bottom-color': 'rgb(70, 70, 70)',
-        'border-left-color': 'rgb(70, 70, 70)',
-        'border-right-color': 'rgb(70, 70, 70)',
-        'border-top-color': 'rgb(70, 70, 70)',
-        'color-scheme': 'dark',
+        'background-color': 'rgb(30, 30, 30)',
+        'border-bottom-color': 'rgb(57, 57, 57)',
+        'border-left-color': 'rgb(57, 57, 57)',
+        'border-right-color': 'rgb(57, 57, 57)',
+        'border-top-color': 'rgb(57, 57, 57)',
         width: '305px',
         'min-height': '205px', // change to height when loading fonts is fixed
       },
       icon: {
         width: '40px',
-        height: '40px',
+        height: '38px',
       },
       title: {
         light: {
-          color: 'rgb(34, 34, 34)',
+          color: 'rgb(44, 44, 44)',
           'font-size': '16px',
           'font-weight': '700',
+          'line-height': '20px',
         },
         dark: {
-          // 'color': 'rgb(248, 248, 248)', // page not consistent with figma
+          color: 'rgb(239, 239, 239)',
           'font-size': '16px',
           'font-weight': '700',
+          'line-height': '20px',
         },
       },
       eyebrow: {
         light: {
-          color: 'rgb(109, 109, 109)',
+          color: 'rgb(110, 110, 110)',
           'font-size': '11px',
           'font-weight': '700',
+          'line-height': '14px',
         },
         dark: {
-          // 'color': 'rgb(248, 248, 248)', // page not consistent with figma
+          color: 'rgb(162, 162, 162)',
           'font-size': '11px',
           'font-weight': '700',
+          'line-height': '14px',
         },
       },
       description: {
         light: {
-          color: 'rgb(70, 70, 70)',
+          color: 'rgb(75, 75, 75)',
           'font-size': '14px',
           'font-weight': '400',
+          'line-height': '21px',
         },
         dark: {
-          color: 'rgb(248, 248, 248)',
+          color: 'rgb(200, 200, 200)',
           'font-size': '14px',
           'font-weight': '400',
+          'line-height': '21px',
         },
       },
       legalLink: {
-        color: 'rgb(20, 122, 243)', // dark mode not consistent with figma
-        'font-size': '12px',
-        'font-weight': '400',
+        light: {
+          color: 'rgb(2, 101, 220)',
+          'font-size': '12px',
+          'font-weight': '400',
+          'line-height': '18px',
+        },
+        dark: {
+          color: 'rgb(94, 170, 247)',
+          'font-size': '12px',
+          'font-weight': '400',
+          'line-height': '18px',
+        },
       },
       price: {
         light: {
           color: 'rgb(34, 34, 34)',
           'font-size': '14px',
           'font-weight': '400',
+          'line-height': '21px',
         },
         dark: {
-          // 'color': 'rgb(248, 248, 248)',  // page not consistent with figma
+          color: 'rgb(248, 248, 248)',
           'font-size': '14px',
           'font-weight': '400',
+          'line-height': '21px',
         },
       },
       strikethroughPrice: {
-        color: 'rgb(109, 109, 109)',
-        'font-size': '14px',
-        'font-weight': '400',
-        'text-decoration-line': 'line-through',
-        'text-decoration-color': 'rgb(109, 109, 109)',
+        light: {
+          color: 'rgb(109, 109, 109)',
+          'font-size': '14px',
+          'font-weight': '400',
+          'text-decoration-line': 'line-through',
+          'text-decoration-color': 'rgb(109, 109, 109)',
+        },
+        dark: {
+          color: 'rgb(176, 176, 176)',
+          'font-size': '14px',
+          'font-weight': '400',
+          'text-decoration-line': 'line-through',
+          'text-decoration-color': 'rgb(176, 176, 176)',
+        },
       },
       cta: {
         light: {
-          // 'color': 'rgb(70, 70, 70)', // page not consistent with figma
+          color: 'rgb(34, 34, 34)',
           'font-size': '14px',
           'font-weight': '700',
         },
         dark: {
-          color: 'rgb(230, 230, 230)',
+          color: 'rgb(235, 235, 235)',
           'font-size': '14px',
           'font-weight': '700',
         },
@@ -139,19 +163,17 @@ export default class MasCCDPage {
         'border-left-color': 'rgb(230, 230, 230)',
         'border-right-color': 'rgb(230, 230, 230)',
         'border-top-color': 'rgb(230, 230, 230)',
-        'color-scheme': 'light',
       },
       dark: {
-        'background-color': 'rgb(34, 34, 34)',
-        'border-bottom-color': 'rgb(70, 70, 70)',
-        'border-left-color': 'rgb(70, 70, 70)',
-        'border-right-color': 'rgb(70, 70, 70)',
-        'border-top-color': 'rgb(70, 70, 70)',
-        'color-scheme': 'dark',
+        'background-color': 'rgb(29, 29, 29)',
+        'border-bottom-color': 'rgb(48, 48, 48)',
+        'border-left-color': 'rgb(48, 48, 48)',
+        'border-right-color': 'rgb(48, 48, 48)',
+        'border-top-color': 'rgb(48, 48, 48)',
       },
       icon: {
         width: '30px',
-        height: '30px',
+        height: '29px',
       },
       badge: {
         'background-color': 'rgb(248, 217, 4)',
@@ -163,12 +185,14 @@ export default class MasCCDPage {
         light: {
           color: 'rgb(34, 34, 34)',
           'font-size': '14px',
-          'font-weight': '700', // fix in the code to be 700 and not strong
+          'font-weight': '700',
+          'line-height': '18px',
         },
         dark: {
-          color: 'rgb(248, 248, 248)',
+          color: 'rgb(235, 235, 235)',
           'font-size': '14px',
           'font-weight': '700',
+          'line-height': '18px',
         },
       },
       legalLink: {
@@ -176,11 +200,13 @@ export default class MasCCDPage {
           color: 'rgb(34, 34, 34)',
           'font-size': '12px',
           'font-weight': '400',
+          'line-height': '18px',
         },
         dark: {
-          // 'color': 'rgb(248, 248, 248)', // page does not match figma
+          color: 'rgb(235, 235, 235)',
           'font-size': '12px',
           'font-weight': '400',
+          'line-height': '18px',
         },
       },
       price: {
@@ -188,19 +214,32 @@ export default class MasCCDPage {
           color: 'rgb(34, 34, 34)',
           'font-size': '14px',
           'font-weight': '700',
+          'line-height': '18px',
         },
         dark: {
-          color: 'rgb(248, 248, 248)',
+          color: 'rgb(235, 235, 235)',
           'font-size': '14px',
           'font-weight': '700',
+          'line-height': '18px',
         },
       },
       strikethroughPrice: {
-        color: 'rgb(109, 109, 109)',
-        'font-size': '14px',
-        'font-weight': '400',
-        'text-decoration-line': 'line-through',
-        'text-decoration-color': 'rgb(109, 109, 109)',
+        light: {
+          color: 'rgb(109, 109, 109)',
+          'font-size': '14px',
+          'font-weight': '400',
+          'line-height': '18px',
+          'text-decoration-color': 'rgb(109, 109, 109)',
+          'text-decoration-line': 'line-through',
+        },
+        dark: {
+          color: 'rgb(176, 176, 176)',
+          'font-size': '14px',
+          'font-weight': '400',
+          'line-height': '18px',
+          'text-decoration-color': 'rgb(176, 176, 176)',
+          'text-decoration-line': 'line-through',
+        },
       },
       cta: {
         light: {
@@ -210,7 +249,7 @@ export default class MasCCDPage {
           'font-weight': '700',
         },
         dark: {
-          'background-color': 'rgb(3, 103, 224)',
+          'background-color': 'rgb(6, 108, 231)',
           color: 'rgb(255, 255, 255)',
           'font-size': '12px',
           'font-weight': '700',
