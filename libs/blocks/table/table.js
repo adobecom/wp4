@@ -530,54 +530,6 @@ function applyStylesBasedOnScreenSize(table, originTable) {
   setRowStyle();
 }
 
-function replaceTooltipSpanWithButtons() {
-  const tooltips = document.querySelectorAll('span.milo-tooltip');
-
-  tooltips.forEach((span) => {
-    // Create a button element
-    const button = document.createElement('button');
-
-    // Copy attributes from span to button
-    Array.from(span.attributes).forEach((attr) => {
-      button.setAttribute(attr.name, attr.value);
-    });
-
-    // Create a unique ID for the descriptive span
-    const uniqueId = `milo-tooltip-description-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-
-    // Create the outer description span
-    const descriptionSpan = document.createElement('span');
-    descriptionSpan.id = uniqueId;
-    descriptionSpan.style.display = 'none'; // Hide the span from visual users
-    descriptionSpan.setAttribute('role', 'tooltip');
-    descriptionSpan.setAttribute('aria-hidden', 'true');
-    // Create the inner span for aria-label
-    const innerLabelSpan = document.createElement('span');
-    const name = span.getAttribute('data-name');
-    if (name) {
-      innerLabelSpan.setAttribute('aria-label', name);
-    }
-    innerLabelSpan.textContent = span.getAttribute('data-tooltip') || 'Additional information';
-
-    // Append the inner span to the outer description span
-    descriptionSpan.appendChild(innerLabelSpan);
-
-    // Link the button to the description span
-    button.setAttribute('aria-describedby', uniqueId);
-
-    // Move child nodes from span to button
-    Array.from(span.childNodes).forEach((child) => {
-      button.appendChild(child);
-    });
-
-    // Replace the original span with the button
-    span.parentNode.replaceChild(button, span);
-
-    // Insert the description span after the button
-    button.parentNode.insertBefore(descriptionSpan, button.nextSibling);
-  });
-}
-
 export default function init(el) {
   el.setAttribute('role', 'table');
   if (el.parentElement.classList.contains('section')) {
@@ -613,7 +565,6 @@ export default function init(el) {
     expandSection = handleSection(sectionParams);
   });
 
-  replaceTooltipSpanWithButtons();
   handleHighlight(el);
   if (isMerch) formatMerchTable(el);
 

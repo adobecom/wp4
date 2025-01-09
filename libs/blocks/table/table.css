@@ -173,8 +173,7 @@
 }
 
 .table .section-row .col.section-row-title,
-.table .section-row .col.section-row-title p,
-.table .section-row .col.section-row-title .milo-tooltip {
+.table .section-row .col.section-row-title p {
   font-size: var(--type-body-s-size);
   line-height: var(--type-body-s-lh);
 }
@@ -322,19 +321,13 @@
   color: var(--color-white);
 }
 
-button.milo-tooltip {
-  background-color: transparent;
-  padding: 0;
-  border: none;
-}
-
 /* icons */
-.table:not(.merch) .row .col button.milo-tooltip {
+.table:not(.merch) .row .col span.milo-tooltip {
   margin-left: var(--spacing-xs);
   margin-right: 0;
 }
 
-[dir='rtl'] .table:not(.merch) .row .col button.milo-tooltip {
+[dir='rtl'] .table:not(.merch) .row .col span.milo-tooltip {
   margin-left: 0;
   margin-right: var(--spacing-xs);
 }
@@ -404,8 +397,7 @@ button.milo-tooltip {
   margin-left: 16px;
 }
 
-[dir="rtl"] .section-row-title .milo-tooltip:is(.top, .bottom, .left, .right)::before,
-[dir="rtl"] .section-row-title .milo-tooltip:is(.top, .bottom, .left, .right):focus::before {
+[dir="rtl"] .section-row-title .milo-tooltip:is(.top, .bottom, .left, .right)::before {
   left: initial;
   margin: 0 12px 0 0;
   right: 100%;
@@ -413,8 +405,7 @@ button.milo-tooltip {
   transform: translateY(-50%);
 }
 
-[dir="rtl"] .section-row-title .milo-tooltip:is(.top, .bottom, .left, .right)::after,
-[dir="rtl"] .section-row-title .milo-tooltip:is(.top, .bottom, .left, .right):focus::after {
+[dir="rtl"] .section-row-title .milo-tooltip:is(.top, .bottom, .left, .right)::after {
   left: -8px;
   margin: 0 4px 0 -4px;
   top: 50%;
@@ -695,8 +686,7 @@ button.milo-tooltip {
     background-color: var(--color-gray-100);
   }
 
-  .section-row-title .milo-tooltip:is(.top, .bottom, .left, .right)::before,
-  .section-row-title .milo-tooltip:is(.top, .bottom, .left, .right):focus::before {
+  .section-row-title .milo-tooltip:is(.top, .bottom, .left, .right)::before {
     left: initial;
     margin: 0 12px 0 0;
     right: 100%;
@@ -704,8 +694,7 @@ button.milo-tooltip {
     transform: translateY(-50%);
   }
 
-  .section-row-title .milo-tooltip:is(.top, .bottom, .left, .right)::after,
-  .section-row-title .milo-tooltip:is(.top, .bottom, .left, .right):focus::after {
+  .section-row-title .milo-tooltip:is(.top, .bottom, .left, .right)::after {
     left: -8px;
     margin: 0 4px 0 -4px;
     top: 50%;
@@ -714,15 +703,13 @@ button.milo-tooltip {
     border-color: transparent transparent transparent #0469E3;
   }
 
-  [dir="rtl"] .section-row-title .milo-tooltip:is(.top, .bottom, .left, .right)::before,
-  [dir="rtl"] .section-row-title .milo-tooltip:is(.top, .bottom, .left, .right):focus::before {
+  [dir="rtl"] .section-row-title .milo-tooltip:is(.top, .bottom, .left, .right)::before {
     left: 100%;
     margin: 0 0 0 12px;
     right: initial;
   }
 
-  [dir="rtl"] .section-row-title .milo-tooltip:is(.top, .bottom, .left, .right)::after,
-  [dir="rtl"] .section-row-title .milo-tooltip:is(.top, .bottom, .left, .right):focus::after {
+  [dir="rtl"] .section-row-title .milo-tooltip:is(.top, .bottom, .left, .right)::after {
     border-color: transparent #0469E3 transparent transparent;
     left: 100%;
     margin: 0 0 0 -4px;
