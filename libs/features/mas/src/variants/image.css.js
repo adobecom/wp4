@@ -1,4 +1,4 @@
-import { TABLET_UP, DESKTOP_UP, LARGE_DESKTOP,} from '../media.js';
+import { TABLET_UP, DESKTOP_UP, } from '../media.js';
 export const CSS = `
 :root {
   --consonant-merch-card-image-width: 300px;
@@ -22,17 +22,15 @@ export const CSS = `
 @media screen and ${DESKTOP_UP} {
   :root {
     --consonant-merch-card-image-width: 378px;
+    --consonant-merch-card-image-width-4clm: 276px;
   }
     
-  .three-merch-cards.image,
-  .four-merch-cards.image {
+  .three-merch-cards.image {
       grid-template-columns: repeat(3, var(--consonant-merch-card-image-width));
   }
-}
 
-@media screen and ${LARGE_DESKTOP} {
   .four-merch-cards.image {
-      grid-template-columns: repeat(4, var(--consonant-merch-card-image-width));
+      grid-template-columns: repeat(4, var(--consonant-merch-card-image-width-4clm));
   }
 }
 `;
