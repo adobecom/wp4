@@ -1,5 +1,12 @@
 @import '../../styles/inline.css';
 
+.mmm-page_item-subtext {
+  position: absolute;
+  font-size: 12px;
+  bottom: 3px;
+  left: 16px;
+  color: #505050;
+}
 .mmm-container {
   padding: var(--spacing-m) 0;
 }

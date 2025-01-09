@@ -2,7 +2,7 @@ import { createTag } from '../../utils/utils.js';
 import { getMetadata, getDelayTime } from './section-metadata.js';
 
 function handleTopHeight(section) {
-  const headerHeight = document.querySelector('header').offsetHeight;
+  const headerHeight = document.querySelector('header')?.offsetHeight ?? 0;
   section.style.top = `${headerHeight}px`;
 }
 
@@ -35,6 +35,7 @@ function handleStickyPromobar(section, delay) {
   if ((section.querySelector(':is(.promobar, .notification)').classList.contains('no-delay'))
     || (delay && section.classList.contains('popup'))) {
     hasScrollControl = true;
+    section.classList.remove('hide-sticky-section');
   }
   if (!hasScrollControl && main.children[0] !== section) {
     stickySectionEl = createTag('div', { class: 'section show-sticky-section' });
@@ -53,6 +54,7 @@ export default async function handleStickySection(sticky, section) {
     case 'sticky-top': {
       const { debounce } = await import('../../utils/action.js');
       window.addEventListener('resize', debounce(() => handleTopHeight(section)));
+      handleTopHeight(section);
       main.prepend(section);
       break;
     }

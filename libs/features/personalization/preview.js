@@ -74,16 +74,18 @@ function addPillEventListeners(div) {
 export function parsePageAndUrl(config, windowLocation, prefix) {
   const { stageDomainsMap, env } = config;
   const { pathname, origin } = windowLocation;
-  if (env?.name === 'prod' || !stageDomainsMap) {
-    return { page: pathname.replace(`/${prefix}/`, '/'), url: `${origin}${pathname}` };
-  }
-  let path = pathname;
-  let domain = origin;
   const allowedHosts = [
     'business.stage.adobe.com',
     'www.stage.adobe.com',
     'milo.stage.adobe.com',
   ];
+  if (env?.name === 'prod' || !stageDomainsMap
+    || allowedHosts.includes(origin.replace('https://', ''))) {
+    const domain = origin.replace('stage.adobe.com', 'adobe.com');
+    return { page: pathname.replace(`/${prefix}/`, '/'), url: `${domain}${pathname}` };
+  }
+  let path = pathname;
+  let domain = origin;
   const domainCheck = Object.keys(stageDomainsMap)
     .find((key) => {
       try {
@@ -353,7 +355,8 @@ function addHighlightData(manifests) {
 }
 export async function saveToMmm() {
   const data = parseMepConfig();
-  if (data.page.url.includes('/drafts/')) return false;
+  const excludedStrings = ['/drafts/', '.stage.', '.page/', '.live/', '/fragments/', '/nala/'];
+  if (excludedStrings.some((str) => data.page.url.includes(str))) return false;
   data.activities = data.activities.filter((activity) => {
     const { url, source } = activity;
     activity.source = source.filter((item) => item !== 'mep param');

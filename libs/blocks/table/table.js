@@ -19,7 +19,7 @@ function defineDeviceByScreenSize() {
   return 'TABLET';
 }
 
-function isStickyHeader(el) {
+export function isStickyHeader(el) {
   return el.classList.contains('sticky')
     || (el.classList.contains('sticky-desktop-up') && defineDeviceByScreenSize() === 'DESKTOP')
     || (el.classList.contains('sticky-tablet-up') && defineDeviceByScreenSize() !== 'MOBILE' && !isMobileLandscape());
@@ -150,6 +150,7 @@ function handleAddOnContent(table) {
     });
   });
   setTimeout(() => handleEqualHeight(table, '.row-heading'), 0);
+  table.addEventListener('mas:resolved', debounce(() => { handleEqualHeight(table, '.row-heading'); }));
 }
 
 function handleHighlight(table) {

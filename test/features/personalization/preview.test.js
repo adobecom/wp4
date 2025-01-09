@@ -148,6 +148,13 @@ describe('preview feature', () => {
     expect(url).to.equal('https://www.adobe.com/fr/products/photoshop.html');
     expect(page).to.equal('/products/photoshop.html');
   });
+  it('parse url and page for no stage map', () => {
+    config.env.name = 'stage';
+    delete config.stageDomainsMap;
+    const { url, page } = parsePageAndUrl(config, new URL('https://www.stage.adobe.com/events/2024-10-31.html'), '');
+    expect(url).to.equal('https://www.adobe.com/events/2024-10-31.html');
+    expect(page).to.equal('/events/2024-10-31.html');
+  });
   it('opens manifest', () => {
     document.querySelector('a.mep-edit-manifest').click();
   });

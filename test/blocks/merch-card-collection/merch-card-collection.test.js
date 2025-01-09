@@ -165,6 +165,12 @@ describe('Merch Cards', async () => {
     expect(merchCards.outerHTML).to.equal(merchCards.nextElementSibling.outerHTML);
   });
 
+  it('should parse literals 4 translation too', async () => {
+    const merchCards = await init(document.getElementById('literals-4-translation'));
+    await delay(500);
+    expect(merchCards.outerHTML).to.equal(merchCards.nextElementSibling.outerHTML);
+  });
+
   it('should override cards when asked to', async () => {
     const el = document.getElementById('multipleFilters');
     setConfig({

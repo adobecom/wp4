@@ -86,6 +86,11 @@ header.global-navigation {
   z-index: 1;
 }
 
+/* Product Entry CTA */
+.feds-product-entry-cta{
+  align-items: center;
+}
+
 /* Hamburger toggle */
 .feds-toggle {
   width: 60px;
@@ -486,6 +491,12 @@ header.global-navigation {
 [dir = "rtl"] #feds-googleLogin {
   left: 0;
   right: auto;
+}
+
+@media (max-width: 900px) {
+  .feds-product-entry-cta {
+    display: none;
+  }
 }
 
 /* Desktop styles */

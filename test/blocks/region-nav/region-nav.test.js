@@ -1,9 +1,9 @@
 import { readFile } from '@web/test-runner-commands';
 import { expect } from '@esm-bundle/chai';
 import sinon from 'sinon';
-import { setConfig, getConfig } from '../../../libs/utils/utils.js';
+import { setConfig, getConfig, createTag } from '../../../libs/utils/utils.js';
 
-import init from '../../../libs/blocks/region-nav/region-nav.js';
+import init, { decorateLink } from '../../../libs/blocks/region-nav/region-nav.js';
 
 document.body.innerHTML = await readFile({ path: './mocks/regions.html' });
 
@@ -103,5 +103,66 @@ describe('Region Nav Block', () => {
     chfrLink.click();
     await clock.runAllAsync();
     expect(window.open.calledWith(chfrPrefix)).to.be.true;
+  });
+
+  it('replaces the prefix with the mapped value when prefix is NOT in locales but is in languageMap', () => {
+    setConfig({
+      languageMap: {
+        ar: 'es',
+        at: 'de',
+      },
+      locales: {
+        '': { ietf: 'en-US', tk: 'hah7vzn.css' },
+        africa: { ietf: 'en', tk: 'hah7vzn.css' },
+        // Notice we do NOT include 'ar' or 'at' here so that prefix is considered "not in locales".
+      },
+    });
+
+    const link = createTag('a', { href: 'https://adobe.com/ar/' });
+    decorateLink(link, '/path/to/some/page');
+
+    // Assert that the href has been transformed from '/ar/' to '/es/' due to languageMap
+    expect(link.href).to.equal('https://adobe.com/es/path/to/some/page');
+  });
+
+  it('removes the prefix when prefix is NOT in locales and has an empty mapping in languageMap', () => {
+    setConfig({
+      languageMap: {
+        ae_ar: '',
+        ae_en: '',
+        africa: '',
+        ar: '',
+      },
+      locales: { '': { ietf: 'en-US', tk: 'hah7vzn.css' } },
+    });
+
+    const link = createTag('a', { href: 'https://adobe.com/ar/' });
+    decorateLink(link, '/some-page');
+
+    // Because `ar` is mapped to an empty string, the code replaces `"/ar"` with `""`
+    expect(link.href).to.equal('https://adobe.com/some-page');
+  });
+
+  it('does NOT modify href if prefix is in locales (even if present in languageMap)', () => {
+    setConfig({
+      languageMap: { ar: 'es' },
+      locales: { '': { ietf: 'en-US', tk: 'hah7vzn.css' }, ar: { ietf: 'ar', tk: 'lpk1hwn.css', dir: 'rtl' } }, // Now "ar" is a valid locale
+    });
+
+    const link = createTag('a', { href: 'https://adobe.com/ar/some-page' });
+    decorateLink(link, '');
+
+    // Since 'ar' is in locales, we should NOT transform
+    expect(link.href).to.equal('https://adobe.com/ar/some-page');
+  });
+
+  it('does nothing if no languageMap is defined', () => {
+    setConfig({ });
+
+    const link = createTag('a', { href: 'https://adobe.com/ar/some-page' });
+    decorateLink(link, '');
+
+    // No languageMap means no transformation
+    expect(link.href).to.equal('https://adobe.com/ar/some-page');
   });
 });

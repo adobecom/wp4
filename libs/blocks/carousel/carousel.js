@@ -1,5 +1,5 @@
 import { createTag, getConfig, MILO_EVENTS } from '../../utils/utils.js';
-import { decorateAnchorVideo } from '../../utils/decorate.js';
+import { decorateAnchorVideo, syncPausePlayIcon } from '../../utils/decorate.js';
 
 const { miloLibs, codeRoot } = getConfig();
 const base = miloLibs || codeRoot;
@@ -134,8 +134,9 @@ function jumpToDirection(activeSlideIndex, jumpToIndex, slideContainer) {
 function checkSlideForVideo(activeSlide) {
   const video = activeSlide.querySelector('video');
   /* c8 ignore start */
-  if (video?.played.length > 0) {
+  if (video?.played.length > 0 && !video?.paused) {
     video.pause();
+    syncPausePlayIcon(video);
   }
   /* c8 ignore end */
 }

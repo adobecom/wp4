@@ -752,7 +752,7 @@
   }
 
   .aside .split-image .modal-img-link,
-  .aside.split .split-image img,
+  .aside.split .split-image img:not(.accessibility-control),
   .aside.split .split-image video {
     width: 50vw;
     position: absolute;

@@ -26,11 +26,16 @@ async function toggleDrawer(target, dd) {
   }
 }
 function createButtonDetailsPair(mmmEl, page) {
-  const { url, pageId } = page;
+  const { url, pageId, numOfActivities } = page;
   const triggerId = `mmm-trigger-${pageId}`;
   const panelId = `mmm-content-${pageId}`;
   const icon = createTag('span', { class: 'mmm-icon' });
   const hTag = createTag('h5', false, url);
+  const activitiesNum = createTag(
+    'span',
+    { class: 'mmm-page_item-subtext' },
+    `${numOfActivities} Manifest(s) found`,
+  );
   const button = createTag('button', {
     type: 'button',
     id: triggerId,
@@ -39,6 +44,7 @@ function createButtonDetailsPair(mmmEl, page) {
     'aria-controls': panelId,
   }, hTag);
   button.append(icon);
+  button.append(activitiesNum);
 
   const dtHtml = hTag ? createTag(hTag.tagName, { class: 'mmm-heading' }, button) : button;
   const dt = createTag('dt', false, dtHtml);

@@ -30,14 +30,6 @@ const opticalPriceDivisors = {
 };
 
 /**
- * Special per-currency handling rules for optical prices.
- * @type { { [currencyCode: string]: (opticalPrice: number) => number } }
- */
-const opticalPriceCurrencyRules = {
-    CHF: (opticalPrice) => Math.round(opticalPrice * 20) / 20,
-};
-
-/**
  * Creates and returns a rule for rounding optical prices based on price characteristics.
  * @param { ({ price: number, divisor: number, usePrecision: boolean }) => boolean } accept
  * A function returning true if this rule should be applied to the price being rounded.
@@ -59,8 +51,7 @@ const opticalPriceRoundingRules = [
     opticalPriceRoundingRule(
         // round optical price up to 2 decimals
         ({ usePrecision }) => usePrecision,
-        ({ divisor, price }) =>
-            Math.ceil(Math.floor((price * 10000) / divisor) / 100) / 100
+      ({ divisor, price }) => Math.round((price / divisor) * 100.0) / 100.0
     ),
     opticalPriceRoundingRule(
         // round optical price up to integer
@@ -235,7 +226,7 @@ const formatOpticalPrice = (data) => {
         divisor > 1
             ? RecurrenceTerm.MONTH
             : recurrenceTerms[commitment]?.[term],
-        (price, { currencySymbol }) => {
+        (price) => {
             const priceData = {
                 divisor,
                 price,
@@ -248,9 +239,7 @@ const formatOpticalPrice = (data) => {
                 throw new Error(
                     `Missing rounding rule for: ${JSON.stringify(priceData)}`
                 );
-            const adapt =
-                opticalPriceCurrencyRules[currencySymbol] ?? ((value) => value);
-            return adapt(round(priceData));
+            return round(priceData);
         }
     );
 };

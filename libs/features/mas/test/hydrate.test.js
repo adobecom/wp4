@@ -340,8 +340,8 @@ describe('processBackgroundImage', () => {
     });
 
     it('should not process background image when fields.backgroundImage is falsy', () => {
-        const fields = { backgroundImage: null };
-        const backgroundImageConfig = { tag: 'div', slot: 'background' };
+        const fields = { backgroundImage: null, backgroundImageAltText: 'Test Image' };
+        const backgroundImageConfig = { tag: 'div', slot: 'image' };
         const variant = 'ccd-slice';
 
         processBackgroundImage(
@@ -356,8 +356,8 @@ describe('processBackgroundImage', () => {
     });
 
     it('should append background image for ccd-slice variant', () => {
-        const fields = { backgroundImage: 'test-image.jpg' };
-        const backgroundImageConfig = { tag: 'div', slot: 'background' };
+        const fields = { backgroundImage: 'test-image.jpg', backgroundImageAltText: 'Test Image' };
+        const backgroundImageConfig = { tag: 'div', slot: 'image' };
         const variant = 'ccd-slice';
 
         processBackgroundImage(
@@ -368,13 +368,13 @@ describe('processBackgroundImage', () => {
         );
 
         expect(merchCard.outerHTML).to.equal(
-            '<div><div slot="background"><img loading="lazy" src="test-image.jpg"></div></div>',
+            '<div><div slot="image"><img loading="lazy" src="test-image.jpg" alt="Test Image"></div></div>',
         );
     });
 
     it('should set background-image attribute for ccd-suggested variant', () => {
         const fields = { backgroundImage: 'test-image.jpg' };
-        const backgroundImageConfig = { tag: 'div', slot: 'background' };
+        const backgroundImageConfig = { attribute: 'background-image' };
         const variant = 'ccd-suggested';
 
         processBackgroundImage(
@@ -387,22 +387,6 @@ describe('processBackgroundImage', () => {
         expect(merchCard.outerHTML).to.equal(
             '<div background-image="test-image.jpg"></div>',
         );
-    });
-
-    it('should not process background image for unknown variant', () => {
-        const fields = { backgroundImage: 'test-image.jpg' };
-        const backgroundImageConfig = { tag: 'div', slot: 'background' };
-        const variant = 'unknown-variant';
-
-        processBackgroundImage(
-            fields,
-            merchCard,
-            backgroundImageConfig,
-            variant,
-        );
-
-        expect(merchCard.append.called).to.be.false;
-        expect(merchCard.outerHTML).to.equal('<div></div>');
     });
 
     it('should not append background image for ccd-slice when backgroundImageConfig is falsy', () => {

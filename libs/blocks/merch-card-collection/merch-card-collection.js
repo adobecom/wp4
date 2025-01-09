@@ -5,7 +5,9 @@ import {
 } from '../../utils/utils.js';
 import { replaceText } from '../../features/placeholders.js';
 
-const DIGITS_ONLY = /^\d+$/;
+const DIGITS_ONLY = /^\/?\d+\/?$/;
+const FILTER_REGEX = /(filter|\/filter\/)/;
+const SEARCH_REGEX = /search|\/search\//;
 export const OVERRIDE_PATHS = 'overrides';
 
 const LITERAL_SLOTS = [
@@ -275,14 +277,14 @@ export default async function init(el) {
     ? el.lastElementChild : el.lastElementChild?.firstElementChild;
   // parse literals
   const literalSlots = [];
-  if (/filter/.test(literalsEl?.querySelector('u')?.innerText)) {
-    literalsEl?.querySelectorAll('u').forEach((u) => {
+  if (literalsEl && FILTER_REGEX.test(literalsEl.querySelector('u')?.innerText)) {
+    literalsEl.querySelectorAll('u').forEach((u) => {
       const text = u.innerText.trim();
       if (DIGITS_ONLY.test(text)) {
         u.outerHTML = '<span data-placeholder="resultCount"></span>';
-      } else if (text === 'search') {
+      } else if (SEARCH_REGEX.test(text)) {
         u.outerHTML = '<span data-placeholder="searchTerm"></span>';
-      } else if (text === 'filter') {
+      } else if (FILTER_REGEX.test(text)) {
         u.outerHTML = '<span data-placeholder="filter"></span>';
       }
     });

@@ -33,7 +33,7 @@ describe('MMM', () => {
     expect(mmmDl).to.exist;
     const mmmDt = mmmDl.querySelectorAll('dt');
     expect(mmmDt.length).to.equal(5);
-    expect(mmmDt[0].textContent).to.equal('https://www.adobe.com/');
+    expect(mmmDt[0].textContent).to.equal('https://www.adobe.com/1 Manifest(s) found');
     const mmmDd = mmmDl.querySelectorAll('dd');
     expect(mmmDd.length).to.equal(5);
     const loading = mmmDd[0].querySelector('.loading');
