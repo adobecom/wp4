@@ -4,8 +4,7 @@
   border-bottom: none;
 }
 
-.milo-tooltip::before,
-.milo-tooltip:focus::before { 
+.milo-tooltip::before { 
   content: attr(data-tooltip);
   position: absolute;
   top: 50%;
@@ -22,8 +21,7 @@
   z-index: 10;
 }
 
-.milo-tooltip::after,
-.milo-tooltip:focus::after {
+.milo-tooltip::after {
   content: "";
   position: absolute;
   left: 100%;
