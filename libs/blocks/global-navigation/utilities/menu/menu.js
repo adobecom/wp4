@@ -332,14 +332,13 @@ const decorateMenu = (config) => logErrorFor(async () => {
         config.template.classList.remove(selectors.deferredActiveNavItem.slice(1));
       };
 
+      config.template.classList.add(selectors.activeNavItem.slice(1));
       if (isDesktop.matches) {
         config.template.style.width = `${config.template.offsetWidth}px`;
         config.template.classList.add(selectors.deferredActiveNavItem.slice(1));
         isDesktop.addEventListener('change', resetActiveState, { once: true });
         window.addEventListener('feds:navOverflow', resetActiveState, { once: true });
       }
-
-      config.template.classList.add(selectors.activeNavItem.slice(1));
     }
 
     config.template.classList.add('feds-navItem--megaMenu');
