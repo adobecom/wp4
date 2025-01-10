@@ -584,7 +584,6 @@ const FilterPanel = ({ tagsData }) => {
     <${Input} label="Show Empty Filters" prop="filtersShowEmpty" type="checkbox" />
     <${Select} label="Filter Location" prop="filterLocation" options=${defaultOptions.filterLocation} />
     <${Select} label="Filter logic within each tag panel" prop="filterLogic" options=${defaultOptions.filterLogic} />
-    <${DropdownSelect} id="filterEvent" options=${defaultOptions.filterEvent} prop="filterEvent" label="Event Filter" />
     <${Select} label="Automatic or Custom Panel" prop="filterBuildPanel" options=${defaultOptions.filterBuildPanel} />
   `;
 
@@ -636,6 +635,7 @@ const FilterPanel = ({ tagsData }) => {
   `;
 
   return html`
+    <${DropdownSelect} id="filterEvent" options=${defaultOptions.filterEvent} prop="filterEvent" label="Event Filter" />
     <${Input} label="Show Filters" prop="showFilters" type="checkbox" />
     ${state.showFilters
       && (state.filterBuildPanel === 'custom'
