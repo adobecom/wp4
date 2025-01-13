@@ -87,8 +87,7 @@ function decorateBrickIconStack(el) {
     if (!liTxt || (liTxt === aTxt)) return;
     const pic = liEl.querySelector('picture');
     // TODO: Remove after bugfix PR adobe/helix-html2md#556 is merged
-    const pElements = liEl.querySelectorAll('p');
-    pElements.forEach((pElement) => {
+    liEl.querySelectorAll('p').forEach((pElement) => {
       while (pElement.firstChild) {
         pElement.parentNode.insertBefore(pElement.firstChild, pElement);
       }

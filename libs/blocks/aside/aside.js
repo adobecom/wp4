@@ -222,8 +222,7 @@ function decorateLayout(el) {
     if (icnStk) {
       const liELs = icnStk.querySelectorAll('li');
       [...liELs].forEach((liEl) => {
-        const pElements = liEl.querySelectorAll('p');
-        pElements.forEach((pElement) => {
+        liEl.querySelectorAll('p').forEach((pElement) => {
           while (pElement.firstChild) {
             pElement.parentNode.insertBefore(pElement.firstChild, pElement);
           }

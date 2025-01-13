@@ -455,8 +455,7 @@ export default async function init(el) {
   const liELs = el.querySelectorAll('ul li');
   if (liELs) {
     [...liELs].forEach((liEl) => {
-      const pElements = liEl.querySelectorAll('p');
-      pElements.forEach((pElement) => {
+      liEl.querySelectorAll('p').forEach((pElement) => {
         while (pElement?.firstChild) {
           pElement.parentNode.insertBefore(pElement.firstChild, pElement);
         }
