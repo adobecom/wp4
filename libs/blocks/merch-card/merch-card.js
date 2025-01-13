@@ -452,7 +452,7 @@ const addStartingAt = async (styles, merchCard) => {
 export default async function init(el) {
   if (!el.querySelector(INNER_ELEMENTS_SELECTOR)) return el;
   // TODO: Remove after bugfix PR adobe/helix-html2md#556 is merged
-  const liELs = el.querySelector('ul')?.querySelectorAll('li');
+  const liELs = el.querySelectorAll('ul li');
   if (liELs) {
     [...liELs].forEach((liEl) => {
       const pElements = liEl.querySelectorAll('p');
