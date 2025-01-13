@@ -112,7 +112,7 @@ async function getPathModal(path, dialog) {
 }
 
 export async function getModal(details, custom) {
-  if (!((details?.path && details?.id) || custom?.id)) return null;
+  if (!((details?.path && details?.id) || custom)) return null;
   const { id } = details || custom;
 
   dialogLoadingSet.add(id);
