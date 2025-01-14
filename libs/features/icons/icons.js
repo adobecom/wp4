@@ -49,7 +49,6 @@ function decorateToolTip(icon) {
   icon.setAttribute('tabindex', '0');
   icon.setAttribute('role', 'button');
   icon.setAttribute('aria-label', content);
-  icon.setAttribute('aria-describedby', content);
   wrapper.parentElement.replaceChild(icon, wrapper);
 }
 
