@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Adobe Home Gallery</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="spectrum.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://p.typekit.net/p.css?s=1&k=hah7vzn&ht=tk&f=7180.7181.7182.7183.22474.22749.22750.22751.22753&a=8634977&app=typekit&e=css">
+    <link rel="stylesheet" href="https://use.typekit.net/hah7vzn.css">
+    <script src="/libs/deps/lit-all.min.js" type="module"></script>
+
+    <script>
+      const ENVS = {
+        qa: 'qa-odin',
+        stage: 'stage-odin',
+        prod: 'odin',
+      };
+      const href = window.location.href;
+      const envOverride = new URL(href).searchParams.get('aem.env');
+      const env =
+        envOverride && ENVS[envOverride]
+          ? ENVS[envOverride]
+          : ENVS.prod;
+      const meta = document.createElement('meta');
+      meta.name = 'aem-base-url';
+      meta.content = `https://${env}.adobe.com`;
+      document.head.appendChild(meta);
+
+      const params = new URLSearchParams(document.location.search);
+      function toggleTheme(theme) {
+        document.body.className = 'spectrum spectrum--medium';
+        document.body.classList.add(`spectrum--${theme}`);
+        params.set('theme', theme);
+        history.replaceState(null, '', `${location.pathname}?${params}`);
+      }
+    </script>
+    <script type="module" src="../dist/mas.js"></script>
+
+    <script type="module">
+      // mas-commerce-service
+      const masCommerceService = document.createElement('mas-commerce-service');
+      ['locale','language','env'].forEach((attribute) => {
+        const value = params.get(attribute);
+        if (value) masCommerceService.setAttribute(attribute, value);
+      });
+      masCommerceService.setAttribute('host-env', 'prod');
+      masCommerceService.setAttribute('lana-tags', 'ah');
+      masCommerceService.setAttribute('lana-sample-rate', '100'); // optional, default value is set to '1'
+      document.head.appendChild(masCommerceService);
+    </script>
+</head>
+
+<body class="spectrum spectrum--medium spectrum--light">
+  <main>
+      <div class="gallery-content">
+        <h1 id="ah-gallery" tabindex="-1">Adobe Home Gallery <a class="header-anchor" href="#ah-gallery" title="Permalink to this heading">#</a></h1>
+        <!--
+        ToDo: Implement theme switch once dark theme designs are ready
+        Switch Theme: <a class="spectrum-Link pectrum-Link--secondary" href="javascript:toggleTheme('darkest');">Darkest</a> OR <a class="spectrum-Link pectrum-Link--secondary" href="javascript:toggleTheme('light');">Light</a> -->
+        
+        <div class="adobe-home-container">
+            <h2 id="ah-pricing-widget" tabindex="-1">Adobe Home Pricing Widget <a class="header-anchor" href="#ah-pricing-widget" title="Permalink to this heading">#</a></h2>
+            <div class="three-merch-cards ah-pricing-widget">
+                <merch-card><aem-fragment fragment="44520fdc-f6e1-4c21-8978-9cd25a1be158"></aem-fragment></merch-card>
+                <merch-card><aem-fragment fragment="dc4605b3-64ec-4b21-981a-b363835abe0d"></aem-fragment></merch-card>
+                <merch-card><aem-fragment fragment="dca47eeb-eab3-4000-84ad-c70d41ba2b01"></aem-fragment></merch-card>
+            </div>
+          </div>
+      </div>
+  </main>
+  <script>
+      const theme = params.get('theme');
+      if (theme) toggleTheme(theme);
+  </script>
+</body>
+</html>

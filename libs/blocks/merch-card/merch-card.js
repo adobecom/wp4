@@ -77,6 +77,7 @@ export async function loadMnemonicList(foreground) {
   try {
     const { base } = getConfig();
     const stylePromise = new Promise((resolve) => {
+      /* c8 ignore next */
       loadStyle(`${base}/blocks/mnemonic-list/merch-mnemonic-list.css`, resolve);
     });
     const loadModule = import(`${base}/blocks/mnemonic-list/mnemonic-list.js`)
