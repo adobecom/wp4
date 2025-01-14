@@ -13,6 +13,10 @@ import { updateConfig as updateLanaConfig } from './lana.js';
 
 export const TAG_NAME_SERVICE = 'mas-commerce-service';
 
+
+const MARK_START = 'mas:start';
+const MARK_READY = 'mas:ready';
+
 /**
  * Custom web component to provide active instance of commerce service
  * to consumers, appended to the head section of current document.
@@ -138,12 +142,14 @@ export class MasCommerceService extends HTMLElement {
                 cancelable: false,
                 detail: this,
             });
+            performance.mark(MARK_READY);
             this.dispatchEvent(event);
         });
     }
 
     connectedCallback() {
         if (!this.readyPromise) {
+            performance.mark(MARK_START);
             this.readyPromise = this.activate();
         }
     }

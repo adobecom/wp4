@@ -280,7 +280,7 @@ export async function hydrate(fragment, merchCard) {
     const { fields } = fragment;
     const { variant } = fields;
     if (!variant) return;
-
+    merchCard.id = fragment.id;
     // remove all previous slotted content except the default slot
     merchCard.querySelectorAll('[slot]').forEach((el) => {
         el.remove();

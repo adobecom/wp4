@@ -16,6 +16,7 @@ async function loadFragments(el, experiences) {
   }
   document.querySelectorAll('main > div, .quiz-results').forEach((quiz) => quiz.removeAttribute('daa-lh'));
   document.querySelectorAll('.quiz-results.basic > .fragment > .section').forEach((section, idx) => decorateSectionAnalytics(section, idx, getConfig()));
+  if (el.getAttribute('role') === 'list') document.querySelectorAll('.nested[role=list] > .fragment').forEach((fragment) => fragment.setAttribute('role', 'listitem'));
 }
 
 function redirectPage(quizUrl, debug, message) {

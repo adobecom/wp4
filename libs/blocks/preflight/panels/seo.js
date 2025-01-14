@@ -127,7 +127,8 @@ async function checkBody() {
 async function checkLorem() {
   const result = { ...loremResult.value };
   const { innerHTML } = document.documentElement;
-  if (innerHTML.includes('Lorem ipsum')) {
+  const htmlWithoutPreflight = innerHTML.replace(document.getElementById('preflight')?.outerHTML, '');
+  if (htmlWithoutPreflight.includes('Lorem ipsum')) {
     result.icon = fail;
     result.description = 'Reason: Lorem ipsum is used on the page.';
   } else {

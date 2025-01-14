@@ -16,11 +16,14 @@ import {
 import { VariantLayout } from './variants/variant-layout.js';
 import { hydrate, ANALYTICS_SECTION_ATTR } from './hydrate.js';
 
-export const MERCH_CARD_NODE_NAME = 'MERCH-CARD';
-export const MERCH_CARD = 'merch-card';
+const MERCH_CARD = 'merch-card';
+const MARK_START_SUFFIX = ':start';
+const MARK_READY_SUFFIX = ':ready';
 
 // if merch cards does not initialise in 10 seconds, it will dispatch mas:error event
 const MERCH_CARD_LOAD_TIMEOUT = 10000;
+
+const MARK_MERCH_CARD_PREFIX = 'merch-card:';
 
 export class MerchCard extends LitElement {
     static properties = {
@@ -106,8 +109,6 @@ export class MerchCard extends LitElement {
      * @type {VariantLayout}
      */
     variantLayout;
-
-    #ready = false;
 
     constructor() {
         super();
@@ -274,6 +275,8 @@ export class MerchCard extends LitElement {
 
     connectedCallback() {
         super.connectedCallback();
+        const id = this.querySelector('aem-fragment')?.getAttribute('fragment');
+        performance.mark(`${MARK_MERCH_CARD_PREFIX}${id}${MARK_START_SUFFIX}`);
         this.addEventListener(
             EVENT_MERCH_QUANTITY_SELECTOR_CHANGE,
             this.handleQuantitySelection,
@@ -357,6 +360,7 @@ export class MerchCard extends LitElement {
         );
         const success = await Promise.race([successPromise, timeoutPromise]);
         if (success === true) {
+            performance.mark(`${MARK_MERCH_CARD_PREFIX}${this.id}${MARK_READY_SUFFIX}`);
             this.dispatchEvent(
                 new CustomEvent(EVENT_MAS_READY, {
                     bubbles: true,

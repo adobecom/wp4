@@ -213,24 +213,24 @@ export class AemFragment extends HTMLElement {
     }
 
     #transformAuthorData() {
-        const { id, tags, fields } = this.#rawData;
+        const { fields, id, tags } = this.#rawData;
         this.#data = fields.reduce(
             (acc, { name, multiple, values }) => {
                 acc.fields[name] = multiple ? values : values[0];
                 return acc;
             },
-            { id, tags, fields: {} },
+            { fields: {}, id, tags },
         );
     }
 
     #transformPublishData() {
-        const { id, tags, fields } = this.#rawData;
+        const { fields, id, tags,  } = this.#rawData;
         this.#data = Object.entries(fields).reduce(
             (acc, [key, value]) => {
                 acc.fields[key] = value?.mimeType ? value.value : (value ?? '');
                 return acc;
             },
-            { id, tags, fields: {} },
+            { fields: {}, id, tags },
         );
     }
 }

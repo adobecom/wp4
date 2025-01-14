@@ -208,7 +208,8 @@
   z-index: 4; 
 }
 
-.section.sticky-bottom.popup {
+.section.sticky-bottom.popup,
+.section.sticky-bottom:has(.notification.pill) {
   bottom: var(--spacing-xs);
 }
 

@@ -68,9 +68,13 @@ export default async function init(el) {
   [...rows].forEach(async (row) => {
     const cols = row.querySelectorAll(':scope > div');
     const isFragRow = cols[0].textContent.trim() === 'nested-fragments';
+    const isList = cols[2]?.textContent?.trim() === 'list' || false;
 
     if (isFragRow) {
-      cols[0].parentElement.classList.add('nested', cols[1].textContent.trim());
+      const fragParent = cols[0].parentElement;
+      fragParent?.classList.add('nested', cols[1]?.textContent?.trim());
+      if (isList) fragParent.setAttribute('role', 'list');
+
       const wrapper = createTag('div', { class: 'copy-wrapper' });
       row.append(wrapper);
       wrapper.append(...cols);

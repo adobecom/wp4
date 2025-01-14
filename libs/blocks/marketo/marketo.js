@@ -229,7 +229,7 @@ export default function init(el) {
 
   if (formData[SUCCESS_TYPE] === 'section' && ungated) {
     el.classList.add('hide-block');
-    showSuccessSection(formData, false);
+    showSuccessSection(formData, true);
     return;
   }
 

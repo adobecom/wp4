@@ -1,11 +1,53 @@
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
 body.spectrum--darkest {
   background-color: #1e1e1e;
 }
 
+.sidenav {
+  width: 105px;
+  background-color: #f4f4f4;
+  padding: 5px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidenav a {
+  display: block;
+  padding: 5px 5px;
+  text-decoration: none;
+  color: #333;
+  font-size: 13px;
+  font-weight: bold; /* Makes text bold */
+  text-transform: uppercase; /* Converts text to uppercase */
+}
+
+.sidenav a:hover {
+  background-color: #ddd;
+  color: #000;
+}
+
 main {
   display: flex;
+  flex: 1;
   justify-content: center;
   margin: 0 16px;
+  padding: 20px;
+}
+
+/* Media query for small screens */
+@media (max-width: 768px) {
+  body {
+    flex-direction: column; /* Stack content vertically */
+  }
+
+  .sidenav {
+    width: 100%; /* Make sidenav take full width */
+    box-shadow: none; /* Remove shadow for bottom layout */
+  }
 }
 
 .container {
@@ -161,4 +203,40 @@ merch-card[variant="ccd-slice"][size="wide"] {
   display: flex;
   flex-wrap: wrap;
   gap: 32px;
+}
+
+/*.benchmark stuff */
+.benchmark-mask {
+  font-size: larger;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.benchmark-mask-over-limit {
+  background:rgba(217, 109, 109, 0.7);
+}
+
+.benchmark-mask-under-limit {
+  background:rgba(133, 215, 133, 0.7);
+}
+
+/*.benchmark stuff */
+.benchmark-mask {
+  font-size: larger;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.benchmark-mask-over-limit {
+  background:rgba(217, 109, 109, 0.7);
+}
+
+.benchmark-mask-under-limit {
+  background:rgba(133, 215, 133, 0.7);
 }

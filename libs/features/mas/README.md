@@ -57,7 +57,7 @@ npm run build
 #### Build documentation
 
 ```sh
-node run build:docs
+npm run build:docs
 ```
 
 ### Testing

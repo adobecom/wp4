@@ -212,7 +212,7 @@ export class MerchCardCollection extends LitElement {
                     ${this.searchBar} ${this.filtersButton} ${this.sortButton}
                 </sp-theme>
             </div>
-            <div id="resultText">
+            <div id="resultText" aria-live="polite">
                 ${this.displayResult
                     ? html`<slot name="${this.resultTextSlotName}"></slot>`
                     : ''}

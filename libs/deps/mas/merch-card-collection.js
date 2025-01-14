@@ -103,7 +103,7 @@ var y=Object.defineProperty;var N=(s,e,t)=>e in s?y(s,e,{enumerable:!0,configura
                     ${this.searchBar} ${this.filtersButton} ${this.sortButton}
                 </sp-theme>
             </div>
-            <div id="resultText">
+            <div id="resultText" aria-live="polite">
                 ${this.displayResult?l`<slot name="${this.resultTextSlotName}"></slot>`:""}
             </div>`}get footer(){if(!this.filtered)return l`<div id="footer">
             <sp-theme  color="light" scale="medium">
