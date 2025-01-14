@@ -650,6 +650,7 @@
   width: 30px;
   margin-right: 16px;
 }
+
 /* Start tablet styles */
 @media (max-width: 899px) {
   .table,

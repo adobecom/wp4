@@ -4,7 +4,7 @@
   border-bottom: none;
 }
 
-.milo-tooltip::before { 
+.milo-tooltip::before {
   content: attr(data-tooltip);
   position: absolute;
   top: 50%;
