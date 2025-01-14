@@ -64,7 +64,6 @@ export const ERROR_MESSAGE_OFFER_NOT_FOUND = 'Commerce offer not found';
 export const ERROR_MESSAGE_MISSING_LITERALS_URL = 'Literals URL not provided';
 
 export const EVENT_TYPE_FAILED = 'mas:failed';
-export const EVENT_TYPE_PENDING = 'mas:pending';
 export const EVENT_TYPE_RESOLVED = 'mas:resolved';
 
 export const LOG_NAMESPACE = 'mas/commerce';

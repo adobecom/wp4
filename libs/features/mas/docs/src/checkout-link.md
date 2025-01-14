@@ -154,7 +154,6 @@ Two photoshop and three acrobat pro single apps (TEAMS):
 
 | Event          | Description                                        |
 | -------------- | -------------------------------------------------- |
-| `mas:pending`  | fires when checkout link starts loading            |
 | `mas:resolved` | fires when the offer is successfully resolved      |
 | `mas:failed`   | fires when the offer could not be found or fetched |
 | `click`        | native click event on the `a` element              |
@@ -185,9 +184,6 @@ For each event except `click`, the following css classes are toggled on the elem
     const logger = (...messages) =>
         (log.innerHTML = `${messages.join(' ')}<br>${log.innerHTML}`);
     const eventsDemo = document.getElementById('eventsDemo');
-    eventsDemo.addEventListener('mas:pending', () =>
-        logger('checkout-link pending'),
-    );
     eventsDemo.addEventListener('mas:resolved', (e) =>
         logger('checkout-link resolved'),
     );

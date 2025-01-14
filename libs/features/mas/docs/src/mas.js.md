@@ -16,7 +16,7 @@ You do need to have mas.js on your page / application, including it can be done 
 
 ```html
 <script
-    src="https://www.adobe.com/libs/features/mas/mas/dist/mas.js"
+    src="https://www.adobe.com/libs/features/mas/dist/mas.js"
     type="module"
 ></script>
 ```

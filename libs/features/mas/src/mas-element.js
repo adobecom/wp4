@@ -3,7 +3,6 @@ import {
     CLASS_NAME_PENDING,
     CLASS_NAME_RESOLVED,
     EVENT_TYPE_FAILED,
-    EVENT_TYPE_PENDING,
     EVENT_TYPE_RESOLVED,
     STATE_FAILED,
     STATE_PENDING,
@@ -13,18 +12,6 @@ import { ignore } from './external.js';
 import { discoverService, setImmediate, useService } from './utilities.js';
 import { Log } from './log.js';
 
-const MasElementConstants = {
-    CLASS_NAME_FAILED,
-    CLASS_NAME_PENDING,
-    CLASS_NAME_RESOLVED,
-    EVENT_TYPE_FAILED,
-    EVENT_TYPE_PENDING,
-    EVENT_TYPE_RESOLVED,
-    STATE_FAILED,
-    STATE_PENDING,
-    STATE_RESOLVED,
-};
-
 const StateClassName = {
     [STATE_FAILED]: CLASS_NAME_FAILED,
     [STATE_PENDING]: CLASS_NAME_PENDING,
@@ -33,7 +20,6 @@ const StateClassName = {
 
 const StateEventType = {
     [STATE_FAILED]: EVENT_TYPE_FAILED,
-    [STATE_PENDING]: EVENT_TYPE_PENDING,
     [STATE_RESOLVED]: EVENT_TYPE_RESOLVED,
 };
 
@@ -135,9 +121,6 @@ export class MasElement {
         this.value = value;
         this.update();
         this.log?.debug('Resolved:', { element: this.wrapperElement, value });
-        // Allow calling code to perform sync updates of this element
-        // before notifying observers about state change
-        setImmediate(() => this.notify());
         return true;
     };
 
@@ -153,7 +136,6 @@ export class MasElement {
         this.state = STATE_FAILED;
         this.update();
         this.log?.error('Failed:', { element: this.wrapperElement, error });
-        setImmediate(() => this.notify());
         return true;
     }
 
@@ -166,7 +148,7 @@ export class MasElement {
         if (options) this.options = options;
         this.state = STATE_PENDING;
         this.update();
-        setImmediate(() => this.notify());
+        this.log?.debug('Pending:', { element: this.wrapperElement });
         return this.version;
     }
 
@@ -214,14 +196,15 @@ export class MasElement {
                         this.state = state;
                         this.error = error;
                         this.value = value;
-                        // Update CSS and notify observers/listeners
+                        // Update CSS 
                         this.update();
-                        this.notify();
                     }
                 } catch (error) {
                     log.error(`Failed to render mas-element: `, error);
                     this.toggleFailed(this.version, error, options);
                 }
+                // notify observers/listeners
+                this.notify();
             }
         });
     }

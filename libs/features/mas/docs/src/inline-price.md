@@ -148,7 +148,6 @@ vs
 
 | Event          | Description                                        |
 | -------------- | -------------------------------------------------- |
-| `mas:pending`  | Fires when inline price starts loading             |
 | `mas:resolved` | Fires when the price is successfully resolved      |
 | `mas:failed`   | Fires when the price could not be found or fetched |
 
@@ -172,7 +171,6 @@ For each event, the following CSS classes are toggled on the element: `placehold
     const logger = (...messages) =>
         (log.innerHTML = `${messages.join(' ')}<br>${log.innerHTML}`);
     const span = document.getElementById('ip2');
-    span.addEventListener('mas:pending', () => logger('inline-price pending'));
     span.addEventListener('mas:resolved', () =>
         logger('inline-price resolved'),
     );

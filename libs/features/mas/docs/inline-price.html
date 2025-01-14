@@ -20,7 +20,7 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="spectrum spectrum--medium spectrum--light">
-<div class="sidenav">
+<aside class="sidenav">
     <a href="/libs/features/mas/docs/mas.html">Home</a>
     <a href="/libs/features/mas/docs/mas.js.html">mas.js</a>
     <a href="/libs/features/mas/docs/checkout-link.html">Checkout Link</a>
@@ -28,7 +28,7 @@
     <a href="/libs/features/mas/docs/merch-card.html">Merch Card</a>
     <a href="/libs/features/mas/docs/ccd.html">CCD Gallery</a>
     <a href="/libs/features/mas/docs/benchmarks.html">Benchmarks</a>
-</div>
+</aside>
 <main>
 <sp-theme color="light" scale="medium">
 <h1 id="inline-price" tabindex="-1">inline-price <a class="header-anchor" href="#inline-price" href="#inline-price" title="Permalink to this heading">#</a></h1>
@@ -262,10 +262,6 @@ vs
 </thead>
 <tbody>
 <tr>
-<td><code>mas:pending</code></td>
-<td>Fires when inline price starts loading</td>
-</tr>
-<tr>
 <td><code>mas:resolved</code></td>
 <td>Fires when the price is successfully resolved</td>
 </tr>
@@ -291,7 +287,6 @@ vs
     <span class="hljs-keyword">const</span> <span class="hljs-title function_">logger</span> = (<span class="hljs-params">...messages</span>) =&gt;
         (log.<span class="hljs-property">innerHTML</span> = <span class="hljs-string">`<span class="hljs-subst">${messages.join(<span class="hljs-string">&#x27; &#x27;</span>)}</span>&lt;br&gt;<span class="hljs-subst">${log.innerHTML}</span>`</span>);
     <span class="hljs-keyword">const</span> span = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;ip2&#x27;</span>);
-    span.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;mas:pending&#x27;</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">logger</span>(<span class="hljs-string">&#x27;inline-price pending&#x27;</span>));
     span.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;mas:resolved&#x27;</span>, <span class="hljs-function">() =&gt;</span>
         <span class="hljs-title function_">logger</span>(<span class="hljs-string">&#x27;inline-price resolved&#x27;</span>),
     );
