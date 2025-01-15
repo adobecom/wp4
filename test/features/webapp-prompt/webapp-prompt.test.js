@@ -167,6 +167,15 @@ describe('PEP', () => {
       expect(document.querySelector(allSelectors.pepWrapper)).to.not.exist;
     });
 
+    it('stops the PEP timer when PEP content is hovered', async () => {
+      const clock = sinon.useFakeTimers();
+      await initPep({});
+      document.querySelector(allSelectors.pepWrapper).dispatchEvent(new Event('mouseenter'));
+      clock.tick(10000);
+      expect(window.location.hash).to.not.equal('#soup');
+      clock.uninstall();
+    });
+
     it('redirects when the PEP timer runs out', async () => {
       const clock = sinon.useFakeTimers();
       await initPep({});
