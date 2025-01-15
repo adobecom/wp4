@@ -46,6 +46,8 @@ function decorateToolTip(icon) {
   // Position is the next to last part of a tooltip
   const place = conf.pop()?.trim().toLowerCase() || 'right';
   icon.className = `icon icon-info milo-tooltip ${place}`;
+  icon.setAttribute('tabindex', '0');
+  icon.setAttribute('role', 'button');
   wrapper.parentElement.replaceChild(icon, wrapper);
 }
 

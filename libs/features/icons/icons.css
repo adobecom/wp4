@@ -80,10 +80,14 @@
   border-color: transparent transparent #0469E3;
 }
 
-.milo-tooltip:hover::before {
+.milo-tooltip:hover::before,
+.milo-tooltip:focus::before,
+.milo-tooltip:active::before {
   display: block; 
 }
 
-.milo-tooltip:hover::after {
+.milo-tooltip:hover::after,
+.milo-tooltip:focus::after,
+.milo-tooltip:active::after {
   display: block;
 }
