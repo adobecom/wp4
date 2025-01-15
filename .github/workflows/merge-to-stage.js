@@ -52,7 +52,12 @@ let body = `
 const isHighPrio = (labels) => labels.includes(LABELS.highPriority);
 const isZeroImpact = (labels) => labels.includes(LABELS.zeroImpact);
 
-const hasFailingChecks = (checks) => checks.some(({ conclusion, name }) => name !== 'merge-to-stage' && conclusion === 'failure');
+const hasFailingChecks = (checks) =>
+  checks.some(
+    ({ conclusion, name }) =>
+      name !== 'merge-to-stage' &&
+      (conclusion === 'in_progress' || conclusion === 'failure')
+  );
 
 const commentOnPR = async (comment, prNumber) => {
   console.log(comment); // Logs for debugging the action.
@@ -90,7 +95,7 @@ const getPRs = async () => {
 
   prs = prs.filter(({ checks, reviews, number, title }) => {
     if (hasFailingChecks(checks)) {
-      commentOnPR(`Skipped merging ${number}: ${title} due to failing checks`, number);
+      commentOnPR(`Skipped merging ${number}: ${title} due to failing or running checks`, number);
       return false;
     }
 
