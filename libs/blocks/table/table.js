@@ -2,6 +2,7 @@
 import { createTag, MILO_EVENTS } from '../../utils/utils.js';
 import { decorateButtons } from '../../utils/decorate.js';
 import { debounce } from '../../utils/action.js';
+import { handleTopHeight } from '../section-metadata/sticky-section.js';
 
 const DESKTOP_SIZE = 900;
 const MOBILE_SIZE = 768;
@@ -375,13 +376,11 @@ function handleHovering(table) {
 }
 
 function handleScrollEffect(table) {
-  const gnav = document.querySelector('header');
-  const gnavHeight = gnav ? gnav.offsetHeight : 0;
   const highlightRow = table.querySelector('.row-highlight');
   const headingRow = table.querySelector('.row-heading');
 
   if (highlightRow) {
-    highlightRow.style.top = `${gnavHeight}px`;
+    handleTopHeight(highlightRow);
     highlightRow.classList.add('top-border-transparent');
   } else {
     headingRow.classList.add('top-border-transparent');

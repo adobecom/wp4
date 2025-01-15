@@ -1,11 +1,11 @@
 import { createTag } from '../../utils/utils.js';
 import { getMetadata, getDelayTime } from './section-metadata.js';
 
-function handleTopHeight(section) {
+export function handleTopHeight(section) {
   let topHeight = document.querySelector('header')?.offsetHeight ?? 0;
   const localNav = document.querySelector('.feds-localnav');
   const fedsPromo = document.querySelector('.feds-promo-wrapper');
-  if (localNav) {
+  if (localNav && localNav.offsetHeight > 0) {
     topHeight = localNav.offsetHeight;
   }
   if (fedsPromo) {
