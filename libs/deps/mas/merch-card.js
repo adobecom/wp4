@@ -366,7 +366,7 @@ merch-card[variant="catalog"] .payment-details {
   font-style: italic;
   font-weight: 400;
   line-height: var(--consonant-merch-card-body-line-height);
-}`;var It={title:{tag:"h3",slot:"heading-xs"},prices:{tag:"h3",slot:"heading-xs"},description:{tag:"div",slot:"body-xs"},ctas:{slot:"footer",size:"m"},allowedSizes:["wide","super-wide"]},w=class extends h{constructor(t){super(t);c(this,"dispatchActionMenuToggle",()=>{this.card.dispatchEvent(new CustomEvent(pt,{bubbles:!0,composed:!0,detail:{card:this.card.name,type:"action-menu"}}))});c(this,"toggleActionMenu",t=>{let o=this.card.shadowRoot.querySelector('slot[name="action-menu-content"]');!o||!t||t.type!=="click"&&t.code!=="Space"&&t.code!=="Enter"||(t.preventDefault(),o.classList.toggle("hidden"),o.classList.contains("hidden")||this.dispatchActionMenuToggle())});c(this,"toggleActionMenuFromCard",t=>{let o=t?.type==="mouseleave"?!0:void 0,n=this.card.shadowRoot,a=n.querySelector(".action-menu");this.card.blur(),a?.classList.remove("always-visible");let d=n.querySelector('slot[name="action-menu-content"]');d&&(o||this.dispatchActionMenuToggle(),d.classList.toggle("hidden",o))});c(this,"hideActionMenu",t=>{this.card.shadowRoot.querySelector('slot[name="action-menu-content"]')?.classList.add("hidden")});c(this,"focusEventHandler",t=>{let o=this.card.shadowRoot.querySelector(".action-menu");o&&(o.classList.add("always-visible"),(t.relatedTarget?.nodeName==="MERCH-CARD-COLLECTION"||t.relatedTarget?.nodeName==="MERCH-CARD"&&t.target.nodeName!=="MERCH-ICON")&&o.classList.remove("always-visible"))})}get aemFragmentMapping(){return It}renderLayout(){return Q` <div class="body">
+}`;var It={title:{tag:"h3",slot:"heading-xs"},prices:{tag:"h3",slot:"heading-xs"},description:{tag:"div",slot:"body-xs"},ctas:{slot:"footer",size:"m"},allowedSizes:["wide","super-wide"]},w=class extends h{constructor(t){super(t);c(this,"dispatchActionMenuToggle",()=>{this.card.dispatchEvent(new CustomEvent(pt,{bubbles:!0,composed:!0,detail:{card:this.card.name,type:"action-menu"}}))});c(this,"toggleActionMenu",t=>{let o=this.card.shadowRoot,n=o.querySelector(".action-menu"),a=o.querySelector('slot[name="action-menu-content"]');if(!a||!t||t.type!=="click"&&t.code!=="Space"&&t.code!=="Enter")return;t.preventDefault(),a.classList.toggle("hidden");let d=a.classList.contains("hidden");d||this.dispatchActionMenuToggle(),this.setAriaExpanded(n,(!d).toString())});c(this,"toggleActionMenuFromCard",t=>{let o=t?.type==="mouseleave"?!0:void 0,n=this.card.shadowRoot,a=n.querySelector(".action-menu");this.card.blur(),a?.classList.remove("always-visible");let d=n.querySelector('slot[name="action-menu-content"]');d&&(o||this.dispatchActionMenuToggle(),d.classList.toggle("hidden",o),this.setAriaExpanded(a,"false"))});c(this,"hideActionMenu",t=>{let o=this.card.shadowRoot,n=o.querySelector(".action-menu");o.querySelector('slot[name="action-menu-content"]')?.classList.add("hidden"),this.setAriaExpanded(n,"false")});c(this,"focusEventHandler",t=>{let o=this.card.shadowRoot.querySelector(".action-menu");o&&(o.classList.add("always-visible"),(t.relatedTarget?.nodeName==="MERCH-CARD-COLLECTION"||t.relatedTarget?.nodeName==="MERCH-CARD"&&t.target.nodeName!=="MERCH-ICON")&&o.classList.remove("always-visible"))})}get aemFragmentMapping(){return It}renderLayout(){return Q` <div class="body">
                 <div class="top-section">
                     <slot name="icons"></slot> ${this.badge}
                     <div
@@ -376,6 +376,7 @@ merch-card[variant="catalog"] .payment-details {
                         @click="${this.toggleActionMenu}"
                         @keypress="${this.toggleActionMenu}"
                         tabindex="0"
+                        aria-expanded="false"
                         role="button"
                     >Action Menu</div>
                 </div>
@@ -396,7 +397,7 @@ merch-card[variant="catalog"] .payment-details {
                           ><slot name="callout-content"></slot>`:""}
             </div>
             ${this.secureLabelFooter}
-            <slot></slot>`}getGlobalCSS(){return xt}connectedCallbackHook(){this.card.addEventListener("mouseleave",this.toggleActionMenuFromCard),this.card.addEventListener("focusout",this.focusEventHandler)}disconnectedCallbackHook(){this.card.removeEventListener("mouseleave",this.toggleActionMenuFromCard),this.card.removeEventListener("focusout",this.focusEventHandler)}};c(w,"variantStyle",Ht`
+            <slot></slot>`}getGlobalCSS(){return xt}setAriaExpanded(t,o){t.setAttribute("aria-expanded",o)}connectedCallbackHook(){this.card.addEventListener("mouseleave",this.toggleActionMenuFromCard),this.card.addEventListener("focusout",this.focusEventHandler)}disconnectedCallbackHook(){this.card.removeEventListener("mouseleave",this.toggleActionMenuFromCard),this.card.removeEventListener("focusout",this.focusEventHandler)}};c(w,"variantStyle",Ht`
         :host([variant='catalog']) {
             min-height: 330px;
             width: var(--consonant-merch-card-catalog-width);

@@ -35,6 +35,7 @@ export class Catalog extends VariantLayout {
                         @click="${this.toggleActionMenu}"
                         @keypress="${this.toggleActionMenu}"
                         tabindex="0"
+                        aria-expanded="false"
                         role="button"
                     >Action Menu</div>
                 </div>
@@ -80,14 +81,18 @@ export class Catalog extends VariantLayout {
     };
 
     toggleActionMenu = (e) => {
-      const actionMenuContentSlot = this.card.shadowRoot.querySelector(
+      const shadowRoot = this.card.shadowRoot;
+      const actionMenu = shadowRoot.querySelector('.action-menu');
+      const actionMenuContentSlot = shadowRoot.querySelector(
           'slot[name="action-menu-content"]',
       );
       if (!actionMenuContentSlot || !e || (e.type !== 'click' && e.code !== 'Space' && e.code !== 'Enter')) return;
 
       e.preventDefault();
       actionMenuContentSlot.classList.toggle('hidden');
-      if (!actionMenuContentSlot.classList.contains('hidden')) this.dispatchActionMenuToggle();
+      const isHidden = actionMenuContentSlot.classList.contains('hidden');
+      if (!isHidden) this.dispatchActionMenuToggle();
+      this.setAriaExpanded(actionMenu, (!isHidden).toString());
     };
     
     toggleActionMenuFromCard = (e) => {
@@ -104,13 +109,17 @@ export class Catalog extends VariantLayout {
 
         if (!retract) this.dispatchActionMenuToggle();
         actionMenuContentSlot.classList.toggle('hidden', retract);
+        this.setAriaExpanded(actionMenu, 'false');
     };
     
     hideActionMenu = (e) => {
-      const actionMenuContentSlot = this.card.shadowRoot.querySelector(
+      const shadowRoot = this.card.shadowRoot;
+      const actionMenu = shadowRoot.querySelector('.action-menu');
+      const actionMenuContentSlot = shadowRoot.querySelector(
         'slot[name="action-menu-content"]',
       );
       actionMenuContentSlot?.classList.add('hidden');
+      this.setAriaExpanded(actionMenu, 'false');
     }
     
     focusEventHandler = (e) => {
@@ -123,6 +132,10 @@ export class Catalog extends VariantLayout {
             actionMenu.classList.remove('always-visible');
         }
     };
+
+    setAriaExpanded(element, value) {
+        element.setAttribute('aria-expanded', value);
+    }
 
     connectedCallbackHook() {
         this.card.addEventListener('mouseleave', this.toggleActionMenuFromCard);
