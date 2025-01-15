@@ -231,7 +231,7 @@ export class AppPrompt {
   };
 
   decorate = () => {
-    const animationPlayState = this.options['pause-on-hover'] === 'on';
+    const animationPauseOnHover = this.options['pause-on-hover'] === 'on';
     this.elements.closeIcon = toFragment`<button daa-ll="Close Modal" aria-label="${this.cancel}" class="appPrompt-close"></button>`;
     this.elements.cta = toFragment`<button daa-ll="Stay on this page" class="appPrompt-cta appPrompt-cta--close">${this.cancel}</button>`;
     this.elements.profile = this.profile
@@ -260,7 +260,7 @@ export class AppPrompt {
         ${this.elements.cta}
       </div>
       <div class="appPrompt-progressWrapper">
-        <div class="appPrompt-progress" style="background-color: ${this.options['loader-color']}; animation-duration: ${this.options['loader-duration']}ms; ${!animationPlayState && 'animation-play-state: running;'}"></div>
+        <div class="appPrompt-progress ${animationPauseOnHover && 'appPrompt-progressPauseOnHover'}" style="background-color: ${this.options['loader-color']}; animation-duration: ${this.options['loader-duration']}ms;"></div>
       </div>
     </div>`;
   };
@@ -287,7 +287,7 @@ export class AppPrompt {
     let startTime;
 
     const startTimeout = () => {
-      startTime = Date.now();
+      startTime = performance.now();
       timeoutId = setTimeout(() => {
         this.close({ saveDismissal: false, dismissalActions: false });
         AppPrompt.redirectTo(this.options['redirect-url']);
@@ -296,7 +296,7 @@ export class AppPrompt {
 
     const stopTimeout = () => {
       clearTimeout(timeoutId);
-      remainingTime -= Date.now() - startTime;
+      remainingTime -= performance.now() - startTime;
     };
 
     if (withPause) {
