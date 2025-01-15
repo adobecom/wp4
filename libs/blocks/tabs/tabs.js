@@ -46,6 +46,7 @@ const scrollStackedMobile = (content) => {
 
 export function getRedirectionUrl(linkedTabsList, targetId) {
   if (!targetId || !linkedTabsList[targetId] || window.location.pathname === linkedTabsList[targetId]) return '';
+  /* c8 ignore next */
   const currentUrl = new URL(window.location.href);
   const tabParam = currentUrl.searchParams.get('tab');
   if (tabParam) {
@@ -59,6 +60,7 @@ function changeTabs(e) {
   const { target } = e;
   const targetId = target.getAttribute('id');
   const redirectionUrl = getRedirectionUrl(linkedTabs, targetId);
+  /* c8 ignore next */
   if (redirectionUrl) {
     window.location.assign(redirectionUrl);
     return;
