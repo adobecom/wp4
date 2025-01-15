@@ -557,7 +557,7 @@ tbody tr:hover {
   color: #bababa
 }
 
-.status button.clear-results:hover {
+.bulk-publisher.dark .status button.clear-results:hover {
   background: linear-gradient(0deg, #333, transparent);
 }
 

@@ -26,7 +26,7 @@ const FIELDS_CB = ['draftOnly', 'useHtml', 'usePreview'];
 const DEFAULT_VALUES = {
   preset: 'default',
   caasEnv: 'prod',
-  contentType: 'caas:content-type/article',
+  contentType: '',
   excelFile: '',
   host: 'business.adobe.com',
   owner: 'adobecom',
@@ -143,7 +143,7 @@ const showErrorTable = (errorArr) => {
   /* eslint-disable no-plusplus */
   errorArr.forEach(([pageUrl, response]) => {
     index += 1;
-    const message = response.error ? response.error.replace(/:.*/, '') : response;
+    const message = response.message ? response.message : response;
     tableBody.innerHTML += `<tr>
       <td>${index}</td>
       <td class="error">Failed</td>
@@ -333,7 +333,7 @@ const getPresetsData = async () => {
 const resetAdvancedOptions = () => {
   /* eslint-disable no-undef */
   caasEnv.value = 'prod';
-  contentType.value = 'auto';
+  contentType.value = '';
   draftOnly.checked = false;
   useHtml.checked = false;
   usePreview.checked = false;
@@ -382,7 +382,7 @@ presetSelector.addEventListener('change', () => {
   config.repo = selectedPreset.repo || '';
   config.useHtml = selectedPreset.useHtml === 'true';
   if (selectedPreset.contentType === '' || selectedPreset.contentType?.toLowerCase() === 'auto') {
-    config.contentType = 'auto';
+    config.contentType = '';
   } else {
     config.contentType = selectedPreset.contentType;
   }
