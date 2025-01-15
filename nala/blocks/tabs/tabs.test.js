@@ -147,4 +147,46 @@ test.describe('Milo Tab block feature test suite', () => {
       await expect(tab.tab9Panel).not.toBeVisible();
     });
   });
+
+  test(`[Test Id - ${features[3].tcid}] ${features[3].tags}`, async ({ page, baseURL }) => {
+    console.log(`[Test Page]: ${baseURL}${features[3].path}${miloLibs}`);
+    await page.goto(`${baseURL}${features[3].path}${miloLibs}`);
+    await page.waitForLoadState('networkidle');
+
+    await test.step('checking the setup', async () => {
+      await expect(tab.tab1).toBeVisible();
+      await expect(tab.tab1).toBeInViewport();
+      await expect(tab.tab2).toBeVisible();
+      await expect(tab.tab2).toBeInViewport();
+      await expect(tab.tab3).toBeVisible();
+      await expect(tab.tab3).toBeInViewport();
+      await expect(await tab.tab1.getAttribute('aria-selected')).toBe('true');
+      await expect(await tab.tab2.getAttribute('aria-selected')).toBe('false');
+      await expect(await tab.tab3.getAttribute('aria-selected')).toBe('false');
+    });
+
+    await test.step('click tab and get redirected to the proper page', async () => {
+      await expect(await page.url()).toContain('tabs-page-1');
+      await tab.tab2.click();
+      await expect(await page.url()).toContain('tabs-page-2');
+      await tab.tab3.click();
+      await expect(await page.url()).toContain('tabs-page-3');
+      await tab.tab1.click();
+      await expect(await page.url()).toContain('tabs-page-1');
+    });
+
+    await test.step('click tab and get redirected to proper page with a `tab` URL param', async () => {
+      const newUrl = await new URL(await page.url());
+      await newUrl.searchParams.set('tab', 'demo-3');
+      await page.goto(newUrl.toString());
+      await page.waitForTimeout(3000);
+      await expect(await page.url()).toContain('tabs-page-3?tab=demo-3');
+      await tab.tab2.click();
+      await expect(await page.url()).toContain('tabs-page-2?tab=demo-2');
+      await tab.tab3.click();
+      await expect(await page.url()).toContain('tabs-page-3?tab=demo-3');
+      await tab.tab1.click();
+      await expect(await page.url()).toContain('tabs-page-1?tab=demo-1');
+    });
+  });
 });
