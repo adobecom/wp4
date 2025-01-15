@@ -52,5 +52,9 @@ export default ({
       <div>dismissal-tooltip-duration</div>
       <div>${tooltipDuration}</div>
     </div>`}
+    <div>
+      <div>pause-on-hover</div>
+      <div>on</div>
+    </div>
   </div>
 </div>`;
