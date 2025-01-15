@@ -44,7 +44,7 @@ video {
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  z-index: 2;
+  z-index: 3;
   padding: 3px;
   cursor: pointer;
 }
@@ -129,6 +129,10 @@ video {
 
 .how-to .how-to-media .video-container {
   height: fit-content;
+}
+
+:is(.media .background, .hero-marquee.asset-left .foreground-media) .video-container {
+  width: 100%;
 }
 
 @media (min-width: 600px) {
