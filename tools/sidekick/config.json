@@ -169,6 +169,18 @@
       "url": "https://milo.adobe.com/tools/faas",
       "isPalette": false,
       "includePaths": [ "**.docx**"]
+    },
+    {
+      "containerId": "tools",
+      "id": "rollout",
+      "title": "Rollout",
+      "environments": [ "preview" ],
+      "isPalette": true,
+      "passReferrer": true,
+      "passConfig": true,
+      "url": "/tools/rollout",
+      "includePaths": [ "**.docx**", "**.xlsx**" ],
+      "paletteRect": "top: 40%; left: 50%; transform: translate(-50%,-50%); height: 350px; width: 500px; overflow: hidden; border-radius: 15px; box-shadow: 0 20px 35px 0px rgba(0, 0, 0, 0.5);"
     }
   ]
 }

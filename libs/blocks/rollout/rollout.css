@@ -1,0 +1,138 @@
+/* Rollout Modal styling */
+.modal {
+  padding: 20px;
+  max-width: 500px;
+  margin: 40px auto;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.modal.warning {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  background-color: #fff3e0;
+  border: 1px solid #ffb74d;
+  border-radius: 8px;
+  padding: 15px 20px;
+  text-align: left;
+}
+
+.warning-icon {
+  width: 24px;
+  height: 24px;
+  background-color: #f57c00;
+  border-radius: 50%;
+  position: relative;
+}
+
+.warning-icon:before {
+  content: "!";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.warning-text {
+  color: #e65100;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.warning-text-sub {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.env-label {
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #333;
+  font-size: 16px;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.radio-group label {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 5%);
+}
+
+.radio-group label:hover {
+  border-color: #0078d4;
+  background-color: #f0f8ff;
+  box-shadow: 0 3px 6px rgb(0 0 0 / 10%);
+}
+
+.radio-group input[type="radio"] {
+  margin-right: 8px;
+  accent-color: #0078d4;
+  width: 16px;
+  height: 16px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.rollout-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(135deg, #0078d4, #005a9e);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 3px 6px rgb(0 0 0 / 10%);
+}
+
+.rollout-btn:hover {
+  background: linear-gradient(135deg, #005a9e, #003e6b);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgb(0 0 0 / 15%);
+}
+
+.rollout-btn:active {
+  background: linear-gradient(135deg, #004080, #002a57);
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+}
+
+.rollout-btn:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.rollout-btn-text {
+  font-size: 14px;
+  font-weight: normal;
+  color: inherit;
+}
