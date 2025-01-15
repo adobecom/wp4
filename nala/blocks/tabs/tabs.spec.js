@@ -33,5 +33,11 @@ module.exports = {
       path: '/drafts/nala/blocks/tabs/tabs-scrolling',
       tags: '@tabs @tabs-scrolling @smoke @regression @milo @bacom',
     },
+    {
+      tcid: '3',
+      name: 'Tabs linked to pages',
+      path: '/drafts/nala/blocks/tabs/linked-tabs/tabs-page-1',
+      tags: '@tabs @tabs-linked @smoke @regression @milo',
+    },
   ],
 };
