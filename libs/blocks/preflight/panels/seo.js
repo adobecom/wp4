@@ -238,6 +238,16 @@ async function checkLinks() {
   const baseOpts = { method: 'POST', headers: { 'Content-Type': 'application/json' } };
   const badResults = [];
 
+  links.forEach((link) => {
+    if (link.dataset?.httpLink) {
+      const httpLink = {
+        url: link.liveHref,
+        status: 'authored as http',
+      };
+      badResults.push(httpLink);
+    }
+  });
+
   for (const group of groups) {
     const urls = group.map((link) => link.liveHref);
     const opts = { ...baseOpts, body: JSON.stringify({ urls }) };
