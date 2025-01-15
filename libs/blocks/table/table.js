@@ -375,8 +375,20 @@ function handleHovering(table) {
   }
 }
 
+
+
 function handleScrollEffect(table) {
-  const gnavHeight = getGnavHeight();
+  let height = document.querySelector('header')?.offsetHeight ?? 0;
+  const localNav = document.querySelector('.feds-localnav');
+  const fedsPromo = document.querySelector('.feds-promo-wrapper');
+  if (localNav && localNav.offsetHeight > 0) {
+    height = localNav.offsetHeight;
+  }
+  if (fedsPromo) {
+    height += fedsPromo.offsetHeight;
+  }
+
+  const gnavHeight = height;
   const highlightRow = table.querySelector('.row-highlight');
   const headingRow = table.querySelector('.row-heading');
 
