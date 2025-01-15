@@ -170,10 +170,6 @@ merch-card span[is='inline-price'] {
     display: inline-block;
 }
 
-merch-card button a[is='checkout-link'] {
-    pointer-events: auto;
-}
-
 merch-card [slot^='heading-'] {
     color: var(--consonant-merch-card-heading-color);
     font-weight: 700;

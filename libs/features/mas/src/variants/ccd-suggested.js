@@ -62,6 +62,7 @@ export class CCDSuggested extends VariantLayout {
         this.card.classList.remove('thin-strip');
         this.card.classList.remove('wide-strip');
         if (!this.card.backgroundImage) {
+            // c8 ignore next 2 */
             return;
         }
         const img = new Image();

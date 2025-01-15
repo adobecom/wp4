@@ -50,17 +50,21 @@ CCD Gallery provides a comprehensive list of all supported card variants in CCD.
             log(target, 'merch-card is ready: ', e.target.variant);
         });
 
-        card1.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            if (e.target.isCheckoutLink) {
-                log(target, 'merch-card checkout-link click: ', e.target);
-            } else if (e.target.isInlinePrice) {
-                log(target, 'merch-card price click: ', e.target.innerText);
-            } else {
-                log(target, 'merch-card click: ', e.target);
-            }
-        });
+        card1.addEventListener(
+            'click',
+            (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (e.target.isCheckoutButton) {
+                    log(target, 'merch-card checkout-button click: ', e.target);
+                } else if (e.target.isInlinePrice) {
+                    log(target, 'merch-card price click: ', e.target.innerText);
+                } else {
+                    log(target, 'merch-card click: ', e.target);
+                }
+            },
+            { capture: true },
+        );
     }
 </script>
 ```

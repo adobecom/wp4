@@ -31,21 +31,21 @@
 </aside>
 <main>
 <sp-theme color="light" scale="medium">
-<h1 id="checkout-link" tabindex="-1">checkout-link <a class="header-anchor" href="#checkout-link" href="#checkout-link" title="Permalink to this heading">#</a></h1>
+<h1 id="checkout-button" tabindex="-1">checkout-button <a class="header-anchor" href="#checkout-button" href="#checkout-button" title="Permalink to this heading">#</a></h1>
 <h2 id="introduction" tabindex="-1">Introduction <a class="header-anchor" href="#introduction" href="#introduction" title="Permalink to this heading">#</a></h2>
-<p>This custom element renders a checkout link supporting most of the features documented at <a href="https://wiki.corp.adobe.com/pages/viewpage.action?spaceKey=businessservices&amp;title=UCv3+Link+Creation+Guide.">https://wiki.corp.adobe.com/pages/viewpage.action?spaceKey=businessservices&amp;title=UCv3+Link+Creation+Guide.</a><br>
-Sometimes a checkout-link can be also referred as placeholder, as it can be used as an inline link resolving at runtime.<br>
-The term placeholder will be deprecated and it is recommended to refer as <strong>checkout-link custom element</strong> going forward.</p>
+<p>This custom element renders a checkout button supporting most of the features documented at <a href="https://wiki.corp.adobe.com/pages/viewpage.action?spaceKey=businessservices&amp;title=UCv3+button+Creation+Guide.">https://wiki.corp.adobe.com/pages/viewpage.action?spaceKey=businessservices&amp;title=UCv3+button+Creation+Guide.</a><br></p>
 <p>Behind the scene, it uses <a href="https://git.corp.adobe.com/PandoraUI/commerce-core">https://git.corp.adobe.com/PandoraUI/commerce-core</a> to generate the checkout url.</p>
 <p>It requires an Offer Selector ID to retrieve the offer details from WCS.</p>
 <p>See <a href="mas.html#terminology">MAS</a> to learn more.</p>
+<p>ℹ️ Unlike <code>checkout-link</code>, in order to prevent the default click event from redirecting to checkout url, register the click event using <code>{capture: true}</code>.
+<br>See the demo at the <a href="#example-2">end</a></p>
 <h3 id="example" tabindex="-1">Example <a class="header-anchor" href="#example" href="#example" title="Permalink to this heading">#</a></h3>
-<pre><code class="hljs demo language-html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span>
-    <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>
-    <span class="hljs-attr">is</span>=<span class="hljs-string">&quot;checkout-link&quot;</span>
+<pre><code class="hljs demo language-html"><span class="hljs-tag">&lt;<span class="hljs-name">button</span>
+    <span class="hljs-attr">is</span>=<span class="hljs-string">&quot;checkout-button&quot;</span>
     <span class="hljs-attr">data-wcs-osi</span>=<span class="hljs-string">&quot;A1xn6EL4pK93bWjM8flffQpfEL-bnvtoQKQAvkx574M&quot;</span>
-    &gt;</span>Buy now&lt;/a
-&gt;
+&gt;</span>
+    Buy now
+<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
 </code></pre>
 <h2 id="attributes" tabindex="-1">Attributes <a class="header-anchor" href="#attributes" href="#attributes" title="Permalink to this heading">#</a></h2>
 <table>
@@ -75,14 +75,14 @@ The term placeholder will be deprecated and it is recommended to refer as <stron
 </tr>
 <tr>
 <td><code>data-checkout-workflow-step</code></td>
-<td><a href="https://wiki.corp.adobe.com/pages/viewpage.action?spaceKey=businessservices&amp;title=UCv3+Link+Creation+Guide#UCv3LinkCreationGuide-RegularWorkflow">workflow step</a> to land on the unified checkout page</td>
+<td><a href="https://wiki.corp.adobe.com/pages/viewpage.action?spaceKey=businessservices&amp;title=UCv3+button+Creation+Guide#UCv3buttonCreationGuide-RegularWorkflow">workflow step</a> to land on the unified checkout page</td>
 <td>email</td>
 <td><code>false</code></td>
 <td>mas.js</td>
 </tr>
 <tr>
 <td><code>data-extra-options</code></td>
-<td>additional query params to append to the url, see: <a href="https://wiki.corp.adobe.com/pages/viewpage.action?spaceKey=businessservices&amp;title=UCv3+Link+Creation+Guide#UCv3LinkCreationGuide-Tableofpublicqueryparams">Table of public query params</a></td>
+<td>additional query params to append to the url, see: <a href="https://wiki.corp.adobe.com/pages/viewpage.action?spaceKey=businessservices&amp;title=UCv3+button+Creation+Guide#UCv3buttonCreationGuide-Tableofpublicqueryparams">Table of public query params</a></td>
 <td>{}</td>
 <td><code>false</code></td>
 <td>mas.js</td>
@@ -138,14 +138,14 @@ The term placeholder will be deprecated and it is recommended to refer as <stron
 </tr>
 <tr>
 <td><code>data-analytics-id</code></td>
-<td>human-readable, non-translatable link id for analytics. Authored in Studio in Link Editor.</td>
+<td>human-readable, non-translatable button id for analytics. Authored in Studio in button Editor.</td>
 <td><code>false</code></td>
 <td><code>false</code></td>
 <td>mas.js</td>
 </tr>
 <tr>
 <td><code>daa-ll</code></td>
-<td>martech-compatible link id for analytics. Format: ‘${data-analytics-id}-${#}’, where # is the position of the link within a card. E.g. : see-terms-1, buy-now-2</td>
+<td>martech-compatible button id for analytics. Format: ‘${data-analytics-id}-${#}’, where # is the position of the button within a card. E.g. : see-terms-1, buy-now-2</td>
 <td><code>false</code></td>
 <td><code>false</code></td>
 <td>mas.js</td>
@@ -154,41 +154,41 @@ The term placeholder will be deprecated and it is recommended to refer as <stron
 </table>
 <h3 id="examples" tabindex="-1">Examples <a class="header-anchor" href="#examples" href="#examples" title="Permalink to this heading">#</a></h3>
 <h4 id="custom-workflow-step" tabindex="-1">Custom Workflow Step <a class="header-anchor" href="#custom-workflow-step" href="#custom-workflow-step" title="Permalink to this heading">#</a></h4>
-<pre><code class="hljs demo language-html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span>
-    <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>
-    <span class="hljs-attr">is</span>=<span class="hljs-string">&quot;checkout-link&quot;</span>
+<pre><code class="hljs demo language-html"><span class="hljs-tag">&lt;<span class="hljs-name">button</span>
+    <span class="hljs-attr">is</span>=<span class="hljs-string">&quot;checkout-button&quot;</span>
     <span class="hljs-attr">data-wcs-osi</span>=<span class="hljs-string">&quot;A1xn6EL4pK93bWjM8flffQpfEL-bnvtoQKQAvkx574M&quot;</span>
     <span class="hljs-attr">data-checkout-workflow-step</span>=<span class="hljs-string">&quot;recommendation&quot;</span>
-    &gt;</span>Buy now&lt;/a
-&gt;
+&gt;</span>
+    Buy now
+<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
 </code></pre>
 <h4 id="multiple-quantities" tabindex="-1">Multiple Quantities <a class="header-anchor" href="#multiple-quantities" href="#multiple-quantities" title="Permalink to this heading">#</a></h4>
 <p>Two photoshop and three acrobat pro single apps (TEAMS):</p>
-<pre><code class="hljs demo language-html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span>
-    <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>
-    <span class="hljs-attr">is</span>=<span class="hljs-string">&quot;checkout-link&quot;</span>
+<pre><code class="hljs demo language-html"><span class="hljs-tag">&lt;<span class="hljs-name">button</span>
+    <span class="hljs-attr">is</span>=<span class="hljs-string">&quot;checkout-button&quot;</span>
     <span class="hljs-attr">data-wcs-osi</span>=<span class="hljs-string">&quot;yHKQJK2VOMSY5bINgg7oa2ov9RnmnU1oJe4NOg4QTYI,vV01ci-KLH6hYdRfUKMBFx009hdpxZcIRG1-BY_PutE&quot;</span>
     <span class="hljs-attr">data-quantity</span>=<span class="hljs-string">&quot;2,3&quot;</span>
-    &gt;</span>Buy now&lt;/a
-&gt;
+&gt;</span>
+    Buy now
+<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
 </code></pre>
 <h4 id="custom-query-params" tabindex="-1">Custom query params <a class="header-anchor" href="#custom-query-params" href="#custom-query-params" title="Permalink to this heading">#</a></h4>
-<pre><code class="hljs demo language-html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span>
-    <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>
-    <span class="hljs-attr">is</span>=<span class="hljs-string">&quot;checkout-link&quot;</span>
+<pre><code class="hljs demo language-html"><span class="hljs-tag">&lt;<span class="hljs-name">button</span>
+    <span class="hljs-attr">is</span>=<span class="hljs-string">&quot;checkout-button&quot;</span>
     <span class="hljs-attr">data-wcs-osi</span>=<span class="hljs-string">&quot;A1xn6EL4pK93bWjM8flffQpfEL-bnvtoQKQAvkx574M&quot;</span>
     <span class="hljs-attr">data-extra-options</span>=<span class="hljs-string">&#x27;{&quot;promoid&quot;:&quot;promo12345&quot;,&quot;mv&quot;:1,&quot;mv2&quot;:2}&#x27;</span>
-    &gt;</span>Buy now&lt;/a
-&gt;
+&gt;</span>
+    Buy now
+<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
 </code></pre>
 <h4 id="ims-country" tabindex="-1">IMS Country <a class="header-anchor" href="#ims-country" href="#ims-country" title="Permalink to this heading">#</a></h4>
-<pre><code class="hljs demo language-html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span>
-    <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>
-    <span class="hljs-attr">is</span>=<span class="hljs-string">&quot;checkout-link&quot;</span>
+<pre><code class="hljs demo language-html"><span class="hljs-tag">&lt;<span class="hljs-name">button</span>
+    <span class="hljs-attr">is</span>=<span class="hljs-string">&quot;checkout-button&quot;</span>
     <span class="hljs-attr">data-wcs-osi</span>=<span class="hljs-string">&quot;A1xn6EL4pK93bWjM8flffQpfEL-bnvtoQKQAvkx574M&quot;</span>
     <span class="hljs-attr">data-ims-country</span>=<span class="hljs-string">&quot;JP&quot;</span>
-    &gt;</span>Buy now&lt;/a
-&gt;
+&gt;</span>
+    Buy now
+<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
 </code></pre>
 <h2 id="properties" tabindex="-1">Properties <a class="header-anchor" href="#properties" href="#properties" title="Permalink to this heading">#</a></h2>
 <table>
@@ -200,8 +200,8 @@ The term placeholder will be deprecated and it is recommended to refer as <stron
 </thead>
 <tbody>
 <tr>
-<td><code>isCheckoutLink</code></td>
-<td>on checkout link elements, it will return <code>true</code></td>
+<td><code>isCheckoutButton</code></td>
+<td>on checkout button elements, it will return <code>true</code></td>
 </tr>
 <tr>
 <td><code>onceSettled</code></td>
@@ -213,19 +213,19 @@ The term placeholder will be deprecated and it is recommended to refer as <stron
 </tr>
 <tr>
 <td><code>value</code></td>
-<td>The actual offer that is used to render the checkout link. In some cases WCS can return multiple offers but only one will be picked to render for a single app.</td>
+<td>The actual offer that is used to render the checkout button. In some cases WCS can return multiple offers but only one will be picked to render for a single app.</td>
 </tr>
 </tbody>
 </table>
 <h3 id="example-1" tabindex="-1">Example <a class="header-anchor" href="#example-1" href="#example-1" title="Permalink to this heading">#</a></h3>
-<pre><code class="hljs demo language-html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span>
+<pre><code class="hljs demo language-html"><span class="hljs-tag">&lt;<span class="hljs-name">button</span>
     <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;co1&quot;</span>
-    <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>
-    <span class="hljs-attr">is</span>=<span class="hljs-string">&quot;checkout-link&quot;</span>
+    <span class="hljs-attr">is</span>=<span class="hljs-string">&quot;checkout-button&quot;</span>
     <span class="hljs-attr">data-wcs-osi</span>=<span class="hljs-string">&quot;A1xn6EL4pK93bWjM8flffQpfEL-bnvtoQKQAvkx574M&quot;</span>
     <span class="hljs-attr">data-ims-country</span>=<span class="hljs-string">&quot;CA&quot;</span>
-    &gt;</span>Buy now&lt;/a
-&gt;
+&gt;</span>
+    Buy now
+<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
     <span class="hljs-variable language_">document</span>
         .<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;co1&#x27;</span>)
@@ -276,7 +276,7 @@ The term placeholder will be deprecated and it is recommended to refer as <stron
 <tbody>
 <tr>
 <td><code>mas:pending</code></td>
-<td>fires when checkout link starts loading</td>
+<td>fires when checkout button starts loading</td>
 </tr>
 <tr>
 <td><code>mas:resolved</code></td>
@@ -292,18 +292,16 @@ The term placeholder will be deprecated and it is recommended to refer as <stron
 <p>For each event, the following css classes are toggled on the element: <code>placeholder-pending</code>, <code>placeholder-resolved</code>, <code>placeholder-failed</code>.</p>
 <h3 id="example-2" tabindex="-1">Example <a class="header-anchor" href="#example-2" href="#example-2" title="Permalink to this heading">#</a></h3>
 <pre><code class="hljs demo language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;eventsDemo&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">a</span>
-        <span class="hljs-attr">is</span>=<span class="hljs-string">&quot;checkout-link&quot;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span>
+        <span class="hljs-attr">is</span>=<span class="hljs-string">&quot;checkout-button&quot;</span>
         <span class="hljs-attr">data-wcs-osi</span>=<span class="hljs-string">&quot;A1xn6EL4pK93bWjM8flffQpfEL-bnvtoQKQAvkx574M&quot;</span>
         &gt;</span>Buy now (click me)&lt;/a
     &gt;
     <span class="hljs-tag">&lt;<span class="hljs-name">br</span> /&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">a</span>
-        <span class="hljs-attr">is</span>=<span class="hljs-string">&quot;checkout-link&quot;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span>
+        <span class="hljs-attr">is</span>=<span class="hljs-string">&quot;checkout-button&quot;</span>
         <span class="hljs-attr">data-wcs-osi</span>=<span class="hljs-string">&quot;A1xn6EL4pK93bWjM8flffQpfEL-bnvtoQKQAvkx574M&quot;</span>
-        &gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;pointer-events: none;&quot;</span>
-            &gt;</span>Span + <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>Strong + Buy now<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span>&lt;/span
-        &gt;&lt;/a
+        &gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;pointer-events: none;&quot;</span>&gt;</span>Span + <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>Strong + Buy now<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>&lt;/a
     &gt;
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;btnRefresh&quot;</span>&gt;</span>Refresh<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
@@ -313,23 +311,23 @@ The term placeholder will be deprecated and it is recommended to refer as <stron
         (log.<span class="hljs-property">innerHTML</span> = <span class="hljs-string">`<span class="hljs-subst">${messages.join(<span class="hljs-string">&#x27; &#x27;</span>)}</span>&lt;br&gt;<span class="hljs-subst">${log.innerHTML}</span>`</span>);
     <span class="hljs-keyword">const</span> eventsDemo = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;eventsDemo&#x27;</span>);
     eventsDemo.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;mas:pending&#x27;</span>, <span class="hljs-function">() =&gt;</span>
-        <span class="hljs-title function_">logger</span>(<span class="hljs-string">&#x27;checkout-link pending&#x27;</span>),
+        <span class="hljs-title function_">logger</span>(<span class="hljs-string">&#x27;checkout-button pending&#x27;</span>),
     );
     eventsDemo.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;mas:resolved&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span>
-        <span class="hljs-title function_">logger</span>(<span class="hljs-string">&#x27;checkout-link resolved&#x27;</span>),
+        <span class="hljs-title function_">logger</span>(<span class="hljs-string">&#x27;checkout-button resolved&#x27;</span>),
     );
     eventsDemo.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;mas:failed&#x27;</span>, <span class="hljs-function">() =&gt;</span>
-        <span class="hljs-title function_">logger</span>(<span class="hljs-string">&#x27;checkout-link failed&#x27;</span>),
+        <span class="hljs-title function_">logger</span>(<span class="hljs-string">&#x27;checkout-button failed&#x27;</span>),
     );
     eventsDemo.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
         e.<span class="hljs-title function_">preventDefault</span>();
         e.<span class="hljs-title function_">stopPropagation</span>();
-        <span class="hljs-keyword">if</span> (e.<span class="hljs-property">target</span>.<span class="hljs-property">isCheckoutLink</span>) {
-            <span class="hljs-title function_">logger</span>(<span class="hljs-string">&#x27;checkout link is clicked: &#x27;</span>, e.<span class="hljs-property">target</span>.<span class="hljs-property">href</span>);
+        <span class="hljs-keyword">if</span> (e.<span class="hljs-property">target</span>.<span class="hljs-property">isCheckoutButton</span>) {
+            <span class="hljs-title function_">logger</span>(<span class="hljs-string">&#x27;checkout button is clicked: &#x27;</span>, e.<span class="hljs-property">target</span>.<span class="hljs-property">href</span>);
         } <span class="hljs-keyword">else</span> {
             <span class="hljs-title function_">logger</span>(<span class="hljs-string">&#x27;element clicked: &#x27;</span>, e.<span class="hljs-property">target</span>);
         }
-    });
+    }, {<span class="hljs-attr">capture</span>: <span class="hljs-literal">true</span>});
     <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;btnRefresh&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
         [...eventsDemo.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;a&#x27;</span>)].<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">a</span>) =&gt;</span>
             a.<span class="hljs-title function_">requestUpdate</span>(<span class="hljs-literal">true</span>),

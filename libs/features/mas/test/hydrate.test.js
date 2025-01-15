@@ -15,6 +15,8 @@ import {
     ANALYTICS_TAG,
     ANALYTICS_LINK_ATTR,
     ANALYTICS_SECTION_ATTR,
+    processDescription,
+    updateLinksCSS,
 } from '../src/hydrate.js';
 import { AEM_FRAGMENT_MAPPING } from '../src/variants/ccd-slice.js';
 
@@ -23,6 +25,7 @@ import { withWcs } from './mocks/wcs.js';
 
 const mockMerchCard = () => {
     const merchCard = document.createElement('div');
+    merchCard.spectrum = 'css';
     document.body.appendChild(merchCard);
     const originalAppend = merchCard.append;
     merchCard.append = sinon.spy(function () {
@@ -234,7 +237,7 @@ describe('processCTAs', async () => {
         const footer = merchCard.append.firstCall.args[0];
         const button = footer.firstChild;
         expect(button.className).to.equal(
-            'spectrum-Button spectrum-Button--accent spectrum-Button--outline spectrum-Button--sizeM',
+            'spectrum-Button spectrum-Button--accent spectrum-Button--sizeM spectrum-Button--outline',
         );
     });
 
@@ -250,33 +253,6 @@ describe('processCTAs', async () => {
         const link = footer.firstChild;
         expect(link.tagName.toLowerCase()).to.equal('a');
         expect(link.classList.contains('primary-link')).to.be.true;
-    });
-
-    it('should handle click events on spectrum buttons', async () => {
-        const fields = {
-            ctas: '<a is="checkout-link" href="#" data-wcs-osi="abm" class="accent"><span>Click me</span></a>',
-        };
-
-        processCTAs(fields, merchCard, aemFragmentMapping);
-
-        const footer = merchCard.append.firstCall.args[0];
-        const button = footer.firstChild;
-        const link = button.firstChild;
-        const span = link.firstChild;
-
-        let target;
-        link.addEventListener('click', (e) => {
-            target = e.target;
-            e.preventDefault(); // prevent infinite loop
-        });
-
-        const customEvent = new MouseEvent('click', {
-            bubbles: true,
-            cancelable: true,
-            view: window,
-        });
-        span.dispatchEvent(customEvent);
-        expect(target).to.equal(link);
     });
 });
 
@@ -495,8 +471,37 @@ describe('hydrate', () => {
         expect(merchCard.getAttribute(ANALYTICS_SECTION_ATTR)).to.equal('ccsn');
         expect(
             merchCard
-                .querySelector(`a[data-analytics-id]`)
+                .querySelector(`button[data-analytics-id]`)
                 .getAttribute('daa-ll'),
         ).to.equal('buy-now-1');
+    });
+});
+
+describe('processDescription', async () => {
+    let merchCard;
+    let aemFragmentMapping;
+
+    beforeEach(async () => {
+        merchCard = mockMerchCard();
+
+        aemFragmentMapping = {
+            description: { tag: 'div', slot: 'body-xs' },
+        };
+    });
+
+    afterEach(() => {
+        sinon.restore();
+    });
+
+    it('should process merch links', async () => {
+        const fields = {
+            description: `Buy <a is="checkout-link" data-wcs-osi="abm" class="primary-link">Link Style</a><a is="checkout-link" data-wcs-osi="abm" class="secondary-link">Link Style</a>`,
+        };
+
+        processDescription(fields, merchCard, aemFragmentMapping.description);
+        updateLinksCSS(merchCard);
+        expect(merchCard.innerHTML).to.equal(
+            '<div slot="body-xs">Buy <a is="checkout-link" data-wcs-osi="abm" class="spectrum-Link spectrum-Link--primary">Link Style</a><a is="checkout-link" data-wcs-osi="abm" class="spectrum-Link spectrum-Link--secondary">Link Style</a></div>',
+        );
     });
 });

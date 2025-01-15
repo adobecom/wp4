@@ -61,7 +61,7 @@ export class CCDSlice extends VariantLayout {
             line-height: var(--consonant-merch-card-body-xxs-line-height);
             min-width: 154px;
             max-width: 171px;
-            max-height: 54px;
+            max-height: 55px;
             overflow: hidden;
         }
 

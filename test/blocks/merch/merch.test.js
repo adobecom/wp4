@@ -524,8 +524,7 @@ describe('Merch Block', () => {
     describe('openModal', () => {
       it('sets the new hash and event listener to restore the hash on close', async () => {
         const prevHash = window.location.hash;
-        const event = new CustomEvent('dummy');
-        await openModal(event, 'https://www.adobe.com/mini-plans/creativecloud.html?mid=ft&web=1', 'TRIAL', 'try-photoshop');
+        await openModal(new CustomEvent('test'), 'https://www.adobe.com/mini-plans/creativecloud.html?mid=ft&web=1', 'TRIAL', 'try-photoshop');
         expect(window.location.hash).to.equal('#try-photoshop');
         const modalCloseEvent = new CustomEvent('milo:modal:closed');
         window.dispatchEvent(modalCloseEvent);
