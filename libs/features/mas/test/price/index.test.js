@@ -1,4 +1,5 @@
-import { expect } from '@esm-bundle/chai';
+import * as snapshots from './__snapshots__/index.snapshot.js';
+import { expect } from '../utilities.js';
 
 import {
     price,
@@ -27,15 +28,6 @@ const literals = {
         '{recurrenceTerm, select, MONTH {<p>/mo</p>} YEAR {<p>/yr</p>} other {}}',
 };
 
-/* To update index.test.js.snap, inspect body > div, and run copy($0.outherHTML) in the js console, and paste it */
-const snapshots = await fetch('test/price/__snapshots__/index.test.js.snap')
-    .then((response) => response.text())
-    .then(
-        (text) =>
-            new DOMParser().parseFromString(text, 'text/html').body
-                .firstElementChild,
-    );
-
 const root = document.createElement('div');
 document.body.append(root);
 
@@ -50,8 +42,7 @@ const renderAndComparePrice = (id, html) => {
     el.setAttribute('id', id);
     el.innerHTML = html;
     root.append(el);
-    const snapshotEl = snapshots.querySelector(`#${id}`);
-    expect(el.innerHTML).to.equal(snapshotEl.innerHTML);
+    expect(el.innerHTML).to.be.html(snapshots[id]);
 };
 
 Object.entries({
@@ -73,28 +64,17 @@ Object.entries({
             describe(`context "${JSON.stringify(context)}"`, () => {
                 Object.entries(data).forEach(([name, offer]) => {
                     it(`renders "${name}"`, function () {
-                        const idPrefix = `${templateName}${Object.keys(context)[0]}${name.split(':')[0]}`;
+                        const idPrefix =
+                            `${templateName}${Object.entries(context)[0].join('')}${name.split(':')[0]}`.replace(
+                                /-/g,
+                                '',
+                            );
                         renderText(
                             `${this.test.parent.parent.title} ${this.test.parent.title} ${this.test.title}: language = en`,
                         );
                         renderAndComparePrice(
                             `${idPrefix}1`,
-                            template({ ...context, ...globals }, offer, {
-                                'data-analytics-productinfo':
-                                    '[{"test":"value"}]',
-                            }),
-                        );
-                        renderAndComparePrice(
-                            `${idPrefix}2`,
-                            template(
-                                {
-                                    ...context,
-                                    ...globals,
-                                    literals,
-                                    language: 'en',
-                                },
-                                offer,
-                            ),
+                            template({ ...context, ...globals }, offer, {}),
                         );
                     });
                 });

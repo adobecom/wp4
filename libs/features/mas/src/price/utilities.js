@@ -12,6 +12,42 @@ const SPACE_START_PATTERN = /^\s+/;
 const SPACE_END_PATTERN = /\s+$/;
 const NBSP = '&nbsp;';
 
+const getAnnualPrice = (price) => price * 12;
+
+/**
+ * Checks if a promotion is currently active.
+ *
+ * @param {Object} promotion - The promotion object.
+ * @param {string} promotion.start - The start date of the promotion in ISO format.
+ * @param {string} promotion.end - The end date of the promotion in ISO format.
+ * @param {Object} promotion.displaySummary - The display summary of the promotion.
+ * @param {number} promotion.displaySummary.amount - The amount of the promotion, (e.g: in percentage).
+ * @param {number} promotion.displaySummary.duration - The duration of the promotion.
+ * @param {number} promotion.displaySummary.minProductQuantity - The minimum product quantity for the promotion.
+ * @param {string} promotion.displaySummary.outcomeType - The outcome type of the promotion.
+ * @param {string} [instant] - An optional date string to use as the current date. If not provided, the current date is used.
+ * @returns {boolean} - Returns true if the promotion is active, false otherwise.
+ */
+const isPromotionActive = (promotion, instant) => {
+    const {
+        start,
+        end,
+        displaySummary: { amount, duration, minProductQuantity, outcomeType } = {},
+    } = promotion;
+    if (!(amount && duration && outcomeType && minProductQuantity)) {
+        return false;
+    }
+    const now = instant ? new Date(instant) : new Date();
+    if (!start || !end) {
+        return false;
+    }
+
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+
+    return now >= startDate && now <= endDate;
+};
+
 // TODO: @pandora/react-price does not have "module" field in package.json and is bundled entirely by Webpack
 const RecurrenceTerm = {
     MONTH: 'MONTH',
@@ -46,18 +82,18 @@ const opticalPriceRoundingRules = [
     opticalPriceRoundingRule(
         // optical price for the term is a multiple of the initial price
         ({ divisor, price }) => price % divisor == 0,
-        ({ divisor, price }) => price / divisor
+        ({ divisor, price }) => price / divisor,
     ),
     opticalPriceRoundingRule(
         // round optical price up to 2 decimals
         ({ usePrecision }) => usePrecision,
-      ({ divisor, price }) => Math.round((price / divisor) * 100.0) / 100.0
+        ({ divisor, price }) => Math.round((price / divisor) * 100.0) / 100.0,
     ),
     opticalPriceRoundingRule(
         // round optical price up to integer
         () => true,
         ({ divisor, price }) =>
-            Math.ceil(Math.floor((price * 100) / divisor) / 100)
+            Math.ceil(Math.floor((price * 100) / divisor) / 100),
     ),
 ];
 
@@ -95,7 +131,7 @@ const extractNumberMask = (formatString, usePrecision = true) => {
         // As the formatString could be container non-symbol like `A #,##0.00 B` so using regex here.
         numberMask = numberMask.replace(
             /\s?(#.*0)(?!\s)?/,
-            '$&' + getPossibleDecimalsDelimiter(formatString)
+            '$&' + getPossibleDecimalsDelimiter(formatString),
         );
     } else if (!usePrecision) {
         // Trim the 0s after the decimalsDelimiter. `#,##0.00` will become `#,##0.`
@@ -169,15 +205,31 @@ const findDecimalsDelimiter = (formatString) =>
 // Utilities, specific to tacocat needs.
 
 /**
- * @param { import('./types').PriceData } data
- * @param { RecurrenceTerm } recurrenceTerm
- * @param { (price: number, format: { currencySymbol: string }) => number } transformPrice
+ * Formats a price according to the specified format string and currency rules.
+ *
+ * @param {object} options - The formatting options
+ * @param {string} options.formatString - The currency format string (e.g., "'US$ '#,##0.00")
+ * @param {number} options.price - The price value to format
+ * @param {boolean} options.usePrecision - Whether to include decimal precision in the formatted price
+ * @param {boolean} [options.isIndianPrice=false] - Whether to use Indian locale-specific formatting
+ * @param {string} recurrenceTerm - The recurrence term (MONTH or YEAR) for the price
+ * @param {function} [transformPrice=(price) => price] - Optional function to transform the price before formatting
+ * @returns {{
+ *   accessiblePrice: string,
+ *   currencySymbol: string,
+ *   decimals: string,
+ *   decimalsDelimiter: string,
+ *   hasCurrencySpace: boolean,
+ *   integer: string,
+ *   isCurrencyFirst: boolean,
+ *   recurrenceTerm: string
+ * }} Formatted price object containing the accessible price string and formatting details
+ *
  */
-// TODO: Move this function to pandora library
 function formatPrice(
     { formatString, price, usePrecision, isIndianPrice = false },
     recurrenceTerm,
-    transformPrice = (formattedPrice) => formattedPrice
+    transformPrice = (formattedPrice) => formattedPrice,
 ) {
     const { currencySymbol, isCurrencyFirst, hasCurrencySpace } =
         getCurrencySymbolDetails(formatString);
@@ -233,14 +285,14 @@ const formatOpticalPrice = (data) => {
                 usePrecision,
             };
             const { round } = opticalPriceRoundingRules.find(({ accept }) =>
-                accept(priceData)
+                accept(priceData),
             );
             if (!round)
                 throw new Error(
-                    `Missing rounding rule for: ${JSON.stringify(priceData)}`
+                    `Missing rounding rule for: ${JSON.stringify(priceData)}`,
                 );
             return round(priceData);
-        }
+        },
     );
 };
 
@@ -252,15 +304,67 @@ const formatRegularPrice = ({ commitment, term, ...data }) =>
     formatPrice(data, recurrenceTerms[commitment]?.[term]);
 
 /**
- * Formats annual price.
- * @param { import('./types').PriceData } data
+ * Creates a function that calculates the annual price with promotion applied.
+ *
+ * @param {object} data - The data object containing price and priceWithoutDiscount
+ * @returns {function(number): number} A function that takes a monthly price and returns the calculated annual price with promotion
+ *
  */
 const formatAnnualPrice = (data) => {
-    const { commitment, term } = data;
+    const {
+        commitment,
+        instant,
+        price,
+        originalPrice,
+        priceWithoutDiscount,
+        promotion,
+        quantity = 1,
+        term,
+    } = data;
     if (commitment === Commitment.YEAR && term === Term.MONTHLY) {
-        return formatPrice(data, RecurrenceTerm.YEAR, (price) => price * 12);
+        if (!promotion) {
+            return formatPrice(data, RecurrenceTerm.YEAR, getAnnualPrice);
+        }
+        const {
+            displaySummary: { outcomeType, duration, minProductQuantity } = {},
+        } = promotion;
+        switch (outcomeType) {
+            case 'PERCENTAGE_DISCOUNT': {
+                if (
+                    quantity >= minProductQuantity &&
+                    isPromotionActive(promotion, instant)
+                ) {
+                    const durationInMonths = parseInt(
+                        duration.replace('P', '').replace('M', ''),
+                    );
+                    if (isNaN(durationInMonths)) return getAnnualPrice(price);
+                    const discountPrice =
+                        quantity * originalPrice * durationInMonths;
+                    const regularPrice =
+                        quantity *
+                        priceWithoutDiscount *
+                        (12 - durationInMonths);
+                    const totalPrice =
+                        Math.floor((discountPrice + regularPrice) * 100) / 100;
+                    return formatPrice(
+                        { ...data, price: totalPrice },
+                        recurrenceTerms[commitment]?.[term],
+                    );
+                }
+            }
+            default:
+                return formatPrice(data, RecurrenceTerm.YEAR, () =>
+                    getAnnualPrice(priceWithoutDiscount ?? price),
+                );
+        }
     }
     return formatPrice(data, recurrenceTerms[commitment]?.[term]);
 };
 
-export { formatOpticalPrice, formatRegularPrice, formatAnnualPrice, makeSpacesAroundNonBreaking };
+export {
+    formatOpticalPrice,
+    formatRegularPrice,
+    formatAnnualPrice,
+    makeSpacesAroundNonBreaking,
+    isPromotionActive,
+};

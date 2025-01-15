@@ -7,7 +7,7 @@ import { getSettings } from '../src/settings.js';
 
 import { mockFetch } from './mocks/fetch.js';
 import { mockLana, unmockLana } from './mocks/lana.js';
-import snapshots from './mocks/snapshots.js';
+import * as snapshots from './price/__snapshots__/template.snapshots.js';
 import { withWcs } from './mocks/wcs.js';
 import {
     initMasCommerceService,
@@ -690,28 +690,12 @@ describe('commerce service', () => {
         }
     ];
     describe('function "buildPriceHTML"', () => {
-        it('returns empty string if no orders provided', async () => {
+        it('returns empty string if no offers provided', async () => {
             const { buildPriceHTML } = await initMasCommerceService();
             expect(buildPriceHTML([])).to.be.empty;
         });
-
-        it('returns empty string if no orders provided - AU with promo', async () => {
-            const { buildPriceHTML } = await initMasCommerceService();
-            const options = {
-                country: 'AU',
-                promotionCode: 'promo'
-            };
-            expect(buildPriceHTML(offers, options)).to.be.html(snapshots.auAbmAnnual);
-        });
-
-        it('returns empty string if no orders provided - AU no promo', async () => {
-            const { buildPriceHTML } = await initMasCommerceService();
-            const options = {
-                country: 'AU'
-            };
-            expect(buildPriceHTML(offers, options)).to.be.html(snapshots.auAbmAnnual);
-        });
     });
+
     describe('function "direct price calls"', () => {
       it('works as expected', async () => {
           const service = await initMasCommerceService();

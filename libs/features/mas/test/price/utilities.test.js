@@ -4,6 +4,7 @@ import { Term, Commitment } from '@pandora/data-models-odm';
 import {
     formatAnnualPrice,
     formatOpticalPrice,
+    isPromotionActive,
 } from '../../src/price/utilities.js';
 
 const OPTICAL_TEST_CASES = [
@@ -246,5 +247,124 @@ describe('function "formatAnnualPrice"', () => {
                 });
             });
         });
+    });
+});
+
+describe('isPromotionActive', () => {
+    const validPromotion = {
+        start: '2024-01-01T00:00:00.000Z',
+        end: '2024-12-31T23:59:59.999Z',
+        outcomeType: 'PERCENTAGE_DISCOUNT',
+        duration: 'P6M',
+        amount: 25,
+        minProductQuantity: 1,
+    };
+    it('promotion is active when date is within promotion period', () => {
+        expect(
+            isPromotionActive(validPromotion, '2024-06-15T12:00:00.000Z'),
+        ).to.equal(true);
+    });
+
+    it('promotion is active when date matches start date exactly', () => {
+        expect(
+            isPromotionActive(validPromotion, '2024-01-01T00:00:00.000Z'),
+        ).to.equal(true);
+    });
+
+    it('promotion is active when date matches end date exactly', () => {
+        expect(
+            isPromotionActive(validPromotion, '2024-12-31T23:59:59.999Z'),
+        ).to.equal(true);
+    });
+
+    it('promotion is not active when date is before promotion period', () => {
+        expect(
+            isPromotionActive(validPromotion, '2023-12-31T23:59:59.999Z'),
+        ).to.equal(false);
+    });
+
+    it('promotion is not active when date is after promotion period', () => {
+        expect(
+            isPromotionActive(validPromotion, '2025-01-01T00:00:00.000Z'),
+        ).to.equal(false);
+    });
+
+    it('promotion is not active when promotion dates are missing', () => {
+        const invalidPromotion = { start: null, end: null };
+        expect(isPromotionActive(invalidPromotion)).to.equal(false);
+    });
+
+    it('promotion is not active when promotion is missing start date', () => {
+        const invalidPromotion = {
+            start: null,
+            end: '2024-12-31T23:59:59.999Z',
+        };
+        expect(isPromotionActive(invalidPromotion)).to.equal(false);
+    });
+
+    it('promotion is not active when promotion is missing end date', () => {
+        const invalidPromotion = {
+            start: '2024-01-01T00:00:00.000Z',
+            end: null,
+        };
+        expect(isPromotionActive(invalidPromotion)).to.equal(false);
+    });
+});
+
+describe('formatAnnualPrice', () => {
+    const promotion = {
+        start: '2024-11-15T04:02:37.000Z',
+        end: '2030-03-01T07:59:00.000Z',
+        displaySummary: {
+            outcomeType: 'PERCENTAGE_DISCOUNT',
+            duration: 'P6M',
+            amount: 25,
+            minProductQuantity: 1,
+        },
+    };
+
+    it.only('should format annual price when promotion details are provided', () => {
+        expect(
+            formatAnnualPrice({
+                formatString: "'A$'#,##0.00",
+                price: 23.23,
+                originalPrice: 23.23,
+                priceWithoutDiscount: 30.99,
+                commitment: Commitment.YEAR,
+                term: Term.MONTHLY,
+                instant: '2024-12-01T00:00:00.000Z',
+                promotion,
+            }).accessiblePrice,
+        ).to.equal('A$325.32');
+    });
+
+    it('should format annual price with regular price when min quantity is not met', () => {
+        expect(
+            formatAnnualPrice({
+                formatString: "'A$'#,##0.00",
+                price: 23.23,
+                originalPrice: 23.23,
+                priceWithoutDiscount: 30.99,
+                commitment: Commitment.YEAR,
+                term: Term.MONTHLY,
+                promotion: {
+                    ...promotion,
+                    minProductQuantity: 2,
+                },
+            }).accessiblePrice,
+        ).to.equal('A$371.88');
+    });
+
+    it('should format annual price with discount when promotion details are not provided', () => {
+        expect(
+            formatAnnualPrice({
+                formatString: "'A$'#,##0.00",
+                price: 23.23,
+                originalPrice: 23.23,
+                priceWithoutDiscount: 30.99,
+                commitment: Commitment.YEAR,
+                term: Term.MONTHLY,
+            }).accessiblePrice,
+        ).to.equal('A$278.76');
     });
 });

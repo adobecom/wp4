@@ -1,4 +1,5 @@
-import { expect } from '@esm-bundle/chai';
+import { expect } from '../utilities.js';
+import * as snapshots from './__snapshots__/template.snapshots.js';
 import {
     createPriceTemplate,
     createPromoPriceTemplate,
@@ -45,22 +46,12 @@ const valueNotApplicableDiscount = {
 const root = document.createElement('div');
 document.body.append(root);
 
-/* To update index.test.js.snap, inspect body > div, and run copy($0.outherHTML) in the js console, and paste it */
-const snapshots = await fetch('test/price/__snapshots__/template.test.js.snap')
-    .then((response) => response.text())
-    .then(
-        (text) =>
-            new DOMParser().parseFromString(text, 'text/html').body
-                .firstElementChild,
-    );
-
 function renderAndComparePrice(id, html) {
     const el = document.createElement('div', { id });
     el.setAttribute('id', id);
     el.innerHTML = html;
     root.append(el);
-    const snapshotEl = snapshots.querySelector(`#${id}`);
-    expect(el.innerHTML).to.equal(snapshotEl?.innerHTML);
+    expect(el.innerHTML).to.be.html(snapshots[id]);
 }
 
 describe('function "createPriceTemplate"', () => {
@@ -143,6 +134,64 @@ describe('function "createPromoPriceWithAnnualTemplate"', function () {
         renderAndComparePrice(
             'createPromoPriceWithAnnualTemplate1',
             template(context, valueDiscountAbm, {}),
+        );
+    });
+});
+
+describe('Promotion price display with annual template', () => {
+    const basePromoContext = {
+        country: 'AU',
+        language: 'en',
+    };
+
+    const promoValue = {
+        formatString: "'A$'#,##0.00",
+        price: 23.23,
+        priceWithoutDiscount: 30.99,
+        commitment: 'YEAR',
+        term: 'MONTHLY',
+        promotion: {
+            start: '2024-11-15T04:02:37.000Z',
+            end: '2030-03-01T07:59:00.000Z',
+            outcomeType: 'PERCENTAGE_DISCOUNT',
+            duration: 'P6M',
+            amount: 25,
+            minProductQuantity: 1,
+        },
+    };
+
+    const template = createPromoPriceWithAnnualTemplate();
+
+    it('displays annual price with promotion applied when promotion is active', () => {
+        const promoContext = {
+            ...basePromoContext,
+            instant: '2024-12-01T00:00:00.000Z',
+        };
+        renderAndComparePrice(
+            'annualTemplatePromo',
+            template(promoContext, promoValue, {}),
+        );
+    });
+
+    it('displays annual price based on regular price when promotion has not started yet', () => {
+        const promoContext = {
+            ...basePromoContext,
+            instant: '2024-11-15T03:02:37.000Z',
+        };
+        renderAndComparePrice(
+            'annualTemplatePromoNotStarted',
+            template(promoContext, promoValue, {}),
+        );
+    });
+
+    it('displays annual price based on regular price when promotion has expired', () => {
+        const promoContext = {
+            ...basePromoContext,
+            instant: '2030-03-01T08:59:00.000Z',
+        };
+        renderAndComparePrice(
+            'annualTemplatePromoExpired',
+            template(promoContext, promoValue, {}),
         );
     });
 });

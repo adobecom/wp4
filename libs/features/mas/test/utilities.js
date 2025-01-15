@@ -9,8 +9,11 @@ import { TAG_NAME_SERVICE } from '../src/mas-commerce-service.js';
 use(chaiAsPromised);
 
 use((chai) => {
+    const parser = new DOMParser();
+    const root = document.createElement('div');
     function normalise(val) {
-        return String(val)
+        root.innerHTML = parser.parseFromString(val, 'text/html');
+        return root.innerHTML
             .trim()
             .replace(/>\s*</g, '><')
             .replace(/>\s*/g, '>')
@@ -34,22 +37,22 @@ use((chai) => {
 });
 
 const initMasCommerceService = async (attributes, checkoutAction) => {
-  const el = document.createElement(TAG_NAME_SERVICE);
-  if (attributes) {
-    Object.keys(attributes).forEach((key) => {
-      el.setAttribute(key, attributes[key]);
-    })
-  }
-  if (checkoutAction) {
-    el.registerCheckoutAction(checkoutAction);
-  }
-  document.head.appendChild(el);
-  await el.readyPromise;
-  return el;
-}
+    const el = document.createElement(TAG_NAME_SERVICE);
+    if (attributes) {
+        Object.keys(attributes).forEach((key) => {
+            el.setAttribute(key, attributes[key]);
+        });
+    }
+    if (checkoutAction) {
+        el.registerCheckoutAction(checkoutAction);
+    }
+    document.head.appendChild(el);
+    await el.readyPromise;
+    return el;
+};
 
 const disableMasCommerceService = () => {
-  document.querySelector(TAG_NAME_SERVICE)?.remove();
-}
+    document.querySelector(TAG_NAME_SERVICE)?.remove();
+};
 
 export { expect, sinon, initMasCommerceService, disableMasCommerceService };
