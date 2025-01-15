@@ -34,6 +34,9 @@ merch-card[variant="plans"] [slot="quantity-select"] {
   .four-merch-cards.plans {
       grid-template-columns: repeat(2, var(--consonant-merch-card-plans-width));
   }
+  .four-merch-cards.plans .foreground {
+      max-width: unset;
+  }
 }
 
 /* desktop */
@@ -43,7 +46,7 @@ merch-card[variant="plans"] [slot="quantity-select"] {
   }
   .three-merch-cards.plans,
   .four-merch-cards.plans {
-      grid-template-columns: repeat(3, var(--consonant-merch-card-plans-width));
+      grid-template-columns: repeat(4, var(--consonant-merch-card-plans-width));
   }
 }
 
