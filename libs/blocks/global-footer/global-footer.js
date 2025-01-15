@@ -209,8 +209,6 @@ class Footer {
       <a
         href="${regionSelector.href}"
         class="${regionPickerClass}"
-        aria-expanded="false"
-        aria-haspopup="true"
         role="button">
         <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="feds-regionPicker-globe" focusable="false">
           <use href="#footer-icon-globe" />
