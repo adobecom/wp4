@@ -20,7 +20,7 @@ export default class Tabs {
     this.tab3Panel = this.tabContent.locator('div[role="tabpanel"]:nth-child(3)');
     this.tab9Panel = this.tabContent.locator('div[role="tabpanel"]:nth-child(9)');
 
-    this.leftArrow = this.tab.locator('.tab-paddles > .paddle-left');
-    this.rightArrow = this.tab.locator('.tab-paddles > .paddle-right');
+    this.leftArrow = this.tab.locator('.paddle-left');
+    this.rightArrow = this.tab.locator('.paddle-right');
   }
 }

@@ -108,7 +108,7 @@
   margin: 2px;
 }
 
-.dialog-modal.locale-modal-v2 .tabs .tab-paddles .paddle {
+.dialog-modal.locale-modal-v2 .tabs .paddle {
   margin: 2px 0;
   background: var(--tabs-active-bg-color);
   border-width: 0 0 2px;
@@ -118,7 +118,7 @@
   border-bottom-color: var(--tabs-active-text-color);
 }
 
-.dialog-modal.locale-modal-v2 .tabs .tab-paddles .paddle:disabled {
+.dialog-modal.locale-modal-v2 .tabs .paddle:disabled {
   display: none;
 }
 

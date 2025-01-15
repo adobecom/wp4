@@ -100,7 +100,7 @@ describe('tabs', () => {
       setViewport({ width: MOBILE_WIDTH, height: HEIGHT });
       window.dispatchEvent(new Event('resize'));
       const oldPosition = window.scrollY;
-      document.querySelector('#stacked-mobile .tabs button').click();
+      document.querySelector('#stacked-mobile .tabList button').click();
       await delay(50);
       const newPosition = window.scrollY;
       expect(newPosition).to.be.above(oldPosition);
