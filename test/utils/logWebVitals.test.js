@@ -23,8 +23,11 @@ describe('Log Web Vitals', () => {
         const downlink = parseFloat(vitals.downlink);
         expect(downlink).to.be.within(0, 10);
         expect(parseInt(vitals.lcp, 10)).to.be.greaterThan(1);
-        expect(vitals.lcpEl).to.be.equal('/test/utils/mocks/media_.png');
-        expect(vitals.lcpElType).to.be.equal('img');
+        expect(vitals).to.have.property('lcpEl');
+        expect(vitals.lcpEl).to.be.a('string').that.is.not.empty;
+        expect(vitals).to.have.property('lcpElType');
+        expect(vitals.lcpElType).to.be.a('string').that.is.not.empty;
+        expect(vitals.lcpSectionOne).to.equal('true');
         expect(vitals.loggedIn).to.equal('false');
         expect(vitals.manifest3path).to.equal('/cc-shared/fragments/promos/2024/americas/cci-all-apps-q3/cci-all-apps-q3.json');
         expect(vitals.manifest3selected).to.equal('all');

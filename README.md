@@ -16,7 +16,7 @@ Milo is a shared set of features and services to power Franklin-based websites o
 
 ### Detailed
 1. Fork this repo.
-1. Install the [AEM Code Sync](https://github.com/apps/aem-code-sync) on your forked repo.
+1. Install the [AEM Code Sync](https://github.com/apps/aem-code-sync) on your forked repo. Make sure that a `main` branch exists in your forked repository.  
 1. Clone your forked repo down to your computer.
 1. Install the [AEM CLI](https://github.com/adobe/helix-cli) using your terminal: `sudo npm install -g @adobe/aem-cli`
 1. In a terminal, run `aem up` your repo's folder on your computer. It will open a browser.

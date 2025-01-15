@@ -181,7 +181,7 @@ module.exports = {
       data: {
         id: '58c7906f-70a6-4e2b-bc29-257ff2ade513',
         description: 'Creative Cloud Photography plan. Starting at',
-        price: 'US$9.99/mo',
+        price: 'US$11.99/mo',
         cta: 'Buy now',
         offerid: '7D31EB7B815967837F7882380437117D',
         background: 'media_10bef5ec21c22fd7fe201cb02735082df13bf4960.jpeg',

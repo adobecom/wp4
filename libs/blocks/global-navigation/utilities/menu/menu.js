@@ -125,6 +125,17 @@ const decorateElements = ({ elem, className = 'feds-navLink', itemIndex = { posi
   return elem;
 };
 
+const decorateGnavImage = (elem) => {
+  const linkElem = elem.querySelector('a');
+  const imageElem = elem.querySelector('picture');
+  const promoImageElem = linkElem instanceof HTMLElement
+    ? toFragment`<a class="feds-image" href="${linkElem.href}" daa-ll="gnav-image">${imageElem}</a>`
+    : toFragment`<div class="feds-image">${imageElem}</div>`;
+
+  elem.replaceChildren(promoImageElem);
+  return toFragment`<div class="feds-image-wrapper">${elem}</div>`;
+};
+
 // Current limitation: we can only add one link
 const decoratePromo = (elem, index) => {
   const isDarkTheme = elem.matches('.dark');
@@ -251,6 +262,12 @@ const decorateColumns = async ({ content, separatorTagName = 'H5' } = {}) => {
         const promoElem = decoratePromo(columnElem, itemIndex);
 
         itemDestination.append(promoElem);
+      } else if (columnElem.matches('.gnav-image')) {
+        resetDestination();
+        itemIndex.position = 0;
+        const imageElem = decorateGnavImage(columnElem, itemIndex);
+
+        itemDestination.append(imageElem);
       } else {
         const decoratedElem = decorateElements({ elem: columnElem, itemIndex });
         columnElem.remove();

@@ -92,6 +92,15 @@ describe('Bootstrapper', async () => {
     expect(el.classList.contains('feds--no-border')).to.be.true;
   });
 
+  it('Renders the localnav', async () => {
+    blockConfig.header.isLocalNav = true;
+    blockConfig.header.mobileGnavV2 = true;
+    const { default: init } = await import('../../libs/blocks/global-navigation/global-navigation.js');
+    await loadBlock(init, blockConfig.header);
+    const el = document.querySelector('header');
+    expect(el.nextElementSibling.classList.contains('feds-localnav')).to.be.true;
+  });
+
   it('should call openMessagingWindow when click on jarvis enabled button', async () => {
     blockConfig.header.jarvis = { id: '1.1' };
     stub(window.AdobeMessagingExperienceClient, 'isAdobeMessagingClientInitialized').returns(true);

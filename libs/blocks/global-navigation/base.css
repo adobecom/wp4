@@ -35,6 +35,15 @@
   --feds-background-footer: #fafafa;
   --feds-borderColor-featuredProducts: #999;
   --feds-gutter-footer: 32px;
+
+  /* mobile gnav redesign */
+  --feds-color-white-v2: #fff;
+  --feds-color-black-v2: #000;
+  --feds-background-cloudmenu-v2: #111;
+  --feds-borderColor-link-v2: #eaeaea;
+  --feds-backgroundColor-tabs-v2: #f8f8f8;
+  --feds-backgroundColor-tabContent-v2: #f3f3f3;
+  --feds-borderColor-localnav-v2: #eee;
 }
 
 /* Nav Link styles */

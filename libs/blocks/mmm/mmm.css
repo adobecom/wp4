@@ -16,7 +16,7 @@ div.mmm {
 }
 
 dl.mmm {
-  margin: 0 auto;
+  margin: 32px auto;
   max-width: var(--grid-container-width);
   border-bottom: 1px solid var(--color-gray-500);
 }
@@ -44,7 +44,7 @@ dl.mmm {
   font-size: var(--type-heading-xs-size);
   font-weight: 700;
   line-height: var(--type-heading-s-lh);
-  padding: var(--spacing-s) var(--spacing-m) var(--spacing-s) var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-m) var(--spacing-m) var(--spacing-xs);
   position: relative;
   text-align: start;
   width: 100%;
@@ -261,23 +261,27 @@ dd .mep-popup-header .mep-close {
   }
 }
 
-.mmm-container .filter-hide {
+.mmm-hide {
   display: none;
 }
-
+.mmm-search-container {
+  margin-top: var(--spacing-m);
+}
 .mmm-form-container {
   display: flex;
   justify-content: center;
   gap: var(--spacing-s);
-  margin: var(--spacing-m) auto 0;
-  width: 800px;
+  margin: 0 auto;
+  width: 700px;
   flex-flow: row nowrap;
   max-width: 80vw;
+  position: relative;
 }
 .mmm-form-container > div {
   flex: 1;
 }
 .mmm-form-container label {
+  margin-top: var(--spacing-xxs);
   margin-right: var(--spacing-xxs);
   display: block;
   font-size: var(--type-body-xs-size);
@@ -311,9 +315,6 @@ dd .mep-popup-header .mep-close {
   #mmm-dropdown-container {
     flex: 0 0 50%;
   }
-  #mmm-search-query-container {
-    max-width: 700px;
-  }
   #mmm-shareButtonContainer {
     right: 100px;
   }
@@ -324,13 +325,15 @@ dd .mep-popup-header .mep-close {
 
 
 .mmm-form-container > div.share-mmm {
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  padding-top: 10px;
-  flex: 0;
+  right: -4rem;
+  top: 33px;
+  position: absolute;
+  height: 33px;
+  width: 33px;
   display: flex;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: flex-end;
+
 }
 
 .share-mmm svg.icon {
@@ -346,16 +349,10 @@ dd .mep-popup-header .mep-close {
   filter: brightness(0.7);
 }
 
-.share-mmm p.icon-container,
-.share-mmm p.icon-container a {
+.share-mmm p.icon-container {
   display: flex;
-  align-items: center;
-  padding-bottom: 0;
   justify-content: center;
-}
-
-.share-mmm p {
-  padding-bottom: 8px;
+  align-items: center;
 }
 
 .share-mmm p.icon-container svg {
@@ -377,7 +374,6 @@ dd .mep-popup-header .mep-close {
   border-radius: 4px;
   border: 2px solid transparent;
   outline: none;
-  margin-inline-start: 16px;
 }
 
 .share-mmm .copy-to-clipboard:focus-visible {
@@ -459,6 +455,45 @@ dd .mep-popup-header .mep-close {
   margin: 0;
 }
 
+#mmm-pagination {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  font-size: 1.25rem;
+  justify-content: center;
+  padding: 2rem 8rem;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+#mmm-pagination a {
+  text-decoration: none;
+  cursor: pointer;
+  color: #4285f4;
+}
+#mmm-pagination .current-page {
+  font-weight: 600;
+  cursor: default;
+  pointer-events: none;
+  color: #000;
+}
+#mmm-pagination .disabled {
+  color: #ddd;
+  cursor: default;
+  pointer-events: none;
+}
+#mmm-pagination .arrow {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.mmm-pagination-summary {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 0 .5rem;
+}
+
 main > .section > .share-mmm.inline {
   margin: 0 auto;
 }
@@ -468,7 +503,22 @@ main > .section > .inline-wrapper > .share-mmm.inline {
   margin-bottom: 0;
 }
 
-main > .section.center .share-mmm.inline p.icon-container {
+/* main > .section.center .share-mmm.inline p.icon-container {
   margin: 0 auto;
   justify-content: center;
+} */
+
+@media (max-width: 900px) {
+  .share-mmm {
+    left: 0;
+    right: 0 !important;
+    top: -1rem !important;
+    margin: auto;
+  }
+}
+
+@media (max-width: 700px) {
+  #mmm-pagination {
+    padding: 2rem 4rem;
+  }
 }

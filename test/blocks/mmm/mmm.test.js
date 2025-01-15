@@ -1,6 +1,11 @@
 import { readFile } from '@web/test-runner-commands';
 import { expect } from '@esm-bundle/chai';
 import { stub } from 'sinon';
+import { DEBOUNCE_TIME } from '../../../libs/blocks/mmm/mmm.js';
+
+const delay = (ms = 0) => new Promise((resolve) => {
+  setTimeout(() => resolve(), ms);
+});
 
 document.body.innerHTML = await readFile({ path: './mocks/body.html' });
 const getFetchPromise = (data, type = 'json') => new Promise((resolve) => {
@@ -143,54 +148,43 @@ describe('MMM', () => {
   });
 
   it('Test filters', async () => {
-    const showSelector = 'dt:not(.filter-hide),dd:not(.filter-hide)';
     const copyButton = document.querySelector('.copy-to-clipboard');
     expect(copyButton).to.exist;
     const event = new Event('change');
-    expect(document.querySelectorAll(showSelector).length).to.equal(10);
-    expect(copyButton.dataset.destination).to.not.include('geo');
-    expect(copyButton.dataset.destination).to.not.include('page');
-    expect(copyButton.dataset.destination).to.not.include('tab');
-    expect(copyButton.dataset.destination).to.not.include('query');
-    const geoDropdown = document.querySelector('#mmm-dropdown-geo');
+    expect(copyButton.dataset.destination).to.not.include('geos');
+    expect(copyButton.dataset.destination).to.not.include('pages');
+    expect(copyButton.dataset.destination).to.not.include('urls');
+
+    const geoDropdown = document.querySelector('#mmm-dropdown-geos');
+    expect(geoDropdown).to.exist;
     geoDropdown.options[1].selected = true;
     geoDropdown.dispatchEvent(event);
-    expect(document.querySelectorAll(showSelector).length).to.equal(8);
-    expect(copyButton.dataset.destination).to.include('geo');
-    expect(copyButton.dataset.destination).to.not.include('page');
-    expect(copyButton.dataset.destination).to.not.include('tab');
-    expect(copyButton.dataset.destination).to.not.include('query');
-    const pageDropdown = document.querySelector('#mmm-dropdown-page');
+    expect(copyButton.dataset.destination).to.include('geos');
+    expect(copyButton.dataset.destination).to.not.include('pages');
+    expect(copyButton.dataset.destination).to.not.include('urls');
+    const pageDropdown = document.querySelector('#mmm-dropdown-pages');
+    expect(pageDropdown).to.exist;
+
     pageDropdown.options[2].selected = true;
     pageDropdown.dispatchEvent(event);
-    expect(document.querySelectorAll(showSelector).length).to.equal(4);
-    expect(copyButton.dataset.destination).to.include('geo');
-    expect(copyButton.dataset.destination).to.include('page');
-    expect(copyButton.dataset.destination).to.not.include('tab');
-    expect(copyButton.dataset.destination).to.not.include('query');
+    expect(copyButton.dataset.destination).to.include('geos');
+    expect(copyButton.dataset.destination).to.include('pages');
+    expect(copyButton.dataset.destination).to.not.include('urls');
+
     geoDropdown.options[0].selected = true;
     geoDropdown.dispatchEvent(event);
-    expect(document.querySelectorAll(showSelector).length).to.equal(6);
-    expect(copyButton.dataset.destination).to.not.include('geo');
-    expect(copyButton.dataset.destination).to.include('page');
-    expect(copyButton.dataset.destination).to.not.include('tab');
-    expect(copyButton.dataset.destination).to.not.include('query');
-    const filterTabs = document.querySelectorAll('.tab-list-container button');
-    filterTabs[0].setAttribute('aria-selected', 'false');
-    filterTabs[1].setAttribute('aria-selected', 'true');
-    filterTabs[1].click();
-    expect(document.querySelectorAll(showSelector).length).to.equal(10);
-    expect(copyButton.dataset.destination).to.not.include('geo');
-    expect(copyButton.dataset.destination).to.include('page');
-    expect(copyButton.dataset.destination).to.include('tab');
-    expect(copyButton.dataset.destination).to.not.include('query');
-    const mmmSearchQuery = document.querySelector('#mmm-search-query');
+    expect(copyButton.dataset.destination).to.not.include('geos');
+    expect(copyButton.dataset.destination).to.include('pages');
+    expect(copyButton.dataset.destination).to.not.include('urls');
+
+    const mmmSearchQuery = document.querySelector('#mmm-search-urls');
+    expect(mmmSearchQuery).to.exist;
     mmmSearchQuery.value = 'pricing';
     mmmSearchQuery.dispatchEvent(event);
-    expect(document.querySelectorAll(showSelector).length).to.equal(2);
-    expect(copyButton.dataset.destination).to.not.include('geo');
-    expect(copyButton.dataset.destination).to.include('page');
-    expect(copyButton.dataset.destination).to.include('tab');
-    expect(copyButton.dataset.destination).to.include('query');
+    // await debounce time
+    await delay(DEBOUNCE_TIME + 1);
+    expect(copyButton.dataset.destination).to.not.include('geos');
+    expect(copyButton.dataset.destination).to.include('pages');
+    expect(copyButton.dataset.destination).to.include('urls');
   });
 });

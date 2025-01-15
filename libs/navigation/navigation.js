@@ -72,8 +72,8 @@ export default async function loadBlock(configs, customLib) {
     env = 'prod',
     locale = '',
     theme,
-    allowedOrigins = [],
     stageDomainsMap = {},
+    allowedOrigins = [],
   } = configs || {};
   if (!header && !footer) {
     // eslint-disable-next-line no-console
@@ -110,18 +110,18 @@ export default async function loadBlock(configs, customLib) {
   ]);
   const paramConfigs = getParamsConfigs(configs);
   const clientConfig = {
+    theme,
+    prodDomains,
     clientEnv: env,
-    origin: `https://main--federal--adobecom.aem.${env === 'prod' ? 'live' : 'page'}`,
-    miloLibs: `${miloLibs}/libs`,
+    standaloneGnav: true,
     pathname: `/${locale}`,
+    miloLibs: `${miloLibs}/libs`,
     locales: configs.locales || locales,
     contentRoot: authoringPath || footer.authoringPath,
-    theme,
-    ...paramConfigs,
-    prodDomains,
-    allowedOrigins: [...allowedOrigins, `https://main--federal--adobecom.aem.${env === 'prod' ? 'live' : 'page'}`],
-    standaloneGnav: true,
     stageDomainsMap: getStageDomainsMap(stageDomainsMap),
+    origin: `https://main--federal--adobecom.aem.${env === 'prod' ? 'live' : 'page'}`,
+    allowedOrigins: [...allowedOrigins, `https://main--federal--adobecom.aem.${env === 'prod' ? 'live' : 'page'}`],
+    ...paramConfigs,
   };
   setConfig(clientConfig);
   for await (const block of blockConfig) {
@@ -137,6 +137,8 @@ export default async function loadBlock(configs, customLib) {
             layout: configBlock.layout,
             noBorder: configBlock.noBorder,
             jarvis: configBlock.jarvis,
+            isLocalNav: configBlock.isLocalNav,
+            mobileGnavV2: configBlock.mobileGnavV2 || 'off',
           });
         } else if (block.key === 'footer') {
           try {

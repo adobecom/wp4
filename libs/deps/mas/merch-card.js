@@ -1070,7 +1070,7 @@ merch-card[variant="plans"] [slot="quantity-select"] {
   }
 }
 `;var b=class extends h{constructor(e){super(e),this.postCardUpdateHook=this.postCardUpdateHook.bind(this)}getGlobalCSS(){return St}adjustProductBodySlots(){if(this.card.getBoundingClientRect().width===0)return;["heading-xs","body-xxs","body-xs","promo-text","callout-content","body-lower"].forEach(t=>this.updateCardElementMinHeight(this.card.shadowRoot.querySelector(`slot[name="${t}"]`),t))}renderLayout(){return X` ${this.badge}
-      <div class="body">
+      <div class="body" aria-live="polite">
           <slot name="icons"></slot>
           <slot name="heading-xs"></slot>
           <slot name="body-xxs"></slot>

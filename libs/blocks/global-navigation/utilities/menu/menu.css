@@ -71,6 +71,10 @@
   box-sizing: content-box;
 }
 
+.feds-localnav-items .feds-menu-headline:after {
+  right: 38px;
+}
+
 [dir = "rtl"] .feds-menu-headline:after {
   right: unset;
   left: 30px;
@@ -86,6 +90,15 @@
 
 .feds-crossCloudMenu-wrapper {
   display: none;
+}
+
+.feds-image-wrapper {
+  padding: 12px 38px;
+}
+
+.gnav-image {
+  width: 316px;
+  box-sizing: content-box;
 }
 
 @media (min-width: 900px) {

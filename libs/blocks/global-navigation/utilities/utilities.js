@@ -5,10 +5,16 @@ import {
 import { getFederatedContentRoot, getFederatedUrl, getFedsPlaceholderConfig } from '../../../utils/federated.js';
 import { processTrackingLabels } from '../../../martech/attributes.js';
 import { replaceText } from '../../../features/placeholders.js';
+import { PERSONALIZATION_TAGS } from '../../../features/personalization/personalization.js';
 
 loadLana();
 
 const FEDERAL_PATH_KEY = 'federal';
+
+const selectorMap = {
+  headline: '.feds-menu-headline[aria-expanded="true"]',
+  localNavTitle: '.feds-navLink[aria-expanded="true"]',
+};
 
 export const selectors = {
   globalNav: '.global-navigation',
@@ -24,6 +30,8 @@ export const selectors = {
   gnavPromo: '.gnav-promo',
   columnBreak: '.column-break',
   brandImageOnly: '.brand-image-only',
+  localNav: '.feds-localnav',
+  mainNavToggle: '.feds-toggle',
 };
 
 export const icons = {
@@ -211,13 +219,23 @@ export function setCurtainState(state) {
 export const isDesktop = window.matchMedia('(min-width: 900px)');
 export const isTangentToViewport = window.matchMedia('(min-width: 900px) and (max-width: 1440px)');
 
-export function setActiveDropdown(elem) {
+export function setActiveDropdown(elem, type) {
   const activeClass = selectors.activeDropdown.replace('.', '');
+  const activeLocalNav = '.feds-localnav--active';
 
   // We always need to reset all active dropdowns at first
   const resetActiveDropdown = () => {
     [...document.querySelectorAll(selectors.activeDropdown)]
       .forEach((activeDropdown) => activeDropdown.classList.remove(activeClass));
+    // Close the localnav if clicked element is not localnav item
+    if ((!type || type === 'localNav-curtain')) {
+      // Remove disable-scroll set by localnav opening
+      if (document.querySelector('.feds-localnav--active') && !document.querySelector('.feds-toggle[aria-expanded="true"]')) {
+        document.body.classList.remove('disable-scroll');
+      }
+      [...document.querySelectorAll(activeLocalNav)]
+        .forEach((activeDropdown) => activeDropdown.classList.remove('feds-localnav--active'));
+    }
   };
   resetActiveDropdown();
 
@@ -239,6 +257,12 @@ export function setActiveDropdown(elem) {
     return false;
   });
 }
+
+export const animateInSequence = (xs, gap) => {
+  for (let i = 0; i < xs.length; i += 1) {
+    xs[i].style = `animation-delay: ${(i + 1) * gap}s`;
+  }
+};
 
 // Disable AED(Active Element Detection)
 export const [setDisableAEDState, getDisableAEDState] = (() => {
@@ -275,20 +299,37 @@ export const [hasActiveLink, setActiveLink, isActiveLink, getActiveLink] = (() =
 })();
 
 export function closeAllDropdowns({ type } = {}) {
-  const selector = type === 'headline'
-    ? '.feds-menu-headline[aria-expanded="true"]'
-    : `${selectors.globalNav} [aria-expanded='true']`;
+  const selector = selectorMap[type] || `${selectors.globalNav} [aria-expanded = "true"], ${selectors.localNav} [aria-expanded = "true"]`;
+
   const openElements = document.querySelectorAll(selector);
   if (!openElements) return;
   [...openElements].forEach((el) => {
-    if ('fedsPreventautoclose' in el.dataset) return;
+    if ('fedsPreventautoclose' in el.dataset || (type === 'localNavItem' && el.classList.contains('feds-localnav-title'))) return;
     el.setAttribute('aria-expanded', 'false');
   });
 
-  setActiveDropdown();
+  setActiveDropdown(undefined, type);
 
   if (isDesktop.matches) setCurtainState(false);
 }
+
+export const disableMobileScroll = () => {
+  if (!PERSONALIZATION_TAGS.safari()) return;
+  if (document.body.classList.contains('disable-ios-scroll')) return;
+  if (document.body.style.top) return;
+  document.body.style.top = `-${window.scrollY}px`;
+  document.body.classList.add('disable-ios-scroll');
+};
+
+export const enableMobileScroll = () => {
+  if (!PERSONALIZATION_TAGS.safari()) return;
+  if (!document.body.style.top) return;
+  const y = Math.abs(parseInt(document.body.style.top, 10));
+  if (Number.isNaN(y)) return;
+  document.body.classList.remove('disable-ios-scroll');
+  document.body.style.removeProperty('top');
+  window.scroll(0, y || 0, { behavior: 'instant' });
+};
 
 export function trigger({ element, event, type } = {}) {
   if (event) event.preventDefault();
@@ -296,6 +337,7 @@ export function trigger({ element, event, type } = {}) {
   closeAllDropdowns({ type });
   if (isOpen) return false;
   element.setAttribute('aria-expanded', 'true');
+  if (!isDesktop.matches && type === 'dropdown') disableMobileScroll();
   return true;
 }
 
@@ -385,3 +427,117 @@ export const [setUserProfile, getUserProfile] = (() => {
     () => profilePromise,
   ];
 })();
+
+export const closeAllTabs = (tabs, tabpanels) => {
+  tabpanels.forEach((t) => t.setAttribute('hidden', 'true'));
+  tabs.forEach((t) => t.setAttribute('aria-selected', 'false'));
+};
+
+export const transformTemplateToMobile = async (popup, item, localnav = false) => {
+  const notMegaMenu = popup.parentElement.tagName === 'DIV';
+  const originalContent = popup.innerHTML;
+  if (notMegaMenu) return originalContent;
+
+  const tabs = [...popup.querySelectorAll('.feds-menu-section')]
+    .filter((section) => !section.querySelector('.feds-promo') && section.textContent)
+    .map((section) => {
+      const headline = section.querySelector('.feds-menu-headline');
+      const name = headline?.textContent ?? 'Shop For';
+      const daallTab = headline?.getAttribute('daa-ll');
+      const daalhTabContent = section.querySelector('.feds-menu-items')?.getAttribute('daa-lh');
+      const content = section.querySelector('.feds-menu-items') ?? section;
+      const links = [...content.querySelectorAll('a.feds-navLink')].map((x) => x.outerHTML).join('');
+      return { name, links, daallTab, daalhTabContent };
+    });
+  const CTA = popup.querySelector('.feds-cta')?.outerHTML ?? '';
+  const mainMenu = `
+      <button class="main-menu" daa-ll="Main menu_Gnav" aria-label='Main menu'>
+        <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M5.55579 1L1.09618 5.45961C1.05728 5.4985 1.0571 5.56151 1.09577 5.60062L5.51027 10.0661" stroke=${isDarkMode() ? '#f2f2f2' : 'black'} stroke-width="2" stroke-linecap="round"/></svg>
+        {{main-menu}}
+      </button>
+  `;
+  const brand = document.querySelector('.feds-brand')?.outerHTML;
+  const breadCrumbs = document.querySelector('.feds-breadcrumbs')?.outerHTML;
+  popup.innerHTML = `
+    <div class="top-bar">
+      ${localnav ? brand : await replaceText(mainMenu, getFedsPlaceholderConfig())}
+      <button class="close-icon" daa-ll="Close button_SubNav" aria-label='Close'>
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M1.5 1L13 12.5" stroke=${isDarkMode() ? '#f2f2f2' : 'black'} stroke-width="1.7037" stroke-linecap="round"/>
+          <path d="M13 1L1.5 12.5" stroke=${isDarkMode() ? '#f2f2f2' : 'black'} stroke-width="1.7037" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+    <div class="title">
+      ${breadCrumbs || '<div class="breadcrumbs"></div>'}
+      <h7>${item.textContent.trim()}</h7>
+    </div>
+    <div class="tabs" role="tablist">
+      ${tabs.map(({ name, daallTab }, i) => `
+        <button
+          role="tab"
+          class="tab"
+          aria-selected="false"
+          aria-controls="${i}"
+          ${daallTab ? `daa-ll="${daallTab}|click"` : ''}
+        >${name}</button>
+      `).join('')}
+    </div>
+    <div class="tab-content">
+    ${tabs.map(({ links, daalhTabContent }, i) => `
+        <div
+          id="${i}"
+          role="tabpanel"
+          aria-labelledby="${i}"
+          ${daalhTabContent ? `daa-lh="${daalhTabContent}"` : ''}
+          hidden
+        >
+      ${links}
+      </div>`).join('')}
+    </div>
+    <div class="sticky-cta">
+      ${CTA}
+    </div>
+    `;
+
+  popup.querySelector('.close-icon')?.addEventListener('click', () => {
+    document.querySelector(selectors.mainNavToggle).focus();
+    closeAllDropdowns();
+    enableMobileScroll();
+  });
+  popup.querySelector('.main-menu')?.addEventListener('click', (e) => {
+    e.target.closest(selectors.activeDropdown).querySelector('button').focus();
+    enableMobileScroll();
+    closeAllDropdowns();
+  });
+  const tabbuttons = popup.querySelectorAll('.tabs button');
+  const tabpanels = popup.querySelectorAll('.tab-content [role="tabpanel"]');
+
+  tabpanels.forEach((panel) => {
+    animateInSequence(panel.querySelectorAll('a'), 0.02);
+  });
+
+  tabbuttons.forEach((tab, i) => {
+    tab.addEventListener('click', () => {
+      closeAllTabs(tabbuttons, tabpanels);
+      tabpanels?.[i]?.removeAttribute('hidden');
+      tab.setAttribute('aria-selected', 'true');
+    });
+  });
+  return originalContent;
+};
+
+export const takeWhile = (xs, f) => {
+  const r = [];
+  for (let i = 0; i < xs.length; i += 1) {
+    if (!f(xs[i])) return r;
+    r.push(xs[i]);
+  }
+  return r;
+};
+
+export const dropWhile = (xs, f) => {
+  if (!xs.length) return xs;
+  if (f(xs[0])) return dropWhile(xs.slice(1), f);
+  return xs;
+};

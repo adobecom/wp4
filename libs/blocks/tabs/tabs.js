@@ -37,7 +37,8 @@ const removeAttributes = (el, attrsKeys) => {
 const scrollStackedMobile = (content) => {
   if (!window.matchMedia('(max-width: 600px)').matches) return;
   const rects = content.getBoundingClientRect();
-  const navHeight = document.querySelector('.global-navigation, .gnav')?.scrollHeight || 0;
+  const stickyTop = document.querySelector('.feds-localnav') ?? document.querySelector('.global-navigation, .gnav');
+  const navHeight = stickyTop?.scrollHeight || 0;
   const topOffset = rects.top + window.scrollY - navHeight - 1;
   window.scrollTo({ top: topOffset, behavior: 'smooth' });
 };

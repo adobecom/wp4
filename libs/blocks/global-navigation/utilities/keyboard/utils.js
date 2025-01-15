@@ -8,6 +8,8 @@ const selectors = {
   brand: '.feds-brand',
   mainNavToggle: '.feds-toggle',
   searchTrigger: '.feds-search-trigger',
+  navWrapper: '.feds-nav-wrapper',
+  navWrapperExpanded: '.feds-nav-wrapper--expanded',
   searchField: '.feds-search-input',
   signIn: '.feds-signIn',
   signInDropdown: '.feds-signIn-dropdown',
@@ -30,6 +32,20 @@ const selectors = {
   socialLink: '.feds-social-link',
   privacyLink: '.feds-footer-privacyLink',
   menuContent: '.feds-menu-content',
+  /* mobile redesign popup selectors */
+  mainMenuItems: 'header.new-nav section.feds-navItem > button',
+  mainMenuLinks: 'header.new-nav .feds-navItem > a[href]',
+  activePopup: 'header.new-nav section.feds-dropdown--active > .feds-popup',
+  tab: 'button[role="tab"]',
+  activeTabpanel: '.tab-content [role="tabpanel"]',
+  activeLinks: '.tab-content [role="tabpanel"]:not([hidden="true"]) a',
+  stickyCta: 'header.new-nav .feds-popup .sticky-cta a',
+  topBarLinks: 'header.new-nav .feds-popup .top-bar a, header.new-nav .feds-popup .top-bar button',
+  closeLink: 'header.new-nav .feds-popup .top-bar .close-icon',
+  localNav: '.feds-localnav',
+  localNavActive: '.feds-localnav--active',
+  localNavTitle: '.feds-localnav-title',
+  localNavExit: '.feds-localnav-exit',
 };
 
 selectors.profileDropdown = `

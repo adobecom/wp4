@@ -19,27 +19,31 @@ describe('Promo', () => {
   it('doesn\'t exist if metadata is not referencing a fragment', async () => {
     const wrongPromoMeta = toFragment`<meta name="gnav-promo-source" content="http://localhost:2000/path/to/promo">`;
     document.head.append(wrongPromoMeta);
-    const nav = await createFullGlobalNavigation({ hasPromo: true });
+    const nav = await createFullGlobalNavigation({ hasPromo: true, hasBreadcrumbs: false });
     expect(nav.block.classList.contains('has-promo')).to.be.false;
-    expect(nav.block.querySelector('.aside.promobar')).to.equal(null);
+    expect(document.body.querySelector('.aside.promobar')).to.equal(null);
     wrongPromoMeta.remove();
   });
 
   it('doesn\'t exist if fragment doesn\'t contain an aside block', async () => {
     const promoMeta = toFragment`<meta name="gnav-promo-source" content="http://localhost:2000/fragments/wrong-promo-fragment">`;
     document.head.append(promoMeta);
-    const nav = await createFullGlobalNavigation({ hasPromo: true });
+    const nav = await createFullGlobalNavigation({ hasPromo: true, hasBreadcrumbs: false });
     expect(nav.block.classList.contains('has-promo')).to.be.false;
-    expect(nav.block.querySelector('.aside.promobar')).to.equal(null);
+    expect(document.body.querySelector('.aside.promobar')).to.equal(null);
     promoMeta.remove();
   });
 
   it('is available if set up correctly', async () => {
     const promoMeta = toFragment`<meta name="gnav-promo-source" content="http://localhost:2000/fragments/correct-promo-fragment">`;
     document.head.append(promoMeta);
-    const nav = await createFullGlobalNavigation({ hasPromo: true });
+    const nav = await createFullGlobalNavigation({
+      hasPromo: true,
+      imsInitialized: true,
+      hasBreadcrumbs: false,
+    });
     expect(nav.block.classList.contains('has-promo')).to.be.true;
-    const asideElem = nav.block.querySelector('.aside.promobar');
+    const asideElem = document.body.querySelector('.aside.promobar');
     expect(asideElem).to.exist;
     expect(asideElem.getAttribute('daa-lh')).to.equal('Promo');
     asideElem.querySelectorAll('a').forEach((linkElem) => {

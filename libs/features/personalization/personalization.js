@@ -1126,7 +1126,13 @@ async function updateManifestsAndPropositions({ config, targetManifests, targetP
     manifest.source = ['target'];
   });
   config.mep.targetManifests = targetManifests;
-  if (targetPropositions?.length && window._satellite) {
+  if (enablePersonalizationV2()) {
+    window.addEventListener('alloy_sendEvent', () => {
+      if (targetPropositions?.length && window._satellite) {
+        window._satellite.track('propositionDisplay', targetPropositions);
+      }
+    }, { once: true });
+  } else if (targetPropositions?.length && window._satellite) {
     window._satellite.track('propositionDisplay', targetPropositions);
   }
   if (config.mep.targetEnabled === 'postlcp') {

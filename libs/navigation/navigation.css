@@ -7,6 +7,8 @@
 :root {
   --navigation-link-color: #035FE6;
   --navigation-link-color--hover: #136FF6;
+  --feds-localnav-height: 40px;
+  --global-height-nav: 64px;
 }
 
 .global-navigation, .global-footer, .dialog-modal {
@@ -45,6 +47,18 @@ header.global-navigation, header.global-navigation.feds--dark {
   visibility: hidden;
 }
 
+header.global-navigation + .feds-localnav {
+  display: block;
+  height: var(--feds-localnav-height);
+}
+
+.feds-promo-aside-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 11;
+  height: var(--global-height-navpromo);
+}
+
 @media (min-width: 900px) {
   .feds-promo-link {
     color: var(--navigation-link-color);
@@ -61,6 +75,10 @@ header.global-navigation, header.global-navigation.feds--dark {
   .feds--full-width .feds-topnav {
     max-width: none;
     padding: 0 15px;
+  }
+
+  header.global-navigation + .feds-localnav {
+    display: none;
   }
 }
 

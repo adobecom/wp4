@@ -6,6 +6,7 @@ import {
   selectors,
   isElementVisible,
   unavVersion,
+  addMetaDataV2,
 } from './test-utilities.js';
 import { toFragment } from '../../../libs/blocks/global-navigation/utilities/utilities.js';
 import globalNavigationMock from './mocks/global-navigation.plain.js';
@@ -47,6 +48,7 @@ describe('main nav popups', () => {
     });
 
     it('should render popups with wide columns', async () => {
+      document.head.appendChild(addMetaDataV2('off'));
       await createFullGlobalNavigation({ globalNavigation: globalNavigationWideColumnMock });
       expect(document.querySelector('.feds-navItem--section .feds-menu-column--group .feds-menu-column + .feds-menu-column')).to.exist;
       expect(document.querySelector('.column-break')).to.not.exist;
@@ -139,6 +141,7 @@ describe('main nav popups', () => {
     });
 
     it('should open a popup and headline on click', async () => {
+      document.head.appendChild(addMetaDataV2('off'));
       await createFullGlobalNavigation({ viewport: 'mobile' });
 
       document.querySelector(selectors.mainNavToggle).click();

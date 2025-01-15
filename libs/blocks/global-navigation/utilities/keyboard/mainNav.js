@@ -19,8 +19,24 @@ class MainNavItem {
           return;
         }
 
+        const newNav = !!document.querySelector('header.new-nav');
+
         switch (e.code) {
           case 'Tab': {
+            if (newNav) {
+              const activePopup = document.querySelector(selectors.activePopup);
+              if (!activePopup) e.preventDefault();
+              const items = [...document.querySelectorAll(`${selectors.mainMenuItems}, ${selectors.mainMenuLinks}, ${selectors.mainNavToggle}`)];
+              const current = items.findIndex((x) => x === e.target);
+              if (current > -1) {
+                const next = current < items.length - 1 ? current + 1 : 0;
+                const prev = current > 0 ? current - 1 : items.length - 1;
+                if (e.shiftKey) items[prev].focus();
+                else items[next].focus();
+              } else items?.[0]?.focus();
+              break;
+            }
+
             if (e.shiftKey) {
               const { prev, openTrigger } = this.getState();
               if (openTrigger) {
@@ -36,9 +52,16 @@ class MainNavItem {
           }
           case 'Escape': {
             closeAllDropdowns();
+            const activePopup = document.querySelector(selectors.activePopup);
+            if (newNav && !activePopup) {
+              const toggle = document.querySelector('header.new-nav .feds-toggle');
+              toggle?.click();
+              toggle?.focus();
+            }
             break;
           }
           case 'ArrowLeft': {
+            if (newNav) break;
             const { next, prev } = this.getState();
             if (document.dir !== 'rtl') {
               if (prev === -1) break;
@@ -50,12 +73,14 @@ class MainNavItem {
             break;
           }
           case 'ArrowUp': {
+            if (newNav) break;
             e.preventDefault();
             e.stopPropagation();
             this.focusPrev({ focus: 'last' });
             break;
           }
           case 'ArrowRight': {
+            if (newNav) break;
             const { next, prev, openTrigger } = this.getState();
             if (document.dir !== 'rtl') {
               if (next === -1) break;
@@ -70,6 +95,7 @@ class MainNavItem {
             break;
           }
           case 'ArrowDown': {
+            if (newNav) break;
             e.stopPropagation();
             e.preventDefault();
             const { items, curr } = this.getState();

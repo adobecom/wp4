@@ -2,6 +2,7 @@ import { createTag, getConfig, getMetadata, loadStyle } from '../../utils/utils.
 import { US_GEO, getFileName, normalizePath } from './personalization.js';
 
 const API_DOMAIN = 'https://jvdtssh5lkvwwi4y3kbletjmvu0qctxj.lambda-url.us-west-2.on.aws';
+
 export const API_URLS = {
   pageList: `${API_DOMAIN}/get-pages`,
   pageDetails: `${API_DOMAIN}/get-page?id=`,
