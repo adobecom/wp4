@@ -730,8 +730,7 @@ body {
 
 .region-button,
 .language-button,
-.locale-button,
-.reset-button {
+.locale-button {
   background-color: #e9e9e9;
   border: 1px solid #d5d9d9;
   border-radius: 12px;
@@ -750,20 +749,40 @@ body {
   font-family: inherit;
 }
 
+.reset-button {
+  cursor: pointer;
+  display: inline-block;
+  border: 0;
+  user-select: none;
+  text-align: center;
+  font-size: 1rem;
+  font-style: normal;
+  line-height: normal;
+  font-family: inherit;
+  font-weight: 500;
+  padding: 1px 0;
+  color: #1b75d0;
+  background-color: transparent;
+  border-color: transparent;
+}
+
 .language-button {
   width: 100%;
 }
 
-.reset-button {
-  height: 30px;
-}
 
 .button:hover,
 .region-button:hover,
 .language-button:hover,
-.locale-button:hover,
-.reset-button:hover {
+.locale-button:hover {
   background-color: #e1e1e1;
+}
+
+.reset-button:hover {
+  color: #155ca2;
+  text-decoration: underline;
+  background-color: transparent;
+  border-color: transparent;
 }
 
 .region-button.active,
@@ -771,10 +790,6 @@ body {
 .locale-button.active {
   background-color: #292929;
   color: #fff;
-}
-
-.region-buttons {
-  margin-bottom: 30px;
 }
 
 .language-grid,

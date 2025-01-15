@@ -29,6 +29,14 @@ export default function InputLocales() {
     if (!initByParams.value?.languages) {
       return (html`
     <h5 class="section-header">Quick Select for Language/Locale</h5>
+    <div class="additional-cta">
+        <button class="reset-button" onClick=${selectAll}>
+          Select All
+        </button>
+        <button class="reset-button" onClick=${resetSelection}>
+            Reset All
+          </button>
+      </div>
     <div class="region-grid">
       <div class="region-buttons">
         ${localeRegionList.map(
@@ -44,14 +52,6 @@ export default function InputLocales() {
             </button>
           `,
         )}
-      </div>
-      <div class="additional-cta">
-        <button class="reset-button" onClick=${selectAll}>
-          Select All
-        </button>
-        <button class="reset-button" onClick=${resetSelection}>
-            Reset All
-          </button>
       </div>
     </div>
   `);
