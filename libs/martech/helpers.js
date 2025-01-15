@@ -438,7 +438,7 @@ export const loadAnalyticsAndInteractionData = async ({ locale, env, calculatedT
       result: { propositions: resultPayload },
     };
   } catch (err) {
-    throw new Error(err);
+    return {};
   }
 };
 

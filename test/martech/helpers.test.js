@@ -209,7 +209,7 @@ describe('loadAnalyticsAndInteractionData', () => {
         calculatedTimeout: 10000,
       });
 
-      expect.fail('Some error');
+      expect.fail('Error: Failed to fetch interact call');
     } catch (err) {
       expect(err.message).to.equal('Error: Failed to fetch interact call');
     }
