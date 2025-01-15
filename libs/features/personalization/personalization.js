@@ -1208,7 +1208,11 @@ async function handleMartechTargetInteraction(
       performance.clearMarks();
       performance.clearMeasures();
       try {
-        window.lana.log(`target response time: ${roundedResponseTime}`, { tags: 'martech', errorType: 'i' });
+        window.lana.log(`target response time: ${roundedResponseTime}`, {
+          tags: 'martech',
+          errorType: 'e',
+          sampleRate: 0.5,
+        });
       } catch (e) {
         // eslint-disable-next-line no-console
         console.error('Error logging target response time:', e);
