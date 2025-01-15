@@ -541,3 +541,17 @@ export const dropWhile = (xs, f) => {
   if (f(xs[0])) return dropWhile(xs.slice(1), f);
   return xs;
 };
+
+export function getGnavHeight() {
+  let height = document.querySelector('header')?.offsetHeight ?? 0;
+  const localNav = document.querySelector('.feds-localnav');
+  const fedsPromo = document.querySelector('.feds-promo-wrapper');
+  if (localNav && localNav.offsetHeight > 0) {
+    height = localNav.offsetHeight;
+  }
+  if (fedsPromo) {
+    height += fedsPromo.offsetHeight;
+  }
+
+  return height;
+}
