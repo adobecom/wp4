@@ -121,7 +121,6 @@ const defaultOptions = {
     custom: 'Custom',
   },
   filterEvent: {
-    '': 'All',
     live: 'Live',
     upcoming: 'Upcoming',
     'on-demand': 'On Demand',
@@ -585,7 +584,6 @@ const FilterPanel = ({ tagsData }) => {
     <${Input} label="Show Empty Filters" prop="filtersShowEmpty" type="checkbox" />
     <${Select} label="Filter Location" prop="filterLocation" options=${defaultOptions.filterLocation} />
     <${Select} label="Filter logic within each tag panel" prop="filterLogic" options=${defaultOptions.filterLogic} />
-    <${Select} label="Event Filter" prop="filterEvent" options=${defaultOptions.filterEvent} />
     <${Select} label="Automatic or Custom Panel" prop="filterBuildPanel" options=${defaultOptions.filterBuildPanel} />
   `;
 
@@ -637,6 +635,7 @@ const FilterPanel = ({ tagsData }) => {
   `;
 
   return html`
+    <${DropdownSelect} id="filterEvent" options=${defaultOptions.filterEvent} prop="filterEvent" label="Event Filter" />
     <${Input} label="Show Filters" prop="showFilters" type="checkbox" />
     ${state.showFilters
       && (state.filterBuildPanel === 'custom'
