@@ -3,6 +3,7 @@ import { fetchData, DATA_TYPE } from '../../features/personalization/personaliza
 import { getMepPopup, API_URLS } from '../../features/personalization/preview.js';
 
 const SEARCH_CRITERIA_CHANGE_EVENT = 'mmm-search-change';
+let cachedSearchCriteria = '';
 export const DEBOUNCE_TIME = 800;
 
 async function toggleDrawer(target, dd, pageId) {
@@ -319,7 +320,11 @@ async function createPageList(el, search) {
 
 function subscribeToSearchCriteriaChanges() {
   document.addEventListener(SEARCH_CRITERIA_CHANGE_EVENT, (el) => {
-    createPageList(document.querySelector('.mmm').parentNode, el.detail);
+    const searchCriteria = JSON.stringify(el?.detail || {});
+    if (cachedSearchCriteria !== searchCriteria) {
+      createPageList(document.querySelector('.mmm').parentNode, el.detail);
+      cachedSearchCriteria = searchCriteria;
+    }
   });
 }
 
