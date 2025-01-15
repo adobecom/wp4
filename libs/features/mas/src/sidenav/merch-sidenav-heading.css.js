@@ -9,6 +9,6 @@ export const headingStyles = css`
         letter-spacing: 0.06em;
         padding: 0 12px;
         line-height: 32px;
-        color: #747474;
+        color: #737373;
     }
 `;
