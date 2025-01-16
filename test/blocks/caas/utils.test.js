@@ -207,7 +207,7 @@ describe('getConfig', () => {
       hideCtaTags: [],
       filterPanel: {
         enabled: true,
-        eventFilter: '',
+        eventFilter: [],
         type: 'left',
         showEmptyFilters: false,
         categories: [
@@ -472,7 +472,7 @@ describe('getConfig', () => {
       hideCtaTags: [],
       filterPanel: {
         enabled: true,
-        eventFilter: '',
+        eventFilter: [],
         type: 'left',
         showEmptyFilters: false,
         categories: [
@@ -798,7 +798,7 @@ describe('getFloodgateCaasConfig', () => {
       hideCtaTags: [],
       filterPanel: {
         enabled: true,
-        eventFilter: '',
+        eventFilter: [],
         type: 'left',
         showEmptyFilters: false,
         categories: [
