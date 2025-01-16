@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Merch Card Web Component Product Variant demo page</title>
+  <link
+        rel="stylesheet"
+        href="http://localhost:2023/__wds-outside-root__/2/styles/styles.css"
+  />
+  <script>
+    window.process = {
+      env: {},
+    };
+  </script>
+  <style>
+    main {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-direction: column;
+      padding-top: 80px;
+      min-width: 1200px;
+    }
+
+    main>div {
+      display: initial;
+    }
+
+    #sidenav {
+      display: none;
+    }
+
+    @media screen and (min-width: 1440px) {
+      #sidenav {
+        flex: 1;
+        justify-content: stretch;
+        padding-top: 8px;
+        display: flex;
+        position: fixed;
+        bottom: 0px;
+        left: 0px;
+        gap: 20px;
+        flex-direction: column;
+        width: 220px;
+      }
+    }
+
+    #firstcards {
+      background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(140, 43, 95, 0.4430147058823529) 35%, rgba(0, 212, 255, 1) 100%);
+    }
+  </style>
+</head>
+
+<body>
+  <script type="module" src="./merch-card-product.test.html.js"></script>
+  <main>
+    <div id="sidenav">
+      <button onclick="toggleRTL()">Toggle RTL</button>
+      <button onclick="skipTests()">Skip tests</button>
+      <button onclick="runTests()">Run tests</button>
+    </div>
+    <div class="section three-merch-cards static-links product">
+      <merch-card class="merch-card product secure has-divider" variant="product" size=""
+        secure-label="Secure transaction" filters="all" types="" custom-hr="true" tabindex="0">
+        <h3 id="acrobat-standard-for-teams" class="card-heading" slot="heading-xs">Acrobat Standard for teams</h3>
+        <h4 id="price---abm---acrobat-standard-dc" class="card-heading" slot="heading-xs"><strong><span
+              is="inline-price" data-display-old-price="true" data-display-per-unit="true" data-quantity="1"
+              data-template="price" data-wcs-osi="abm"></span></strong></h4>
+        <h5
+          id="annual-subscription-cancel-within-14-days-for-a-full-refund-fee-applies-if-you-cancel-after-14-days-info"
+          class="card-heading" slot="body-xxs"><em>Annual subscription, cancel within 14 days for a <a
+              href="https://helpx.adobe.com/manage-account/using/cancel-subscription.html"
+              daa-ll="full refund-1--Acrobat Standard for">full refund</a>. Fee applies if you cancel after 14
+            days.<span class="icon icon-info margin-inline-start"></span></em></h5>
+        <div slot="callout-content">
+          <div>
+            <div>
+              <div>AI Assistant add-on available for <strong>US$4.99/mo.</strong> Early access pricing extended to
+                September 4, 2024.<span class="icon icon-info margin-inline-start"></span></div>
+            </div>
+          </div>
+        </div>
+        <div slot="body-xs">
+          <p><br>Simple PDF app with capabilities to edit, convert, and e-sign.</p>
+        </div>
+        <div slot="body-lower">
+          <hr style="background: rgb(232, 232, 232); width: 100%;"><merch-quantity-select title="Number of licenses"
+            min="2" max="10" step="1" default-value="undefined" max-input="undefined" closed=""></merch-quantity-select>
+        </div>
+        <div slot="footer">
+          <p class="action-area"><a is="checkout-link" data-checkout-workflow="UCv3"
+              data-checkout-workflow-step="recommendation" data-quantity="2" data-wcs-osi="abm" data-extra-options="{}"
+              daa-ll="Buy now-2--Acrobat Standard for"><span>Buy now</span></a></p>
+        </div>
+      </merch-card>
+      <merch-card class="merch-card product secure has-divider" variant="product" size=""
+        secure-label="Secure transaction" filters="all" types="" custom-hr="true" tabindex="0">
+        <h3 id="acrobat-pro-for-teams" class="card-heading" slot="heading-xs">Acrobat Pro for teams</h3>
+        <h4 id="price---abm---acrobat-standard-dc" class="card-heading" slot="heading-xs"><strong><span
+              is="inline-price" data-display-old-price="true" data-display-per-unit="true" data-quantity="1"
+              data-template="price" data-wcs-osi="abm"></span></strong></h4>
+        <h5
+          id="annual-subscription-cancel-within-14-days-for-a-full-refund-fee-applies-if-you-cancel-after-14-days-info-1"
+          class="card-heading" slot="body-xxs"><em>Annual subscription, cancel within 14 days for a <a
+              href="https://helpx.adobe.com/manage-account/using/cancel-subscription.html"
+              daa-ll="full refund-1--Acrobat Pro for team">full refund</a>. Fee applies if you cancel after 14
+            days.<span class="icon icon-info margin-inline-start"></span></em></h5>
+        <div slot="callout-content">
+          <div>
+            <div>
+              <div>AI Assistant add-on available for <strong>US$4.99/mo.</strong> Early access pricing extended to
+                September 4, 2024.<span class="icon icon-info margin-inline-start"></span></div>
+            </div>
+          </div>
+        </div>
+        <div slot="body-xs">
+          <p><br>Essential PDF solution with full conversion and editing capabilities, advanced e-sign features, and
+            more.</p>
+        </div>
+        <div slot="body-lower">
+          <hr style="background: rgb(232, 232, 232); width: 100%;"><merch-quantity-select title="Number of licenses"
+            min="2" max="10" step="1" default-value="undefined" max-input="undefined" closed=""></merch-quantity-select>
+        </div>
+        <div slot="footer">
+          <p class="action-area"><a is="checkout-link" data-checkout-workflow="UCv3"
+              data-checkout-workflow-step="recommendation" data-quantity="2" data-wcs-osi="abm" data-extra-options="{}"
+              daa-ll="Buy now-2--Acrobat Standard for"><span>Buy now</span></a></p>
+        </div>
+      </merch-card>
+      <merch-card class="merch-card product secure badge-card has-divider" variant="product" size=""
+        badge-background-color="#EDCC2D" badge-color="#000000" badge-text="Save 7.5%" secure-label="Secure transaction"
+        filters="all" types="" custom-hr="true" tabindex="0" style="border: 1px solid rgb(237, 204, 45);">
+        <h3 id="acrobat-pro-for-teams-5-pack" class="card-heading" slot="heading-xs">Acrobat Pro for teams 5-pack</h3>
+        <h4 id="price---abm---acrobat-standard-dc" class="card-heading" slot="heading-xs"><strong><span
+              is="inline-price" data-display-old-price="true" data-display-per-unit="true" data-quantity="1"
+              data-template="price" data-wcs-osi="abm"></span></strong></h4>
+        <h5
+          id="annual-subscription-paid-monthly-cancel-within-14-days-for-a-full-refund-fee-applies-if-you-cancel-after-14-days-minimum-of-5-licenses-first-year-only-see-terms-info"
+          class="card-heading" slot="body-xxs"><em>Annual subscription, paid monthly. Cancel within 14 days for a full
+            refund. Fee applies if you cancel after 14 days. Minimum of 5 licenses. First year only. <a
+              href="https://www.adobe.com/acrobat/pricing/business.html#5-pack-terms"
+              daa-ll="See terms-1--Acrobat Pro for team">See terms</a>.<span
+              class="icon icon-info margin-inline-start"></span></em></h5>
+        <div slot="callout-content">
+          <div>
+            <div>
+              <div>AI Assistant add-on available for <strong>US$4.99/mo.</strong> Early access pricing extended to
+                September 4, 2024. I am the bigger string<span class="icon icon-info margin-inline-start"></span></div>
+            </div>
+          </div>
+        </div>
+        <div slot="body-xs">
+          <p><br>Essential PDF solution with full convert and edit capabilities, advanced e-sign features, and more.</p>
+        </div>
+        <div slot="body-lower">
+          <hr style="background: rgb(232, 232, 232); width: 100%;"><merch-quantity-select title="Number of licenses"
+            min="2" max="10" step="1" default-value="undefined" max-input="undefined" closed=""></merch-quantity-select>
+        </div>
+        <div slot="footer">
+          <p class="action-area"><a is="checkout-link" data-checkout-workflow="UCv3"
+              data-checkout-workflow-step="recommendation" data-quantity="2" data-wcs-osi="abm" data-extra-options="{}"
+              daa-ll="Buy now-2--Acrobat Standard for"><span>Buy now</span></a></p>
+        </div>
+      </merch-card>
+      <div class="section-metadata">
+        <div>
+          <div data-valign="middle">style</div>
+          <div data-valign="middle">Three merch cards, static links</div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>

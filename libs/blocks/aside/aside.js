@@ -33,7 +33,7 @@ const blockConfig = {
   },
 };
 const FORMAT_REGEX = /^format:/i;
-const closeSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+const closeSvg = `<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
                     <g transform="translate(-10500 3403)">
                       <circle cx="10" cy="10" r="10" transform="translate(10500 -3403)" fill="#707070"></circle>
                       <line y1="8" x2="8" transform="translate(10506 -3397)" fill="none" stroke="#fff" stroke-width="2"></line>
@@ -197,7 +197,8 @@ function decorateLayout(el) {
   }
   const foregroundImage = foreground.querySelector(':scope > div:not(.text) img')?.closest('div');
   const bgImage = el.querySelector(':scope > div:not(.text):not(.foreground) img')?.closest('div');
-  const foregroundMedia = foreground.querySelector(':scope > div:not(.text) video, :scope > div:not(.text) a:is([href*=".mp4"], [href*="tv.adobe.com"])')?.closest('div');
+  const foregroundMedia = foreground.querySelector(':scope > div:not(.text) :is(.video-container, video, a[href*=".mp4"], a[href*="tv.adobe.com"]), :scope > div:not(.text) iframe[src*="tv.adobe.com"]')
+    ?.closest('div:not(.video-container)');
   const bgMedia = el.querySelector(':scope > div:not(.text):not(.foreground) video, :scope > div:not(.text):not(.foreground) a:is([href*=".mp4"], [href*="tv.adobe.com"])')?.closest('div');
   const image = foregroundImage ?? bgImage;
   const asideMedia = foregroundMedia ?? bgMedia ?? image;

@@ -3,8 +3,9 @@ import userCanPublishPage from '../tools/utils/publish.js';
 const PUBLISH_BTN = '.publish.plugin button';
 const PROFILE = '.profile-email';
 const CONFIRM_MESSAGE = 'Are you sure? This will publish to production.';
+let stylePublishCalled = false;
 
-export default function stylePublish(sk) {
+function styleHelixPublish(sk) {
   const setupPublishBtn = async (page, btn) => {
     const { canPublish, message } = await userCanPublishPage(page, false);
     if (canPublish) {
@@ -103,4 +104,81 @@ export default function stylePublish(sk) {
       setupPublishBtn(page, btn);
     }
   }, 500);
+}
+
+async function checkAuthorization(page, btn) {
+  const { canPublish, message } = await userCanPublishPage(page, false);
+  if (canPublish) {
+    btn.removeAttribute('disabled');
+    return;
+  }
+
+  btn.setAttribute('disabled', true);
+  btn.insertAdjacentHTML('beforeend', `<span>${message}</span>`);
+  setTimeout(() => btn.querySelector('span').remove(), 4000);
+}
+
+export default async function stylePublish(sk) {
+  if (stylePublishCalled) return;
+  stylePublishCalled = true;
+
+  if (sk.nodeName === 'HELIX-SIDEKICK') {
+    styleHelixPublish(sk);
+    return;
+  }
+
+  const style = new CSSStyleSheet();
+  style.replaceSync(`
+    sk-action-button.publish {
+      position: relative;
+    }
+    sk-action-button.publish > span {
+      display: none;
+      background: #777;
+      border-radius: 4px;
+      line-height: 1.2rem;
+      padding: 8px 12px;
+      position: absolute;
+      bottom: 34px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 150px;
+      white-space: pre-wrap;
+      color: black;
+    }
+    sk-action-button.publish[disabled] > span {
+      display: block;
+    }
+    sk-action-button.publish > span:before {
+      content: '';
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 6px solid #777;
+      position: absolute;
+      text-align: center;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  `);
+
+  const pluginActionBarSR = sk.shadowRoot.querySelector('plugin-action-bar').shadowRoot;
+  pluginActionBarSR.adoptedStyleSheets ??= [];
+  pluginActionBarSR.adoptedStyleSheets.push(style);
+
+  const publishBtn = pluginActionBarSR.querySelector('sk-action-button.publish');
+  if (!publishBtn) {
+    sk.addEventListener('status-fetched', ({ target, detail }) => {
+      setTimeout(async () => {
+        const btn = target.shadowRoot.querySelector('plugin-action-bar').shadowRoot.querySelector('sk-action-button.publish');
+        if (detail && btn) await checkAuthorization(detail, btn);
+      }, 0);
+    });
+  }
+
+  const pageDetail = {
+    webPath: window.location.pathname,
+    profile: { email: pluginActionBarSR.querySelector('#user')?.shadowRoot.querySelector('.user [slot="description"]')?.innerText },
+  };
+  if (pageDetail && publishBtn) await checkAuthorization(pageDetail, publishBtn);
 }

@@ -1,47 +1,197 @@
 
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Custom Element Documentation</title>
-  <!-- Include your custom element script as an ES6 module -->
-  <script src="../../../features/spectrum-web-components/dist/theme.js" type="module"></script>
-  <script src="../../../features/spectrum-web-components/dist/button.js" type="module"></script>
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <meta charset="UTF-8">
+    <title>M@S Web Components</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="spectrum.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://use.typekit.net/hah7vzn.css">
   
+  <!-- Include your custom element script as an ES6 module -->
+  <script type="module">
+    import { init } from './common.js';
+    init();
+  </script>
   <!-- Include Highlight.js stylesheet for syntax highlighting -->
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
-  <!-- Include any additional stylesheets -->
-  <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="spectrum spectrum--medium spectrum--light">
+<aside class="sidenav">
+    <a href="/libs/features/mas/docs/mas.html">Home</a>
+    <a href="/libs/features/mas/docs/mas.js.html">mas.js</a>
+    <a href="/libs/features/mas/docs/checkout-link.html">Checkout Link</a>
+    <a href="/libs/features/mas/docs/inline-price.html">Inline Price</a>
+    <a href="/libs/features/mas/docs/merch-card.html">Merch Card</a>
+    <a href="/libs/features/mas/docs/ccd.html">CCD Gallery</a>
+    <a href="/libs/features/mas/docs/benchmarks.html">Benchmarks</a>
+</aside>
 <main>
 <sp-theme color="light" scale="medium">
-<h1 id="mas.js" tabindex="-1"><a class="header-anchor" href="#mas.js">mas.js</a></h1>
-<h2 id="introduction" tabindex="-1"><a class="header-anchor" href="#introduction">Introduction</a></h2>
+<h1 id="mas.js" tabindex="-1">mas.js <a class="header-anchor" href="#mas.js" href="#mas.js" title="Permalink to this heading">#</a></h1>
+<h2 id="introduction" tabindex="-1">Introduction <a class="header-anchor" href="#introduction" href="#introduction" title="Permalink to this heading">#</a></h2>
 <p>This is a javasript library that enables M@S on any web surface.</p>
 <p>mas.js includes the followings custom elements:</p>
 <ul>
 <li><a href="/libs/features/mas/docs/inline-price.html">inline-price</a></li>
 <li><a href="/libs/features/mas/docs/checkout-link.html">checkout-link</a></li>
+<li><a href="/libs/features/mas/docs/checkout-button.html">checkout-button</a></li>
 <li><a href="/libs/features/mas/docs/merch-card.html">merch-card</a></li>
 </ul>
-<h2 id="enablement" tabindex="-1"><a class="header-anchor" href="#enablement">Enablement</a></h2>
-<p>Add the following script in your document <code>head</code> element.</p>
-<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- for US english --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>
-    <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://ccd-checkout-link--milo--yesil.hlx.page/libs/deps/mas/mas.js&quot;</span>
-    <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>
+<h2 id="enablement-mas-commerce-service" tabindex="-1">Enablement <code>mas-commerce-service</code> <a class="header-anchor" href="#enablement-mas-commerce-service" href="#enablement-mas-commerce-service" title="Permalink to this heading">#</a></h2>
+<p>⚠️ Safari does not support customized built-in elements. Therefore, you need to load the following polyfill before <code>mas.js</code> for browser compatibility (not required for in-app usage).</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>
+    <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://www.adobe.comlibs/deps/custom-elements.js&quot;</span>
 &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-
-<span class="hljs-comment">&lt;!-- for other locales, pass locale parameter from the table below --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>
-    <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://ccd-checkout-link--milo--yesil.hlx.page/libs/deps/mas/mas.js?locale=CA_en&quot;</span>
+</code></pre>
+<p>To add <code>mas.js</code> to your page or application, include it as shown below:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>
+    <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://www.adobe.com/libs/features/mas/mas/dist/mas.js&quot;</span>
     <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>
 &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 </code></pre>
-<p>Behind the scene, once MAS isitialized in the page, a custom element (<code>wcms-commerce</code>) is added to the document head.<br>
-It is programmatically added by mas.js and its tag name can be changed later.</p>
-<h3 id="example%3A" tabindex="-1"><a class="header-anchor" href="#example%3A">Example:</a></h3>
+<h3 id="attributes" tabindex="-1">Attributes <a class="header-anchor" href="#attributes" href="#attributes" title="Permalink to this heading">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Default Value</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>allow-override</code></td>
+<td>enables override of commerce env/landscape via query parameters(commerce.env/commerce.landscape)</td>
+<td><code>false</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>checkout-client-id</code></td>
+<td>checkout client id</td>
+<td><code>false</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>checkout-workflow-step</code></td>
+<td>default checkout workflow step</td>
+<td><code>CheckoutWorkflowStep.EMAIL</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>country</code></td>
+<td>country of the offers to retrieve from WCS, determines the currency, price format, etc.</td>
+<td>US or locale country if set</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>env</code></td>
+<td>commerce environment you want this page to use, either <code>stage</code> or <code>prod</code></td>
+<td><code>prod</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>host-env</code></td>
+<td>host environment, either <code>stage</code> or <code>prod</code></td>
+<td><code>prod</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>force-tax-exclusive</code></td>
+<td>force all price display to be tax exclusive</td>
+<td><code>false</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>locale</code></td>
+<td>currency &amp; price locale you need, must belong to one of the <a href="#supported-locales">supported locales</a></td>
+<td><code>en_US</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>language</code></td>
+<td>language of the price literal, e.g: per license</td>
+<td>en or locale langauge if set</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>wcs-api-key</code></td>
+<td>api key used for making WCS calls</td>
+<td><code>wcms-commerce-ims-ro-user-milo</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>lana-tags</code></td>
+<td>Enables logging via lana<a href="https://github.com/adobecom/milo/blob/stage/libs/utils/lana.js">^1</a> with the given tags. e.g:<code>ccd</code>.</td>
+<td></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>lana-sample-rate</code></td>
+<td>Sets the sampling rate, see <a href="https://wiki.corp.adobe.com/pages/viewpage.action?spaceKey=WCMSOps&amp;title=LANA+-+Log+Always+Never+Assume">^1</a> for details.</td>
+<td>1</td>
+<td><code>false</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="methods" tabindex="-1">Methods <a class="header-anchor" href="#methods" href="#methods" title="Permalink to this heading">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>registerCheckoutAction (action)</code></td>
+<td>registers an action, that must have signature (offers, options, imsSignedInPromise)</td>
+</tr>
+<tr>
+<td><code>flushWcsCache()</code></td>
+<td>flush the payload cache for WCS calls</td>
+</tr>
+<tr>
+<td><code>refreshOffers()</code></td>
+<td><code>flushWcsCache</code> + refresh prices + checkout links</td>
+</tr>
+<tr>
+<td><code>refreshFragments()</code></td>
+<td><code>flushWcsCache</code> + refresh fragment content from Odin. This results in card content update with offers</td>
+</tr>
+</tbody>
+</table>
+<h3 id="examples" tabindex="-1">Examples <a class="header-anchor" href="#examples" href="#examples" title="Permalink to this heading">#</a></h3>
+<pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- for US english production--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">mas-commerce-service</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">mas-commerce-service</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- for US english stage--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">mas-commerce-service</span> <span class="hljs-attr">env</span>=<span class="hljs-string">&quot;stage&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">mas-commerce-service</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- for other country &amp; language --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">mas-commerce-service</span> <span class="hljs-attr">country</span>=<span class="hljs-string">&quot;CA&quot;</span> <span class="hljs-attr">language</span>=<span class="hljs-string">&quot;fr&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">mas-commerce-service</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- for other locales, pass locale parameter from the table below --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">mas-commerce-service</span> <span class="hljs-attr">locale</span>=<span class="hljs-string">&quot;en_CA&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">mas-commerce-service</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- for other language --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">mas-commerce-service</span> <span class="hljs-attr">language</span>=<span class="hljs-string">&quot;es&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">mas-commerce-service</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- for other locale, with different language --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">mas-commerce-service</span> <span class="hljs-attr">locale</span>=<span class="hljs-string">&quot;en_CA&quot;</span> <span class="hljs-attr">language</span>=<span class="hljs-string">&quot;es&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">mas-commerce-service</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- or with a country and language --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">mas-commerce-service</span> <span class="hljs-attr">country</span>=<span class="hljs-string">&quot;JP&quot;</span> <span class="hljs-attr">language</span>=<span class="hljs-string">&quot;en&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">mas-commerce-service</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- with custom api key &amp; checkout clientid --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">mas-commerce-service</span>
+    <span class="hljs-attr">wcs-api-key</span>=<span class="hljs-string">&quot;custom-api-key&quot;</span>
+    <span class="hljs-attr">checkout-client-id</span>=<span class="hljs-string">&quot;custom-client-id&quot;</span>
+&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">mas-commerce-service</span>&gt;</span>
+</code></pre>
+<p>you can play around with below price, either adding locale, language or env as parameters that will be injected to <code>mas-commerce-service</code> as attributes, and then it will be activated.</p>
 <p class="example">
   Plans starting at
   <span
@@ -57,19 +207,16 @@ It is programmatically added by mas.js and its tag name can be changed later.</p
   ></span
   >.
 </p>
-<script type="module">
-  const params = new URLSearchParams(document.location.search);
-  let masJs = 'https://ccd-checkout-link--milo--yesil.hlx.page/libs/deps/mas/mas.js';
-  const locale = params.get('locale');
-  if (locale) {
-    masJs = `${masJs}?locale=${locale}`;
-  }
-  const script = document.createElement('script');
-  script.type = 'module';
-  script.src = masJs;
-  document.head.append(script);
-</script>
-<h2 id="supported-locales" tabindex="-1"><a class="header-anchor" href="#supported-locales">Supported locales</a></h2>
+<h4 id="refreshoffers" tabindex="-1">refreshOffers <a class="header-anchor" href="#refreshoffers" href="#refreshoffers" title="Permalink to this heading">#</a></h4>
+<p>Toggle the network tab and click on <code>Refresh</code> button below</p>
+<pre><code class="hljs demo language-html"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;btnRefresh&quot;</span>&gt;</span>Refresh<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;btnRefresh&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;mas-commerce-service&#x27;</span>).<span class="hljs-title function_">refreshOffers</span>();
+    });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+<h3 id="supported-locales" tabindex="-1">Supported locales <a class="header-anchor" href="#supported-locales" href="#supported-locales" title="Permalink to this heading">#</a></h3>
 <table>
 <thead>
 <tr>
@@ -80,404 +227,425 @@ It is programmatically added by mas.js and its tag name can be changed later.</p
 </thead>
 <tbody>
 <tr>
-<td>US_en</td>
+<td>en_US</td>
 <td>English (United States)</td>
 <td><a href="/libs/features/mas/docs/mas.js.html">Try</a></td>
 </tr>
 <tr>
-<td>AR_es</td>
-<td>Spanish (Argentina)</td>
-<td><a href="?locale=AR_es">Try</a></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td>AT_de</td>
-<td>German (Austria)</td>
-<td><a href="?locale=AT_de">Try</a></td>
-</tr>
-<tr>
-<td>AU_en</td>
-<td>English (Australia)</td>
-<td><a href="?locale=AU_en">Try</a></td>
-</tr>
-<tr>
-<td>AZ_en</td>
-<td>English (Azerbaijan)</td>
-<td><a href="?locale=AZ_en">Try</a></td>
-</tr>
-<tr>
-<td>AZ_ru</td>
-<td>Russian (Azerbaijan)</td>
-<td><a href="?locale=AZ_ru">Try</a></td>
-</tr>
-<tr>
-<td>BE_en</td>
-<td>English (Belgium)</td>
-<td><a href="?locale=BE_en">Try</a></td>
-</tr>
-<tr>
-<td>BE_fr</td>
-<td>French (Belgium)</td>
-<td><a href="?locale=BE_fr">Try</a></td>
-</tr>
-<tr>
-<td>BE_nl</td>
-<td>Dutch (Belgium)</td>
-<td><a href="?locale=BE_nl">Try</a></td>
-</tr>
-<tr>
-<td>BG_bg</td>
-<td>Bulgarian (Bulgaria)</td>
-<td><a href="?locale=BG_bg">Try</a></td>
-</tr>
-<tr>
-<td>BR_pt</td>
-<td>Portuguese (Brazil)</td>
-<td><a href="?locale=BR_pt">Try</a></td>
-</tr>
-<tr>
-<td>CA_en</td>
-<td>English (Canada)</td>
-<td><a href="?locale=CA_en">Try</a></td>
-</tr>
-<tr>
-<td>CH_de</td>
-<td>German (Switzerland)</td>
-<td><a href="?locale=CH_de">Try</a></td>
-</tr>
-<tr>
-<td>CH_fr</td>
-<td>French (Switzerland)</td>
-<td><a href="?locale=CH_fr">Try</a></td>
-</tr>
-<tr>
-<td>CH_it</td>
-<td>Italian (Switzerland)</td>
-<td><a href="?locale=CH_it">Try</a></td>
-</tr>
-<tr>
-<td>CL_es</td>
-<td>Spanish (Chile)</td>
-<td><a href="?locale=CL_es">Try</a></td>
-</tr>
-<tr>
-<td>CN_zh-Hans</td>
-<td>Simplified Chinese (China)</td>
-<td><a href="?locale=CN_zh-Hans">Try</a></td>
-</tr>
-<tr>
-<td>CO_es</td>
-<td>Spanish (Colombia)</td>
-<td><a href="?locale=CO_es">Try</a></td>
-</tr>
-<tr>
-<td>CR_es</td>
-<td>Spanish (Costa Rica)</td>
-<td><a href="?locale=CR_es">Try</a></td>
-</tr>
-<tr>
-<td>CZ_cs</td>
-<td>Czech (Czech Republic)</td>
-<td><a href="?locale=CZ_cs">Try</a></td>
-</tr>
-<tr>
-<td>DE_de</td>
-<td>German (Germany)</td>
-<td><a href="?locale=DE_de">Try</a></td>
-</tr>
-<tr>
-<td>DK_da</td>
-<td>Danish (Denmark)</td>
-<td><a href="?locale=DK_da">Try</a></td>
-</tr>
-<tr>
-<td>DO_es</td>
-<td>Spanish (Dominican Republic)</td>
-<td><a href="?locale=DO_es">Try</a></td>
-</tr>
-<tr>
-<td>DZ_ar</td>
+<td>ar_DZ</td>
 <td>Arabic (Algeria)</td>
-<td><a href="?locale=DZ_ar">Try</a></td>
+<td><a href="?locale=ar_DZ">Try</a></td>
 </tr>
 <tr>
-<td>DZ_en</td>
-<td>English (Algeria)</td>
-<td><a href="?locale=DZ_en">Try</a></td>
-</tr>
-<tr>
-<td>EC_es</td>
-<td>Spanish (Ecuador)</td>
-<td><a href="?locale=EC_es">Try</a></td>
-</tr>
-<tr>
-<td>EE_et</td>
-<td>Estonian (Estonia)</td>
-<td><a href="?locale=EE_et">Try</a></td>
-</tr>
-<tr>
-<td>EG_ar</td>
+<td>ar_EG</td>
 <td>Arabic (Egypt)</td>
-<td><a href="?locale=EG_ar">Try</a></td>
+<td><a href="?locale=ar_EG">Try</a></td>
 </tr>
 <tr>
-<td>EG_en</td>
-<td>English (Egypt)</td>
-<td><a href="?locale=EG_en">Try</a></td>
-</tr>
-<tr>
-<td>ES_es</td>
-<td>Spanish (Spain)</td>
-<td><a href="?locale=ES_es">Try</a></td>
-</tr>
-<tr>
-<td>FI_fi</td>
-<td>Finnish (Finland)</td>
-<td><a href="?locale=FI_fi">Try</a></td>
-</tr>
-<tr>
-<td>FR_fr</td>
-<td>French (France)</td>
-<td><a href="?locale=FR_fr">Try</a></td>
-</tr>
-<tr>
-<td>GB_en</td>
-<td>English (United Kingdom)</td>
-<td><a href="?locale=GB_en">Try</a></td>
-</tr>
-<tr>
-<td>GR_el</td>
-<td>Greek (Greece)</td>
-<td><a href="?locale=GR_el">Try</a></td>
-</tr>
-<tr>
-<td>GR_en</td>
-<td>English (Greece)</td>
-<td><a href="?locale=GR_en">Try</a></td>
-</tr>
-<tr>
-<td>GT_es</td>
-<td>Spanish (Guatemala)</td>
-<td><a href="?locale=GT_es">Try</a></td>
-</tr>
-<tr>
-<td>HK_zh-hant</td>
-<td>Traditional Chinese (Hong Kong)</td>
-<td><a href="?locale=HK_zh-hant">Try</a></td>
-</tr>
-<tr>
-<td>HU_hu</td>
-<td>Hungarian (Hungary)</td>
-<td><a href="?locale=HU_hu">Try</a></td>
-</tr>
-<tr>
-<td>ID_en</td>
-<td>English (Indonesia)</td>
-<td><a href="?locale=ID_en">Try</a></td>
-</tr>
-<tr>
-<td>ID_in</td>
-<td>Indonesian (Indonesia)</td>
-<td><a href="?locale=ID_in">Try</a></td>
-</tr>
-<tr>
-<td>IE_en</td>
-<td>English (Ireland)</td>
-<td><a href="?locale=IE_en">Try</a></td>
-</tr>
-<tr>
-<td>IL_iw</td>
-<td>Hebrew (Israel)</td>
-<td><a href="?locale=IL_iw">Try</a></td>
-</tr>
-<tr>
-<td>IN_en</td>
-<td>English (India)</td>
-<td><a href="?locale=IN_en">Try</a></td>
-</tr>
-<tr>
-<td>IN_hi</td>
-<td>Hindi (India)</td>
-<td><a href="?locale=IN_hi">Try</a></td>
-</tr>
-<tr>
-<td>IT_it</td>
-<td>Italian (Italy)</td>
-<td><a href="?locale=IT_it">Try</a></td>
-</tr>
-<tr>
-<td>JP_ja</td>
-<td>Japanese (Japan)</td>
-<td><a href="?locale=JP_ja">Try</a></td>
-</tr>
-<tr>
-<td>KR_ko</td>
-<td>Korean (South Korea)</td>
-<td><a href="?locale=KR_ko">Try</a></td>
-</tr>
-<tr>
-<td>LT_lt</td>
-<td>Lithuanian (Lithuania)</td>
-<td><a href="?locale=LT_lt">Try</a></td>
-</tr>
-<tr>
-<td>LU_de</td>
-<td>German (Luxembourg)</td>
-<td><a href="?locale=LU_de">Try</a></td>
-</tr>
-<tr>
-<td>LU_en</td>
-<td>English (Luxembourg)</td>
-<td><a href="?locale=LU_en">Try</a></td>
-</tr>
-<tr>
-<td>LU_fr</td>
-<td>French (Luxembourg)</td>
-<td><a href="?locale=LU_fr">Try</a></td>
-</tr>
-<tr>
-<td>LV_lv</td>
-<td>Latvian (Latvia)</td>
-<td><a href="?locale=LV_lv">Try</a></td>
-</tr>
-<tr>
-<td>MT_en</td>
-<td>English (Malta)</td>
-<td><a href="?locale=MT_en">Try</a></td>
-</tr>
-<tr>
-<td>MU_en</td>
-<td>English (Mauritius)</td>
-<td><a href="?locale=MU_en">Try</a></td>
-</tr>
-<tr>
-<td>MX_es</td>
-<td>Spanish (Mexico)</td>
-<td><a href="?locale=MX_es">Try</a></td>
-</tr>
-<tr>
-<td>MY_en</td>
-<td>English (Malaysia)</td>
-<td><a href="?locale=MY_en">Try</a></td>
-</tr>
-<tr>
-<td>MY_ms</td>
-<td>Malay (Malaysia)</td>
-<td><a href="?locale=MY_ms">Try</a></td>
-</tr>
-<tr>
-<td>NG_en</td>
-<td>English (Nigeria)</td>
-<td><a href="?locale=NG_en">Try</a></td>
-</tr>
-<tr>
-<td>NL_nl</td>
-<td>Dutch (Netherlands)</td>
-<td><a href="?locale=NL_nl">Try</a></td>
-</tr>
-<tr>
-<td>NO_nb</td>
-<td>Norwegian Bokmål (Norway)</td>
-<td><a href="?locale=NO_nb">Try</a></td>
-</tr>
-<tr>
-<td>NZ_en</td>
-<td>English (New Zealand)</td>
-<td><a href="?locale=NZ_en">Try</a></td>
-</tr>
-<tr>
-<td>PE_es</td>
-<td>Spanish (Peru)</td>
-<td><a href="?locale=PE_es">Try</a></td>
-</tr>
-<tr>
-<td>PL_pl</td>
-<td>Polish (Poland)</td>
-<td><a href="?locale=PL_pl">Try</a></td>
-</tr>
-<tr>
-<td>PT_pt</td>
-<td>Portuguese (Portugal)</td>
-<td><a href="?locale=PT_pt">Try</a></td>
-</tr>
-<tr>
-<td>RO_ro</td>
-<td>Romanian (Romania)</td>
-<td><a href="?locale=RO_ro">Try</a></td>
-</tr>
-<tr>
-<td>RU_ru</td>
-<td>Russian (Russia)</td>
-<td><a href="?locale=RU_ru">Try</a></td>
-</tr>
-<tr>
-<td>SA_ar</td>
+<td>ar_SA</td>
 <td>Arabic (Saudi Arabia)</td>
-<td><a href="?locale=SA_ar">Try</a></td>
+<td><a href="?locale=ar_SA">Try</a></td>
 </tr>
 <tr>
-<td>SA_en</td>
+<td>bg_BG</td>
+<td>Bulgarian (Bulgaria)</td>
+<td><a href="?locale=bg_BG">Try</a></td>
+</tr>
+<tr>
+<td>cs_CZ</td>
+<td>Czech (Czech Republic)</td>
+<td><a href="?locale=cs_CZ">Try</a></td>
+</tr>
+<tr>
+<td>da_DK</td>
+<td>Danish (Denmark)</td>
+<td><a href="?locale=da_DK">Try</a></td>
+</tr>
+<tr>
+<td>de_AT</td>
+<td>German (Austria)</td>
+<td><a href="?locale=de_AT">Try</a></td>
+</tr>
+<tr>
+<td>de_CH</td>
+<td>German (Switzerland)</td>
+<td><a href="?locale=de_CH">Try</a></td>
+</tr>
+<tr>
+<td>de_DE</td>
+<td>German (Germany)</td>
+<td><a href="?locale=de_DE">Try</a></td>
+</tr>
+<tr>
+<td>de_LU</td>
+<td>German (Luxembourg)</td>
+<td><a href="?locale=de_LU">Try</a></td>
+</tr>
+<tr>
+<td>el_GR</td>
+<td>Greek (Greece)</td>
+<td><a href="?locale=el_GR">Try</a></td>
+</tr>
+<tr>
+<td>en_AU</td>
+<td>English (Australia)</td>
+<td><a href="?locale=en_AU">Try</a></td>
+</tr>
+<tr>
+<td>en_AZ</td>
+<td>English (Azerbaijan)</td>
+<td><a href="?locale=en_AZ">Try</a></td>
+</tr>
+<tr>
+<td>en_BE</td>
+<td>English (Belgium)</td>
+<td><a href="?locale=en_BE">Try</a></td>
+</tr>
+<tr>
+<td>en_CA</td>
+<td>English (Canada)</td>
+<td><a href="?locale=en_CA">Try</a></td>
+</tr>
+<tr>
+<td>en_DZ</td>
+<td>English (Algeria)</td>
+<td><a href="?locale=en_DZ">Try</a></td>
+</tr>
+<tr>
+<td>en_EG</td>
+<td>English (Egypt)</td>
+<td><a href="?locale=en_EG">Try</a></td>
+</tr>
+<tr>
+<td>en_GB</td>
+<td>English (United Kingdom)</td>
+<td><a href="?locale=en_GB">Try</a></td>
+</tr>
+<tr>
+<td>en_GR</td>
+<td>English (Greece)</td>
+<td><a href="?locale=en_GR">Try</a></td>
+</tr>
+<tr>
+<td>en_ID</td>
+<td>English (Indonesia)</td>
+<td><a href="?locale=en_ID">Try</a></td>
+</tr>
+<tr>
+<td>en_IE</td>
+<td>English (Ireland)</td>
+<td><a href="?locale=en_IE">Try</a></td>
+</tr>
+<tr>
+<td>en_IN</td>
+<td>English (India)</td>
+<td><a href="?locale=en_IN">Try</a></td>
+</tr>
+<tr>
+<td>en_LU</td>
+<td>English (Luxembourg)</td>
+<td><a href="?locale=en_LU">Try</a></td>
+</tr>
+<tr>
+<td>en_MT</td>
+<td>English (Malta)</td>
+<td><a href="?locale=en_MT">Try</a></td>
+</tr>
+<tr>
+<td>en_MU</td>
+<td>English (Mauritius)</td>
+<td><a href="?locale=en_MU">Try</a></td>
+</tr>
+<tr>
+<td>en_MY</td>
+<td>English (Malaysia)</td>
+<td><a href="?locale=en_MY">Try</a></td>
+</tr>
+<tr>
+<td>en_NG</td>
+<td>English (Nigeria)</td>
+<td><a href="?locale=en_NG">Try</a></td>
+</tr>
+<tr>
+<td>en_NZ</td>
+<td>English (New Zealand)</td>
+<td><a href="?locale=en_NZ">Try</a></td>
+</tr>
+<tr>
+<td>en_SA</td>
 <td>English (Saudi Arabia)</td>
-<td><a href="?locale=SA_en">Try</a></td>
+<td><a href="?locale=en_SA">Try</a></td>
 </tr>
 <tr>
-<td>SE_sv</td>
-<td>Swedish (Sweden)</td>
-<td><a href="?locale=SE_sv">Try</a></td>
-</tr>
-<tr>
-<td>SG_en</td>
+<td>en_SG</td>
 <td>English (Singapore)</td>
-<td><a href="?locale=SG_en">Try</a></td>
+<td><a href="?locale=en_SG">Try</a></td>
 </tr>
 <tr>
-<td>SI_sl</td>
-<td>Slovenian (Slovenia)</td>
-<td><a href="?locale=SI_sl">Try</a></td>
-</tr>
-<tr>
-<td>SK_sk</td>
-<td>Slovak (Slovakia)</td>
-<td><a href="?locale=SK_sk">Try</a></td>
-</tr>
-<tr>
-<td>TH_en</td>
+<td>en_TH</td>
 <td>English (Thailand)</td>
-<td><a href="?locale=TH_en">Try</a></td>
+<td><a href="?locale=en_TH">Try</a></td>
 </tr>
 <tr>
-<td>TH_th</td>
-<td>Thai (Thailand)</td>
-<td><a href="?locale=TH_th">Try</a></td>
-</tr>
-<tr>
-<td>TR_tr</td>
-<td>Turkish (Turkey)</td>
-<td><a href="?locale=TR_tr">Try</a></td>
-</tr>
-<tr>
-<td>TW_zh-Hant</td>
-<td>Traditional Chinese (Taiwan)</td>
-<td><a href="?locale=TW_zh-Hant">Try</a></td>
-</tr>
-<tr>
-<td>UA_uk</td>
-<td>Ukrainian (Ukraine)</td>
-<td><a href="?locale=UA_uk">Try</a></td>
-</tr>
-<tr>
-<td>US_es</td>
-<td>Spanish (United States)</td>
-<td><a href="?locale=US_es">Try</a></td>
-</tr>
-<tr>
-<td>ZA_en</td>
+<td>en_ZA</td>
 <td>English (South Africa)</td>
-<td><a href="?locale=ZA_en">Try</a></td>
+<td><a href="?locale=en_ZA">Try</a></td>
+</tr>
+<tr>
+<td>es_AR</td>
+<td>Spanish (Argentina)</td>
+<td><a href="?locale=es_AR">Try</a></td>
+</tr>
+<tr>
+<td>es_CL</td>
+<td>Spanish (Chile)</td>
+<td><a href="?locale=es_CL">Try</a></td>
+</tr>
+<tr>
+<td>es_CO</td>
+<td>Spanish (Colombia)</td>
+<td><a href="?locale=es_CO">Try</a></td>
+</tr>
+<tr>
+<td>es_CR</td>
+<td>Spanish (Costa Rica)</td>
+<td><a href="?locale=es_CR">Try</a></td>
+</tr>
+<tr>
+<td>es_DO</td>
+<td>Spanish (Dominican Republic)</td>
+<td><a href="?locale=es_DO">Try</a></td>
+</tr>
+<tr>
+<td>es_EC</td>
+<td>Spanish (Ecuador)</td>
+<td><a href="?locale=es_EC">Try</a></td>
+</tr>
+<tr>
+<td>es_ES</td>
+<td>Spanish (Spain)</td>
+<td><a href="?locale=es_ES">Try</a></td>
+</tr>
+<tr>
+<td>es_GT</td>
+<td>Spanish (Guatemala)</td>
+<td><a href="?locale=es_GT">Try</a></td>
+</tr>
+<tr>
+<td>es_MX</td>
+<td>Spanish (Mexico)</td>
+<td><a href="?locale=es_MX">Try</a></td>
+</tr>
+<tr>
+<td>es_PE</td>
+<td>Spanish (Peru)</td>
+<td><a href="?locale=es_PE">Try</a></td>
+</tr>
+<tr>
+<td>es_US</td>
+<td>Spanish (United States)</td>
+<td><a href="?locale=es_US">Try</a></td>
+</tr>
+<tr>
+<td>et_EE</td>
+<td>Estonian (Estonia)</td>
+<td><a href="?locale=et_EE">Try</a></td>
+</tr>
+<tr>
+<td>fi_FI</td>
+<td>Finnish (Finland)</td>
+<td><a href="?locale=fi_FI">Try</a></td>
+</tr>
+<tr>
+<td>fr_BE</td>
+<td>French (Belgium)</td>
+<td><a href="?locale=fr_BE">Try</a></td>
+</tr>
+<tr>
+<td>fr_CH</td>
+<td>French (Switzerland)</td>
+<td><a href="?locale=fr_CH">Try</a></td>
+</tr>
+<tr>
+<td>fr_FR</td>
+<td>French (France)</td>
+<td><a href="?locale=fr_FR">Try</a></td>
+</tr>
+<tr>
+<td>fr_LU</td>
+<td>French (Luxembourg)</td>
+<td><a href="?locale=fr_LU">Try</a></td>
+</tr>
+<tr>
+<td>hi_IN</td>
+<td>Hindi (India)</td>
+<td><a href="?locale=hi_IN">Try</a></td>
+</tr>
+<tr>
+<td>hu_HU</td>
+<td>Hungarian (Hungary)</td>
+<td><a href="?locale=hu_HU">Try</a></td>
+</tr>
+<tr>
+<td>in_ID</td>
+<td>Indonesian (Indonesia)</td>
+<td><a href="?locale=in_ID">Try</a></td>
+</tr>
+<tr>
+<td>it_CH</td>
+<td>Italian (Switzerland)</td>
+<td><a href="?locale=it_CH">Try</a></td>
+</tr>
+<tr>
+<td>it_IT</td>
+<td>Italian (Italy)</td>
+<td><a href="?locale=it_IT">Try</a></td>
+</tr>
+<tr>
+<td>iw_IL</td>
+<td>Hebrew (Israel)</td>
+<td><a href="?locale=iw_IL">Try</a></td>
+</tr>
+<tr>
+<td>ja_JP</td>
+<td>Japanese (Japan)</td>
+<td><a href="?locale=ja_JP">Try</a></td>
+</tr>
+<tr>
+<td>ko_KR</td>
+<td>Korean (South Korea)</td>
+<td><a href="?locale=ko_KR">Try</a></td>
+</tr>
+<tr>
+<td>lt_LT</td>
+<td>Lithuanian (Lithuania)</td>
+<td><a href="?locale=lt_LT">Try</a></td>
+</tr>
+<tr>
+<td>lv_LV</td>
+<td>Latvian (Latvia)</td>
+<td><a href="?locale=lv_LV">Try</a></td>
+</tr>
+<tr>
+<td>ms_MY</td>
+<td>Malay (Malaysia)</td>
+<td><a href="?locale=ms_MY">Try</a></td>
+</tr>
+<tr>
+<td>nb_NO</td>
+<td>Norwegian Bokmål (Norway)</td>
+<td><a href="?locale=nb_NO">Try</a></td>
+</tr>
+<tr>
+<td>nl_BE</td>
+<td>Dutch (Belgium)</td>
+<td><a href="?locale=nl_BE">Try</a></td>
+</tr>
+<tr>
+<td>nl_NL</td>
+<td>Dutch (Netherlands)</td>
+<td><a href="?locale=nl_NL">Try</a></td>
+</tr>
+<tr>
+<td>pl_PL</td>
+<td>Polish (Poland)</td>
+<td><a href="?locale=pl_PL">Try</a></td>
+</tr>
+<tr>
+<td>pt_BR</td>
+<td>Portuguese (Brazil)</td>
+<td><a href="?locale=pt_BR">Try</a></td>
+</tr>
+<tr>
+<td>pt_PT</td>
+<td>Portuguese (Portugal)</td>
+<td><a href="?locale=pt_PT">Try</a></td>
+</tr>
+<tr>
+<td>ro_RO</td>
+<td>Romanian (Romania)</td>
+<td><a href="?locale=ro_RO">Try</a></td>
+</tr>
+<tr>
+<td>ru_AZ</td>
+<td>Russian (Azerbaijan)</td>
+<td><a href="?locale=ru_AZ">Try</a></td>
+</tr>
+<tr>
+<td>ru_RU</td>
+<td>Russian (Russia)</td>
+<td><a href="?locale=ru_RU">Try</a></td>
+</tr>
+<tr>
+<td>sk_SK</td>
+<td>Slovak (Slovakia)</td>
+<td><a href="?locale=sk_SK">Try</a></td>
+</tr>
+<tr>
+<td>sl_SI</td>
+<td>Slovenian (Slovenia)</td>
+<td><a href="?locale=sl_SI">Try</a></td>
+</tr>
+<tr>
+<td>sv_SE</td>
+<td>Swedish (Sweden)</td>
+<td><a href="?locale=sv_SE">Try</a></td>
+</tr>
+<tr>
+<td>th_TH</td>
+<td>Thai (Thailand)</td>
+<td><a href="?locale=th_TH">Try</a></td>
+</tr>
+<tr>
+<td>tr_TR</td>
+<td>Turkish (Turkey)</td>
+<td><a href="?locale=tr_TR">Try</a></td>
+</tr>
+<tr>
+<td>uk_UA</td>
+<td>Ukrainian (Ukraine)</td>
+<td><a href="?locale=uk_UA">Try</a></td>
+</tr>
+<tr>
+<td>zh-Hans_CN</td>
+<td>Simplified Chinese (China)</td>
+<td><a href="?locale=zh-Hans_CN">Try</a></td>
+</tr>
+<tr>
+<td>zh-Hant_HK</td>
+<td>Traditional Chinese (Hong Kong)</td>
+<td><a href="?locale=zh-Hant_HK">Try</a></td>
+</tr>
+<tr>
+<td>zh-Hant_TW</td>
+<td>Traditional Chinese (Taiwan)</td>
+<td><a href="?locale=zh-Hant_TW">Try</a></td>
 </tr>
 </tbody>
 </table>
 
 </sp-theme>
 </main>
+<script type="module">
+  document.querySelectorAll('code.demo').forEach(el => {
+      const targetContainer = document.createElement('div');
+      targetContainer.classList.toggle('light', el.classList.contains('light'));
+      targetContainer.innerHTML = `<h4>Demo: </h4><div class="demo-container">${el.textContent}</div>`;
+      el.parentElement.after(targetContainer);
+      // Extract and evaluate <script> tags
+      const scriptTags = targetContainer.getElementsByTagName('script');
+      for (let i = 0; i < scriptTags.length; i++) {
+          const script = document.createElement('script');
+          script.text = scriptTags[i].text;
+          document.body.appendChild(script); // Appends to the document to execute
+          scriptTags[i].remove(); // Remove the script tag
+      }
+  });
+</script>
 </body>
 </html>

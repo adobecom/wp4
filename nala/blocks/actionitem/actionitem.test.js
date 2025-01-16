@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { features } from './actionitem.spec.js';
 import ActionItem from './actionitem.page.js';
+import { runAccessibilityTest } from '../../libs/accessibility.js';
 
 let actionItem;
 
@@ -30,6 +31,10 @@ test.describe('Milo Action-Item block test suite', () => {
       await expect(await actionItem.bodyTextLink).toBeVisible();
       await expect(await actionItem.bodyText).toContainText(data.bodyText);
     });
+
+    await test.step('step-3: Verify the accessibility test on the Action-Item (Small) block', async () => {
+      await runAccessibilityTest({ page, testScope: actionItem.small });
+    });
   });
 
   // Test 1 : Action-Item (Medium)
@@ -50,6 +55,10 @@ test.describe('Milo Action-Item block test suite', () => {
 
       await expect(await actionItem.bodyTextLink).toBeVisible();
       await expect(await actionItem.bodyText).toContainText(data.bodyText);
+    });
+
+    await test.step('step-3: Verify the accessibility test on the Action-Item (Medium) block', async () => {
+      await runAccessibilityTest({ page, testScope: actionItem.medium });
     });
   });
 
@@ -72,6 +81,10 @@ test.describe('Milo Action-Item block test suite', () => {
       await expect(await actionItem.bodyTextLink).toBeVisible();
       await expect(await actionItem.bodyText).toContainText(data.bodyText);
     });
+
+    await test.step('step-3: Verify the accessibility test on the Action-Item (Large) block', async () => {
+      await runAccessibilityTest({ page, testScope: actionItem.large });
+    });
   });
 
   // Test 3 : Action-Item (Center)
@@ -91,6 +104,10 @@ test.describe('Milo Action-Item block test suite', () => {
 
       await expect(await actionItem.bodyTextLink).toBeVisible();
       await expect(await actionItem.bodyText).toContainText(data.bodyText);
+    });
+
+    await test.step('step-3: Verify the accessibility test on the Action-Item (Center) block', async () => {
+      await runAccessibilityTest({ page, testScope: actionItem.center });
     });
   });
 
@@ -113,6 +130,10 @@ test.describe('Milo Action-Item block test suite', () => {
       await expect(await actionItem.bodyTextLink).toBeVisible();
       await expect(await actionItem.bodyText).toContainText(data.bodyText);
     });
+
+    await test.step('step-3: Verify the accessibility test on the Action-Item (Rounded) block', async () => {
+      await runAccessibilityTest({ page, testScope: actionItem.rounded });
+    });
   });
 
   // Test 5 : Action-Item (Float Button)
@@ -132,6 +153,10 @@ test.describe('Milo Action-Item block test suite', () => {
       await expect(await actionItem.image).toBeVisible();
       await expect(await actionItem.floatOutlineButton).toBeVisible();
       await expect(await actionItem.floatOutlineButton).toContainText(data.floatButtonText);
+    });
+
+    await test.step('step-4: Verify the accessibility test on the Action-Item (Float Button) block', async () => {
+      await runAccessibilityTest({ page, testScope: actionItem.actionItemFloat });
     });
     await test.step('step-3: Click the float button', async () => {
       await actionItem.floatButton.click();
@@ -158,6 +183,10 @@ test.describe('Milo Action-Item block test suite', () => {
       await expect(await actionItem.image).toBeVisible();
       await expect(await actionItem.bodyText).toContainText(data.bodyText);
     });
+
+    await test.step('step-3: Verify the accessibility test on the Action-Item (scroller) block', async () => {
+      await runAccessibilityTest({ page, testScope: actionItem.actionScroller });
+    });
   });
 
   // Test 7 : Action-Item (scroller)
@@ -183,6 +212,10 @@ test.describe('Milo Action-Item block test suite', () => {
       await actionItem.nextButton.click();
       await expect(await actionItem.previousButton).toBeVisible({ timeout: 1000 });
       await expect(await actionItem.navigationNext).toHaveAttribute('hide-btn', 'false');
+    });
+
+    await test.step('step-3: Verify the accessibility test on the Action-Item (scroller) block', async () => {
+      await runAccessibilityTest({ page, testScope: actionItem.actionScroller });
     });
   });
 });

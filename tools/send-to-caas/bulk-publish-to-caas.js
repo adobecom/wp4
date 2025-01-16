@@ -51,7 +51,8 @@ const checkIms = async () => {
       'You must be logged in with an Adobe ID in order to publish to CaaS.\nDo you want to log in?',
     );
     if (shouldLogIn) {
-      window.adobeIMS.signIn();
+      const { signInContext } = getConfig();
+      window.adobeIMS.signIn(signInContext);
     }
     return false;
   }
@@ -116,6 +117,7 @@ const processData = async (data, accessToken) => {
   let domain = `https://${host}`;
 
   if (usePreview || publishToFloodgate !== 'default') {
+    // TODO ADD HLX5 SUPPORT
     domain = `https://main--${repo}--${owner}.hlx.live`;
   }
 

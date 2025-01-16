@@ -1,9 +1,7 @@
 name: Nala Tests on CircleCI
 
 on:
-  push:
-    branches:
-      - stage
+  workflow_dispatch:
 
 jobs:
   trigger-circleci:

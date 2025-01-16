@@ -262,4 +262,29 @@ describe('Jarvis Chat', () => {
     params.callbacks.onReadyCallback();
     expect(openMessagingWindowSpy.called).to.be.true;
   });
+
+  it('should use stage asset URL in non-prod environment', async () => {
+    setConfig(defaultConfig);
+    const config = getConfig();
+    config.jarvis.onDemand = false;
+    const loadScriptSpy = sinon.spy();
+    const loadStyleSpy = sinon.spy();
+    await initJarvisChat(config, loadScriptSpy, loadStyleSpy, sinon.stub());
+    const expectedAsset = 'https://stage-client.messaging.adobe.com/latest/AdobeMessagingClient';
+    expect(loadScriptSpy.calledWithExactly(`${expectedAsset}.js`)).to.be.true;
+    expect(loadStyleSpy.calledWithExactly(`${expectedAsset}.css`)).to.be.true;
+  });
+
+  it('should use prod asset URL in prod environment', async () => {
+    setConfig(defaultConfig);
+    const config = getConfig();
+    config.jarvis.onDemand = false;
+    config.env.name = 'prod';
+    const loadScriptSpy = sinon.spy();
+    const loadStyleSpy = sinon.spy();
+    await initJarvisChat(config, loadScriptSpy, loadStyleSpy, sinon.stub());
+    const expectedAsset = 'https://client.messaging.adobe.com/latest/AdobeMessagingClient';
+    expect(loadScriptSpy.calledWithExactly(`${expectedAsset}.js`)).to.be.true;
+    expect(loadStyleSpy.calledWithExactly(`${expectedAsset}.css`)).to.be.true;
+  });
 });

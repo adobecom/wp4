@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 import WebUtil from '../../libs/webutil.js';
 import { features } from './columns.spec.js';
 import ColumnsBlock from './columns.page.js';
+import { runAccessibilityTest } from '../../libs/accessibility.js';
 
 let column;
 let webUtil;
@@ -15,7 +16,7 @@ test.describe('Milo Columns Block test suite', () => {
   });
 
   // Test 0 : Column default block
-  test(`${features[0].name},${features[0].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[0].tcid}] ${features[0].name},${features[0].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[0].path}${miloLibs}`);
     const { data } = features[0];
 
@@ -40,10 +41,14 @@ test.describe('Milo Columns Block test suite', () => {
       expect(await webUtil.verifyCSS(await column.rows.nth(0), column.cssProperties['.columns > .row'])).toBeTruthy();
       expect(await webUtil.verifyAttributes(await column.column, column.attProperties.columns)).toBeTruthy();
     });
+
+    await test.step('step-3: Verify the accessibility test on the Column default block', async () => {
+      await runAccessibilityTest({ page, testScope: column.column });
+    });
   });
 
   // Test 1 : Columns (contained) block
-  test(`${features[1].name},${features[1].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[1].tcid}] ${features[1].name},${features[1].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[1].path}${miloLibs}`);
     const { data } = features[1];
 
@@ -67,10 +72,14 @@ test.describe('Milo Columns Block test suite', () => {
       expect(await webUtil.verifyCSS(await column.column, column.cssProperties['.columns.contained'])).toBeTruthy();
       expect(await webUtil.verifyAttributes(await column.column, column.attProperties['columns-contained'])).toBeTruthy();
     });
+
+    await test.step('step-3: Verify the accessibility test on the Columns(contained) block', async () => {
+      await runAccessibilityTest({ page, testScope: column.column });
+    });
   });
 
   // Test 2 : Columns (contained,middle) block
-  test(`${features[2].name},${features[2].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[2].tcid}] ${features[2].name},${features[2].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[2].path}${miloLibs}`);
     const { data } = features[2];
 
@@ -94,10 +103,14 @@ test.describe('Milo Columns Block test suite', () => {
       expect(await webUtil.verifyCSS(await column.column, column.cssProperties['.columns.contained'])).toBeTruthy();
       expect(await webUtil.verifyAttributes(await column.column, column.attProperties['columns-contained-middle'])).toBeTruthy();
     });
+
+    await test.step('step-3: Verify the accessibility test on the Columns(contained,middle) block', async () => {
+      await runAccessibilityTest({ page, testScope: column.column });
+    });
   });
 
   // Test 3 : Columns (table) block
-  test(`${features[3].name},${features[3].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[3].tcid}] ${features[3].name},${features[3].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[3].path}${miloLibs}`);
     const { data } = features[3];
 
@@ -125,10 +138,14 @@ test.describe('Milo Columns Block test suite', () => {
 
       expect(await webUtil.verifyAttributes(await column.column, column.attProperties['columns-table'])).toBeTruthy();
     });
+
+    await test.step('step-3: Verify the accessibility test on the Columns(table) block', async () => {
+      await runAccessibilityTest({ page, testScope: column.column, skipA11yTest: true });
+    });
   });
 
   // Test 4 : Columns (contained,table) block
-  test(`${features[4].name},${features[4].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[4].tcid}] ${features[4].name},${features[4].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[4].path}${miloLibs}`);
     const { data } = features[4];
 
@@ -155,6 +172,10 @@ test.describe('Milo Columns Block test suite', () => {
       expect(await webUtil.verifyCSS(await column.rows.nth(1), column.cssProperties['.columns.table > .row'])).toBeTruthy();
 
       expect(await webUtil.verifyAttributes(await column.column, column.attProperties['columns-contained-table'])).toBeTruthy();
+    });
+
+    await test.step('step-3: Verify the accessibility test on the Columns(contained,table) block', async () => {
+      await runAccessibilityTest({ page, testScope: column.column });
     });
   });
 });

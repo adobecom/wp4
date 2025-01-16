@@ -15,6 +15,7 @@ function getSiteOrigin() {
   const search = new URLSearchParams(window.location.search);
   const repo = search.get('repo');
   const owner = search.get('owner');
+  // TODO ADD HLX5 SUPPORT
   return repo && owner ? `https://main--${repo}--${owner}.hlx.live` : window.location.origin;
 }
 

@@ -4,12 +4,11 @@ import {
   decorateLinks,
   getMetadata,
   getConfig,
-  loadBlock,
   localizeLink,
+  loadStyle,
 } from '../../utils/utils.js';
 
 import {
-  getFedsPlaceholderConfig,
   getExperienceName,
   getAnalyticsValue,
   loadDecorateMenu,
@@ -23,7 +22,7 @@ import {
   isDarkMode,
 } from '../global-navigation/utilities/utilities.js';
 
-import { getFederatedUrl } from '../../utils/federated.js';
+import { getFederatedUrl, getFedsPlaceholderConfig } from '../../utils/federated.js';
 
 import { replaceKey } from '../../features/placeholders.js';
 
@@ -213,11 +212,13 @@ class Footer {
         aria-expanded="false"
         aria-haspopup="true"
         role="button">
-        <svg xmlns="http://www.w3.org/2000/svg" class="feds-regionPicker-globe" focusable="false">
+        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="feds-regionPicker-globe" focusable="false">
           <use href="#footer-icon-globe" />
         </svg>
         ${regionPickerTextElem}
       </a>`;
+    regionPickerElem.dataset.modalPath = `${url.pathname}#_inline`;
+    regionPickerElem.dataset.modalHash = url.hash;
     const regionPickerWrapperClass = 'feds-regionPicker-wrapper';
     this.elements.regionPicker = toFragment`<div class="${regionPickerWrapperClass}">
         ${regionPickerElem}
@@ -231,24 +232,48 @@ class Footer {
       // Hash -> region selector opens a modal
       decorateAutoBlock(regionPickerElem); // add modal-specific attributes
       // TODO remove logs after finding the root cause for the region picker 404s -> MWPW-143627
+      regionPickerElem.href = url.hash;
       if (regionPickerElem.classList[0] !== 'modal') {
         lanaLog({
           message: `Modal block class missing from region picker pre loading the block; locale: ${locale}; regionPickerElem: ${regionPickerElem.outerHTML}`,
           tags: 'errorType=warn,module=global-footer',
         });
       }
-      await loadBlock(regionPickerElem); // load modal logic and styles
+      loadStyle(`${base}/blocks/modal/modal.css`);
+      const { default: initModal } = await import('../modal/modal.js');
+      const modal = await initModal(regionPickerElem);
+
+      const loadRegionNav = async () => {
+        const block = document.querySelector('.region-nav');
+        if (block && getConfig().standaloneGnav) {
+          // on standalone the region-nav will fail to load automatically through
+          // the modal calling fragment.js. In that case we will have data-failed=true
+          // and we should manually load region nav
+          // If that's not the case then we're not a standalone gnav
+          // and we mustn't load region-nav twice.
+          if (block.getAttribute('data-failed') !== 'true') return;
+          block.classList.add('hide');
+          loadStyle(`${base}/blocks/region-nav/region-nav.css`);
+          const { default: initRegionNav } = await import('../region-nav/region-nav.js');
+          initRegionNav(block);
+          // decoratePlaceholders(block, getConfig());
+          block.classList.remove('hide');
+        }
+      };
+
+      if (modal) await loadRegionNav(); // just in case the modal is already open
+
       if (regionPickerElem.classList[0] !== 'modal') {
         lanaLog({
           message: `Modal block class missing from region picker post loading the block; locale: ${locale}; regionPickerElem: ${regionPickerElem.outerHTML}`,
           tags: 'errorType=warn,module=global-footer',
         });
       }
-      // 'decorateAutoBlock' logic replaces class name entirely, need to add it back
-      regionPickerElem.classList.add(regionPickerClass);
       regionPickerElem.addEventListener('click', () => {
         if (!isRegionPickerExpanded()) {
           regionPickerElem.setAttribute('aria-expanded', 'true');
+          // wait for the modal to load before we load the region nav
+          window.addEventListener('milo:modal:loaded', loadRegionNav, { once: true });
         }
       });
       // Set aria-expanded to false when region modal is closed
@@ -263,7 +288,8 @@ class Footer {
       regionSelector.href = localizeLink(regionSelector.href);
       decorateAutoBlock(regionSelector); // add fragment-specific class(es)
       this.elements.regionPicker.append(regionSelector); // add fragment after regionPickerElem
-      await loadBlock(regionSelector); // load fragment and replace original link
+      const { default: initFragment } = await import('../fragment/fragment.js');
+      await initFragment(regionSelector); // load fragment and replace original link
       // Update aria-expanded on click
       regionPickerElem.addEventListener('click', (e) => {
         e.preventDefault();
@@ -279,7 +305,7 @@ class Footer {
       });
     }
 
-    return this.regionPicker;
+    return this.elements.regionPicker;
   };
 
   decorateSocial = () => {
@@ -302,7 +328,7 @@ class Footer {
             aria-label="${platform}"
             daa-ll="${getAnalyticsValue(platform, index + 1)}"
             target="_blank">
-            <svg xmlns="http://www.w3.org/2000/svg" class="feds-social-icon" alt="${platform} logo">
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="feds-social-icon">
               <use href="#footer-icon-${platform}" />
             </svg>
           </a>
@@ -332,7 +358,7 @@ class Footer {
 
     // Add Ad Choices icon
     const adChoicesElem = privacyContent.querySelector('a[href*="#interest-based-ads"]');
-    adChoicesElem?.prepend(toFragment`<svg xmlns="http://www.w3.org/2000/svg" class="feds-adChoices-icon" focusable="false">
+    adChoicesElem?.prepend(toFragment`<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="feds-adChoices-icon" focusable="false">
         <use href="#footer-icon-adchoices" />
       </svg>`);
 

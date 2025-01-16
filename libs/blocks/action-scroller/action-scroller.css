@@ -16,7 +16,7 @@
   grid-auto-columns: minmax(var(--action-scroller-column-width), 1fr);
   grid-auto-flow: column;
   gap: var(--spacing-m);
-  padding: 0 var(--action-scroller-mobile-padding);
+  padding: 3px var(--action-scroller-mobile-padding);
   overflow-x: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;

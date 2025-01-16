@@ -17,6 +17,8 @@ const SYNTHETIC_BLOCKS = [
   'region-selector',
   'search',
   'social',
+  'product-entry-cta',
+  'gnav-image',
 ];
 
 // eslint-disable-next-line import/prefer-default-export

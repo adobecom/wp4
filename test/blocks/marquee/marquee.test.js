@@ -1,8 +1,8 @@
 import { readFile } from '@web/test-runner-commands';
 import { expect } from '@esm-bundle/chai';
 import sinon from 'sinon';
-import { waitForElement } from '../../helpers/waitfor.js';
-import { setConfig } from '../../../libs/utils/utils.js';
+import { waitFor, waitForElement } from '../../helpers/waitfor.js';
+import { setConfig, loadStyle } from '../../../libs/utils/utils.js';
 import { loadMnemonicList } from '../../../libs/blocks/marquee/marquee.js';
 
 const locales = { '': { ietf: 'en-US', tk: 'hah7vzn.css' } };
@@ -16,6 +16,15 @@ const video = await readFile({ path: './mocks/video.html' });
 const multipleIcons = await readFile({ path: './mocks/multiple-icons.html' });
 
 describe('marquee', () => {
+  before(async () => {
+    await new Promise((resolve) => {
+      loadStyle('../../../../libs/styles/styles.css', resolve);
+    });
+    await new Promise((resolve) => {
+      loadStyle('../../../../libs/blocks/marquee/marquee.css', resolve);
+    });
+  });
+
   const marquees = document.querySelectorAll('.marquee');
   marquees.forEach((marquee) => {
     init(marquee);
@@ -69,7 +78,9 @@ describe('marquee', () => {
       init(marquee);
       videoBLock(document.querySelector('#single-background a[href*=".mp4"]'));
       const videoEl = await waitForElement('#single-background .background video');
-      expect(videoEl).to.exist;
+      const intersectionObserverAddsSource = () => videoEl.querySelector('source');
+      await waitFor(intersectionObserverAddsSource);
+      expect(videoEl.querySelector('source')).to.exist;
       document.getElementById('single-background').remove();
     });
 
@@ -78,7 +89,9 @@ describe('marquee', () => {
       init(marquee);
       document.querySelectorAll('#multiple-background a[href*=".mp4"]').forEach((videoLink) => videoBLock(videoLink));
       await waitForElement('#multiple-background .background video');
-      expect(marquee.querySelectorAll('.background video').length).to.equal(1);
+      const intersectionObserverAddsSource = () => document.querySelector('.background video source');
+      await waitFor(intersectionObserverAddsSource);
+      expect(marquee.querySelectorAll('.background video source').length).to.equal(1);
       document.getElementById('multiple-background').remove();
     });
 

@@ -34,10 +34,7 @@ const getKeyValPairs = (s) => {
     .filter((v) => isKeyValPair.test(v))
     .map((v) => {
       const [key, ...value] = v.split(':');
-      return {
-        key: key.trim(),
-        value: value.join(':').trim(),
-      };
+      return { [key.trim()]: value.join(':').trim() };
     });
 };
 
@@ -95,7 +92,8 @@ const findTag = (tags, searchStr, ignore = []) => {
       tag.name,
       tag.path,
       tag.path.replace('/content/cq:tags/', ''),
-      tag.tagID,
+      /* c8 ignore next */
+      tag.tagID.toLowerCase(),
     ];
 
     if (tagMatches.includes(searchStr.toLowerCase())) return true;
@@ -198,7 +196,7 @@ export const getOrigin = (fgColor) => {
     return originLC;
   }
 
-  if (window.location.hostname.endsWith('.hlx.page')) {
+  if (window.location.hostname.endsWith('.page')) {
     const [, singlePageRepo] = window.location.hostname.split('.')[0].split('--');
     return processRepoForFloodgate(singlePageRepo, fgColor);
   }
@@ -277,7 +275,7 @@ const getBadges = (p) => {
 const isPagePublished = async () => {
   let { branch, repo, owner } = getConfig();
   if (!(branch || repo || owner)
-    && window.location.hostname.endsWith('.hlx.page')) {
+    && window.location.hostname.endsWith('.page')) {
     [branch, repo, owner] = window.location.hostname.split('.')[0].split('--');
   }
 
@@ -308,7 +306,8 @@ const getBulkPublishLangAttr = async (options) => {
 };
 
 const getCountryAndLang = async (options) => {
-  const langStr = window.location.pathname === '/tools/send-to-caas/bulkpublisher.html'
+  /* c8 ignore next */
+  const langStr = window.location.pathname.includes('/tools/send-to-caas/bulkpublisher')
     ? await getBulkPublishLangAttr(options)
     : (LOCALES[window.location.pathname.split('/')[1]] || LOCALES['']).ietf;
   const langAttr = langStr?.toLowerCase().split('-') || [];
@@ -352,7 +351,7 @@ function checkCtaUrl(s, options, i) {
  * funcs that return an object with { error: string } will report the error
  */
 const props = {
-  arbitrary: (s) => getKeyValPairs(s).map((pair) => ({ key: pair.key, value: pair.value })),
+  arbitrary: (s) => getKeyValPairs(s).map((pair) => (pair)),
   badgeimage: () => getImagePathMd('badgeimage'),
   badgetext: 0,
   bookmarkaction: 0,
@@ -579,6 +578,7 @@ export {
   getCardMetadata,
   getCaasProps,
   getConfig,
+  getKeyValPairs,
   isPagePublished,
   loadCaasTags,
   postDataToCaaS,

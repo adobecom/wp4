@@ -13,7 +13,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Update file and create PR if needed
+    - name: Update ims lib and create PR if needed
       uses: actions/github-script@v7
       with:
         script: |
@@ -25,6 +25,19 @@ jobs:
             path: 'https://auth.services.adobe.com/imslib/imslib.min.js',
             branch: 'update-imslib',
             scriptPath: './libs/deps/imslib.min.js'
+          })
+    - name: Update forms2 and create PR if needed
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const updateDependency = require('./.github/workflows/update-script.js')
+          updateDependency({
+            github, 
+            context, 
+            title: '[AUTOMATED-PR] Update forms2.min.js dependency', 
+            path: 'https://engage.adobe.com/js/forms2/js/forms2.min.js',
+            branch: 'update-forms2',
+            scriptPath: './libs/deps/forms2.min.js'
           })
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

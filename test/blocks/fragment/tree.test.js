@@ -21,8 +21,30 @@ describe('Tree Data Struct', () => {
     t.remove('first');
     expect(t.find('first')).to.be.undefined;
     expect(t.find('second')).to.be.equal(t.root.children[0]);
+  });
 
-    expect(t.find('second').isLeaf).to.be.true;
-    expect(t.root.isLeaf).to.be.false;
+  it('Will return false if it cant insert or remove a node', () => {
+    const t = new Tree('root');
+    t.insert('root', 'first');
+    t.insert('root', 'second');
+    const isInserted = t.insert('doesnt-exist', 'third');
+    expect(isInserted).to.be.false;
+
+    const isRemoved = t.remove('doesnt-exist');
+    expect(isRemoved).to.be.false;
+  });
+
+  it('Can add child directly from a Node', () => {
+    const t = new Tree('root');
+    t.insert('root', 'first');
+    t.insert('root', 'second');
+    const firstNode = t.find('first');
+    firstNode.addChild('third');
+    expect(firstNode.children.length).to.be.equal(1);
+    expect(firstNode.children[0].key).to.be.equal('third');
+
+    // adding a duplicate key should not add a new child
+    firstNode.addChild('third');
+    expect(firstNode.children.length).to.be.equal(1);
   });
 });

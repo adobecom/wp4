@@ -4,6 +4,7 @@ import { expect } from '@esm-bundle/chai';
 import sinon from 'sinon';
 import { delay, waitForElement, waitForRemoval } from '../../helpers/waitfor.js';
 import { mockFetch } from '../../helpers/generalHelpers.js';
+import { getConfig } from '../../../libs/utils/utils.js';
 
 document.body.innerHTML = await readFile({ path: './mocks/body.html' });
 
@@ -108,7 +109,12 @@ describe('Modals', () => {
     window.location.hash = '#milo';
     await waitForElement('#milo');
     init(document.getElementById('milo-modal-link'));
-    expect(document.getElementById('milo')).to.exist;
+    const modal = document.getElementById('milo');
+    expect(modal).to.exist;
+    expect(modal.getAttribute('daa-lh')).to.equal('milo-modal');
+    const buttons = modal.querySelectorAll('button');
+    expect(buttons[0].getAttribute('daa-ll')).to.equal('Milo Button 1-1--Milo');
+    expect(buttons[1].getAttribute('daa-ll')).to.equal('Milo Button 2-2--Milo');
     window.location.hash = '';
     await waitForRemoval('#milo');
     expect(document.getElementById('milo')).not.to.exist;
@@ -249,6 +255,13 @@ describe('Modals', () => {
     close.click();
     expect(window.location.hash).to.equal('#category=pdf-esignatures&search=acro&types=desktop%2Cmobile');
     window.location.hash = '';
+  });
+
+  it('never create modal when removed by MEP', async () => {
+    const config = getConfig();
+    config.mep = { fragments: { '/milo': { action: 'remove' } } };
+    const modal = init(document.getElementById('milo-modal-link'));
+    expect(modal).to.be.null;
   });
 });
 

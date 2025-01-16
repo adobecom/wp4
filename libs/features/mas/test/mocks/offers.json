@@ -1,0 +1,1144 @@
+{
+    "abm-mult": [
+        {
+            "offerId": "632B3ADD940A7FBB7864AA5AD19B8D28",
+            "priceDetails": {
+                "price": 54.99,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "productArrangementCode": "ccsn_direct_individual",
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "MONTHLY",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "BASE",
+            "pricePoint": "REGULAR",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "no-offer-mult": [],
+    "stock-m2m-mult": [
+        {
+            "offerId": "3002E1908F4574F62C0A9ABA58196755",
+            "priceDetails": {
+                "price": 49.99,
+                "priceWithoutTax": 0.0,
+                "priceWithoutDiscountAndTax": 49.99,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "productArrangementCode": "stks_direct_individual",
+            "buyingProgram": "RETAIL",
+            "commitment": "MONTH",
+            "term": "MONTHLY",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "TRIAL",
+            "pricePoint": "TRIAL_STOCK_7_DAY_TRIAL",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "stock-abm-mult": [
+        {
+            "offerId": "7164A328080BC96CC60FEBF33F64342D",
+            "priceDetails": {
+                "price": 29.99,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "productArrangementCode": "stks_direct_individual",
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "MONTHLY",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "TRIAL",
+            "pricePoint": "TRIAL_STOCK_7_DAY_TRIAL",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "stock-puf-mult": [
+        {
+            "offerId": "E3171ADBB9D7A5359EC8128650B7710D",
+            "priceDetails": {
+                "price": 359.88,
+                "priceWithoutTax": 0.0,
+                "priceWithoutDiscountAndTax": 359.88,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "productArrangementCode": "stks_direct_individual",
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "ANNUAL",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "TRIAL",
+            "pricePoint": "TRIAL_STOCK_7_DAY_TRIAL",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "puf-mult": [
+        {
+            "offerId": "9E618D5A589EF8D6364DFBE02FC2C264",
+            "priceDetails": {
+                "price": 599.88,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "productArrangementCode": "ccsn_direct_individual",
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "ANNUAL",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "BASE",
+            "pricePoint": "REGULAR",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "m2m-mult": [
+        {
+            "offerId": "257E1D82082387D152029F93C1030624",
+            "priceDetails": {
+                "price": 82.49,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "productArrangementCode": "ccsn_direct_individual",
+            "buyingProgram": "RETAIL",
+            "commitment": "MONTH",
+            "term": "MONTHLY",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "BASE",
+            "pricePoint": "REGULAR",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "20gb-mult": [
+        {
+            "offerId": "1E47D777E75D45CD12BE910FD7EEEC6E",
+            "priceDetails": {
+                "price": 9.99,
+                "priceWithoutTax": 9.99,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "productArrangementCode": "PA-892",
+            "productArrangement": {
+                "productFamily": "PHOTOSHOP_LIGHTROOM"
+            },
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "MONTHLY",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "BASE",
+            "pricePoint": "REGULAR",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "20gbtrial-mult": [
+        {
+            "offerId": "BA5600A65682C94806428932E65B2D69",
+            "priceDetails": {
+                "price": 9.99,
+                "priceWithoutTax": 0.0,
+                "priceWithoutDiscountAndTax": 9.99,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "productArrangementCode": "PA-892",
+            "productArrangement": {
+                "productFamily": "PHOTOSHOP_LIGHTROOM"
+            },
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "MONTHLY",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "TRIAL",
+            "pricePoint": "TRIAL_WB_60_DAY_TWP_CCPP_20GB_NON_CCX_100_FIREFLY_CREDITS",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "1tb-mult": [
+        {
+            "offerId": "81DE7D1C91A201AB690BC4741B32F0C0",
+            "priceDetails": {
+                "price": 19.99,
+                "priceWithoutTax": 19.99,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "productArrangementCode": "PA-128",
+            "productArrangement": {
+                "productFamily": "NIMBUS_LIGHTROOM_PHOTOSHOP"
+            },
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "MONTHLY",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "BASE",
+            "pricePoint": "INDIV_PLES_NON_CCX_COM_1TB",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "1tbtrial-mult": [
+        {
+            "offerId": "7D3AABB5C8571746F5C94A9FA2C4E5A5",
+            "priceDetails": {
+                "price": 239.88,
+                "priceWithoutTax": 0.0,
+                "priceWithoutDiscountAndTax": 239.88,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "productArrangementCode": "PA-128",
+            "productArrangement": {
+                "productFamily": "NIMBUS_LIGHTROOM_PHOTOSHOP"
+            },
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "ANNUAL",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "TRIAL",
+            "pricePoint": "TRIAL_7_DAY_TWP_CCPP_20GB_AND_1TB_COM_NON_CCX",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "abm-promo-mult": [
+        {
+            "offerId": "632B3ADD940A7FBB7864AA5AD19B8D28",
+            "priceDetails": {
+                "price": 43.99,
+                "priceWithoutDiscount": 54.99,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "productArrangementCode": "ccsn_direct_individual",
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "MONTHLY",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "BASE",
+            "pricePoint": "REGULAR",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "m2m-promo-mult": [
+        {
+            "offerId": "257E1D82082387D152029F93C1030624",
+            "priceDetails": {
+                "price": 65.99,
+                "priceWithoutDiscount": 82.49,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "productArrangementCode": "ccsn_direct_individual",
+            "buyingProgram": "RETAIL",
+            "commitment": "MONTH",
+            "term": "MONTHLY",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "BASE",
+            "pricePoint": "REGULAR",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "perpetual-en": [
+        {
+            "offerId": "C5AC20C8AAF4892B67DE2E89B26D8ACA",
+            "priceDetails": {
+                "price": 502.56,
+                "usePrecision": true,
+                "formatString": "# ##0,00 '&euro;'",
+                "taxDisplay": "TAX_INCLUSIVE_DETAILS",
+                "taxTerm": "VAT"
+            },
+            "productArrangementCode": "perpetual_acrobat_standard_2020_perpetual_individual",
+            "buyingProgram": "RETAIL",
+            "commitment": "PERPETUAL",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "BASE",
+            "pricePoint": "FULL",
+            "language": "FR",
+            "merchant": "ADOBE"
+        }
+    ],
+    "perpetual-mult": [],
+    "tax-exclusive-mult": [
+        {
+            "offerId": "632B3ADD940A7FBB7864AA5AD19B8D28",
+            "priceDetails": {
+                "price": 49.98,
+                "priceWithoutDiscount": 62.47,
+                "priceWithoutTax": 41.65,
+                "priceWithoutDiscountAndTax": 52.06,
+                "usePrecision": true,
+                "formatString": "# ##0,00 '&euro;'",
+                "taxDisplay": "TAX_INCLUSIVE_DETAILS",
+                "taxTerm": "VAT"
+            },
+            "productArrangementCode": "ccsn_direct_individual",
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "MONTHLY",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "BASE",
+            "pricePoint": "REGULAR",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "abm-team-mult": [
+        {
+            "offerId": "DAC628518DDD843D4D19A8BF7D8FF1FE",
+            "priceDetails": {
+                "price": 89.99,
+                "priceWithoutTax": 0.0,
+                "priceWithoutDiscountAndTax": 89.99,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "productArrangementCode": "ccle_direct_indirect_team",
+            "productArrangement": {
+                "productFamily": "CC_ALL_APPS"
+            },
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "MONTHLY",
+            "customerSegment": "TEAM",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "TRIAL",
+            "pricePoint": "TRIAL_14_DAY_TWP_TEAM_DIRECT_CCT_ALL_APPS_COM",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "puf-team-mult": [
+        {
+            "offerId": "0DA56534F200535C111B5D8817710FD5",
+            "priceDetails": {
+                "price": 1079.88,
+                "priceWithoutTax": 0.0,
+                "priceWithoutDiscountAndTax": 1079.88,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "productArrangementCode": "ccle_direct_indirect_team",
+            "productArrangement": {
+                "productFamily": "CC_ALL_APPS"
+            },
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "ANNUAL",
+            "customerSegment": "TEAM",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "TRIAL",
+            "pricePoint": "TRIAL_14_DAY_TWP_TEAM_DIRECT_CCT_ALL_APPS_COM",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "abm-edu-mult": [
+        {
+            "offerId": "C6DBF840A991DF84B7B3F871ABAD2415",
+            "priceDetails": {
+                "price": 19.99,
+                "priceWithoutTax": 0.0,
+                "priceWithoutDiscountAndTax": 19.99,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "productArrangementCode": "ccsn_direct_individual",
+            "productArrangement": {
+                "productFamily": "CC_ALL_APPS"
+            },
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "MONTHLY",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "EDU"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "TRIAL",
+            "pricePoint": "TRIAL_TRIAL_STE_FIRST_YEAR_ABM_US_ONLY",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "puf-edu-mult": [
+        {
+            "offerId": "13F9169A5EA8997CDB23379393AC0649",
+            "priceDetails": {
+                "price": 239.88,
+                "priceWithoutTax": 0.0,
+                "priceWithoutDiscountAndTax": 239.88,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "productArrangementCode": "ccsn_direct_individual",
+            "productArrangement": {
+                "productFamily": "CC_ALL_APPS"
+            },
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "ANNUAL",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "EDU"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "TRIAL",
+            "pricePoint": "TRIAL_TRIAL_STE_FIRST_YEAR_ABM_US_ONLY",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "ZQwlmahh5YRWh8mRGxo-cr3eu91ShbpRv6vkbcsi3eQ-mult": [
+        {
+            "offerId": "E27CB5D79014ACAB6953B091CEA72228",
+            "priceDetails": {
+                "price": 22.99,
+                "priceWithoutTax": 0.0,
+                "priceWithoutDiscountAndTax": 22.99,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "productArrangementCode": "phsp_direct_individual",
+            "productArrangement": {
+                "productFamily": "PHOTOSHOP"
+            },
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "MONTHLY",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "TRIAL",
+            "pricePoint": "TRIAL_BASE_OFFER_TWP_CCI_ALL_APPS_AND_SINGLE_APP_NON_CCX",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "qQiJqQPZXOSrog8SR5yfiLR03-thGECfV5Gm9jzeK6k-mult": [
+        {
+            "offerSelectorIds": [
+                "qQiJqQPZXOSrog8SR5yfiLR03-thGECfV5Gm9jzeK6k"
+            ],
+            "offerId": "B576669D9AAE20A3B4B0FDE65504BB30",
+            "startDate": "2021-12-08T08:01:00.000Z",
+            "endDate": "2050-01-31T19:59:00.000Z",
+            "priceDetails": {
+                "price": 263.88,
+                "priceWithoutTax": 0.0,
+                "priceWithoutDiscountAndTax": 263.88,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "analytics": "{\"offerId\":\"B576669D9AAE20A3B4B0FDE65504BB30\",\"label\":\"phsp_direct_individual\",\"price\":\"263.88\",\"amountWithoutTax\":\"0.0\",\"commitmentType\":\"YEAR\",\"billingFrequency\":\"ANNUAL\",\"currencyCode\":\"USD\"}",
+            "productArrangementCode": "phsp_direct_individual",
+            "productArrangement": {
+                "productFamily": "PHOTOSHOP"
+            },
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "ANNUAL",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "TRIAL",
+            "pricePoint": "TRIAL_BASE_OFFER_TWP_CCI_ALL_APPS_AND_SINGLE_APP_NON_CCX",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "AoyCNxLmjibbiE84-I9xlAJEayihAmviExxfyy04g8w-mult": [
+        {
+            "offerSelectorIds": [
+                "AoyCNxLmjibbiE84-I9xlAJEayihAmviExxfyy04g8w"
+            ],
+            "offerId": "B85C86D4214EF804F8951D7E0A0E1945",
+            "startDate": "2021-12-08T08:01:00.000Z",
+            "endDate": "2050-01-31T19:59:00.000Z",
+            "priceDetails": {
+                "price": 34.49,
+                "priceWithoutTax": 0.0,
+                "priceWithoutDiscountAndTax": 34.49,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "analytics": "{\"offerId\":\"B85C86D4214EF804F8951D7E0A0E1945\",\"label\":\"phsp_direct_individual\",\"price\":\"34.49\",\"amountWithoutTax\":\"0.0\",\"commitmentType\":\"MONTH\",\"billingFrequency\":\"MONTHLY\",\"currencyCode\":\"USD\"}",
+            "productArrangementCode": "phsp_direct_individual",
+            "productArrangement": {
+                "productFamily": "PHOTOSHOP"
+            },
+            "buyingProgram": "RETAIL",
+            "commitment": "MONTH",
+            "term": "MONTHLY",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "TRIAL",
+            "pricePoint": "TRIAL_BASE_OFFER_TWP_CCI_ALL_APPS_AND_SINGLE_APP_NON_CCX",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "JzW8dgW8U1SrgbHDmTE-ABsOKPgtl5jugiW8bA5PtKg-mult": [
+        {
+            "offerSelectorIds": [
+                "JzW8dgW8U1SrgbHDmTE-ABsOKPgtl5jugiW8bA5PtKg"
+            ],
+            "offerId": "65BA7CA7573834AC4D043B0E7CBD2349",
+            "startDate": "2021-12-08T08:01:00.000Z",
+            "endDate": "2050-01-31T19:59:00.000Z",
+            "priceDetails": {
+                "price": 59.99,
+                "priceWithoutTax": 0.0,
+                "priceWithoutDiscountAndTax": 59.99,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "analytics": "{\"offerId\":\"65BA7CA7573834AC4D043B0E7CBD2349\",\"label\":\"ccsn_direct_individual\",\"price\":\"59.99\",\"amountWithoutTax\":\"0.0\",\"commitmentType\":\"YEAR\",\"billingFrequency\":\"MONTHLY\",\"currencyCode\":\"USD\"}",
+            "productArrangementCode": "ccsn_direct_individual",
+            "productArrangement": {
+                "productFamily": "CC_ALL_APPS"
+            },
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "MONTHLY",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "TRIAL",
+            "pricePoint": "TRIAL_BASE_OFFER_TWP_CCI_ALL_APPS_AND_SINGLE_APP_NON_CCX",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "7QWcHXX6VIH_2BeNYI1GizMNGHJ3ZFz9-IMoC0gC-4c-mult": [
+        {
+            "offerSelectorIds": [
+                "7QWcHXX6VIH_2BeNYI1GizMNGHJ3ZFz9-IMoC0gC-4c"
+            ],
+            "offerId": "1AB23148DED3D18062177AFEACEA6ECE",
+            "startDate": "2021-12-08T08:01:00.000Z",
+            "endDate": "2050-01-31T19:59:00.000Z",
+            "priceDetails": {
+                "price": 659.88,
+                "priceWithoutTax": 0.0,
+                "priceWithoutDiscountAndTax": 659.88,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "analytics": "{\"offerId\":\"1AB23148DED3D18062177AFEACEA6ECE\",\"label\":\"ccsn_direct_individual\",\"price\":\"659.88\",\"amountWithoutTax\":\"0.0\",\"commitmentType\":\"YEAR\",\"billingFrequency\":\"ANNUAL\",\"currencyCode\":\"USD\"}",
+            "productArrangementCode": "ccsn_direct_individual",
+            "productArrangement": {
+                "productFamily": "CC_ALL_APPS"
+            },
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "ANNUAL",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "TRIAL",
+            "pricePoint": "TRIAL_BASE_OFFER_TWP_CCI_ALL_APPS_AND_SINGLE_APP_NON_CCX",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "MasJgjrlDjj72m_B1q1_4VhTDtxldl6yG4C16DkznhI-mult": [
+        {
+            "offerSelectorIds": [
+                "MasJgjrlDjj72m_B1q1_4VhTDtxldl6yG4C16DkznhI"
+            ],
+            "offerId": "76EB6C3E0486E92E67A0BC1AB3CC7E19",
+            "startDate": "2021-12-08T08:01:00.000Z",
+            "endDate": "2050-01-31T19:59:00.000Z",
+            "priceDetails": {
+                "price": 89.99,
+                "priceWithoutTax": 0.0,
+                "priceWithoutDiscountAndTax": 89.99,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "analytics": "{\"offerId\":\"76EB6C3E0486E92E67A0BC1AB3CC7E19\",\"label\":\"ccsn_direct_individual\",\"price\":\"89.99\",\"amountWithoutTax\":\"0.0\",\"commitmentType\":\"MONTH\",\"billingFrequency\":\"MONTHLY\",\"currencyCode\":\"USD\"}",
+            "productArrangementCode": "ccsn_direct_individual",
+            "productArrangement": {
+                "productFamily": "CC_ALL_APPS"
+            },
+            "buyingProgram": "RETAIL",
+            "commitment": "MONTH",
+            "term": "MONTHLY",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "TRIAL",
+            "pricePoint": "TRIAL_BASE_OFFER_TWP_CCI_ALL_APPS_AND_SINGLE_APP_NON_CCX",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "OInILOo_tvV3OiYdJTxo1NhsVX4GxbHnM8JWexA9N8w-mult": [
+        {
+            "offerSelectorIds": [
+                "OInILOo_tvV3OiYdJTxo1NhsVX4GxbHnM8JWexA9N8w"
+            ],
+            "offerId": "2D25B85032A7A139D38BEEABA53451D4",
+            "startDate": "2023-11-01T07:01:00.000Z",
+            "endDate": "2099-12-13T07:58:00.000Z",
+            "priceDetails": {
+                "price": 9.99,
+                "priceWithoutTax": 0.0,
+                "priceWithoutDiscountAndTax": 9.99,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "analytics": "{\"offerId\":\"2D25B85032A7A139D38BEEABA53451D4\",\"label\":\"PA-892\",\"price\":\"9.99\",\"amountWithoutTax\":\"0.0\",\"commitmentType\":\"YEAR\",\"billingFrequency\":\"MONTHLY\",\"currencyCode\":\"USD\"}",
+            "productArrangementCode": "PA-892",
+            "productArrangement": {
+                "productFamily": "PHOTOSHOP_LIGHTROOM"
+            },
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "MONTHLY",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "TRIAL",
+            "pricePoint": "TRIAL_7_DAY_TWP_CCPP_20GB_NON_CCX_100_FIREFLY_CREDITS",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "5OFXVGxVYBZAJIrzV7Z8dsv2ve3oiRzed8f9UB8gbTw-mult": [
+        {
+            "offerSelectorIds": [
+                "5OFXVGxVYBZAJIrzV7Z8dsv2ve3oiRzed8f9UB8gbTw"
+            ],
+            "offerId": "0B5AC1661376C332EE96BACC473AC0BB",
+            "startDate": "2023-11-01T07:01:00.000Z",
+            "endDate": "2099-12-13T07:58:00.000Z",
+            "priceDetails": {
+                "price": 119.09,
+                "priceWithoutTax": 0.0,
+                "priceWithoutDiscountAndTax": 99.24,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_INCLUSIVE_DETAILS",
+                "taxTerm": "VAT"
+            },
+            "analytics": "{\"offerId\":\"0B5AC1661376C332EE96BACC473AC0BB\",\"label\":\"PA-892\",\"price\":\"119.09\",\"amountWithoutTax\":\"0.0\",\"commitmentType\":\"YEAR\",\"billingFrequency\":\"ANNUAL\",\"currencyCode\":\"GBP\"}",
+            "productArrangementCode": "PA-892",
+            "productArrangement": {
+                "productFamily": "PHOTOSHOP_LIGHTROOM"
+            },
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "ANNUAL",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "TRIAL",
+            "pricePoint": "TRIAL_7_DAY_TWP_CCPP_20GB_NON_CCX_100_FIREFLY_CREDITS",
+            "language": "EN",
+            "merchant": "ADOBE"
+        }
+    ],
+    "tNF8YrqR3DslSda-1L6pK5z-nYWDQYnjdHkwFDjGAas-mult": [
+        {
+            "offerSelectorIds": [
+                "tNF8YrqR3DslSda-1L6pK5z-nYWDQYnjdHkwFDjGAas"
+            ],
+            "offerId": "0CDCA0CDDC5EE1F3E127E3D77AAA47DE",
+            "startDate": "2021-11-11T08:01:00.000Z",
+            "priceDetails": {
+                "price": 19.99,
+                "priceWithoutTax": 0.0,
+                "priceWithoutDiscountAndTax": 19.99,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "analytics": "{\"offerId\":\"0CDCA0CDDC5EE1F3E127E3D77AAA47DE\",\"label\":\"PA-128\",\"price\":\"19.99\",\"amountWithoutTax\":\"0.0\",\"commitmentType\":\"YEAR\",\"billingFrequency\":\"MONTHLY\",\"currencyCode\":\"USD\"}",
+            "productArrangementCode": "PA-128",
+            "productArrangement": {
+                "productFamily": "NIMBUS_LIGHTROOM_PHOTOSHOP"
+            },
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "MONTHLY",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "TRIAL",
+            "pricePoint": "TRIAL_7_DAY_TRIAL_CCPP_W_LR_PS_1TB_W_O_CCX_COM",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "9zqYpoVccNVW1OM7GKwYCfFEamktcNIamRJYBMknc-E-mult": [
+        {
+            "offerSelectorIds": [
+                "9zqYpoVccNVW1OM7GKwYCfFEamktcNIamRJYBMknc-E"
+            ],
+            "offerId": "194C2964E964DE2BAB7A297D547388A5",
+            "startDate": "2021-11-11T08:01:00.000Z",
+            "priceDetails": {
+                "price": 239.88,
+                "priceWithoutTax": 0.0,
+                "priceWithoutDiscountAndTax": 239.88,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "analytics": "{\"offerId\":\"194C2964E964DE2BAB7A297D547388A5\",\"label\":\"PA-128\",\"price\":\"239.88\",\"amountWithoutTax\":\"0.0\",\"commitmentType\":\"YEAR\",\"billingFrequency\":\"ANNUAL\",\"currencyCode\":\"USD\"}",
+            "productArrangementCode": "PA-128",
+            "productArrangement": {
+                "productFamily": "NIMBUS_LIGHTROOM_PHOTOSHOP"
+            },
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "ANNUAL",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "TRIAL",
+            "pricePoint": "TRIAL_7_DAY_TRIAL_CCPP_W_LR_PS_1TB_W_O_CCX_COM",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "BNTtrDS9wbigrk5Hjeyn6BO62hcRZ-X5fJM9nLqJL6c-mult": [
+        {
+            "offerSelectorIds": [
+                "BNTtrDS9wbigrk5Hjeyn6BO62hcRZ-X5fJM9nLqJL6c"
+            ],
+            "offerId": "1E47D777E75D45CD12BE910FD7EEEC6E",
+            "priceDetails": {
+                "price": 9.99,
+                "priceWithoutTax": 9.99,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "analytics": "{\"offerId\":\"1E47D777E75D45CD12BE910FD7EEEC6E\",\"label\":\"PA-892\",\"price\":\"9.99\",\"amountWithoutTax\":\"9.99\",\"commitmentType\":\"YEAR\",\"billingFrequency\":\"MONTHLY\",\"currencyCode\":\"USD\"}",
+            "productArrangementCode": "PA-892",
+            "productArrangement": {
+                "productFamily": "PHOTOSHOP_LIGHTROOM"
+            },
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "MONTHLY",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "BASE",
+            "pricePoint": "REGULAR",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "abm-team-gov-mult": [
+        {
+            "offerId": "DAC628518DDD843D4D19A8BF7D8FF1FE",
+            "priceDetails": {
+                "price": 89.99,
+                "priceWithoutTax": 0.0,
+                "priceWithoutDiscountAndTax": 89.99,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "productArrangementCode": "ccle_direct_indirect_team",
+            "productArrangement": {
+                "productFamily": "CC_ALL_APPS"
+            },
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "MONTHLY",
+            "customerSegment": "TEAM",
+            "marketSegments": [
+                "GOV"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "TRIAL",
+            "pricePoint": "TRIAL_14_DAY_TWP_TEAM_DIRECT_CCT_ALL_APPS_COM",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "individual-mult": [
+        {
+            "offerId": "DAC628518DDD843D4D19A8BF7D8FF1FA",
+            "priceDetails": {
+                "price": 1.99,
+                "priceWithoutTax": 0.0,
+                "priceWithoutDiscountAndTax": 1.99,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "productArrangementCode": "ccle_direct_indirect_team",
+            "productArrangement": {
+                "productFamily": "CC_ALL_APPS"
+            },
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "MONTHLY",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "BASE",
+            "pricePoint": "REGULAR",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "business-mult": [
+        {
+            "offerId": "DAC628518DDD843D4D19A8BF7D8FF1FB",
+            "priceDetails": {
+                "price": 1.99,
+                "priceWithoutTax": 0.0,
+                "priceWithoutDiscountAndTax": 1.99,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "productArrangementCode": "ccle_direct_indirect_team",
+            "productArrangement": {
+                "productFamily": "CC_ALL_APPS"
+            },
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "MONTHLY",
+            "customerSegment": "TEAM",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "BASE",
+            "pricePoint": "REGULAR",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "student-mult": [
+        {
+            "offerId": "DAC628518DDD843D4D19A8BF7D8FF1FC",
+            "priceDetails": {
+                "price": 1.99,
+                "priceWithoutTax": 0.0,
+                "priceWithoutDiscountAndTax": 1.99,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "productArrangementCode": "ccle_direct_indirect_team",
+            "productArrangement": {
+                "productFamily": "CC_ALL_APPS"
+            },
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "MONTHLY",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "EDU"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "BASE",
+            "pricePoint": "REGULAR",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "university-mult": [
+        {
+            "offerId": "DAC628518DDD843D4D19A8BF7D8FF1FD",
+            "priceDetails": {
+                "price": 1.99,
+                "priceWithoutTax": 0.0,
+                "priceWithoutDiscountAndTax": 1.99,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "productArrangementCode": "ccle_direct_indirect_team",
+            "productArrangement": {
+                "productFamily": "CC_ALL_APPS"
+            },
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "MONTHLY",
+            "customerSegment": "TEAM",
+            "marketSegments": [
+                "EDU"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "BASE",
+            "pricePoint": "REGULAR",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "r_JXAnlFI7xD6FxWKl2ODvZriLYBoSL701Kd1hRyhe8-mult": [
+        {
+            "offerSelectorIds": [
+                "r_JXAnlFI7xD6FxWKl2ODvZriLYBoSL701Kd1hRyhe8"
+            ],
+            "offerId": "632B3ADD940A7FBB7864AA5AD19B8D28",
+            "startDate": "2015-12-04T17:38:19.000Z",
+            "endDate": "2100-04-13T21:20:00.000Z",
+            "priceDetails": {
+                "price": 35.99,
+                "priceWithoutDiscount": 59.99,
+                "priceWithoutTax": 35.99,
+                "priceWithoutDiscountAndTax": 59.99,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "analytics": "{\"offerId\":\"632B3ADD940A7FBB7864AA5AD19B8D28\",\"label\":\"ccsn_direct_individual\",\"price\":\"35.99\",\"amountWithoutTax\":\"35.99\",\"commitmentType\":\"YEAR\",\"billingFrequency\":\"MONTHLY\",\"currencyCode\":\"USD\"}",
+            "productArrangementCode": "ccsn_direct_individual",
+            "productArrangement": {
+                "productFamily": "CC_ALL_APPS"
+            },
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "MONTHLY",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "BASE",
+            "pricePoint": "REGULAR",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "A1xn6EL4pK93bWjM8flffQpfEL-bnvtoQKQAvkx574M-mult": [
+        {
+            "offerSelectorIds": [
+                "A1xn6EL4pK93bWjM8flffQpfEL-bnvtoQKQAvkx574M"
+            ],
+            "offerId": "30404A88D89A328584307175B8B27616",
+            "startDate": "2015-11-17T20:52:25.000Z",
+            "priceDetails": {
+                "price": 22.99,
+                "priceWithoutTax": 22.99,
+                "usePrecision": true,
+                "formatString": "'US$'#,##0.00",
+                "taxDisplay": "TAX_EXCLUSIVE",
+                "taxTerm": "TAX"
+            },
+            "analytics": "{\"offerId\":\"30404A88D89A328584307175B8B27616\",\"label\":\"phsp_direct_individual\",\"price\":\"22.99\",\"amountWithoutTax\":\"22.99\",\"commitmentType\":\"YEAR\",\"billingFrequency\":\"MONTHLY\",\"currencyCode\":\"USD\"}",
+            "productArrangementCode": "phsp_direct_individual",
+            "productArrangement": {
+                "productFamily": "PHOTOSHOP"
+            },
+            "buyingProgram": "RETAIL",
+            "commitment": "YEAR",
+            "term": "MONTHLY",
+            "customerSegment": "INDIVIDUAL",
+            "marketSegments": [
+                "COM"
+            ],
+            "salesChannel": "DIRECT",
+            "offerType": "BASE",
+            "pricePoint": "REGULAR",
+            "language": "MULT",
+            "merchant": "ADOBE"
+        }
+    ],
+    "nTbB50pS4lLGv_x1l_UKggd-lxxo2zAJ7WYDa2mW19s-mult": [
+      {
+          "offerSelectorIds": [
+              "nTbB50pS4lLGv_x1l_UKggd-lxxo2zAJ7WYDa2mW19s"
+          ],
+          "offerId": "44C623423443E5D4D7F53719C25F71D7",
+          "startDate": "2022-08-08T07:00:00.000Z",
+          "endDate": "2099-12-20T07:58:00.000Z",
+          "priceDetails": {
+              "price": 22.19,
+              "priceWithoutDiscount": 23.99,
+              "priceWithoutTax": 22.19,
+              "priceWithoutDiscountAndTax": 23.99,
+              "usePrecision": true,
+              "formatString": "'US$'#,##0.00",
+              "taxDisplay": "TAX_EXCLUSIVE",
+              "taxTerm": "TAX"
+          },
+          "analytics": "{\"offerId\":\"44C623423443E5D4D7F53719C25F71D7\",\"label\":\"acrobat_pro_dc_plus_sign_funnel_team\",\"price\":\"22.19\",\"amountWithoutTax\":\"22.19\",\"commitmentType\":\"YEAR\",\"billingFrequency\":\"MONTHLY\",\"currencyCode\":\"USD\"}",
+          "productArrangementCode": "acrobat_pro_dc_plus_sign_funnel_team",
+          "productArrangement": {
+              "productFamily": "ACROBAT",
+              "productCode": "ASIG"
+          },
+          "buyingProgram": "RETAIL",
+          "commitment": "YEAR",
+          "term": "MONTHLY",
+          "customerSegment": "TEAM",
+          "marketSegments": [
+              "COM"
+          ],
+          "salesChannel": "DIRECT",
+          "offerType": "PROMOTION",
+          "pricePoint": "ACROBAT_PRO_ASIG_FY22_LO_TEAM_BUNDLE_7_5_OFF_WW_COM",
+          "language": "MULT",
+          "merchant": "ADOBE"
+      }
+  ]
+}

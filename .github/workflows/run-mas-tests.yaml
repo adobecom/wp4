@@ -34,13 +34,6 @@ jobs:
       - name: Upload commerce coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
-          name: mas-commerce
+          name: mas
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: libs/features/mas/commerce/coverage/lcov.info
-
-      - name: Upload web-components coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          name: mas-web-components
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: libs/features/mas/web-components/coverage/lcov.info
+          files: libs/features/mas/coverage/lcov.info

@@ -46,7 +46,7 @@ export default [
         },
       ],
     },
-    manifest: '/homepage/fragments/mep/selected-example.json',
+    manifest: 'https://main--cc--homepage.hlx.page/homepage/fragments/mep/selected-example.json',
     manifestUrl: 'https://main--milo--adobecom.hlx.page/drafts/vgoodrich/fragments/unit-tests/manifest.json',
   },
   {
@@ -69,7 +69,7 @@ export default [
     manifestOverrideName: 'hp',
     selectedVariantName: 'default',
     selectedVariant: 'default',
-    manifest: '/homepage/fragments/mep/default-selected.json',
+    manifest: 'https://main--homepage--adobecom.hlx.live/homepage/fragments/mep/default-selected.json',
     manifestUrl: 'https://main--homepage--adobecom.hlx.live/homepage/fragments/mep/default-selected.json',
   },
   {
@@ -100,7 +100,7 @@ export default [
         },
       ],
     },
-    manifest: '/promos/2023/global/black-friday/black-friday-global.json',
+    manifest: 'https://main--cc--adobecom.hlx.page/promos/2023/global/black-friday/black-friday-global.json',
     manifestUrl: 'https://main--cc--adobecom.hlx.page/promos/2023/global/black-friday/black-friday-global.json',
     disabled: false,
     event: {
@@ -116,7 +116,7 @@ export default [
       start: new Date('2024-11-24T00:00:00.000Z'),
       end: new Date('2024-11-24T00:00:00.000Z'),
     },
-    manifest: '/promos/2023/emea/cyber-monday/cyber-monday-emea.json',
+    manifest: 'https://main--cc--adobecom.hlx.page/promos/2023/emea/cyber-monday/cyber-monday-emea.json',
     variantNames: [
       'all',
     ],

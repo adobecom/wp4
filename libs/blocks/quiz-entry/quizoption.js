@@ -8,7 +8,7 @@ export const OptionCard = ({
   disabled, selected, background, onClick,
 }) => {
   const getOptionClass = () => {
-    let className = '';
+    let className = 'no-track ';
     if (icon || iconTablet || iconDesktop) className += 'has-icon ';
     if (image) className += 'has-image ';
     if (background) className += 'has-background ';

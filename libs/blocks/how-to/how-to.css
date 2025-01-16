@@ -4,6 +4,7 @@
   padding: var(--spacing-xxl) 0;
   display: grid;
   grid-template-rows: 1fr;
+  align-items: center;
   grid-template-areas:
     "heading"
     "list"
@@ -59,6 +60,10 @@ html[dir="rtl"] .how-to ol > li::before {
   order: 3;
 }
 
+.how-to-media.how-to-media-large.video {
+  justify-self: auto;
+}
+
 .how-to-media-large {
   height: auto;
   min-height: auto;
@@ -109,11 +114,12 @@ html[dir="rtl"] .how-to ol > li::before {
 /* Desktop video  */
 @media screen and (min-width: 1200px) {
   .how-to .foreground.has-video {
-    column-gap: var(--spacing-m);
+    column-gap: var( --spacing-l-static);
     grid-template-rows: 1fr;
+    grid-auto-rows: min-content;
     grid-template-areas:
       "heading heading"
-      "list list"
+      "list image";
   }
 
   .how-to.large-image .foreground.has-video,
@@ -123,5 +129,9 @@ html[dir="rtl"] .how-to ol > li::before {
     grid-template-areas:
       "heading heading"
       "list image"
+  }
+
+  .how-to-media.how-to-media-large.video {
+    width: 588px;
   }
 }

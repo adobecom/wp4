@@ -19,7 +19,9 @@ import {
   loadLink,
   localizeLink,
   createTag,
+  getConfig,
   createIntersectionObserver,
+  SLD,
 } from '../../utils/utils.js';
 
 const ROOT_MARGIN = 50;
@@ -38,6 +40,7 @@ const FORM_MAP = {
   'co-partner-names': 'program.copartnernames',
   'sfdc-campaign-id': 'program.campaignids.sfdc',
 };
+export const FORM_PARAM = 'form';
 
 export const formValidate = (formEl) => {
   formEl.classList.remove('hide-errors');
@@ -55,7 +58,7 @@ export const decorateURL = (destination, baseURL = window.location) => {
       throw new Error('URL does not have a valid host');
     }
 
-    if (destinationUrl.hostname.includes('.hlx.')) {
+    if (destinationUrl.hostname.includes(`.${SLD}.`)) {
       destinationUrl = new URL(`${pathname}${search}${hash}`, baseURL.origin);
     }
 
@@ -69,7 +72,7 @@ export const decorateURL = (destination, baseURL = window.location) => {
     return destinationUrl.href;
   } catch (e) {
     /* c8 ignore next 4 */
-    window.lana?.log(`Error with Marketo destination URL: ${destination} ${e.message}`);
+    window.lana?.log(`Error with Marketo destination URL: ${destination} ${e.message}`, { tags: 'error,marketo' });
   }
 
   return null;
@@ -91,6 +94,38 @@ export const setPreferences = (formData) => {
   Object.entries(formData).forEach(([key, value]) => setPreference(key, value));
 };
 
+const showSuccessSection = (formData, scroll = true) => {
+  const show = (el) => {
+    el.classList.remove('hide-block');
+    if (scroll) el.scrollIntoView({ behavior: 'smooth' });
+  };
+  const successClass = formData[SUCCESS_SECTION]?.toLowerCase().replaceAll(' ', '-');
+  if (!successClass) {
+    window.lana?.log('Error showing Marketo success section', { tags: 'warn,marketo' });
+    return;
+  }
+  const section = document.querySelector(`.section.${successClass}`);
+  if (section) {
+    show(section);
+    return;
+  }
+  // For Marquee use case
+  const maxIntervals = 6;
+  let count = 0;
+  const interval = setInterval(() => {
+    const el = document.querySelector(`.section.${successClass}`);
+    if (el) {
+      clearInterval(interval);
+      show(el);
+    }
+    count += 1;
+    if (count > maxIntervals) {
+      clearInterval(interval);
+      window.lana?.log('Error showing Marketo success section', { tags: 'warn,marketo' });
+    }
+  }, 500);
+};
+
 export const formSuccess = (formEl, formData) => {
   const el = formEl.closest('.marketo');
   const parentModal = formEl?.closest('.dialog-modal');
@@ -108,18 +143,8 @@ export const formSuccess = (formEl, formData) => {
   }
 
   if (formData?.[SUCCESS_TYPE] !== 'section') return true;
-
-  try {
-    const section = formData[SUCCESS_SECTION].toLowerCase().replaceAll(' ', '-');
-    const success = document.querySelector(`.section.${section}`);
-    success.classList.remove('hide-block');
-    success.scrollIntoView({ behavior: 'smooth' });
-    setPreference(SUCCESS_TYPE, 'message');
-  } catch (e) {
-    /* c8 ignore next 2 */
-    window.lana?.log('Error showing Marketo success section', { tags: 'errorType=warn,module=marketo' });
-  }
-
+  showSuccessSection(formData);
+  setPreference(SUCCESS_TYPE, 'message');
   return false;
 };
 
@@ -149,8 +174,9 @@ export const loadMarketo = (el, formData) => {
   const baseURL = formData[BASE_URL];
   const munchkinID = formData[MUNCHKIN_ID];
   const formID = formData[FORM_ID];
+  const { base } = getConfig();
 
-  loadScript(`https://${baseURL}/js/forms2/js/forms2.min.js`)
+  loadScript(`${base}/deps/forms2.min.js`)
     .then(() => {
       const { MktoForms2 } = window;
       if (!MktoForms2) throw new Error('Marketo forms not loaded');
@@ -161,7 +187,7 @@ export const loadMarketo = (el, formData) => {
     .catch(() => {
       /* c8 ignore next 2 */
       el.style.display = 'none';
-      window.lana?.log(`Error loading Marketo form for ${munchkinID}_${formID}`, { tags: 'errorType=error,module=marketo' });
+      window.lana?.log(`Error loading Marketo form for ${munchkinID}_${formID}`, { tags: 'error,marketo' });
     });
 };
 
@@ -195,6 +221,15 @@ export default function init(el) {
 
   if (!formID || !baseURL || !munchkinID) {
     el.style.display = 'none';
+    return;
+  }
+
+  const searchParams = new URLSearchParams(window.location.search);
+  const ungated = searchParams.get(FORM_PARAM) === 'off';
+
+  if (formData[SUCCESS_TYPE] === 'section' && ungated) {
+    el.classList.add('hide-block');
+    showSuccessSection(formData, true);
     return;
   }
 

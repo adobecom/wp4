@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 import WebUtil from '../../libs/webutil.js';
 import { features } from './video.spec.js';
 import VideoBlock from './video.page.js';
+import { runAccessibilityTest } from '../../libs/accessibility.js';
 
 let webUtil;
 let video;
@@ -14,7 +15,7 @@ test.describe('Milo Video Block test suite', () => {
   });
 
   // Test 0 : Video default
-  test(`${features[0].name},${features[0].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[0].tcid}] ${features[0].name},${features[0].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[0].path}${miloLibs}`);
     const { data } = features[0];
 
@@ -31,10 +32,14 @@ test.describe('Milo Video Block test suite', () => {
       await expect(await webUtil.verifyAttributes(video.video, video.attributes['video.default'])).toBeTruthy();
       await expect(await webUtil.verifyAttributes(video.videoSource, video.attributes['video.source'])).toBeTruthy();
     });
+
+    await test.step('step-3: Verify the accessibility test on the Video default block', async () => {
+      await runAccessibilityTest({ page, testScope: video.video });
+    });
   });
 
   // Test 1 : Video autoplay loop
-  test(`${features[1].name},${features[1].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[1].tcid}] ${features[1].name},${features[1].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[1].path}${miloLibs}`);
     const { data } = features[1];
 
@@ -54,7 +59,7 @@ test.describe('Milo Video Block test suite', () => {
   });
 
   // Test 2 : Video autoplay loop once
-  test(`${features[2].name},${features[2].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[2].tcid}] ${features[2].name},${features[2].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[2].path}${miloLibs}`);
     const { data } = features[2];
 
@@ -74,7 +79,7 @@ test.describe('Milo Video Block test suite', () => {
   });
 
   // Test 3 : Video hover play
-  test(`${features[3].name},${features[3].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[3].tcid}] ${features[3].name},${features[3].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[3].path}${miloLibs}`);
     const { data } = features[3];
 
@@ -96,7 +101,7 @@ test.describe('Milo Video Block test suite', () => {
   });
 
   // Test 4 : MPC Video
-  test(`${features[4].name},${features[4].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[4].tcid}] ${features[4].name},${features[4].tags}`, async ({ page, baseURL }) => {
     test.slow();
     console.info(`[Test Page]: ${baseURL}${features[4].path}${miloLibs}`);
     const { data } = features[4];
@@ -115,10 +120,14 @@ test.describe('Milo Video Block test suite', () => {
       await expect(await video.iframe).toHaveAttribute('src', data.source);
       expect(await webUtil.verifyAttributes(video.iframe, video.attributes['iframe-mpc'])).toBeTruthy();
     });
+
+    await test.step('step-3: Verify the accessibility test on the MPC Video block', async () => {
+      await runAccessibilityTest({ page, testScope: video.miloVideo, skipA11yTest: true });
+    });
   });
 
   // Test 5 : MPC Video Autoplay Looping
-  test(`${features[5].name},${features[5].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[5].tcid}] ${features[5].name},${features[5].tags}`, async ({ page, baseURL }) => {
     test.slow();
     console.info(`[Test Page]: ${baseURL}${features[5].path}${miloLibs}`);
     const { data } = features[5];
@@ -138,7 +147,7 @@ test.describe('Milo Video Block test suite', () => {
   });
 
   // Test 6 : Youtube Video
-  test(`${features[6].name},${features[6].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[6].tcid}] ${features[6].name},${features[6].tags}`, async ({ page, baseURL }) => {
     test.slow();
     console.info(`[Test Page]: ${baseURL}${features[6].path}${miloLibs}`);
     const { data } = features[6];
@@ -160,7 +169,7 @@ test.describe('Milo Video Block test suite', () => {
   });
 
   // Test 7 : Modal Video default
-  test(`${features[7].name},${features[7].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[7].tcid}] ${features[7].name},${features[7].tags}`, async ({ page, baseURL }) => {
     test.slow();
     console.info(`[Test Page]: ${baseURL}${features[7].path}${miloLibs}`);
     // const { data } = features[7];
@@ -181,10 +190,14 @@ test.describe('Milo Video Block test suite', () => {
       console.log('[video source]:', srcAttributeValue);
       expect(srcAttributeValue).not.toBe('');
     });
+
+    await test.step('step-3: Verify the accessibility test on the Modal Video block', async () => {
+      await runAccessibilityTest({ page, testScope: video.modalVideo });
+    });
   });
 
   // Test 8 : Modal video with cards
-  test(`${features[8].name},${features[8].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[8].tcid}] ${features[8].name},${features[8].tags}`, async ({ page, baseURL }) => {
     test.slow();
     console.info(`[Test Page]: ${baseURL}${features[8].path}${miloLibs}`);
     const { data } = features[8];
@@ -207,6 +220,10 @@ test.describe('Milo Video Block test suite', () => {
       const srcAttributeValue = await video.modalVideoSource.getAttribute('src');
       console.log('[video source]:', srcAttributeValue);
       expect(srcAttributeValue).not.toBe('');
+    });
+
+    await test.step('step-3: Verify the accessibility test on the Modal video with cards block', async () => {
+      await runAccessibilityTest({ page, testScope: video.consonantCardsGrid });
     });
   });
 });

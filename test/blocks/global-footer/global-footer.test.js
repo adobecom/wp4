@@ -187,6 +187,11 @@ describe('global footer', () => {
 
         const regionPickerElem = document.querySelector(allSelectors.regionPicker);
         regionPickerElem.dispatchEvent(new Event('click'));
+        const regionNavModal = document.createElement('div');
+        regionNavModal.classList.add('region-nav'); // pretend that the modal was added to the body
+        // since clicking on the regionpicker elem apparently doesnt set the hash
+        document.body.append(regionNavModal);
+        window.dispatchEvent(new Event('milo:modal:loaded'));
 
         expect(regionPickerElem.getAttribute('href') === '#langnav').to.equal(true);
         expect(regionPickerElem.getAttribute('aria-expanded')).to.equal('true');
@@ -431,6 +436,29 @@ describe('global footer', () => {
     it('should contain dark theme class if dark theme is configured', async () => {
       await createFullGlobalFooter({ waitForDecoration: true, customConfig: { theme: 'dark' } });
       expect(document.querySelector('footer').classList.contains('feds--dark')).to.be.true;
+    });
+  });
+  describe('standalone footer', async () => {
+    it('should still load the regionnav if it\'s a standalone footer', async () => {
+      await createFullGlobalFooter({
+        waitForDecoration: true,
+        customConfig: { standaloneGnav: true },
+      });
+
+      const regionPickerElem = document.querySelector(allSelectors.regionPicker);
+      regionPickerElem.dispatchEvent(new Event('click'));
+      const regionNavModal = document.createElement('div');
+      regionNavModal.classList.add('region-nav'); // pretend that the modal was added to the body
+      regionNavModal.setAttribute('data-failed', 'true');
+      // since clicking on the regionpicker elem apparently doesnt set the hash
+      document.body.append(regionNavModal);
+      window.dispatchEvent(new Event('milo:modal:loaded'));
+
+      expect(regionPickerElem.getAttribute('href') === '#langnav').to.equal(true);
+      expect(regionPickerElem.getAttribute('aria-expanded')).to.equal('true');
+
+      window.dispatchEvent(new Event('milo:modal:closed'));
+      expect(regionPickerElem.getAttribute('aria-expanded')).to.equal('false');
     });
   });
 });

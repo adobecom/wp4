@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { features } from './card.spec.js';
 import ConsonantCard from './card.page.js';
+import { runAccessibilityTest } from '../../libs/accessibility.js';
 
 let card;
 
@@ -36,6 +37,10 @@ test.describe('Milo Consonant card feature test suite', () => {
       await expect(await card.footerBlueButton).toBeVisible();
       await expect(await card.footerBlueButton).toContainText(data.footerBlueButtonText);
     });
+
+    await test.step('step-3: Verify the accessibility test on the Card block', async () => {
+      await runAccessibilityTest({ page, testScope: card.oneHalfCard });
+    });
   });
 
   // Test 1 : Card (half-card, border)
@@ -64,6 +69,10 @@ test.describe('Milo Consonant card feature test suite', () => {
 
       await expect(await card.footerBlueButton).toBeVisible();
       await expect(await card.footerBlueButton).toContainText(data.footerBlueButtonText);
+    });
+
+    await test.step('step-3: Verify the accessibility test on the Card (half-card, border) block', async () => {
+      await runAccessibilityTest({ page, testScope: card.oneHalfCard });
     });
   });
 
@@ -115,6 +124,10 @@ test.describe('Milo Consonant card feature test suite', () => {
       await expect(await card.footerBlueButton).toBeVisible();
       await expect(await card.footerBlueButton).toContainText(data.footerBlueButtonText);
     });
+
+    await test.step('step-3: Verify the accessibility test on the Card (product-card, border) block', async () => {
+      await runAccessibilityTest({ page, testScope: card.productCard });
+    });
   });
 
   // Test 4 : Card (half-height-card, border)
@@ -137,6 +150,10 @@ test.describe('Milo Consonant card feature test suite', () => {
       await expect(await card.halfHeightCardLink).toBeVisible();
 
       await expect(await card.halfHeightCardTitleH3).toContainText(data.titleH3);
+    });
+
+    await test.step('step-3: Verify the accessibility test on the Card (half-height-card, border) block', async () => {
+      await runAccessibilityTest({ page, testScope: card.halfHeightCard });
     });
   });
 
@@ -161,6 +178,10 @@ test.describe('Milo Consonant card feature test suite', () => {
       await expect(await card.horizontalCardBodyXS).toContainText(data.bodyXS);
       await expect(await card.horizontalCardHeadingXS).toContainText(data.headingXS);
       await expect(await card.horizontalCardHeadingXSLink).toContainText(data.headingXS);
+    });
+
+    await test.step('step-3: Verify the accessibility test on the Card-horizontal block', async () => {
+      await runAccessibilityTest({ page, testScope: card.horizontalCard });
     });
   });
 
@@ -187,6 +208,10 @@ test.describe('Milo Consonant card feature test suite', () => {
       await expect(await card.horizontalCardBodyXS).toContainText(data.bodyXS);
       await expect(await card.horizontalCardHeadingXS).toContainText(data.headingXS);
       await expect(await card.horizontalCardHeadingXSLink).toContainText(data.headingXS);
+    });
+
+    await test.step('step-3: Verify the accessibility test on the Card-horizontal (tile) block', async () => {
+      await runAccessibilityTest({ page, testScope: card.horizontalCard });
     });
   });
 });

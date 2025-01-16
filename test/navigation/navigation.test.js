@@ -1,3 +1,4 @@
+/* eslint import/no-relative-packages: 0 */
 import { readFile } from '@web/test-runner-commands';
 import { expect } from '@esm-bundle/chai';
 import { stub, restore } from 'sinon';
@@ -44,7 +45,7 @@ describe('Navigation component', async () => {
 
   it('Renders the header block', async () => {
     const onReady = stub();
-    await loadBlock({ authoringPath: '/federal/dev', header: { imsClientId: 'fedsmilo', onReady }, env: 'prod' }, 'http://localhost:2000');
+    await loadBlock({ authoringPath: '/federal/dev', header: { imsClientId: 'fedsmilo', onReady }, env: 'prod', theme: 'dark' }, 'http://localhost:2000');
     const el = document.getElementsByTagName('header');
     expect(el).to.exist;
     expect(onReady.called).to.be.true;
@@ -60,7 +61,7 @@ describe('Navigation component', async () => {
   });
 
   it('Does not render either header or footer if configs is not passed', async () => {
-    document.body.innerHTML = await readFile({ path: './mocks/body.html' });
+    document.body.innerHTML = await readFile({ path: './mocks/body.html' }, 'http://localhost:2000');
     await loadBlock();
     const header = document.getElementsByTagName('header');
     const footer = document.getElementsByTagName('footer');

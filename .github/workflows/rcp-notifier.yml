@@ -1,0 +1,24 @@
+name: RCP Notifier
+
+on:
+  schedule:
+    - cron: '43 9 * * *' # 9.43am UTC
+
+env:
+  STAGE_RCP_OFFSET_DAYS: ${{ secrets.STAGE_RCP_OFFSET_DAYS }}
+  MILO_DEV_HOOK: ${{ secrets.MILO_DEV_HOOK }}
+
+jobs:
+  rcp-notification:
+    if: github.repository_owner == 'adobecom'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create RCP Notification
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const main = require('./.github/workflows/rcp-notifier.js')
+            main({ github, context })

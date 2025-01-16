@@ -81,12 +81,18 @@ function loadArticleTaxonomy(article) {
   // for now, we can only compute the category
   const { tags, path } = clonedArticle;
 
+  let topics;
+
   if (tags) {
-    const topics = tags
-      .replace(/[["\]]/gm, '')
-      .split(',')
-      .map((t) => t.trim())
-      .filter((t) => t && t !== '');
+    if (Array.isArray(tags)) {
+      topics = tags.map((t) => t.trim()).filter((t) => t && t !== '');
+    } else {
+      topics = tags
+        .replace(/[["\]]/gm, '')
+        .split(',')
+        .map((t) => t.trim())
+        .filter((t) => t && t !== '');
+    }
 
     const articleTax = computeTaxonomyFromTopics(topics, path);
 
@@ -175,7 +181,7 @@ export async function loadTaxonomy() {
  */
 export function formatCardLocaleDate(date) {
   if (!date) return '';
-  const jsDate = !date.includes('-') ? calculateExcelDate(date) : date.replace(/-/g, '/');
+  const jsDate = !date.toString().includes('-') ? calculateExcelDate(date) : date.replace(/-/g, '/');
 
   const dateLocale = getConfig().locale?.ietf;
 

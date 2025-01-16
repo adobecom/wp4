@@ -16,6 +16,21 @@ const config = {
   contentRoot: `${window.location.origin}${getLocale(locales).prefix}`,
   decorateArea,
   locales,
+  placeholders: { placeholdercheck: 'hello world' },
+  mep: {
+    commands: [
+      {
+        action: 'remove',
+        selector: 'aside.large p:nth-child(1):has(picture) #_include-fragments',
+        pageFilter: '',
+        content: 'true',
+        selectorType: 'other',
+        manifestId: 'manifest.json',
+        targetManifestId: false,
+        modifiers: ['include-fragments'],
+      },
+    ],
+  },
 };
 setConfig(config);
 
@@ -39,6 +54,9 @@ describe('Fragments', () => {
     await getFragment(a);
     const h1 = document.querySelector('h1');
     expect(h1).to.exist;
+    const p = document.querySelector('#placeholdercheck');
+    expect(p).to.exist;
+    expect(p.innerHTML).to.equal('hello world');
   });
 
   it('Loads a fragment with cache control', async () => {

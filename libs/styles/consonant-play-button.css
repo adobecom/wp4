@@ -1,19 +1,19 @@
 
 :root {
-  --play-circle-size-s: 40px;
+  --play-circle-size-s: 44px;
   --play-circle-size-m: 72px;
   --play-circle-size-l: 96px;
   --play-border-width-s: 2px;
   --play-border-width-m: 2.5px;
   --play-border-width-l: 3px;
-  --play-icon-size-s: calc(var(--play-circle-size-s) + 2 * var(--play-border-width-s));
-  --play-icon-size-m: calc(var(--play-circle-size-m) + 2 * var(--play-border-width-m));
-  --play-icon-size-l: calc(var(--play-circle-size-l) + 2 * var(--play-border-width-l));
-  --play-triangle-width-s: 13.5px;
+  --play-icon-size-s: var(--play-circle-size-s);
+  --play-icon-size-m: var(--play-circle-size-m);
+  --play-icon-size-l: var(--play-circle-size-l);
+  --play-triangle-width-s: 16px;
   --play-triangle-height-s: 18px;
-  --play-triangle-width-m: 24px;
+  --play-triangle-width-m: 30px;
   --play-triangle-height-m: 32px;
-  --play-triangle-width-l: 31.5px;
+  --play-triangle-width-l: 40px;
   --play-triangle-height-l: 42px;
 }
 
@@ -35,11 +35,11 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  background-color: var(--link-color-dark);
+  background-color: rgb(0 0 0 / 60%);
   box-sizing: border-box;
-  border: var(--play-border-width-m) solid var(--color-white);
   border-radius: 50%;
-  outline: none;
+  outline: 0 solid var(--color-black);
+  transition: border .2s ease, outline .1s ease;
 }
 
 .modal-img-link .consonant-play-btn.btn-small {
@@ -51,14 +51,16 @@
 }
 
 .modal-img-link .consonant-play-btn:hover {
-  background-color: var(--color-accent-down);
+  background-color: rgb(0 0 0 / 100%);
 }
 
 .modal-img-link .consonant-play-btn:focus,
 .modal-img-link .consonant-play-btn:focus-visible {
-  outline: var(--play-border-width-m) solid var(--link-color-dark);
+  outline: var(--play-border-width-l) solid var(--color-black);
   outline-offset: 0;
-  background-color: var(--color-accent-down);
+  background-color: rgb(0 0 0 / 100%);
+  border: 3px solid var(--link-color-dark);
+  transition: border .2s ease-out, outline .1s ease-out;
 }
 
 .modal-img-link .consonant-play-btn.btn-small:focus,

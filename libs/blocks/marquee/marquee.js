@@ -88,7 +88,7 @@ function decorateSplit(el, foreground, media) {
 
   let mediaCreditInner;
   const txtContent = media?.lastChild?.textContent?.trim();
-  if (txtContent?.match(/^http.*\.mp4/)) return;
+  if (txtContent?.match(/^http.*\.mp4/) || media?.lastChild?.tagName === 'VIDEO' || media.querySelector('.video-holder video')) return;
   if (txtContent) {
     mediaCreditInner = createTag('p', { class: 'body-s' }, txtContent);
   } else if (media.lastElementChild?.tagName !== 'PICTURE') {
@@ -99,7 +99,7 @@ function decorateSplit(el, foreground, media) {
     const mediaCredit = createTag('div', { class: 'media-credit container' }, mediaCreditInner);
     el.appendChild(mediaCredit);
     el.classList.add('has-credit');
-    media?.lastChild.remove();
+    media?.lastChild?.remove();
   }
 }
 

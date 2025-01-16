@@ -127,7 +127,8 @@ async function checkBody() {
 async function checkLorem() {
   const result = { ...loremResult.value };
   const { innerHTML } = document.documentElement;
-  if (innerHTML.includes('Lorem ipsum')) {
+  const htmlWithoutPreflight = innerHTML.replace(document.getElementById('preflight')?.outerHTML, '');
+  if (htmlWithoutPreflight.includes('Lorem ipsum')) {
     result.icon = fail;
     result.description = 'Reason: Lorem ipsum is used on the page.';
   } else {
@@ -227,6 +228,7 @@ async function checkLinks() {
         && !knownBadUrls.some((url) => url === link.hostname) // Is not a known bad url
       ) {
         link.liveHref = link.href.replace('hlx.page', 'hlx.live');
+        link.liveHref = link.href.replace('aem.page', 'aem.live');
         return true;
       }
       return false;
@@ -278,7 +280,7 @@ export async function sendResults() {
   };
 
   await fetch(
-    'https://main--milo--adobecom.hlx.page/seo/preflight',
+    'https://main--milo--adobecom.aem.page/seo/preflight',
     {
       method: 'POST',
       credentials: 'same-origin',
@@ -292,11 +294,11 @@ export async function sendResults() {
 
 function SeoItem({ icon, title, description }) {
   return html`
-    <div class=seo-item>
+    <div class=preflight-item>
       <div class="result-icon ${icon}"></div>
-      <div class=seo-item-text>
-        <p class=seo-item-title>${title}</p>
-        <p class=seo-item-description>${description}</p>
+      <div class=preflight-item-text>
+        <p class=preflight-item-title>${title}</p>
+        <p class=preflight-item-description>${description}</p>
       </div>
     </div>`;
 }
@@ -313,28 +315,32 @@ async function getResults() {
   const icons = [h1, title, canon, desc, body, lorem, links];
 
   const red = icons.find((icon) => icon === 'red');
-  if (red) {
-    const sk = document.querySelector('helix-sidekick');
-    if (sk) {
-      const publishBtn = sk.shadowRoot.querySelector('div.publish.plugin button');
-      publishBtn.addEventListener('click', () => {
-        sendResults();
-      });
-    }
-  }
+  if (!red) return;
+
+  const aemSk = document.querySelector('aem-sidekick');
+  const hlxSk = document.querySelector('helix-sidekick');
+  if (!aemSk && !hlxSk) return;
+
+  const publishBtn = aemSk
+    ? aemSk.shadowRoot.querySelector('plugin-action-bar').shadowRoot.querySelector('sk-action-button.publish')
+    : hlxSk.shadowRoot.querySelector('div.publish.plugin button');
+
+  publishBtn.addEventListener('click', () => {
+    sendResults();
+  });
 }
 
 export default function Panel() {
   useEffect(() => { getResults(); }, []);
   return html`
-    <div class=seo-columns>
-      <div class=seo-column>
+    <div class=preflight-columns>
+      <div class=preflight-column>
         <${SeoItem} icon=${titleResult.value.icon} title=${titleResult.value.title} description=${titleResult.value.description} />
         <${SeoItem} icon=${h1Result.value.icon} title=${h1Result.value.title} description=${h1Result.value.description} />
         <${SeoItem} icon=${canonResult.value.icon} title=${canonResult.value.title} description=${canonResult.value.description} />
         <${SeoItem} icon=${linksResult.value.icon} title=${linksResult.value.title} description=${linksResult.value.description} />
       </div>
-      <div class=seo-column>
+      <div class=preflight-column>
         <${SeoItem} icon=${bodyResult.value.icon} title=${bodyResult.value.title} description=${bodyResult.value.description} />
         <${SeoItem} icon=${loremResult.value.icon} title=${loremResult.value.title} description=${loremResult.value.description} />
         <${SeoItem} icon=${descResult.value.icon} title=${descResult.value.title} description=${descResult.value.description} />

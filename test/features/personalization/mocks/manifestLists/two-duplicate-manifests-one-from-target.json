@@ -34,6 +34,7 @@
             ],
             "fragments": []
         },
+        "source": "pzn",
         "name": "MILO0013b - use fresh manifest over saved",
         "manifest": "https://main--milo--adobecom.hlx.page/drafts/vgoodrich/fragments/2024/q1/mepmanifestorder/manifests/outdated-manifest.json",
         "manifestUrl": "https://main--milo--adobecom.hlx.page/drafts/vgoodrich/fragments/2024/q1/mepmanifestorder/manifests/outdated-manifest.json",
@@ -74,6 +75,7 @@
             ],
             "fragments": []
         },
+        "source": "target",
         "manifest": "/drafts/vgoodrich/fragments/2024/q1/mepmanifestorder/manifests/outdated-manifest.json",
         "manifestUrl": "https://main--milo--adobecom.hlx.page/drafts/vgoodrich/fragments/2024/q1/mepmanifestorder/manifests/outdated-manifest.json",
         "manifestPath": "/drafts/vgoodrich/fragments/2024/q1/mepmanifestorder/manifests/outdated-manifest.json"

@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { features } from './tabs.spec.js';
 import TabBlock from './tabs.page.js';
+import { runAccessibilityTest } from '../../libs/accessibility.js';
 
 let tab;
 
@@ -13,7 +14,7 @@ test.describe('Milo Tab block feature test suite', () => {
   });
 
   // Test 0 : Tabs (xl-spacing)
-  test(`${features[0].name},${features[0].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[0].tcid}] ${features[0].name},${features[0].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[0].path}${miloLibs}`);
     const { data } = features[0];
 
@@ -42,10 +43,14 @@ test.describe('Milo Tab block feature test suite', () => {
       await expect(await tab.tab3Panel).toBeVisible();
       await expect(await tab.tab3Panel).toContainText(data.tab3Text);
     });
+
+    await test.step('step-3: Verify the accessibility test on the Tabs (xl-spacing) block', async () => {
+      await runAccessibilityTest({ page, testScope: tab.xlTab });
+    });
   });
 
   // Test 1 : Tabs (Quiet, Dark, Center)
-  test(`${features[1].name},${features[1].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[1].tcid}] ${features[1].name},${features[1].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[1].path}${miloLibs}`);
     const { data } = features[1];
 
@@ -74,9 +79,14 @@ test.describe('Milo Tab block feature test suite', () => {
       await expect(await tab.tab3Panel).toBeVisible();
       await expect(await tab.tab3Panel).toContainText(data.tab3Text);
     });
+
+    await test.step('step-3: Verify the accessibility test on the Tabs (Quiet, Dark, Center) block', async () => {
+      await runAccessibilityTest({ page, testScope: tab.queitDarkTab });
+    });
   });
 
-  test(`Tabs scrolling with arrow buttons, ${features[2].tags}`, async ({ page, baseURL, isMobile }) => {
+  // Test 2 : Tabs (Tabs scrolling)
+  test(`[Test Id - ${features[0].tcid}] ${features[2].tags}`, async ({ page, baseURL, isMobile }) => {
     console.log(`[Test Page]: ${baseURL}${features[2].path}${miloLibs}`);
     await page.goto(`${baseURL}${features[2].path}${miloLibs}`);
     await page.waitForLoadState('networkidle');

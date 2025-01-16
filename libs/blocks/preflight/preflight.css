@@ -170,12 +170,20 @@ p.preflight-content-heading-edit {
 }
 
 a.preflight-edit {
-  background: url('./img/word-icon.svg');
-  background-repeat: no-repeat;
   display: block;
   text-indent: -1000px;
   overflow: hidden;
   height: 32px;
+}
+
+a.preflight-edit.sharepoint-icon {
+  background: url('./img/word-icon.svg');
+  background-repeat: no-repeat;
+}
+
+a.preflight-edit.da-icon {
+  background: url('./img/document-authoring.svg');
+  background-repeat: no-repeat;
 }
 
 .preflight-group-row.preflight-group-detail.not-found::before {
@@ -312,21 +320,21 @@ span.preflight-time {
 }
 
 /* SEO */
-.seo-columns {
+.preflight-columns {
   margin: 24px 48px 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 48px;
 }
 
-.seo-item {
+.preflight-item {
   margin-bottom: 48px;
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 12px;
 }
 
-.seo-item:last-child {
+.preflight-item:last-child {
   margin-bottom: 0;
 }
 
@@ -339,6 +347,11 @@ span.preflight-time {
   background: url('./img/purple-working.svg');
   background-size: 60px;
   animation: spin 2s linear infinite;
+}
+
+.result-icon.empty {
+  background: url('./img/empty.svg');
+  background-size: 60px;
 }
 
 @keyframes spin { 
@@ -367,14 +380,14 @@ span.preflight-time {
   background-size: 60px;
 }
 
-.seo-item-title {
+.preflight-item-title {
   margin: 0;
   font-weight: 700;
   font-size: 32px;
   line-height: 1;
 }
 
-.seo-item-description {
+.preflight-item-description {
   margin: 0;
 }
 
@@ -625,4 +638,38 @@ img[data-alt-check]::after {
 
 .dialog-modal#preflight table td h3 {
   font-size: 16px;
+}
+
+.performance-guidelines {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.performance-element-preview {
+  position: relative;
+  display: inline-block;
+  color: #fff;
+  text-decoration: underline;
+}
+
+.performance-element-preview:hover {
+  text-decoration: none;
+}
+
+/* styles.css */
+.lcp-tooltip-modal {
+  width: 0;
+  height: 0;
+  position: fixed;
+  border: 2px solid red;
+  background-color: white;
+  z-index: 103;
+  overflow: hidden;
+  pointer-events: none;
+  display: block;
+  visibility: hidden;
+}
+
+.lcp-tooltip-modal.show {
+  visibility: visible;
 }

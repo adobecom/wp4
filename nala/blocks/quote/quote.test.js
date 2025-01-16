@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 import WebUtil from '../../libs/webutil.js';
 import { features } from './quote.spec.js';
 import QuoteBlock from './quote.page.js';
+import { runAccessibilityTest } from '../../libs/accessibility.js';
 
 let quote;
 let webUtil;
@@ -15,7 +16,7 @@ test.describe('Milo Quote Block test suite', () => {
   });
 
   // Test 0 : Quote default block
-  test(`${features[0].name},${features[0].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[0].tcid}] ${features[0].name},${features[0].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[0].path}${miloLibs}`);
     const { data } = features[0];
 
@@ -34,10 +35,14 @@ test.describe('Milo Quote Block test suite', () => {
       expect(await webUtil.verifyAttributes(await quote.quote, quote.attProperties.quote)).toBeTruthy();
       expect(await webUtil.verifyCSS(await quote.quote, quote.cssProperties.quote)).toBeTruthy();
     });
+
+    await test.step('step-3: Verify the accessibility test on the Quote default block', async () => {
+      await runAccessibilityTest({ page, testScope: quote.quote });
+    });
   });
 
   // Test 1 : quote (contained)
-  test(`${features[1].name},${features[1].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[1].tcid}] ${features[1].name},${features[1].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[1].path}${miloLibs}`);
     const { data } = features[1];
 
@@ -56,10 +61,14 @@ test.describe('Milo Quote Block test suite', () => {
       expect(await webUtil.verifyAttributes(await quote.quote, quote.attProperties['quote-contained'])).toBeTruthy();
       expect(await webUtil.verifyCSS(await quote.quote, quote.cssProperties['quote-contained'])).toBeTruthy();
     });
+
+    await test.step('step-3: Verify the accessibility test on the quote (contained) block', async () => {
+      await runAccessibilityTest({ page, testScope: quote.quote });
+    });
   });
 
   // Test 2 : Quote (inline,contained)
-  test(`${features[2].name},${features[2].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[2].tcid}] ${features[2].name},${features[2].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[2].path}${miloLibs}`);
     const { data } = features[2];
 
@@ -82,7 +91,7 @@ test.describe('Milo Quote Block test suite', () => {
   });
 
   // Test 3 : quote (borders)
-  test(`${features[3].name},${features[3].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[3].tcid}] ${features[3].name},${features[3].tags}`, async ({ page, baseURL }) => {
     console.info(`[MiloInfo] Checking page: ${baseURL}${features[3].path}${miloLibs}`);
     const { data } = features[3];
 
@@ -104,7 +113,7 @@ test.describe('Milo Quote Block test suite', () => {
   });
 
   // Test 4 : quote (align-right)
-  test(`${features[4].name},${features[4].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[4].tcid}] ${features[4].name},${features[4].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[4].path}${miloLibs}`);
     const { data } = features[4];
 
@@ -126,7 +135,7 @@ test.describe('Milo Quote Block test suite', () => {
   });
 
   // Test 5 : quote (xl-spaced)
-  test(`${features[5].name},${features[5].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[5].tcid}] ${features[5].name},${features[5].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[5].path}${miloLibs}`);
     const { data } = features[5];
 

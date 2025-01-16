@@ -2,7 +2,7 @@
  * Get author-facing config options.
  */
 
-import { getConfig } from './utils.js';
+import { getConfig, SLD } from './utils.js';
 
 const DOT_MILO = '/.milo/config.json';
 
@@ -13,7 +13,7 @@ function getSiteOrigin() {
   const search = new URLSearchParams(window.location.search);
   const repo = search.get('repo');
   const owner = search.get('owner');
-  return repo && owner ? `https://main--${repo}--${owner}.hlx.live` : window.location.origin;
+  return repo && owner ? `https://main--${repo}--${owner}.${SLD}.live` : window.location.origin;
 }
 
 /**

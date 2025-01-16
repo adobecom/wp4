@@ -69,3 +69,8 @@ export const loadLink = stub().returns(new Promise((resolve) => {
 }));
 
 export const customFetch = stub();
+
+const PAGE_URL = new URL(window.location.href);
+export const SLD = PAGE_URL.hostname.includes('.aem.') ? 'aem' : 'hlx';
+
+export const getConfig = () => ({ base: '' });

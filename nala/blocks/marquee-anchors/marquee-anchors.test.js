@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 import WebUtil from '../../libs/webutil.js';
 import { features } from './marquee-anchors.spec.js';
 import MarqueeAnchors from './marquee-anchors.page.js';
+import { runAccessibilityTest } from '../../libs/accessibility.js';
 
 let webUtil;
 let marquee;
@@ -74,6 +75,10 @@ test.describe('Milo Marquee Anchors test suite', () => {
       await expect(await marquee.anchorLink.media.link).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(`${data.anchors.media.h4Text} ${data.anchors.media.linkText}`, 5, data.anchors.text.h4Text));
       await expect(await marquee.anchorLink.linkToAdobe.link).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(`${data.anchors.linkToAdobe.h4Text} ${data.anchors.linkToAdobe.linkText}`, 6, data.anchors.media.h4Text));
     });
+
+    await test.step('step-4: Verify the accessibility test on the marquee anchors block', async () => {
+      await runAccessibilityTest({ page, testScope: marquee.marqueeAnchors, skipA11yTest: true });
+    });
   });
 
   // Test 1 : Marquee anchors (transparent)
@@ -123,18 +128,21 @@ test.describe('Milo Marquee Anchors test suite', () => {
       await expect(marquee.anchorLink.linkToAdobe.icon).toBeVisible();
 
       await expect(marquee.anchorFooter).toContainText(data.anchors.footerText);
+    });
 
-      await test.step('step-3: Verify analytics attributes', async () => {
-        await expect(await marquee.marqueeAnchorsTransparent).toHaveAttribute('daa-lh', await webUtil.getBlockDaalh('marquee-anchors', 1));
+    await test.step('step-3: Verify analytics attributes', async () => {
+      await expect(await marquee.marqueeAnchorsTransparent).toHaveAttribute('daa-lh', await webUtil.getBlockDaalh('marquee-anchors', 1));
+      await expect(await marquee.outlineButton).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.outlineButtonText, 1, data.h2Text));
+      await expect(await marquee.blueButton).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.blueButtonText, 2, data.h2Text));
 
-        await expect(await marquee.outlineButton).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.outlineButtonText, 1, data.h2Text));
-        await expect(await marquee.blueButton).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.blueButtonText, 2, data.h2Text));
+      await expect(await marquee.anchorLink.howTo.link).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(`${data.anchors.howTo.h4Text} ${data.anchors.howTo.linkText}`, 3, data.anchors.headerText));
+      await expect(await marquee.anchorLink.text.link).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(`${data.anchors.text.h4Text} ${data.anchors.text.linkText}`, 4, data.anchors.howTo.h4Text));
+      await expect(await marquee.anchorLink.media.link).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(`${data.anchors.media.h4Text} ${data.anchors.media.linkText}`, 5, data.anchors.text.h4Text));
+      await expect(await marquee.anchorLink.linkToAdobe.link).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(`${data.anchors.linkToAdobe.h4Text} ${data.anchors.linkToAdobe.linkText}`, 6, data.anchors.media.h4Text));
+    });
 
-        await expect(await marquee.anchorLink.howTo.link).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(`${data.anchors.howTo.h4Text} ${data.anchors.howTo.linkText}`, 3, data.anchors.headerText));
-        await expect(await marquee.anchorLink.text.link).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(`${data.anchors.text.h4Text} ${data.anchors.text.linkText}`, 4, data.anchors.howTo.h4Text));
-        await expect(await marquee.anchorLink.media.link).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(`${data.anchors.media.h4Text} ${data.anchors.media.linkText}`, 5, data.anchors.text.h4Text));
-        await expect(await marquee.anchorLink.linkToAdobe.link).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(`${data.anchors.linkToAdobe.h4Text} ${data.anchors.linkToAdobe.linkText}`, 6, data.anchors.media.h4Text));
-      });
+    await test.step('step-4: Verify the accessibility test on the marquee anchors (transparent) block', async () => {
+      await runAccessibilityTest({ page, testScope: marquee.marqueeAnchorsTransparent, skipA11yTest: true });
     });
   });
 });

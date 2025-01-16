@@ -1,34 +1,77 @@
 import { getConfig } from '../../utils/utils.js';
 
-/* c8 ignore next 11 */
-function handleEvent(prefix, link) {
+const queriedPages = [];
+
+function setInternational(prefix) {
   const domain = window.location.host.endsWith('.adobe.com') ? 'domain=adobe.com' : '';
   const maxAge = 365 * 24 * 60 * 60; // max-age in seconds for 365 days
   document.cookie = `international=${prefix};max-age=${maxAge};path=/;${domain}`;
   sessionStorage.setItem('international', prefix);
+}
+
+function handleEvent({ prefix, link, callback } = {}) {
+  if (typeof callback !== 'function') return;
+
+  const existingPage = queriedPages.find((page) => page.href === link.href);
+  if (existingPage) {
+    callback(existingPage.resp.ok
+      ? link.href
+      : `${prefix ? `/${prefix}` : ''}/`);
+    return;
+  }
   fetch(link.href, { method: 'HEAD' }).then((resp) => {
+    queriedPages.push({ href: link.href, resp });
     if (!resp.ok) throw new Error('request failed');
-    window.location.assign(link.href);
+    callback(link.href);
   }).catch(() => {
-    const prefixUrl = prefix ? `/${prefix}` : '';
-    window.location.assign(`${prefixUrl}/`);
+    callback(`${prefix ? `/${prefix}` : ''}/`);
   });
 }
 
-function decorateLink(link, config, path) {
+export function decorateLink(link, path) {
+  let hrefAdapted;
   let pathname = link.getAttribute('href');
   if (pathname.startsWith('http')) {
     try { pathname = new URL(pathname).pathname; } catch (e) { /* href does not contain domain */ }
   }
   const linkParts = pathname.split('/');
-  const prefix = linkParts[1] || 'us';
+  const prefix = linkParts[1] || '';
   let { href } = link;
   if (href.endsWith('/')) href = href.slice(0, -1);
+
+  const { languageMap } = getConfig();
+  if (languageMap && !getConfig().locales[prefix]) {
+    const valueInMap = languageMap[prefix];
+    href = href.replace(`/${prefix}`, valueInMap ? `/${valueInMap}` : '');
+  }
   link.href = `${href}${path}`;
+
+  link.addEventListener('mouseover', () => {
+    setTimeout(() => {
+      if (link.matches(':hover') && !hrefAdapted) {
+        handleEvent({
+          prefix,
+          link,
+          callback: (newHref) => {
+            link.href = newHref;
+            hrefAdapted = true;
+          },
+        });
+      }
+    }, 100);
+  });
+
   link.addEventListener('click', (e) => {
-    /* c8 ignore next 2 */
+    setInternational(prefix === '' ? 'us' : prefix);
+    if (hrefAdapted) return;
     e.preventDefault();
-    handleEvent(prefix, link, config);
+    handleEvent({
+      prefix,
+      link,
+      callback: (newHref) => {
+        window.open(newHref, e.ctrlKey || e.metaKey ? '_blank' : '_self');
+      },
+    });
   });
 }
 
@@ -40,5 +83,5 @@ export default function init(block) {
   if (!links.length) return;
   const { prefix } = config.locale;
   const path = window.location.href.replace(`${window.location.origin}${prefix}`, '').replace('#langnav', '');
-  links.forEach((l) => decorateLink(l, config, path));
+  links.forEach((link) => decorateLink(link, path));
 }

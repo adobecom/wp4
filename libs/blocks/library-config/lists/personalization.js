@@ -1,22 +1,23 @@
 import { createTag } from '../../../utils/utils.js';
 import createCopy from '../library-utils.js';
 
-const fetchTags = async (path) => {
-  const resp = await fetch(path);
-  if (!resp.ok) return [];
-  const json = await resp.json();
-  return json.data || [];
-};
-
-const categorize = (tagData) => tagData
+const categorize = (tagData, category) => tagData
   .reduce((tags, tag) => {
-    tags[tag.category] ??= [];
-    tags[tag.category].push({
+    const tagCategory = tag.category || category;
+    tags[tagCategory] ??= [];
+    tags[tagCategory].push({
       tagname: tag.tagname,
       description: tag.description,
     });
     return tags;
   }, {});
+
+const fetchTags = async (path, category) => {
+  const resp = await fetch(path);
+  if (!resp.ok) return [];
+  const json = await resp.json();
+  return categorize(json.data, category);
+};
 
 const getCopyBtn = (tagName) => {
   const copy = createTag('button', { class: 'copy' });
@@ -26,14 +27,20 @@ const getCopyBtn = (tagName) => {
     setTimeout(() => { e.target.classList.remove('copied'); }, 3000);
     const blob = new Blob([tagName], { type: 'text/plain' });
     createCopy(blob);
-    window.hlx?.rum.sampleRUM('click', { source: e.target });
   });
   return copy;
 };
 
 export default async function loadPersonalization(content, list) {
-  const tagData = await fetchTags(content[0].path);
-  const tagsObj = categorize(tagData);
+  let tagsObj = {};
+  for (const item of content) {
+    const { category, path } = item;
+    tagsObj = {
+      ...tagsObj,
+      ...await fetchTags(path, category),
+    };
+  }
+
   list.textContent = '';
 
   Object.entries(tagsObj).forEach(([category, tags]) => {

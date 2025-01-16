@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="aem-base-url" content="http://localhost:2023" />
+        <title>Merch Datasource Web Component test page</title>
+        <script>
+            window.process = {
+                env: {},
+            };
+        </script>
+        <style>
+            main {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                flex-direction: column;
+                padding-top: 80px;
+            }
+
+            merch-card {
+                margin: 32px;
+            }
+        </style>
+        <link
+            rel="stylesheet"
+            href="http://localhost:2023/__wds-outside-root__/2/styles/styles.css"
+        />
+        <script
+            src="http://localhost:2023/__wds-outside-root__/2/features/spectrum-web-components/dist/theme.js"
+            type="module"
+        ></script>
+        <script
+            src="http://localhost:2023/__wds-outside-root__/2/features/spectrum-web-components/dist/button.js"
+            type="module"
+        ></script>
+        <mas-commerce-service></mas-commerce-service>
+        <script type="module" src="./aem-fragment.test.html.js"></script>
+    </head>
+
+    <body>
+        <main>
+            <sp-theme color="light" scale="medium"></sp-theme>
+        </main>
+        <template id="cards">
+            <merch-card>
+                <aem-fragment
+                    title="Creative Cloud All Apps"
+                    fragment="fragment-cc-all-apps"
+                    author
+                >
+                </aem-fragment>
+            </merch-card>
+            <merch-card>
+                <aem-fragment
+                    title="Photoshop"
+                    fragment="fragment-photoshop"
+                    author
+                >
+                </aem-fragment>
+            </merch-card>
+            <merch-card consonant>
+                <aem-fragment
+                    title="Creative Cloud All Apps"
+                    fragment="fragment-cc-all-apps"
+                >
+                </aem-fragment>
+            </merch-card>
+            <merch-card>
+                <aem-fragment></aem-fragment>
+            </merch-card>
+            <merch-card>
+                <aem-fragment
+                    title="Creative Cloud All Apps"
+                    fragment="fragment-cc-all-apps"
+                    ims
+                >
+                </aem-fragment>
+            </merch-card>
+            <merch-card>
+                <aem-fragment fragment="with-wrong-price-and-checkout-osis">
+                </aem-fragment>
+            </merch-card>
+
+            <merch-card title="CCD Slice Wide with Badge">
+                <aem-fragment
+                    fragment="fragment-cc-all-apps-badge"
+                ></aem-fragment>
+            </merch-card>
+        </template>
+    </body>
+</html>

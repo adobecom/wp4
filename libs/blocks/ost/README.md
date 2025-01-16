@@ -22,7 +22,7 @@ perform the following:
 - navigate to adobe.com,
 - open devtools console,
 - execute `copy(adobeIMS.getAccessToken().token)`,
-- add token to OST URL querystring, e.g.: `https://mwpw-127984--milo--vladen.hlx.page/tools/ost?token=eyJhb...`
+- add token to OST URL querystring, e.g.: `https://mwpw-127984--milo--vladen.aem.page/tools/ost?token=eyJhb...`
 
 ## Settings
 

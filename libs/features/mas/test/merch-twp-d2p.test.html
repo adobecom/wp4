@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>merch-twp-d2p web component test page</title>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            /* Align horizontally */
+            align-items: center;
+            /* Align vertically */
+        }
+
+        #sidenav {
+            display: none;
+        }
+
+        @media screen and (min-width: 1200px) {
+            #sidenav {
+                display: flex;
+                position: fixed;
+                bottom: 0;
+                left: 0px;
+                gap: 20px;
+                flex-direction: column;
+                width: 320px;
+            }
+
+            #content {
+                margin-top: 100px;
+                width: 972px;
+                height: 680px;
+                display: flex;
+            }
+
+            #content.overlay {
+                background-image: url('/assets/twp-cc.png');
+                background-color: none;
+            }
+
+            #content.overlay * {
+                visibility: hidden;
+            }
+
+            merch-twp-d2p {
+                flex: 1;
+                border: 1px rgb(80, 80, 80);
+                border-radius: 6px;
+            }
+        }
+
+        sp-icon-close-circle {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            cursor: pointer;
+            color: #707070;
+            z-index: 100
+        }
+    </style>
+
+    <script>
+        window.process = {
+            env: {},
+        };
+    </script>
+    <script type="module" src="./merch-twp-d2p.test.html.js"></script>
+</head>
+
+<body>
+    <div id="sidenav">
+        <button data-template="cci-footer,premiere">1 Card</button>
+        <button data-template="all-apps,photography,cci-footer,cct-footer,cce-footer">2 Cards</button>
+        <button data-template="all-apps,photography-storage,cci-footer,cct-footer,cce-footer">2 Cards, Storage Options</button>
+        <button data-template="all-apps,photography,premiere,cci-footer,cct-footer,cce-footer">3 Cards</button>
+        <button onclick="javascript:document.getElementById('content').classList.toggle('overlay')">Toggle
+            overlay</button>
+        <button onclick="skipTests()">Skip tests</button>
+        <button onclick="runTests()">Run tests</button>
+    </div>
+    <div id="content">
+
+    </div>
+    <template id="merch-twp-d2p">
+      <sp-theme  color="light" scale="large">
+            <sp-dialog-base slot="click-content" dismissable underlay no-divider>
+                <sp-icon-close-circle size="l"></sp-icon-close-circle>
+                <merch-twp-d2p>
+                    <h4 slot="detail-xl">Try the full version of Adobe apps with a 7-day free trial.</h4>
+                    <a slot="cci-footer" href="#cci" tabindex="0">See all plans and pricing</a>
+                    <a slot="cct-footer" href="#cct" tabindex="0">See all plans and pricing</a>
+                    <a slot="cce-footer" href="#cce" tabindex="0">See all plans and pricing</a>
+                    <div id="merch-whats-included" slot="merch-whats-included" class="merch-whats-included hidden">
+                        <sp-icon-close-circle name="close-whats-included"size="l"></sp-icon-close-circle>
+                        <h3>What’s included with Creative Cloud All Apps</h3>
+                        <p>Get the apps and services you need for all kinds of creative work, from photography and graphic design to video, UI/UX, and social media.</p>
+                        <merch-whats-included>
+                            <h3 slot="heading">Apps</h3>
+                            <div slot="content">
+                                    <merch-mnemonic-list>
+                                        <div slot="icon">
+                                            <merch-icon size="s" src="https://www.adobe.com/content/dam/shared/images/product-icons/svg/photoshop.svg" alt="Photoshop"></merch-icon>
+                                        </div>
+                                        <p slot="description"><strong>Photoshop</strong></p>
+                                    </merch-mnemonic-list>
+                                    <merch-mnemonic-list>
+                                        <div slot="icon">
+                                            <merch-icon size="s" src="https://www.adobe.com/content/dam/shared/images/product-icons/svg/illustrator.svg" alt="Illustrator"></merch-icon>
+                                        </div>
+                                        <p slot="description"><strong>Illustrator</strong></p>
+                                    </merch-mnemonic-list>
+                                    <merch-mnemonic-list>
+                                        <div slot="icon">
+                                            <merch-icon size="s" src="https://www.adobe.com/content/dam/shared/images/product-icons/svg/premiere.svg" alt="Premiere Pro"></merch-icon>
+                                        </div>
+                                        <p slot="description"><strong>Premiere Pro</strong></p>
+                                    </merch-mnemonic-list>
+                                    <merch-mnemonic-list>
+                                        <div slot="icon">
+                                            <merch-icon size="s" src="https://www.adobe.com/content/dam/shared/images/product-icons/svg/acrobat.svg" alt="Acrobat Pro"></merch-icon>
+                                        </div>
+                                        <p slot="description"><strong>Acrobat Pro</strong></p>
+                                    </merch-mnemonic-list>
+                                    <merch-mnemonic-list>
+                                        <div slot="icon">
+                                            <merch-icon size="s" src="https://www.adobe.com/content/dam/shared/images/product-icons/svg/cc-express.svg" alt="Adobe Express"></merch-icon>
+                                        </div>
+                                        <p slot="description"><strong>Adobe Express</strong></p>
+                                    </merch-mnemonic-list>
+                                    <merch-mnemonic-list>
+                                        <div slot="icon">
+                                            <merch-icon size="s" src="https://www.adobe.com/content/dam/shared/images/product-icons/svg/firefly.svg" alt="Adobe Firefly"></merch-icon>
+                                        </div>
+                                        <p slot="description"><strong>Firefly</strong></p>
+                                    </merch-mnemonic-list>
+                                </div>
+                        </merch-whats-included>
+                        <merch-whats-included>
+                            <h3 slot="heading">Membership perks</h3>
+                            <div slot="content">
+                                    <merch-mnemonic-list>
+                                        <div slot="icon">
+                                            <merch-icon size="s" src="https://www.adobe.com/content/dam/shared/images/product-icons/svg/photoshop.svg" alt="Photoshop"></merch-icon>
+                                        </div>
+                                        <p slot="description"><strong>Adobe Fonts</strong></p>
+                                    </merch-mnemonic-list>
+                                    <merch-mnemonic-list>
+                                        <div slot="icon">
+                                            <merch-icon size="s" src="https://www.adobe.com/content/dam/shared/images/product-icons/svg/illustrator.svg" alt="Illustrator"></merch-icon>
+                                        </div>
+                                        <p slot="description"><strong>Adobe Color</strong></p>
+                                    </merch-mnemonic-list>
+                                    <merch-mnemonic-list>
+                                        <div slot="icon">
+                                            <merch-icon size="s" src="https://www.adobe.com/content/dam/shared/images/product-icons/svg/premiere.svg" alt="Premiere Pro"></merch-icon>
+                                        </div>
+                                        <p slot="description"><strong>Adobe Portfolio</strong></p>
+                                    </merch-mnemonic-list>
+                                    <merch-mnemonic-list>
+                                        <div slot="icon">
+                                            <merch-icon size="s" src="https://www.adobe.com/content/dam/shared/images/product-icons/svg/acrobat.svg" alt="Acrobat Pro"></merch-icon>
+                                        </div>
+                                        <p slot="description"><strong>Behance</strong></p>
+                                    </merch-mnemonic-list>
+                                    <merch-mnemonic-list>
+                                        <div slot="icon">
+                                            <merch-icon size="s" src="https://www.adobe.com/content/dam/shared/images/product-icons/svg/firefly.svg" alt="Adobe Firefly"></merch-icon>
+                                        </div>
+                                        <p slot="description"><strong>Creative Cloud libraries</strong></p>
+                                    </merch-mnemonic-list>
+                                    <merch-mnemonic-list>
+                                        <div slot="icon">
+                                            <merch-icon size="s" src="https://www.adobe.com/content/dam/shared/images/product-icons/svg/cc-express.svg" alt="Adobe Express"></merch-icon>
+                                        </div>
+                                        <p slot="description">x,xxx monthly <u><a href="https://adobe.com">generative credits</a></u></p>
+                                    </merch-mnemonic-list>
+                                </div>
+                        </merch-whats-included>
+                    </div>
+                </merch-twp-d2p>
+            </sp-dialog-base>
+        </sp-theme>
+    </template>
+
+    <template id="cci-footer">
+        <div slot="cci-footer">
+            <a href="#cci" tabindex="0">See all plans and pricing</a>
+        </div>
+    </template>
+    <template id="cct-footer">
+        <div slot="cct-footer">
+            <a href="#cct" tabindex="0">See all plans and pricing</a>
+        </div>
+    </template>
+    <template id="cce-footer">
+        <div slot="cce-footer">
+            <a href="#cce" tabindex="0">See all plans and pricing</a>
+        </div>
+    </template>
+
+    <template id="subscription-panel">
+        <merch-subscription-panel slot="panel" variant="subscription-options">
+            <h4 slot="header">Pick a subscription:</h4>
+            <h5 slot="header">
+                You won't be charged until after your free trial ends.
+            </h5>
+            <merch-secure-transaction icon label="Secure transaction" tooltip="
+            At Adobe, we’re serious about protecting your personal
+            information. To ensure your account details are safe, we use
+            Secure Sockets Layer (SSL), an industry standard for
+            encrypting private data over the internet.">
+            </merch-secure-transaction>
+            <merch-stock>
+                <div>Add a 7-day free trial of Adobe Stock and get up to 10 standard
+                    assets. Cancel risk-free before your trial ends, and you won’t
+                    be charged. Pay <span is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                        data-display-tax="false" data-wcs-osi="stock-abm"></span> after your trial ends.
+                </div>
+                <div>Add a 7-day free trial of Adobe Stock and get up to 10 standard
+                    assets. Cancel risk-free before your trial ends, and you won’t
+                    be charged. Pay<span is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                        data-display-tax="false" data-wcs-osi="stock-m2m"></span>after your trial ends.
+                </div>
+                <div> Add a 7-day free trial of Adobe Stock and get up to 10 standard
+                    assets. Cancel risk-free before your trial ends, and you won’t
+                    be charged. Pay <span is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                        data-display-tax="false" data-wcs-osi="stock-puf"></span> after your trial ends.
+                </div>
+            </merch-stock>
+        </merch-subscription-panel>
+    </template>
+
+    <template id="all-apps">
+        <merch-card class="merch-card" variant="twp" badge-background-color="#2D9D78" badge-color="#FFFFFF"
+            badge-text="Best value" filters="all" types="" tabindex="0">
+            <merch-icon size="l" slot="icons" alt="Creative Cloud All Apps"
+                src="https://www.adobe.com/content/dam/shared/images/product-icons/svg/creative-cloud.svg"></merch-icon>
+            <p slot="heading-xs" class="heading-xs">
+                <strong>Creative Cloud All Apps</strong>
+            </p>
+            <p slot="body-xs-top" class="body-xs-top">The ultimate toolkit for unlimited creativity.</p>
+            <div slot="body-xs">
+                <p>
+                    <strong>What you get:</strong>
+                </p>
+                <ul>
+                    <li>20+ apps – Photoshop, Illustrator, Adobe Express, Firefly, Acrobat Pro, and more</li>
+                    <li>Tutorials, fonts , templates, and more</li>
+                    <li>100GB of cloud storage</li>
+                    <li>X,XXX monthly <a href="https://firefly.adobe.com/">generative
+                            credits</a></li>
+                </ul>
+                <p>
+                    <a class="whats-included-link" href="#merch-whats-included">See all included apps.</a>
+                </p>
+            </div>
+            <div slot="footer">
+                <p>
+                    <strong>7-day free trial, then</strong>
+                </p>
+                <p class="merch-card-price">
+                    <span is="inline-price" data-display-old-price="true" data-display-per-unit="true"
+                        data-display-recurrence="true" data-display-tax="false" data-force-tax-exclusive="false"
+                        data-quantity="1" data-template="price" data-wcs-osi="JzW8dgW8U1SrgbHDmTE-ABsOKPgtl5jugiW8bA5PtKg" slot="price">
+                    </span>
+                </p>
+                <merch-offer-select stock id="cci">
+                    <merch-offer text="Annual, monthly payment">
+                        <span id="ABM" is="inline-price" data-template="price" data-display-per-unit="false"
+                            data-display-recurrence="true" data-display-tax="false" data-wcs-osi="JzW8dgW8U1SrgbHDmTE-ABsOKPgtl5jugiW8bA5PtKg"></span>
+                        <div slot="commitment">Annual, paid monthly</div>
+                        <div slot="condition">
+                            Fee applies if you cancel after 14 days.
+                        </div>
+                        <div slot="condition-tooltip">
+                            If you cancel after 14 days, your service will continue
+                            until the end of that month’s billing period, and you
+                            will be charged an early termination fee.
+                        </div>
+                        <div slot="vat">Inclusive of VAT</div>
+                    </merch-offer>
+                    <merch-offer text="Annual, one-time payment">
+                        <span id="PUF" is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                            data-display-tax="false" data-wcs-osi="7QWcHXX6VIH_2BeNYI1GizMNGHJ3ZFz9-IMoC0gC-4c"></span>
+                        <div slot="commitment">Annual, prepaid</div>
+                        <div slot="condition">
+                            No refund if you cancel after 14 days.
+                        </div>
+                        <div slot="condition-tooltip">
+                            If you cancel after 14 days, your payment is
+                            non-refundable, and your service will continue until the
+                            end of your contracted term.
+                        </div>
+                        <div slot="vat">Inclusive of VAT</div>
+                    </merch-offer>
+                    <merch-offer text="Monthly, without commitment">
+                        <span id="M2M" is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                            data-display-tax="false" data-wcs-osi="MasJgjrlDjj72m_B1q1_4VhTDtxldl6yG4C16DkznhI"></span>
+                        <div slot="commitment">Monthly</div>
+                        <div slot="condition">Cancel anytime, no fee.</div>
+                        <div slot="condition-tooltip">
+                            If you cancel after 14 days, your payment is
+                            non-refundable, and your service will continue until the
+                            end of that month’s billing period.
+                        </div>
+                        <div slot="vat">Inclusive of VAT</div>
+                    </merch-offer>
+                </merch-offer-select>
+            </div>
+        </merch-card>
+        <merch-card class="merch-card" variant="twp" badge-background-color="#2D9D78" badge-color="#FFFFFF"
+            badge-text="Best value" filters="all" types="" tabindex="0">
+            <merch-icon size="l" slot="icons" alt="Creative Cloud All Apps"
+                src="https://www.adobe.com/content/dam/shared/images/product-icons/svg/creative-cloud.svg"></merch-icon>
+            <p slot="heading-xs" class="heading-xs">
+                <strong>Creative Cloud All Apps</strong>
+            </p>
+            <p slot="body-xs-top" class="body-xs-top">The ultimate toolkit for unlimited creativity.</p>
+            <div slot="body-xs">
+                <p>
+                    <strong>What you get:</strong>
+                </p>
+                <ul>
+                    <li>20+ apps – Photoshop, Illustrator, Adobe Express, Firefly, Acrobat Pro, and more</li>
+                    <li>Tutorials, fonts , templates, and more</li>
+                    <li>100GB of cloud storage</li>
+                    <li>X,XXX monthly <a href="https://firefly.adobe.com/">generative
+                            credits</a></li>
+                </ul>
+                <p>
+                    <a href="#merch-whats-included">See all included apps.</a>
+                </p>
+            </div>
+            <div slot="footer">
+                <p>
+                    <strong>7-day free trial, then</strong>
+                </p>
+                <p class="merch-card-price">
+                    <span is="inline-price" data-display-old-price="true" data-display-per-unit="true"
+                        data-display-recurrence="true" data-display-tax="false" data-force-tax-exclusive="false"
+                        data-quantity="1" data-template="price" data-wcs-osi="puf-edu" slot="price">
+                    </span>
+                </p>
+                <merch-quantity-select title="Number of licenses" min="1" max="10" step="1" default-value="1"
+                    max-input="250"></merch-quantity-select>
+                <merch-offer-select variant="subscription-options" id="cct">
+                    <merch-offer text="Annual, paid-monthly">
+                        <span is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                            data-display-tax="false" data-wcs-osi="abm-team"></span>
+                        <div slot="commitment">Annual, paid monthly</div>
+                        <div slot="condition">
+                            Fee applies if you cancel after 14 days.
+                        </div>
+                        <div slot="condition-tooltip">
+                            If you cancel after 14 days, your service will continue
+                            until the end of that month’s billing period, and you
+                            will be charged an early termination fee.
+                        </div>
+                    </merch-offer>
+                    <merch-offer text="Annual, pre-paid">
+                        <span id="PUF" is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                            data-display-tax="false" data-wcs-osi="puf-team"></span>
+                        <div slot="commitment">Annual, prepaid</div>
+                        <p slot="teaser">Save with the annual prepaid plan.</p>
+                        <div slot="condition">
+                            No refund if you cancel after 14 days.
+                        </div>
+                        <div slot="condition-tooltip">
+                            If you cancel after 14 days, your payment is
+                            non-refundable, and your service will continue until the
+                            end of your contracted term.
+                        </div>
+                    </merch-offer>
+                </merch-offer-select>
+            </div>
+        </merch-card>
+        <merch-card class="merch-card" variant="twp" badge-background-color="#2D9D78" badge-color="#FFFFFF"
+            badge-text="Best value" filters="all" types="" tabindex="0">
+            <merch-icon size="l" slot="icons" alt="Creative Cloud All Apps"
+                src="https://www.adobe.com/content/dam/shared/images/product-icons/svg/creative-cloud.svg"></merch-icon>
+            <p slot="heading-xs" class="heading-xs">
+                <strong>Creative Cloud All Apps</strong>
+            </p>
+            <p slot="body-xs-top" class="body-xs-top">The ultimate toolkit for unlimited creativity.</p>
+            <div slot="body-xs">
+                <p>
+                    <strong>What you get:</strong>
+                </p>
+                <ul>
+                    <li>20+ apps – Photoshop, Illustrator, Adobe Express, Firefly, Acrobat Pro, and more</li>
+                    <li>Tutorials, fonts , templates, and more</li>
+                    <li>100GB of cloud storage</li>
+                    <li>X,XXX monthly <a href="https://firefly.adobe.com/">generative
+                            credits</a></li>
+                </ul>
+                <p>
+                    <a href="https://adobe.com/">See all included apps.</a>
+                </p>
+            </div>
+            <div slot="footer">
+                <p>
+                    <strong>7-day free trial, then</strong>
+                </p>
+                <p class="merch-card-price">
+                    <span is="inline-price" data-display-old-price="true" data-display-per-unit="true"
+                        data-display-recurrence="true" data-display-tax="false" data-force-tax-exclusive="false"
+                        data-quantity="1" data-template="price" data-wcs-osi="puf-edu" slot="price">
+                    </span>
+                </p>
+                <merch-offer-select variant="subscription-options" id="ccedu">
+                    <merch-offer text="Annual, paid-monthly">
+                        <span is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                            data-display-tax="false" data-wcs-osi="abm-edu"></span>
+                        <div slot="commitment">Annual, paid monthly</div>
+                        <div slot="condition">
+                            Fee applies if you cancel after 14 days.
+                        </div>
+                        <div slot="condition-tooltip">
+                            If you cancel after 14 days, your service will continue
+                            until the end of that month’s billing period, and you
+                            will be charged an early termination fee.
+                        </div>
+                    </merch-offer>
+                    <merch-offer text="Annual, pre-paid">
+                        <span id="PUF" is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                            data-display-tax="false" data-wcs-osi="puf-edu"></span>
+                        <div slot="commitment">Annual, prepaid</div>
+                        <div slot="condition">
+                            No refund if you cancel after 14 days.
+                        </div>
+                        <div slot="condition-tooltip">
+                            If you cancel after 14 days, your payment is
+                            non-refundable, and your service will continue until the
+                            end of your contracted term.
+                        </div>
+                    </merch-offer>
+                </merch-offer-select>
+            </div>
+        </merch-card>
+    </template>
+    <template id="premiere">
+        <merch-card class="merch-card" variant="twp" filters="all" types="" tabindex="0">
+            <merch-icon size="l" slot="icons" alt="Premiere" src="/test/img/premiere.svg"></merch-icon>
+            <p slot="heading-xs" class="heading-xs">
+                <strong>Premiere</strong>
+            </p>
+            <p slot="body-xs-top" class="body-xs-top">Create everything from social clips to feature films
+                with the leading video editor.</p>
+            <div slot="body-xs">
+                <p>
+                    <strong>What you get:</strong>
+                </p>
+                <ul>
+                    <li>Premiere Pro on desktop</li>
+                    <li>Adobe Express and Adobe Firefly</li>
+                    <li>Tutorials, fonts, templates, and more</li>
+                    <li>100GB of cloud storage</li>
+                    <li>X,XXX monthly <a href="https://firefly.adobe.com/" daa-ll="generative credits-1"
+                            target="_blank">generative credits</a></li>
+                </ul>
+            </div>
+            <div slot="footer">
+                <p>
+                    <strong>7-day free trial, then</strong>
+                </p>
+                <p class="merch-card-price">
+                    <span is="inline-price" data-display-old-price="true" data-display-per-unit="false"
+                        data-display-recurrence="true" data-display-tax="false" data-force-tax-exclusive="false"
+                        data-quantity="1" data-template="price" data-wcs-osi="abm" slot="price">
+                    </span>
+                </p>
+                <merch-offer-select stock="" plan-type="ABM">
+                    <merch-offer text="Annual, monthly payment" tabindex="0" role="radio" type="radio" plan-type="ABM"
+                        aria-selected="">
+                        <span is="inline-price" data-display-old-price="true" data-display-per-unit="false"
+                            data-display-recurrence="true" data-display-tax="false" data-force-tax-exclusive="false"
+                            data-quantity="1" data-template="price" data-wcs-osi="abm" slot="price">
+                        </span>
+                        <a is="checkout-link" data-checkout-workflow="UCv3" data-checkout-workflow-step="commitment"
+                            data-quantity="1" data-wcs-osi="abm" data-extra-options="{}" class="con-button" href="#"
+                            slot="cta" target="_blank">
+                            <span>Buy now</span>
+                        </a>
+                        <div slot="commitment">Annual, paid monthly</div>
+                        <div slot="condition">
+                            Fee applies if you cancel after 14 days.
+                        </div>
+                        <div slot="condition-tooltip">
+                            If you cancel after 14 days, your service will continue
+                            until the end of that month’s billing period, and you
+                            will be charged an early termination fee.
+                        </div>
+                    </merch-offer>
+                    <merch-offer text="Annual, one-time payment" tabindex="0" role="radio" type="radio" plan-type="PUF">
+                        <span is="inline-price" data-display-old-price="true" data-display-per-unit="false"
+                            data-display-recurrence="true" data-display-tax="false" data-force-tax-exclusive="false"
+                            data-quantity="1" data-template="price" data-wcs-osi="puf" slot="price">
+                        </span>
+                        <a is="checkout-link" data-checkout-workflow="UCv3" data-checkout-workflow-step="commitment"
+                            data-quantity="1" data-wcs-osi="puf" data-extra-options="{}" class="con-button" href="#"
+                            slot="cta" target="_blank">
+                            <span>Buy now</span>
+                        </a>
+                        <div slot="commitment">Annual, prepaid</div>
+                        <div slot="condition">
+                            No refund if you cancel after 14 days.
+                        </div>
+                        <div slot="condition-tooltip">
+                            If you cancel after 14 days, your payment is
+                            non-refundable, and your service will continue until the
+                            end of your contracted term.
+                        </div>
+                    </merch-offer>
+                    <merch-offer text="Monthly, without commitment" tabindex="0" role="radio" type="radio"
+                        plan-type="M2M">
+                        <span is="inline-price" data-display-old-price="true" data-display-per-unit="false"
+                            data-display-recurrence="true" data-display-tax="false" data-force-tax-exclusive="false"
+                            data-quantity="1" data-template="price" data-wcs-osi="m2m" slot="price">
+                        </span>
+                        <a is="checkout-link" data-checkout-workflow="UCv3" data-checkout-workflow-step="commitment"
+                            data-quantity="1" data-wcs-osi="m2m" data-extra-options="{}" class="con-button" href="#"
+                            slot="cta" target="_blank">
+                            <span>Buy now</span>
+                        </a>
+                        <div slot="commitment">Monthly</div>
+                        <div slot="condition">Cancel anytime, no fee.</div>
+                        <div slot="condition-tooltip">
+                            If you cancel after 14 days, your payment is
+                            non-refundable, and your service will continue until the
+                            end of that month’s billing period.
+                        </div>
+                    </merch-offer>
+                </merch-offer-select>
+            </div>
+        </merch-card>
+    </template>
+    <template id="photography">
+        <merch-card class="merch-card" variant="twp" filters="all" types="" tabindex="0">
+            <merch-icon size="l" slot="icons" alt="Lightroom"
+                src="https://www.adobe.com/content/dam/shared/images/product-icons/svg/lightroom.svg"></merch-icon>
+            <merch-icon size="l" slot="icons" alt="Photoshop"
+                src="https://www.adobe.com/content/dam/shared/images/product-icons/svg/photoshop.svg"></merch-icon>
+            <p slot="heading-xs" class="heading-xs">
+                <strong>Photography</strong>
+            </p>
+            <p slot="body-xs-top" class="body-xs-top">Create gorgeous images, rich graphics, and incredible
+                art.</p>
+            <div slot="body-xs">
+                <p>
+                    <strong>What you get:</strong>
+                </p>
+                <ul>
+                    <li>Photoshop on desktop and iPad</li>
+                    <li>Adobe Express and Adobe Firefly</li>
+                    <li>Tutorials, fonts, templates, and more</li>
+                    <li>100GB of cloud storage</li>
+                    <li>X,XXX monthly <a href="https://firefly.adobe.com/">generative credits</a></li>
+                </ul>
+            </div>
+            <div slot="footer">
+                <p>
+                    <strong>7-day free trial, then</strong>
+                </p>
+                <p class="merch-card-price">
+                    <span is="inline-price" data-display-old-price="true" data-display-per-unit="true"
+                        data-display-recurrence="true" data-display-tax="false" data-force-tax-exclusive="false"
+                        data-quantity="1" data-template="price" data-wcs-osi="ZQwlmahh5YRWh8mRGxo-cr3eu91ShbpRv6vkbcsi3eQ" slot="price">
+                    </span>
+                </p>
+                <merch-offer-select stock id="photography">
+                    <merch-offer text="Annual, monthly payment">
+                        <span id="ABM" is="inline-price" data-template="price" data-display-per-unit="false"
+                            data-display-recurrence="true" data-display-tax="false" data-wcs-osi="ZQwlmahh5YRWh8mRGxo-cr3eu91ShbpRv6vkbcsi3eQ"></span>
+                        <div slot="commitment">Annual, paid monthly</div>
+                        <div slot="condition">
+                            Fee applies if you cancel after 14 days.
+                        </div>
+                        <div slot="condition-tooltip">
+                            If you cancel after 14 days, your service will continue
+                            until the end of that month’s billing period, and you
+                            will be charged an early termination fee.
+                        </div>
+                        <div slot="vat">Inclusive of VAT</div>
+                    </merch-offer>
+                    <merch-offer text="Annual, one-time payment">
+                        <span id="PUF" is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                            data-display-tax="false" data-wcs-osi="qQiJqQPZXOSrog8SR5yfiLR03-thGECfV5Gm9jzeK6k"></span>
+                        <div slot="commitment">Annual, prepaid</div>
+                        <div slot="condition">
+                            No refund if you cancel after 14 days.
+                        </div>
+                        <div slot="condition-tooltip">
+                            If you cancel after 14 days, your payment is
+                            non-refundable, and your service will continue until the
+                            end of your contracted term.
+                        </div>
+                        <div slot="vat">Inclusive of VAT</div>
+                    </merch-offer>
+                    <merch-offer text="Monthly, without commitment">
+                        <span id="M2M" is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                            data-display-tax="false" data-wcs-osi="AoyCNxLmjibbiE84-I9xlAJEayihAmviExxfyy04g8w"></span>
+                        <div slot="commitment">Monthly</div>
+                        <div slot="condition">Cancel anytime, no fee.</div>
+                        <div slot="condition-tooltip">
+                            If you cancel after 14 days, your payment is
+                            non-refundable, and your service will continue until the
+                            end of that month’s billing period.
+                        </div>
+                        <div slot="vat">Inclusive of VAT</div>
+                    </merch-offer>
+                </merch-offer-select>
+            </div>
+        </merch-card>
+    </template>
+    <template id="photography-storage">
+        <merch-card class="merch-card" variant="twp" filters="all" types="" tabindex="0">
+            <merch-icon size="l" slot="icons" alt="Lightroom"
+                src="https://www.adobe.com/content/dam/shared/images/product-icons/svg/lightroom.svg"></merch-icon>
+            <merch-icon size="l" slot="icons" alt="Photoshop"
+                src="https://www.adobe.com/content/dam/shared/images/product-icons/svg/photoshop.svg"></merch-icon>
+            <p slot="heading-xs" class="heading-xs">
+                <strong>Photography</strong>
+            </p>
+            <p slot="body-xs-top" class="body-xs-top">Edit, organise and transform your photos.</p>
+            <div slot="body-xs">
+                <p>
+                    <strong>What you get:</strong>
+                </p>
+                <ul>
+                    <li>Photoshop on desktop and iPad</li>
+                    <li>Adobe Express and Adobe Firefly</li>
+                    <li>Tutorials, fonts, templates, and more</li>
+                    <li>100GB of cloud storage</li>
+                    <li>[[ai-credits|100]] monthly <a href="https://firefly.adobe.com/">generative credits</a></li>
+                </ul>
+
+            </div>
+            <div slot="footer">
+                <div style="display: flex;flex-direction: column;">
+                    <sp-field-label for="storage" size="m">Storage:</sp-field-label>
+                    <sp-radio-group id="storage" name="storage" role="radiogroup" selected="20GB" horizontal="">
+                        <sp-radio emphasized="" value="20GB" tabindex="0" role="radio" aria-checked="true" checked="">20GB</sp-radio>
+                        <sp-radio emphasized="" value="1TB" tabindex="-1" role="radio" aria-checked="false">1TB</sp-radio>
+                    </sp-radio-group>
+                </div>
+
+                <p>
+                    <strong>7-day free trial, then</strong>
+                </p>
+                <p class="merch-card-price">
+                    <span slot="price" id="ABM" is="inline-price" data-template="price" data-display-per-unit="false"
+                        data-display-recurrence="true" data-display-tax="false" data-wcs-osi="OInILOo_tvV3OiYdJTxo1NhsVX4GxbHnM8JWexA9N8w">
+                    </span>
+                </p>
+                <merch-offer-select stock storage="20GB" id="photography-storage">
+                    <merch-offer text="Annual, monthly payment">
+                        <span id="ABM" is="inline-price" data-template="price" data-display-per-unit="false"
+                            data-display-recurrence="true" data-display-tax="false" data-wcs-osi="OInILOo_tvV3OiYdJTxo1NhsVX4GxbHnM8JWexA9N8w"></span>
+                        <a is="checkout-link" data-checkout-workflow="UCv3" data-checkout-workflow-step="email"
+                            data-quantity="1" data-wcs-osi="OInILOo_tvV3OiYdJTxo1NhsVX4GxbHnM8JWexA9N8w"
+                            data-extra-options="{}" class="con-button" href="#" slot="cta" target="_blank">
+                            <span>Buy now</span>
+                        </a>
+                        <div slot="commitment">Annual, paid monthly</div>
+                        <div slot="condition">
+                            Fee applies if you cancel after 14 days.
+                        </div>
+                        <div slot="condition-tooltip">
+                            If you cancel after 14 days, your service will continue
+                            until the end of that month’s billing period, and you
+                            will be charged an early termination fee.
+                        </div>
+                        <div slot="vat">Inclusive of VAT</div>
+                    </merch-offer>
+                    <merch-offer text="Annual, one-time payment">
+                        <span id="PUF" is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                            data-display-tax="false" data-wcs-osi="5OFXVGxVYBZAJIrzV7Z8dsv2ve3oiRzed8f9UB8gbTw"></span>
+                        <a is="checkout-link" data-checkout-workflow="UCv3" data-checkout-workflow-step="commitment"
+                            data-quantity="1" data-wcs-osi="OInILOo_tvV3OiYdJTxo1NhsVX4GxbHnM8JWexA9N8w"
+                            data-extra-options="{}" class="con-button" href="#" slot="cta" target="_blank">
+                            <span>Buy now</span>
+                        </a>
+                        <div slot="commitment">Annual, prepaid</div>
+                        <div slot="condition">
+                            No refund if you cancel after 14 days.
+                        </div>
+                        <div slot="condition-tooltip">
+                            If you cancel after 14 days, your payment is
+                            non-refundable, and your service will continue until the
+                            end of your contracted term.
+                        </div>
+                        <div slot="vat">Inclusive of VAT</div>
+                    </merch-offer>
+                </merch-offer-select>
+                <merch-offer-select stock storage="1TB">
+                    <merch-offer text="Annual, monthly payment">
+                        <span is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                            data-display-tax="false" data-wcs-osi="tNF8YrqR3DslSda-1L6pK5z-nYWDQYnjdHkwFDjGAas" data-template="price"></span>
+                        <a is="checkout-link" data-checkout-workflow="UCv3" data-checkout-workflow-step="commitment"
+                            data-quantity="1" data-wcs-osi="tNF8YrqR3DslSda-1L6pK5z-nYWDQYnjdHkwFDjGAas"
+                            data-extra-options="{}" class="con-button" href="#" slot="cta" target="_blank">
+                            <span>Buy now</span>
+                        </a>
+                        <span id="placeholders" ai-credints="500"></span>
+                        <div slot="commitment">Annual, paid monthly</div>
+                        <div slot="condition">
+                            Fee applies if you cancel after 14 days.
+                        </div>
+                        <div slot="condition-tooltip">
+                            If you cancel after 14 days, your service will continue
+                            until the end of that month’s billing period, and you
+                            will be charged an early termination fee.
+                        </div>
+                        <div slot="vat">Inclusive of VAT</div>
+                    </merch-offer>
+                    <merch-offer text="Annual, one-time payment">
+                        <span id="PUF" is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                            data-display-tax="false" data-wcs-osi="9zqYpoVccNVW1OM7GKwYCfFEamktcNIamRJYBMknc-E"></span>
+                        <a is="checkout-link" data-checkout-workflow="UCv3" data-checkout-workflow-step="commitment"
+                            data-quantity="1" data-wcs-osi="9zqYpoVccNVW1OM7GKwYCfFEamktcNIamRJYBMknc-E"
+                            data-extra-options="{}" class="con-button" href="#" slot="cta" target="_blank">
+                            <span>Buy now</span>
+                        </a>
+                        <span id="placeholders" ai-credints="500"></span>
+                        <div slot="commitment">Annual, prepaid</div>
+                        <div slot="condition">
+                            No refund if you cancel after 14 days.
+                        </div>
+                        <div slot="condition-tooltip">
+                            If you cancel after 14 days, your payment is
+                            non-refundable, and your service will continue until the
+                            end of your contracted term.
+                        </div>
+                        <div slot="vat">Inclusive of VAT</div>
+                    </merch-offer>
+                </merch-offer-select>
+            </div>
+        </merch-card>
+    </template>
+    <template id="preselect-card">
+        <merch-card class="merch-card" variant="twp" filters="all" types="" tabindex="0">
+            <merch-icon size="l" slot="icons" alt="Premiere" src="/test/img/premiere.svg"></merch-icon>
+            <p slot="heading-xs" class="heading-xs">
+                <strong>Premiere</strong>
+            </p>
+            <p slot="body-xs-top" class="body-xs-top">Create everything from social clips to feature films
+                with the leading video editor.</p>
+            <div slot="body-xs">
+                <p>
+                    <strong>What you get:</strong>
+                </p>
+            </div>
+            <div slot="footer">
+                <p>
+                    <strong>7-day free trial, then</strong>
+                </p>
+                <merch-offer-select stock id="premiere"></merch-offer-select>
+            </div>
+        </merch-card>
+        <merch-card class="merch-card" variant="twp" filters="all" types="" tabindex="0">
+            <merch-icon size="l" slot="icons" alt="Premiere" src="/test/mocks/img/photoshop.svg"></merch-icon>
+            <p slot="heading-xs" class="heading-xs">
+                <strong>Photoshop</strong>
+            </p>
+            <p slot="body-xs-top" class="body-xs-top">Create everything from social clips to feature films
+                with the leading video editor.</p>
+            <div slot="body-xs">
+                <p>
+                    <strong>What you get:</strong>
+                </p>
+            </div>
+            <div slot="footer">
+                <p>
+                    <strong>7-day free trial, then</strong>
+                </p>
+                <merch-offer-select stock id="photoshop"></merch-offer-select>
+            </div>
+        </merch-card>
+    </template>
+</body>
+
+</html>

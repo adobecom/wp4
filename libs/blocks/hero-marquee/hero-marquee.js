@@ -76,8 +76,12 @@ async function decorateLockupRow(el, classes) {
   await loadIconography();
   child?.classList.add('lockup-area');
   const iconSizeClass = classes?.find((c) => c.endsWith('-icon'));
-  if (iconSizeClass) el.classList.remove(iconSizeClass);
-  el.classList.add(`${iconSizeClass?.split('-')[0] || 'l'}-lockup`);
+  const lockupSizeClass = classes?.find((c) => c.endsWith('-lockup'));
+  const usedLockupClass = iconSizeClass || lockupSizeClass;
+  if (usedLockupClass) {
+    el.classList.remove(usedLockupClass);
+  }
+  el.classList.add(`${usedLockupClass?.split('-')[0] || 'l'}-lockup`);
 }
 
 function decorateBg(el) {
@@ -183,7 +187,7 @@ export default async function init(el) {
   foreground.classList.add('foreground', `cols-${fRows.length}`);
   let copy = fRows[0];
   const anyTag = foreground.querySelector('p, h1, h2, h3, h4, h5, h6');
-  const asset = foreground.querySelector('div > picture, div > video, div > a[href*=".mp4"], div > a.image-link');
+  const asset = foreground.querySelector('div > picture, :is(.video-container, .pause-play-wrapper), div > video, div > a[href*=".mp4"], div > a.image-link');
   const allRows = foreground.querySelectorAll('div > div');
   copy = anyTag.closest('div');
   copy.classList.add('copy');
@@ -219,7 +223,12 @@ export default async function init(el) {
 
   const assetRow = allRows[0].classList.contains('asset');
   if (assetRow) el.classList.add('asset-left');
-  const mainCopy = createTag('div', { class: 'main-copy' });
+  const lockupClass = [...el.classList].find((c) => c.endsWith('-lockup'));
+  if (lockupClass) el.classList.remove(lockupClass);
+  const buttonClass = [...el.classList].find((c) => c.endsWith('-button'));
+  if (buttonClass) el.classList.remove(buttonClass);
+  const classes = `main-copy ${lockupClass || 'l-lockup'} ${buttonClass || 'l-button'}`;
+  const mainCopy = createTag('div', { class: classes });
   while (copy.childNodes.length > 0) {
     mainCopy.appendChild(copy.childNodes[0]);
   }
@@ -237,7 +246,6 @@ export default async function init(el) {
       copy.append(row);
     }
   });
-
   const promiseArr = [];
   [...rows].forEach(async (row) => {
     const cols = row.querySelectorAll(':scope > div');

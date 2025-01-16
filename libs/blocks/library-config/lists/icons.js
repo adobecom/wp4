@@ -18,7 +18,6 @@ export default async function iconList(content, list) {
       const formatted = `:${key}:`;
       const blob = new Blob([formatted], { type: 'text/plain' });
       createCopy(blob);
-      window.hlx?.rum.sampleRUM('click', { source: e.target });
     });
     title.append(copy);
     list.append(title);

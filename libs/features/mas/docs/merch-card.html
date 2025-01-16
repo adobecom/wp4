@@ -1,0 +1,452 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <meta charset="UTF-8">
+    <title>M@S Web Components</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="spectrum.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://use.typekit.net/hah7vzn.css">
+  
+  <!-- Include your custom element script as an ES6 module -->
+  <script type="module">
+    import { init } from './common.js';
+    init();
+  </script>
+  <!-- Include Highlight.js stylesheet for syntax highlighting -->
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+</head>
+<body class="spectrum spectrum--medium spectrum--light">
+<aside class="sidenav">
+    <a href="/libs/features/mas/docs/mas.html">Home</a>
+    <a href="/libs/features/mas/docs/mas.js.html">mas.js</a>
+    <a href="/libs/features/mas/docs/checkout-link.html">Checkout Link</a>
+    <a href="/libs/features/mas/docs/inline-price.html">Inline Price</a>
+    <a href="/libs/features/mas/docs/merch-card.html">Merch Card</a>
+    <a href="/libs/features/mas/docs/ccd.html">CCD Gallery</a>
+    <a href="/libs/features/mas/docs/benchmarks.html">Benchmarks</a>
+</aside>
+<main>
+<sp-theme color="light" scale="medium">
+<h1 id="merch-card-custom-element" tabindex="-1">merch-card custom element <a class="header-anchor" href="#merch-card-custom-element" href="#merch-card-custom-element" title="Permalink to this heading">#</a></h1>
+<h2 id="introduction" tabindex="-1">Introduction <a class="header-anchor" href="#introduction" href="#introduction" title="Permalink to this heading">#</a></h2>
+<p>This custom element implements all the merch-card variants provided in acom and ccd figma designs.</p>
+<p>A <code>merch-card</code> can be rendered using either static html markup or <code>aem-fragment</code> custom element to retrieve a card from Odin/AEM.</p>
+<p>The CTAs styles depend on Spectrum CSS that must be provided by the consumer.</p>
+<p>Designs:</p>
+<p><strong>ACOM</strong>: <a href="https://www.figma.com/design/tiEUQLJ1hVlosqwzAATVXZ/Cards-(Merch)?node-id=1086-17994&amp;t=LeMR0vbaBoEKaKln-1">https://www.figma.com/design/tiEUQLJ1hVlosqwzAATVXZ/Cards-(Merch)?node-id=1086-17994&amp;t=LeMR0vbaBoEKaKln-1</a></p>
+<p><strong>CCD</strong>: <a href="https://www.figma.com/proto/7tUtNgFelfMjgPoJ5QcE1k/Merch%40Scale-Frameworks?node-id=2077-63597&amp;t=cWfdzWlga79eyjyI-1">https://www.figma.com/proto/7tUtNgFelfMjgPoJ5QcE1k/Merch%40Scale-Frameworks?node-id=2077-63597&amp;t=cWfdzWlga79eyjyI-1</a></p>
+<p><strong>CCD Gallery</strong>: <a href="/libs/features/mas/docs/ccd.html">/libs/features/mas/docs/ccd.html</a>
+CCD Gallery provides a comprehensive list of all supported card variants in CCD.</p>
+<h2 id="examples" tabindex="-1">Examples <a class="header-anchor" href="#examples" href="#examples" title="Permalink to this heading">#</a></h2>
+<h3 id="with-an-odin%2Faem-fragment-(vpn-required)" tabindex="-1">With an Odin/AEM Fragment (VPN required) <a class="header-anchor" href="#with-an-odin%2Faem-fragment-(vpn-required)" href="#with-an-odin%2Faem-fragment-(vpn-required)" title="Permalink to this heading">#</a></h3>
+<pre><code class="hljs demo light language-html"><span class="hljs-tag">&lt;<span class="hljs-name">merch-card</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;card1&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aem-fragment</span>
+        <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;fragment1&quot;</span>
+        <span class="hljs-attr">title</span>=<span class="hljs-string">&quot;CCD Slice Creative Cloud Photography&quot;</span>
+        <span class="hljs-attr">fragment</span>=<span class="hljs-string">&quot;830f76be-0e83-4faf-9051-3dbb1a1dff04&quot;</span>
+    &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aem-fragment</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">merch-card</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">const</span> <span class="hljs-title function_">log</span> = (<span class="hljs-params">target, ...messages</span>) =&gt;
+        (target.<span class="hljs-property">innerHTML</span> = <span class="hljs-string">`<span class="hljs-subst">${messages.join(<span class="hljs-string">&#x27; &#x27;</span>)}</span>&lt;br&gt;<span class="hljs-subst">${target.innerHTML}</span>`</span>);
+    {
+        <span class="hljs-keyword">const</span> target = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;log&#x27;</span>);
+
+        <span class="hljs-keyword">const</span> fragment1 = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;fragment1&#x27;</span>);
+        fragment1.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aem:load&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+            <span class="hljs-title function_">log</span>(
+                target,
+                <span class="hljs-string">&#x27;aem-fragment is loaded: &#x27;</span>,
+                <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(e.<span class="hljs-property">target</span>.<span class="hljs-property">data</span>, <span class="hljs-literal">null</span>, <span class="hljs-string">&#x27;\t&#x27;</span>),
+            );
+        });
+
+        <span class="hljs-keyword">const</span> card1 = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;card1&#x27;</span>);
+        card1.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;mas:ready&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+            <span class="hljs-title function_">log</span>(target, <span class="hljs-string">&#x27;merch-card is ready: &#x27;</span>, e.<span class="hljs-property">target</span>.<span class="hljs-property">variant</span>);
+        });
+
+        card1.<span class="hljs-title function_">addEventListener</span>(
+            <span class="hljs-string">&#x27;click&#x27;</span>,
+            <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+                e.<span class="hljs-title function_">preventDefault</span>();
+                e.<span class="hljs-title function_">stopPropagation</span>();
+                <span class="hljs-keyword">if</span> (e.<span class="hljs-property">target</span>.<span class="hljs-property">isCheckoutButton</span>) {
+                    <span class="hljs-title function_">log</span>(target, <span class="hljs-string">&#x27;merch-card checkout-button click: &#x27;</span>, e.<span class="hljs-property">target</span>);
+                } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (e.<span class="hljs-property">target</span>.<span class="hljs-property">isInlinePrice</span>) {
+                    <span class="hljs-title function_">log</span>(target, <span class="hljs-string">&#x27;merch-card price click: &#x27;</span>, e.<span class="hljs-property">target</span>.<span class="hljs-property">innerText</span>);
+                } <span class="hljs-keyword">else</span> {
+                    <span class="hljs-title function_">log</span>(target, <span class="hljs-string">&#x27;merch-card click: &#x27;</span>, e.<span class="hljs-property">target</span>);
+                }
+            },
+            { <span class="hljs-attr">capture</span>: <span class="hljs-literal">true</span> },
+        );
+    }
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+<h4 id="logs" tabindex="-1">Logs <a class="header-anchor" href="#logs" href="#logs" title="Permalink to this heading">#</a></h4>
+<pre><code id="log" class="language-html">
+</code></pre>
+<h3 id="with-static-content-(dynamic-pricing)" tabindex="-1">With static content (dynamic pricing) <a class="header-anchor" href="#with-static-content-(dynamic-pricing)" href="#with-static-content-(dynamic-pricing)" title="Permalink to this heading">#</a></h3>
+<pre><code class="hljs demo light language-html"><span class="hljs-tag">&lt;<span class="hljs-name">merch-card</span> <span class="hljs-attr">variant</span>=<span class="hljs-string">&quot;plans&quot;</span> <span class="hljs-attr">badge-color</span>=<span class="hljs-string">&quot;#EDCC2D&quot;</span> <span class="hljs-attr">badge-background-color</span>=<span class="hljs-string">&quot;#000000&quot;</span>&quot; <span class="hljs-attr">badge-text</span>=<span class="hljs-string">&quot; Best value&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">merch-icon</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;icons&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;l&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://www.adobe.com/content/dam/shared/images/product-icons/svg/creative-cloud.svg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Creative Cloud All Apps&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">merch-icon</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">h4</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;heading-xs&quot;</span>&gt;</span>Creative Cloud All Apps<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">h3</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;heading-m&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">is</span>=<span class="hljs-string">&quot;inline-price&quot;</span> <span class="hljs-attr">data-display-per-unit</span>=<span class="hljs-string">&quot;false&quot;</span> <span class="hljs-attr">data-display-recurrence</span>=<span class="hljs-string">&quot;true&quot;</span>
+          <span class="hljs-attr">data-display-tax</span>=<span class="hljs-string">&quot;false&quot;</span> <span class="hljs-attr">data-wcs-osi</span>=<span class="hljs-string">&quot;r_JXAnlFI7xD6FxWKl2ODvZriLYBoSL701Kd1hRyhe8&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;body-xxs&quot;</span>&gt;</span>Desktop<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;body-xs&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Get 20+ Creative Cloud apps including Photoshop, Illustrator, Adobe Express, Premiere Pro, and
+          Acrobat Pro. (Substance 3D apps are not included.)<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://adobe.com&quot;</span>&gt;</span>See plans &amp; pricing details<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">&quot;footer&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">is</span>=<span class="hljs-string">&quot;checkout-link&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;con-button blue active&quot;</span> <span class="hljs-attr">data-wcs-osi</span>=<span class="hljs-string">&quot;r_JXAnlFI7xD6FxWKl2ODvZriLYBoSL701Kd1hRyhe8&quot;</span>&gt;</span>Save now<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">merch-card</span>&gt;</span>
+</code></pre>
+<h3 id="attributes" tabindex="-1">Attributes <a class="header-anchor" href="#attributes" href="#attributes" title="Permalink to this heading">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Default Value</th>
+<th>Required</th>
+<th>Provider</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>variant</code></td>
+<td>Variant in terms design. Not required when used with an <code>aem-fragment</code></td>
+<td></td>
+<td><code>false</code></td>
+<td>mas.js</td>
+</tr>
+<tr>
+<td><code>consonant</code></td>
+<td>Uses Consonant for the footer CTA styles during hydration from an aem fragment</td>
+<td><code>false</code></td>
+<td><code>false</code></td>
+<td>mas.js</td>
+</tr>
+<tr>
+<td><code>spectrum</code></td>
+<td>Uses Spectrum for the footer CTA styles during hydration from an aem fragment. (options: <code>css</code>, <code>swc</code>)</td>
+<td><code>css</code></td>
+<td><code>false</code></td>
+<td>mas.js</td>
+</tr>
+<tr>
+<td><code>size</code></td>
+<td>card width; a card can span over 2 columns or entire row on a css grid <code>wide|super-wide</code></td>
+<td></td>
+<td><code>false</code></td>
+<td>mas.js</td>
+</tr>
+<tr>
+<td><code>daa-lh</code></td>
+<td>Analytics identifier of a card. Value is coming from the ‘PRODUCT_CODE’ tag set on the card (for now manual authoring required, later will be tagged automatically). Sample values: ‘ccsn’ or ‘phlt’.</td>
+<td></td>
+<td><code>false</code></td>
+<td>mas.js</td>
+</tr>
+</tbody>
+</table>
+<h4 id="active-variants%3A" tabindex="-1">Active variants: <a class="header-anchor" href="#active-variants%3A" href="#active-variants%3A" title="Permalink to this heading">#</a></h4>
+<ul>
+<li><code>catalog</code></li>
+<li><code>image</code></li>
+<li><code>inline-heading</code></li>
+<li><code>mini-compare-chart</code></li>
+<li><code>plans</code></li>
+<li><code>product</code></li>
+<li><code>segment</code></li>
+<li><code>special-offers</code></li>
+<li><code>twp</code></li>
+<li><code>ccd-slice</code></li>
+<li><code>ccd-suggested</code></li>
+</ul>
+<h3 id="properties" tabindex="-1">Properties <a class="header-anchor" href="#properties" href="#properties" title="Permalink to this heading">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>updateComplete</code></td>
+<td>a promise that resolves when the <code>merch-card</code> finishes to execute render method. Doesn’t mean that card is ready, for that use ‘mas:ready’ or ‘mas:error’ event.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="events" tabindex="-1">Events <a class="header-anchor" href="#events" href="#events" title="Permalink to this heading">#</a></h3>
+<p>We recommend to listen to events on the container, so that listener is attached before the merch card is appended to DOM.
+The reason is that some merch cards are resolved very quickly and event could dispatch before event listener is attached by consumer code.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mas:ready</code></td>
+<td>fires when all the prices &amp; checkout links are resolved &amp; renderered</td>
+</tr>
+<tr>
+<td><code>mas:error</code></td>
+<td>fires when at least a price or checkout link cannot be resolved after render</td>
+</tr>
+</tbody>
+</table>
+<h3 id="mas%3Aready-%26-mas%3Aerror" tabindex="-1"><code>mas:ready</code> &amp; <code>mas:error</code> <a class="header-anchor" href="#mas%3Aready-%26-mas%3Aerror" href="#mas%3Aready-%26-mas%3Aerror" title="Permalink to this heading">#</a></h3>
+<pre><code class="hljs demo light language-html"><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-class">.event-demo</span> {
+        <span class="hljs-attribute">outline</span>: <span class="hljs-number">2px</span> solid;
+    }
+    merch-card<span class="hljs-selector-class">.ready</span> {
+        <span class="hljs-attribute">outline-color</span>: lime;
+    }
+
+    merch-card<span class="hljs-selector-class">.error</span> {
+        <span class="hljs-attribute">outline-color</span>: red;
+        <span class="hljs-attribute">display</span>: block;
+        <span class="hljs-attribute">width</span>: <span class="hljs-number">300px</span>;
+        <span class="hljs-attribute">height</span>: <span class="hljs-number">200px</span>;
+        <span class="hljs-attribute">margin-top</span>: <span class="hljs-number">16px</span>;
+    }
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">merch-card</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;event-demo&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aem-fragment</span>
+        <span class="hljs-attr">fragment</span>=<span class="hljs-string">&quot;d8008cac-010f-4607-bacc-a7a327da1312&quot;</span>
+    &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aem-fragment</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">merch-card</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Checkout link OSI is wrong<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">merch-card</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;event-demo&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aem-fragment</span>
+        <span class="hljs-attr">fragment</span>=<span class="hljs-string">&quot;3c29614a-a024-458f-8bd6-ee910898f684&quot;</span>
+    &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aem-fragment</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">merch-card</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Fragment id is wrong<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">merch-card</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;event-demo&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aem-fragment</span> <span class="hljs-attr">fragment</span>=<span class="hljs-string">&quot;wrong-fragment-id&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aem-fragment</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">merch-card</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;btnRefreshFragments&quot;</span>&gt;</span>Refresh Fragments<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
+    {
+        <span class="hljs-keyword">const</span> target = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;log2&#x27;</span>);
+        [...<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;.event-demo&#x27;</span>)].<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">card</span>) =&gt;</span> {
+            card.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aem:ready&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span>
+                <span class="hljs-title function_">log</span>(target, <span class="hljs-string">`<span class="hljs-subst">${e.target.nodeName}</span>: <span class="hljs-subst">${e.detail}</span>`</span>),
+            );
+            card.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aem:error&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span>
+                <span class="hljs-title function_">log</span>(target, <span class="hljs-string">`<span class="hljs-subst">${e.target.nodeName}</span>: <span class="hljs-subst">${e.detail}</span>`</span>),
+            );
+
+            card.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;mas:ready&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+                card.<span class="hljs-property">classList</span>.<span class="hljs-title function_">add</span>(<span class="hljs-string">&#x27;ready&#x27;</span>);
+                card.<span class="hljs-property">classList</span>.<span class="hljs-title function_">remove</span>(<span class="hljs-string">&#x27;error&#x27;</span>);
+            });
+            card.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;mas:error&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+                card.<span class="hljs-property">classList</span>.<span class="hljs-title function_">remove</span>(<span class="hljs-string">&#x27;ready&#x27;</span>);
+                card.<span class="hljs-property">classList</span>.<span class="hljs-title function_">add</span>(<span class="hljs-string">&#x27;error&#x27;</span>);
+                <span class="hljs-title function_">log</span>(target, <span class="hljs-string">`<span class="hljs-subst">${e.target.nodeName}</span>: <span class="hljs-subst">${e.detail}</span>`</span>);
+            });
+
+            <span class="hljs-variable language_">document</span>
+                .<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;btnRefreshFragments&#x27;</span>)
+                .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+                    <span class="hljs-variable language_">document</span>
+                        .<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;mas-commerce-service&#x27;</span>)
+                        .<span class="hljs-title function_">refreshFragments</span>();
+                });
+        });
+    }
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+<pre><code id="log2" class="language-html">
+</code></pre>
+<h2 id="aem-fragment-custom-element" tabindex="-1">aem-fragment custom element <a class="header-anchor" href="#aem-fragment-custom-element" href="#aem-fragment-custom-element" title="Permalink to this heading">#</a></h2>
+<h3 id="attributes-1" tabindex="-1">Attributes <a class="header-anchor" href="#attributes-1" href="#attributes-1" title="Permalink to this heading">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Default Value</th>
+<th>Required</th>
+<th>Provider</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fragment</code></td>
+<td>Fragment id. The copy/use feature in M@S Studio will copy the id/markup to the clipboard</td>
+<td></td>
+<td><code>true</code></td>
+<td>consumer code</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>Informative title</td>
+<td></td>
+<td><code>false</code></td>
+<td>consumer code</td>
+</tr>
+<tr>
+<td><code>ims</code></td>
+<td>attempts to use an IMS access token via <code>window.adobeid.authorize()</code> to fetch a fragment</td>
+<td></td>
+<td><code>false</code></td>
+<td>mas.js</td>
+</tr>
+</tbody>
+</table>
+<h3 id="properties-1" tabindex="-1">Properties <a class="header-anchor" href="#properties-1" href="#properties-1" title="Permalink to this heading">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>data</code></td>
+<td>Current fragment RAW data that is used to render the merch-card</td>
+</tr>
+<tr>
+<td><code>updateComplete</code></td>
+<td>Promise that resolves when the fragment is retrieved and <code>aem:load</code> event is fired</td>
+</tr>
+</tbody>
+</table>
+<h3 id="methods" tabindex="-1">Methods <a class="header-anchor" href="#methods" href="#methods" title="Permalink to this heading">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>refresh()</code></td>
+<td>Refreshes fragment content from Odin</td>
+</tr>
+</tbody>
+</table>
+<h3 id="events-1" tabindex="-1">Events <a class="header-anchor" href="#events-1" href="#events-1" title="Permalink to this heading">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>aem:load</code></td>
+<td>fires when the fragment is successfully loaded</td>
+</tr>
+<tr>
+<td><code>aem:error</code></td>
+<td>fires when the fragment cannot be loaded, e.g. network error, wrong fragment id, etc…</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="hljs demo light language-html"><span class="hljs-tag">&lt;<span class="hljs-name">merch-card</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;psCard2&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aem-fragment</span>
+        <span class="hljs-attr">fragment</span>=<span class="hljs-string">&quot;d8008cac-010f-4607-bacc-a7a327da1312&quot;</span>
+    &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aem-fragment</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">merch-card</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;btnRefresh&quot;</span>&gt;</span>Refresh<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
+    {
+        <span class="hljs-keyword">const</span> target = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;log3&#x27;</span>);
+
+        <span class="hljs-keyword">const</span> psCard = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;psCard2&#x27;</span>);
+        psCard.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;mas:ready&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+            <span class="hljs-title function_">log</span>(target, <span class="hljs-string">&#x27;merch-card is ready: &#x27;</span>, e.<span class="hljs-property">target</span>.<span class="hljs-property">variant</span>);
+        });
+        <span class="hljs-keyword">const</span> aemFragment = psCard.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;aem-fragment&#x27;</span>);
+        aemFragment.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;aem:load&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+            <span class="hljs-title function_">log</span>(target, <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(e.<span class="hljs-property">detail</span>));
+            <span class="hljs-title function_">log</span>(target, <span class="hljs-string">&#x27;aem-fragment has loaded&#x27;</span>);
+        });
+        <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;btnRefresh&#x27;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+            aemFragment.<span class="hljs-title function_">refresh</span>();
+        });
+    }
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+<pre><code id="log3" class="language-html">
+</code></pre>
+<h2 id="extending-merch-card" tabindex="-1">Extending merch-card <a class="header-anchor" href="#extending-merch-card" href="#extending-merch-card" title="Permalink to this heading">#</a></h2>
+<p>The <code>merch-card</code> custom element renders content in its default slot, allowing consumers to seamlessly extend it with additional UI capabilities.</p>
+<h3 id="example" tabindex="-1">Example <a class="header-anchor" href="#example" href="#example" title="Permalink to this heading">#</a></h3>
+<p>In the demo below, the <code>aem-fragment</code> custom element is headless and does not render any content.
+The <code>sp-action-button</code> custom element renders into the default slot as no explicit slot is provided.</p>
+<pre><code class="hljs demo light language-html"><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    merch-card <span class="hljs-selector-tag">button</span> {
+        <span class="hljs-attribute">position</span>: absolute;
+        <span class="hljs-attribute">display</span>: none;
+        <span class="hljs-attribute">top</span>: <span class="hljs-number">4px</span>;
+        <span class="hljs-attribute">right</span>: <span class="hljs-number">4px</span>;
+    }
+
+    merch-card<span class="hljs-selector-pseudo">:hover</span> <span class="hljs-selector-tag">button</span> {
+        <span class="hljs-attribute">display</span>: block;
+    }
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">merch-card</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aem-fragment</span>
+        <span class="hljs-attr">fragment</span>=<span class="hljs-string">&quot;d8008cac-010f-4607-bacc-a7a327da1312&quot;</span>
+    &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aem-fragment</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;ctxBtn&quot;</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">merch-card</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-variable language_">document</span>
+        .<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;ctxBtn&#x27;</span>)
+        .<span class="hljs-title function_">addEventListener</span>(
+            <span class="hljs-string">&#x27;click&#x27;</span>,
+            <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span>
+                (e.<span class="hljs-property">target</span>.<span class="hljs-property">parentElement</span>.<span class="hljs-property">style</span>.<span class="hljs-property">backgroundColor</span> =
+                    <span class="hljs-string">&#x27;var(--spectrum-blue-300)&#x27;</span>),
+        );
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+
+</sp-theme>
+</main>
+<script type="module">
+  document.querySelectorAll('code.demo').forEach(el => {
+      const targetContainer = document.createElement('div');
+      targetContainer.classList.toggle('light', el.classList.contains('light'));
+      targetContainer.innerHTML = `<h4>Demo: </h4><div class="demo-container">${el.textContent}</div>`;
+      el.parentElement.after(targetContainer);
+      // Extract and evaluate <script> tags
+      const scriptTags = targetContainer.getElementsByTagName('script');
+      for (let i = 0; i < scriptTags.length; i++) {
+          const script = document.createElement('script');
+          script.text = scriptTags[i].text;
+          document.body.appendChild(script); // Appends to the document to execute
+          scriptTags[i].remove(); // Remove the script tag
+      }
+  });
+</script>
+</body>
+</html>

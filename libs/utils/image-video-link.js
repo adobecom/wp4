@@ -1,7 +1,7 @@
 import { getConfig, loadStyle, createTag } from './utils.js';
 
-const PLAY_ICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="32" viewBox="0 0 24 32" fill="none" class="play-icon">
-                        <path d="M24 16.0005L0 32L1.39876e-06 0L24 16.0005Z" fill="white"/>
+const PLAY_ICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="42" viewBox="0 0 40 42" fill="none" class="play-icon" aria-hidden="true">
+                        <path d="M36.8084 15.6746L8.93018 0.728828C4.89238 -1.43591 0 1.48158 0 6.05422V35.9458C0 40.5184 4.89238 43.4359 8.93018 41.2712L36.8084 26.3253C41.0639 24.0439 41.0638 17.956 36.8084 15.6746Z" fill="white"/>
                       </svg>`;
 
 export default function init(el, a, btnFormat) {

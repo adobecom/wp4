@@ -1,4 +1,5 @@
 import { createTag, getConfig, MILO_EVENTS } from '../../utils/utils.js';
+import { decorateAnchorVideo, syncPausePlayIcon } from '../../utils/decorate.js';
 
 const { miloLibs, codeRoot } = getConfig();
 const base = miloLibs || codeRoot;
@@ -130,6 +131,16 @@ function jumpToDirection(activeSlideIndex, jumpToIndex, slideContainer) {
   }
 }
 
+function checkSlideForVideo(activeSlide) {
+  const video = activeSlide.querySelector('video');
+  /* c8 ignore start */
+  if (video?.played.length > 0 && !video?.paused) {
+    video.pause();
+    syncPausePlayIcon(video);
+  }
+  /* c8 ignore end */
+}
+
 function moveSlides(event, carouselElements, jumpToIndex) {
   const {
     slideContainer,
@@ -145,6 +156,8 @@ function moveSlides(event, carouselElements, jumpToIndex) {
   let activeSlideIndicator = controlsContainer.querySelector('.active');
   const activeSlideIndex = activeSlideIndicator.dataset.index;
 
+  checkSlideForVideo(activeSlide);
+
   // Track reference slide - last slide initially
   if (!referenceSlide) {
     referenceSlide = slides[slides.length - 1];
@@ -156,7 +169,7 @@ function moveSlides(event, carouselElements, jumpToIndex) {
   referenceSlide.classList.remove('reference-slide');
   referenceSlide.style.order = null;
   activeSlide.classList.remove('active');
-  activeSlide.querySelectorAll('a').forEach((focusableElement) => { focusableElement.setAttribute('tabindex', -1); });
+  activeSlide.querySelectorAll('a, video').forEach((focusableElement) => focusableElement.setAttribute('tabindex', -1));
   activeSlideIndicator.classList.remove('active');
   activeSlideIndicator.setAttribute('tabindex', -1);
 
@@ -218,10 +231,12 @@ function moveSlides(event, carouselElements, jumpToIndex) {
       if (index < show) {
         tabIndex = 0;
       }
-      slide.querySelectorAll('a').forEach((focusableElement) => { focusableElement.setAttribute('tabindex', tabIndex); });
+      slide.querySelectorAll('a,:not(.video-container, .pause-play-wrapper) > video')
+        .forEach((focusableElement) => { focusableElement.setAttribute('tabindex', tabIndex); });
     });
   } else {
-    activeSlide.querySelectorAll('a').forEach((focusableElement) => { focusableElement.setAttribute('tabindex', 0); });
+    activeSlide.querySelectorAll('a,:not(.video-container, .pause-play-wrapper) > video')
+      .forEach((focusableElement) => { focusableElement.setAttribute('tabindex', 0); });
   }
   activeSlideIndicator.classList.add('active');
   activeSlideIndicator.setAttribute('tabindex', 0);
@@ -321,6 +336,31 @@ function handleChangingSlides(carouselElements) {
   mobileSwipeDetect(carouselElements);
 }
 
+function convertMpcMp4(slides) {
+  slides.forEach((slide) => {
+    const a = slide.querySelector('a');
+    if (a?.href.includes('images-tv.adobe')) {
+      decorateAnchorVideo({
+        src: a.href,
+        anchorTag: a,
+      });
+    }
+  });
+}
+
+function readySlides(slides, slideContainer) {
+  slideContainer.classList.add('is-ready');
+  slides.forEach((slide, idx) => {
+    // Set last slide to be first in order and make reference.
+    if (slides.length - 1 === idx) {
+      slide.style.order = 1;
+      slide.classList.add('reference-slide');
+    } else {
+      slide.style.order = idx + 2;
+    }
+  });
+}
+
 export default function init(el) {
   const carouselSection = el.closest('.section');
   if (!carouselSection) return;
@@ -344,6 +384,7 @@ export default function init(el) {
   const slideIndicators = decorateSlideIndicators(slides);
   const controlsContainer = createTag('div', { class: 'carousel-controls is-delayed' });
 
+  convertMpcMp4(slides);
   fragment.append(...slides);
   const slideWrapper = createTag('div', { class: 'carousel-wrapper' });
   const slideContainer = createTag('div', { class: 'carousel-slides' }, fragment);
@@ -363,6 +404,14 @@ export default function init(el) {
     handleLightboxButtons(lightboxBtns, el, slideWrapper);
   } else {
     slideWrapper.append(slideContainer);
+  }
+
+  /*
+   * Hinting center variant - Set slides order
+   * before moveSlides is called for centering to work.
+  */
+  if (el.classList.contains('hinting-center-mobile')) {
+    readySlides(slides, slideContainer);
   }
 
   el.textContent = '';

@@ -47,7 +47,7 @@ const setJsonLd = (heading, description, mainImage, stepsLd) => {
 };
 
 const getImage = (el) => el.querySelector('picture') || el.querySelector('a[href$=".svg"');
-const getVideo = (el) => el.querySelector('a[href*=".mp4"]');
+const getVideo = (el) => el.querySelector('.video-container, .pause-play-wrapper, video, .milo-video');
 
 const getHowToInfo = (el) => {
   const infoDiv = el.querySelector(':scope > div > div');
@@ -112,7 +112,7 @@ const getHowToSteps = (el) => {
     { steps: [], images: {} },
   );
 
-  el.children[1].remove();
+  el.children[1]?.remove();
   return steps;
 };
 
@@ -133,7 +133,7 @@ export default function init(el) {
   }
 
   if (mainVideo) {
-    const videoClass = `how-to-media${isLargeMedia ? ' how-to-media-large' : ''}`;
+    const videoClass = `how-to-media${isLargeMedia ? ' how-to-media-large video' : ''}`;
     el.append(createTag('div', { class: videoClass }, mainVideo));
   }
 

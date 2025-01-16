@@ -42,7 +42,15 @@ const decorateMedia = (el, media) => {
 };
 
 const decorateForeground = async (el, rows) => {
+  let isForegroundEmpty = true;
+
   rows.forEach((row, i) => {
+    if (!row.textContent.trim()) {
+      row.remove();
+      return;
+    }
+
+    isForegroundEmpty = false;
     if (i === 0) {
       row.classList.add('foreground');
       decorateLockupFromContent(row);
@@ -55,6 +63,8 @@ const decorateForeground = async (el, rows) => {
     decorateBlockText(row, ['m', 'm', 'm']); // heading, body, detail
     decorateBlockHrs(row);
   });
+
+  if (isForegroundEmpty) el.classList.add('no-foreground');
 };
 
 const decorateBgRow = (el, background, remove = false) => {

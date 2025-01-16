@@ -1,7 +1,7 @@
 import { LitElement, html, nothing } from '../../../deps/lit-all.min.js';
 import { getSheet } from '../../../../tools/utils/utils.js';
 import { getConfig } from '../../../utils/utils.js';
-import { delay, displayDate, setJobTime } from '../utils.js';
+import { delay, displayDate, getHost, setJobTime } from '../utils.js';
 
 const { miloLibs, codeRoot } = getConfig();
 const base = miloLibs || codeRoot;
@@ -9,16 +9,19 @@ const styleSheet = await getSheet(`${base}/blocks/bulk-publish-v2/components/job
 const reworkIcon = `${base}/blocks/bulk-publish-v2/img/rework.svg`;
 const closeIcon = `${base}/blocks/bulk-publish-v2/img/close.svg`;
 const copyIcon = `${base}/blocks/bulk-publish-v2/img/copy.svg`;
+const cancelIcon = `${base}/blocks/bulk-publish-v2/img/cancel.svg`;
+const shareIcon = `${base}/blocks/bulk-publish-v2/img/share.svg`;
 
 class JobInfo extends LitElement {
   static get properties() {
     return {
       status: { type: Object },
       reworkErrors: { type: Function },
+      cancelJob: { type: Function },
       errFilter: { state: true },
       timer: { state: true },
       showTimes: { state: true },
-      copiedInvocationId: { state: true },
+      copied: { state: true },
     };
   }
 
@@ -37,11 +40,23 @@ class JobInfo extends LitElement {
     }
   }
 
+  async showCopied(copy) {
+    this.copied = copy;
+    await delay(3000);
+    this.copied = false;
+  }
+
   async copyInvocationId() {
     await navigator.clipboard.writeText(this.status.invocationId);
-    this.copiedInvocationId = true;
-    await delay(3000);
-    this.copiedInvocationId = false;
+    this.showCopied('ID');
+  }
+
+  async copyShareLink() {
+    const { name, topic } = this.status;
+    const { hostname, pathname } = window.location;
+    const share = `https://${getHost(hostname)}${pathname}?share-job=${name}&share-topic=${topic}`;
+    await navigator.clipboard.writeText(share);
+    this.showCopied('share link');
   }
 
   renderStatus() {
@@ -128,6 +143,11 @@ class JobInfo extends LitElement {
       <div class="job-info">
         <div class="process">
           <span class="topic">${topic}</span>
+          ${this.copied ? html`
+            <div class="copied">
+              Copied ${this.copied} to clipboard
+            </div>
+            ` : nothing}
           ${invocationId ? html`
             <img
               title="Copy Job Invocation Id"
@@ -135,11 +155,18 @@ class JobInfo extends LitElement {
               class="job-id-link"
               @click=${this.copyInvocationId} />
           ` : nothing}
-          ${this.copiedInvocationId ? html`
-            <div class="job-id-copied">
-              Copied to clipboard!
-            </div>
+          ${invocationId ? html`
+            <img
+              title="Copy job link"
+              src="${shareIcon}"
+              class="share-link"
+              @click=${this.copyShareLink} />
           ` : nothing}
+          <img
+            title="${invocationId ? 'Remove' : 'Cancel'} Job"
+            src="${cancelIcon}"
+            class="cancel-job"
+            @click=${this.cancelJob} />
         </div>
         <div class="meta">
           <span class="status">

@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Merch Card Web Component demo page</title>
+    <script>
+        window.process = {
+            env: {},
+        };
+    </script>
+    <link rel="stylesheet" href="http://localhost:2023/__wds-outside-root__/2/styles/styles.css"/>
+    <style>
+        main {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-direction: column;
+            padding-top: 80px;
+        }
+
+        main > div {
+            display: initial;
+        }
+
+        .action-area {
+            display: contents;
+        }
+    </style>     
+  <script type="module" src="./merch-card.mini-compare.mobile.test.html.js"></script>
+</head>
+
+<body>
+    <main>
+        <div class="three-merch-cards mini-compare-chart">
+
+            <merch-card class="merch-card mini-compare-chart" variant="mini-compare-chart"
+                badge-background-color="#EDCC2D" badge-color="#000000" badge-text="Most popular" secure-label="secured" filters="all" types=""
+                tabindex="0" style="border: 1px solid rgb(237, 204, 45);">
+
+                <p slot="promo-text" class="promo-text">This is promo text <a href="https://adobe.com/"
+                        target="_blank">with a
+                        link</a></p>
+                <div slot="body-m">
+                    <p></p>
+                    <p>Get Illustrator on desktop and iPad as part of Creative Cloud.</p>
+                </div>
+                <p slot="price-commitment" class="price-commitment"></p>
+                <h3 id="creative-cloud-all-apps" slot="heading-m">Creative Cloud All Apps
+                </h3>
+                <h4 id="this-is-promo-text-with-a-link" slot="detail-m">This is promo text <a href="https://adobe.com/"
+                        target="_blank">with a link</a></h4>
+                <div slot="callout-content">
+                    <div>
+                        <div>
+                            <div>AI Assistant add-on available </div>
+                            <img src="./img/info-icon.svg" title="this is a dummy tooltip text" class="callout-icon"/>
+                        </div>
+                    </div>
+                </div> 
+                <h5 id="price---abm---creative-cloud-all-apps-with-4tb" slot="heading-m-price"><span is="inline-price"
+                        data-display-old-price="true" data-display-per-unit="false" data-display-recurrence="true"
+                        data-display-tax="false" data-force-tax-exclusive="false" data-quantity="1"
+                        data-template="price" data-wcs-osi="abm"></span></h5>
+                    <p class="action-area" slot="footer">
+                        <a href="https://business.adobe.com/" class="con-button outline button-l" target="_blank">free
+                            trial</a>
+                        <a href="https://business.adobe.com/" class="con-button blue button-l" target="_blank">Buy now</a>
+                    </p>
+                <div slot="offers">
+                    <merch-quantity-select title="Select a quantity:" min="1" max="10" step="1"
+                        default-value="undefined" max-input="undefined" closed=""></merch-quantity-select>
+                </div>
+                <div slot="footer-rows">
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">Illustrator on desktop, web, and iPad</div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">Access to 20+ apps including Photoshop, Illustrator
+                            Premiere Pro, After Effects, InDesign, Lightroom, and more</div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">
+                            <p>Business features like admin tools, dedicated 24x7</p>
+                            <p>support, and 1TB of cloud storage</p>
+                        </div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">Adobe Express, Adobe Fresco, Adobe Portfolio, and Adobe
+                            Fonts</div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">1,000 <a href="https://adobe.com/"
+                                target="_blank">generative
+                                credits</a></div>
+                    </div>
+                </div>
+            </merch-card>
+            <merch-card class="merch-card mini-compare-chart" variant="mini-compare-chart" filters="all" types=""
+                tabindex="0">
+                <merch-icon slot="icons" size="m" src="../img/illustrator.svg" alt="Illustrator"></merch-icon>
+                <p slot="promo-text" class="promo-text"></p>
+                <div slot="body-m">
+                    <p></p>
+                    <p>Get Illustrator on desktop and iPad as part of Creative Cloud.</p>
+                </div>
+                <p slot="price-commitment" class="price-commitment"></p>
+                <h3 id="illustrator" slot="heading-m">Illustrator</h3>
+                <h4 id="price---abm---creative-cloud-all-apps-with-4tb-1" slot="heading-m-price"><span is="inline-price"
+                        data-display-old-price="true" data-display-per-unit="true" data-display-recurrence="true"
+                        data-display-tax="false" data-force-tax-exclusive="false" data-quantity="1"
+                        data-template="price" data-wcs-osi="abm"></span></h4>
+                <p class="action-area" slot="footer">
+                    <a is="checkout-link" class="con-button outline button-l" data-wcs-osi="abm"
+                    target="_blank">free trial</a>
+                    <a href="https://business.adobe.com/" class="con-button blue button-l" target="_blank">Buy nowBuy</a>
+                </p>
+                <div slot="offers"></div>
+                <div slot="footer-rows">
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">Illustrator on desktop, web, and iPad</div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <div class="footer-row-cell-description">
+                        </div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">
+                            <p>Business features like admin tools, dedicated 24x7</p>
+                            <p>support, and 1TB of cloud storage</p>
+                        </div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">Adobe Express, Adobe Fresco, Adobe
+                            Portfolio, and Adobe
+                            Fonts</p>
+                        </div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">1,000 <a href="https://adobe.com/"
+                                target="_blank">generative
+                                credits</a></div>
+                    </div>
+                </div>
+            </merch-card>
+            <merch-card class="merch-card mini-compare-chart" variant="mini-compare-chart" name="illustrator"
+                filters="all" types="" tabindex="0">
+                <merch-icon slot="icons" size="m" src="../img/illustrator.svg" alt="Illustrator"></merch-icon>
+                <p slot="promo-text" class="promo-text">Save 19% ($US7.99/mo)
+                    for the first year if you buy now.</p>
+                <div slot="body-m">
+                    <p></p>
+                    <p>Get Illustrator on desktop and iPad as part of Creative Cloud.</p>
+                    <p><a href="https://adobe.com/" target="_blank">See terms.</a></p>
+                </div>
+                <p slot="price-commitment" class="price-commitment"></p>
+                <h3 id="illustrator-1" slot="heading-m">Illustrator</h3>
+                <h4 id="save-19-us799mo-for-the-first-year-if-you-buy-now" slot="detail-m">Save 19% ($US7.99/mo) for the
+                    first year if you buy now.</h4>
+                <h5 id="price---abm---creative-cloud-all-apps-with-4tb-price---abm---creative-cloud-all-apps-with-4tb"
+                    slot="heading-m-price"><span is="inline-price" data-display-old-price="true"
+                        data-display-per-unit="true" data-display-recurrence="true" data-display-tax="false"
+                        data-force-tax-exclusive="true" data-quantity="1" data-template="price" data-wcs-osi="abm"
+                        slot="price"></span> <span is="inline-price" data-display-old-price="true"
+                        data-display-per-unit="true" data-display-recurrence="true" data-display-tax="false"
+                        data-force-tax-exclusive="false" data-quantity="1" data-template="strikethrough"
+                        data-wcs-osi="abm"></span>
+                </h5>
+                <p class="action-area" slot="footer">
+                    <a is="checkout-link" data-checkout-workflow="UCv3" data-checkout-workflow-step="commitment"
+                        data-quantity="1" data-wcs-osi="abm" class="con-button loading-entitlements outline button-l"
+                        href="#" slot="secondary-cta" target="_blank"><span>Free
+                            trial</span></a>
+                    <a is="checkout-link" data-checkout-workflow="UCv3"
+                        data-checkout-workflow-step="commitment" data-quantity="1" data-wcs-osi="m2m"
+                        class="con-button blue loading-entitlements button-l" href="#" slot="cta"
+                        target="_blank"><span>Buy now</span></a>
+                </p>
+
+                <div slot="offers">
+                    <p slot="description">Cloud storage:</p><merch-offer-select container="merch-card"
+                        variant="horizontal"><merch-offer text="20GB" tabindex="0" role="radio" aria-checked="true"
+                            selected=""><span is="inline-price" data-display-old-price="true"
+                                data-display-per-unit="true" data-display-recurrence="true" data-display-tax="false"
+                                data-force-tax-exclusive="true" data-quantity="1" data-template="price"
+                                data-wcs-osi="abm" slot="price"></span>
+                            <a is="checkout-link" data-checkout-workflow="UCv3" data-checkout-workflow-step="commitment"
+                                data-quantity="1" data-wcs-osi="abm" class="con-button outline button-l" href="#"
+                                slot="secondary-cta" target="_blank"><span>Free
+                                    trial</span></a><a is="checkout-link" data-checkout-workflow="UCv3"
+                                data-checkout-workflow-step="commitment" data-quantity="1" data-wcs-osi="m2m"
+                                class="con-button blue button-l" href="#" slot="cta" target="_blank"><span>Buy
+                                    now</span></a></merch-offer><merch-offer text="1TB" tabindex="0" role="radio"
+                            aria-checked="false"><span is="inline-price" data-display-old-price="true"
+                                data-display-per-unit="true" data-display-recurrence="true" data-display-tax="false"
+                                data-force-tax-exclusive="false" data-quantity="1" data-template="price"
+                                data-wcs-osi="puf" slot="price"></span>
+                            <a is="checkout-link" data-checkout-workflow="UCv3" data-checkout-workflow-step="commitment"
+                                data-quantity="1" data-wcs-osi="abm" class="con-button outline button-l" href="#"
+                                slot="secondary-cta" target="_blank"><span>Free
+                                    trial</span></a><a is="checkout-link" data-checkout-workflow="UCv3"
+                                data-checkout-workflow-step="commitment" data-quantity="1" data-wcs-osi="puf"
+                                class="con-button blue button-l" href="#" slot="cta" target="_blank"><span>Buy
+                                    now</span></a></merch-offer></merch-offer-select>
+                </div>
+                <div slot="footer-rows">
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">Illustrator on desktop, web, and iPad</div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <div class="footer-row-cell-description">
+                        </div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">
+                            <p>Business features like admin tools, dedicated 24x7</p>
+                            <p>support, and 1TB of cloud storage</p>
+                        </div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">Adobe Express, Adobe Fresco, Adobe
+                            Portfolio, and Adobe
+                            Fonts</div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">1,000 <a href="https://adobe.com/"
+                                target="_blank">generative
+                                credits</a></p>
+                        </div>
+                    </div>
+                </div>
+            </merch-card>
+        </div>
+        <div class="two-merch-cards mini-compare-chart">
+            <merch-card class="merch-card mini-compare-chart" variant="mini-compare-chart"
+                badge-background-color="#EDCC2D" badge-color="#000000" badge-text="Most popular" filters="all" types=""
+                tabindex="0" style="border: 1px solid rgb(237, 204, 45);">
+
+                <p slot="promo-text" class="promo-text">This is promo text <a href="https://adobe.com/"
+                        target="_blank">with a
+                        link</a></p>
+                <div slot="body-m">
+                    <p></p>
+                    <p>Get Illustrator on desktop and iPad as part of Creative Cloud.</p>
+                </div>
+                <p slot="price-commitment" class="price-commitment"></p>
+                <h3 id="creative-cloud-all-apps" slot="heading-m">Creative Cloud All Apps
+                </h3>
+                <h4 id="this-is-promo-text-with-a-link" slot="detail-m">This is promo text <a href="https://adobe.com/"
+                        target="_blank">with a link</a></h4>
+                <h5 id="price---abm---creative-cloud-all-apps-with-4tb" slot="heading-m-price"><span is="inline-price"
+                        data-display-old-price="true" data-display-per-unit="false" data-display-recurrence="true"
+                        data-display-tax="false" data-force-tax-exclusive="false" data-quantity="1"
+                        data-template="price" data-wcs-osi="abm"></span></h5>
+                    <p class="action-area" slot="footer">
+                        <a href="https://business.adobe.com/" class="con-button outline button-l" target="_blank">free
+                            trial</a>
+                        <a href="https://business.adobe.com/" class="con-button blue button-l" target="_blank">Buy now</a>
+                    </p>
+                <div slot="offers">
+                    <merch-quantity-select title="Select a quantity:" min="1" max="10" step="1"
+                        default-value="undefined" max-input="undefined" closed=""></merch-quantity-select>
+                </div>
+                <div slot="footer-rows">
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">Illustrator on desktop, web, and iPad</div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">Access to 20+ apps including Photoshop, Illustrator
+                            Premiere Pro, After Effects, InDesign, Lightroom, and more</div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">
+                            <p>Business features like admin tools, dedicated 24x7</p>
+                            <p>support, and 1TB of cloud storage</p>
+                        </div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">Adobe Express, Adobe Fresco, Adobe Portfolio, and Adobe
+                            Fonts</div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">1,000 <a href="https://adobe.com/"
+                                target="_blank">generative
+                                credits</a></div>
+                    </div>
+                </div>
+            </merch-card>
+            <merch-card class="merch-card mini-compare-chart" variant="mini-compare-chart"
+                badge-background-color="#EDCC2D" badge-color="#000000" badge-text="Most popular" filters="all" types=""
+                tabindex="0" style="border: 1px solid rgb(237, 204, 45);">
+
+                <p slot="promo-text" class="promo-text">This is promo text <a href="https://adobe.com/"
+                        target="_blank">with a
+                        link</a></p>
+                <div slot="body-m">
+                    <p></p>
+                    <p>Get Illustrator on desktop and iPad as part of Creative Cloud.</p>
+                </div>
+                <p slot="price-commitment" class="price-commitment"></p>
+                <h3 id="creative-cloud-all-apps" slot="heading-m">Creative Cloud All Apps
+                </h3>
+                <h4 id="this-is-promo-text-with-a-link" slot="detail-m">This is promo text <a href="https://adobe.com/"
+                        target="_blank">with a link</a></h4>
+                <h5 id="price---abm---creative-cloud-all-apps-with-4tb" slot="heading-m-price"><span is="inline-price"
+                        data-display-old-price="true" data-display-per-unit="false" data-display-recurrence="true"
+                        data-display-tax="false" data-force-tax-exclusive="false" data-quantity="1"
+                        data-template="price" data-wcs-osi="abm"></span></h5>
+                    <p class="action-area" slot="footer">
+                        <a href="https://business.adobe.com/" class="con-button outline button-l" target="_blank">free
+                            trial</a>
+                        <a href="https://business.adobe.com/" class="con-button blue button-l" target="_blank">Buy now</a>
+                    </p>
+                <div slot="offers">
+                    <merch-quantity-select title="Select a quantity:" min="1" max="10" step="1"
+                        default-value="undefined" max-input="undefined" closed=""></merch-quantity-select>
+                </div>
+                <div slot="footer-rows">
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">Illustrator on desktop, web, and iPad</div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">Access to 20+ apps including Photoshop, Illustrator
+                            Premiere Pro, After Effects, InDesign, Lightroom, and more</div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">
+                            <p>Business features like admin tools, dedicated 24x7</p>
+                            <p>support, and 1TB of cloud storage</p>
+                        </div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">Adobe Express, Adobe Fresco, Adobe Portfolio, and Adobe
+                            Fonts</div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">1,000 <a href="https://adobe.com/"
+                                target="_blank">generative
+                                credits</a></div>
+                    </div>
+                </div>
+            </merch-card>
+        </div>
+        <div class="two-merch-cards mini-compare-chart">
+            <merch-card class="merch-card mini-compare-chart" variant="mini-compare-chart"
+                badge-background-color="#EDCC2D" badge-color="#000000" badge-text="Most popular" filters="all" types=""
+                tabindex="0" style="border: 1px solid rgb(237, 204, 45);">
+
+                <p slot="promo-text" class="promo-text">This is promo text <a href="https://adobe.com/"
+                        target="_blank">with a
+                        link</a></p>
+                <div slot="body-m">
+                    <p></p>
+                    <p>Get Illustrator on desktop and iPad as part of Creative Cloud.</p>
+                </div>
+                <p slot="price-commitment" class="price-commitment"></p>
+                <h3 id="creative-cloud-all-apps" slot="heading-m">Creative Cloud All Apps
+                </h3>
+                <h4 id="this-is-promo-text-with-a-link" slot="detail-m">This is promo text <a href="https://adobe.com/"
+                        target="_blank">with a link</a></h4>
+                <div slot="callout-content">
+                    <div>
+                        <div>
+                            <div>AI Assistant add-on available </div>
+                            <img src="./img/info-icon.svg" title="this is a dummy tooltip text" class="callout-icon"/>
+                        </div>
+                    </div>
+                </div> 
+                <h5 id="price---abm---creative-cloud-all-apps-with-4tb" slot="heading-m-price"><span is="inline-price"
+                        data-display-old-price="true" data-display-per-unit="false" data-display-recurrence="true"
+                        data-display-tax="false" data-force-tax-exclusive="false" data-quantity="1"
+                        data-template="price" data-wcs-osi="abm"></span></h5>
+                    <p class="action-area" slot="footer">
+                        <a href="https://business.adobe.com/" class="con-button outline button-l" target="_blank">free
+                            trial</a>
+                        <a href="https://business.adobe.com/" class="con-button blue button-l" target="_blank">Buy now</a>
+                    </p>
+                <div slot="offers">
+                    <merch-quantity-select title="Select a quantity:" min="1" max="10" step="1"
+                        default-value="undefined" max-input="undefined" closed=""></merch-quantity-select>
+                </div>
+                <div slot="footer-rows">
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">Illustrator on desktop, web, and iPad</div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">Access to 20+ apps including Photoshop, Illustrator
+                            Premiere Pro, After Effects, InDesign, Lightroom, and more</div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">
+                            <p>Business features like admin tools, dedicated 24x7</p>
+                            <p>support, and 1TB of cloud storage</p>
+                        </div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">Adobe Express, Adobe Fresco, Adobe Portfolio, and Adobe
+                            Fonts</div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">1,000 <a href="https://adobe.com/"
+                                target="_blank">generative
+                                credits</a></div>
+                    </div>
+                </div>
+            </merch-card>
+            <merch-card class="merch-card mini-compare-chart" variant="mini-compare-chart"
+                badge-background-color="#EDCC2D" badge-color="#000000" badge-text="Most popular" filters="all" types=""
+                tabindex="0" style="border: 1px solid rgb(237, 204, 45);">
+
+                <p slot="promo-text" class="promo-text">This is promo text <a href="https://adobe.com/"
+                        target="_blank">with a
+                        link</a></p>
+                <div slot="body-m">
+                    <p></p>
+                    <p>Get Illustrator on desktop and iPad as part of Creative Cloud.</p>
+                </div>
+                <p slot="price-commitment" class="price-commitment"></p>
+                <h3 id="creative-cloud-all-apps" slot="heading-m">Creative Cloud All Apps
+                </h3>
+                <h4 id="this-is-promo-text-with-a-link" slot="detail-m">This is promo text <a href="https://adobe.com/"
+                        target="_blank">with a link</a></h4>
+                <div slot="callout-content">
+                    <div>
+                        <div>
+                            <div>AI Assistant add-on available </div>
+                            <img src="./img/info-icon.svg" title="this is a dummy tooltip text" class="callout-icon"/>
+                        </div>
+                    </div>
+                </div> 
+                <h5 id="price---abm---creative-cloud-all-apps-with-4tb" slot="heading-m-price"><span is="inline-price"
+                        data-display-old-price="true" data-display-per-unit="false" data-display-recurrence="true"
+                        data-display-tax="false" data-force-tax-exclusive="false" data-quantity="1"
+                        data-template="price" data-wcs-osi="abm"></span></h5>
+                    <p class="action-area" slot="footer">
+                        <a href="https://business.adobe.com/" class="con-button outline button-l" target="_blank">free
+                            trial</a>
+                        <a href="https://business.adobe.com/" class="con-button blue button-l" target="_blank">Buy now</a>
+                    </p>
+                <div slot="offers">
+                    <merch-quantity-select title="Select a quantity:" min="1" max="10" step="1"
+                        default-value="undefined" max-input="undefined" closed=""></merch-quantity-select>
+                </div>
+                <div slot="footer-rows">
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">Illustrator on desktop, web, and iPad</div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">Access to 20+ apps including Photoshop, Illustrator
+                            Premiere Pro, After Effects, InDesign, Lightroom, and more</div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">
+                            <p>Business features like admin tools, dedicated 24x7</p>
+                            <p>support, and 1TB of cloud storage</p>
+                        </div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">Adobe Express, Adobe Fresco, Adobe Portfolio, and Adobe
+                            Fonts</div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">1,000 <a href="https://adobe.com/"
+                                target="_blank">generative
+                                credits</a></div>
+                    </div>
+                </div>
+            </merch-card>
+        </div>
+        <div class="one-merch-card mini-compare-chart">
+
+            <merch-card class="merch-card mini-compare-chart" variant="mini-compare-chart"
+                badge-background-color="#EDCC2D" badge-color="#000000" badge-text="Most popular" filters="all" types=""
+                tabindex="0" style="border: 1px solid rgb(237, 204, 45);">
+
+                <p slot="promo-text" class="promo-text">This is promo text <a href="https://adobe.com/"
+                        target="_blank">with a
+                        link</a></p>
+                <div slot="body-m">
+                    <p></p>
+                    <p>Get Illustrator on desktop and iPad as part of Creative Cloud.</p>
+                </div>
+                <p slot="price-commitment" class="price-commitment"></p>
+                <h3 id="creative-cloud-all-apps" slot="heading-m">Creative Cloud All Apps
+                </h3>
+                <h4 id="this-is-promo-text-with-a-link" slot="detail-m">This is promo text <a href="https://adobe.com/"
+                        target="_blank">with a link</a></h4>
+                <h5 id="price---abm---creative-cloud-all-apps-with-4tb" slot="heading-m-price"><span is="inline-price"
+                        data-display-old-price="true" data-display-per-unit="false" data-display-recurrence="true"
+                        data-display-tax="false" data-force-tax-exclusive="false" data-quantity="1"
+                        data-template="price" data-wcs-osi="abm"></span></h5>
+                    <p class="action-area" slot="footer">
+                        <a href="https://business.adobe.com/" class="con-button outline button-l" target="_blank">free
+                            trial</a>
+                        <a href="https://business.adobe.com/" class="con-button blue button-l" target="_blank">Buy now</a>
+                    </p>
+                <div slot="offers">
+                    <merch-quantity-select title="Select a quantity:" min="1" max="10" step="1"
+                        default-value="undefined" max-input="undefined" closed=""></merch-quantity-select>
+                </div>
+                <div slot="footer-rows">
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">Illustrator on desktop, web, and iPad</div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">Access to 20+ apps including Photoshop, Illustrator
+                            Premiere Pro, After Effects, InDesign, Lightroom, and more</div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">
+                            <p>Business features like admin tools, dedicated 24x7</p>
+                            <p>support, and 1TB of cloud storage</p>
+                        </div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">Adobe Express, Adobe Fresco, Adobe Portfolio, and Adobe
+                            Fonts</div>
+                    </div>
+                    <div class="footer-row-cell">
+                        <picture class="footer-row-icon"><img loading="lazy" src="/test/mocks/img/creative-cloud.svg"
+                                alt="Creative Cloud"></picture>
+                        <div class="footer-row-cell-description">1,000 <a href="https://adobe.com/"
+                                target="_blank">generative
+                                credits</a></div>
+                    </div>
+                </div>
+            </merch-card>
+        </div>
+    </main>
+</body>
+
+</html>

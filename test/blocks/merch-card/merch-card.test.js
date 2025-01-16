@@ -1,6 +1,6 @@
 import { expect } from '@esm-bundle/chai';
 import { decorateLinks, loadStyle, setConfig } from '../../../libs/utils/utils.js';
-import { readMockText } from '../merch/mocks/fetch.js';
+import { mockFetch, readMockText } from '../merch/mocks/fetch.js';
 
 const { default: init } = await import('../../../libs/blocks/merch-card/merch-card.js');
 const delay = (duration = 100) => new Promise((resolve) => { setTimeout(resolve, duration); });
@@ -44,6 +44,8 @@ const expectToValidateHTMLAssertions = (card, assertions = {}) => {
   }
 };
 
+mockFetch();
+
 describe('Merch Card', () => {
   it('Shows segment card', async () => {
     document.body.innerHTML = await readMockText('/test/blocks/merch-card/mocks/segment-card.html');
@@ -51,7 +53,7 @@ describe('Merch Card', () => {
     expectToValidateHTMLAssertions(merchCard, {
       elements: [
         { selector: 'h3[slot="heading-xs"]', textContent: 'Lorem ipsum dolor sit amet' },
-        { selector: 'h4[slot="promo-text"]', textContent: 'this promo is great see terms' },
+        { selector: 'p[slot="promo-text"]', textContent: 'this promo is great see terms' },
         { selector: 'div[slot="body-xs"]', textContent: 'Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. Nunc viverra imperdiet enim.See what\'s included | Learn more' },
         { attribute: { name: 'variant', value: 'segment' } },
       ],
@@ -80,9 +82,9 @@ describe('Plans Card', () => {
     const merchCard = await init(document.querySelector('.merch-card.plans.icons.secure'));
     expectToValidateHTMLAssertions(merchCard, {
       elements: [
-        { selector: 'h3[slot="heading-m"]' }, { selector: 'h4[slot="heading-xs"]' },
+        { selector: 'p[slot="heading-m"]' }, { selector: 'h3[slot="heading-xs"]' },
         { selector: 'div[slot="body-xs"]', textContent: 'Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. Nunc viverra imperdiet enim.MaecenasSee terms about lorem ipsum' },
-        { selector: 'h5[slot="promo-text"]', textContent: 'this promo is great see terms' },
+        { selector: 'p[slot="promo-text"]', textContent: 'this promo is great see terms' },
         { attribute: { name: 'variant', value: 'plans' } },
         { attribute: { name: 'badge-background-color', value: '#EDCC2D' } },
         { attribute: { name: 'badge-color', value: '#000000' } },
@@ -98,8 +100,8 @@ describe('Plans Card', () => {
     const merchCard = await init(document.querySelector('.merch-card.plans.edu.icons.secure'));
     expectToValidateHTMLAssertions(merchCard, {
       elements: [
-        { selector: 'h3[slot="heading-m"]' },
-        { selector: 'h4[slot="heading-xs"]' },
+        { selector: 'p[slot="heading-m"]' },
+        { selector: 'h3[slot="heading-xs"]' },
         { selector: 'strong span' },
         { selector: 'div[slot="body-xs"]', textContent: 'Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. Nunc viverra imperdiet enim.MaecenasSee terms about lorem ipsum' },
         { attribute: { name: 'variant', value: 'plans' } },
@@ -117,8 +119,8 @@ describe('Plans Card', () => {
     const merchCard = await init(document.querySelector('.plans.icons.skip-ribbon.skip-altCta'));
     expectToValidateHTMLAssertions(merchCard, {
       elements: [
-        { selector: 'h3[slot="heading-m"]' },
-        { selector: 'h4[slot="heading-xs"]' },
+        { selector: 'p[slot="heading-m"]' },
+        { selector: 'h3[slot="heading-xs"]' },
         { selector: 'div[slot="body-xs"]', textContent: 'Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. Nunc viverra imperdiet enim.See terms about lorem ipsum' },
         { attribute: { name: 'variant', value: 'plans' } },
       ],
@@ -152,9 +154,9 @@ describe('Catalog Card', () => {
     const merchCard = await init(document.querySelector('.merch-card.ribbon'));
     expectToValidateHTMLAssertions(merchCard, {
       elements: [
-        { selector: 'h3[slot="heading-m"]' },
-        { selector: 'h4[slot="heading-xs"]' },
-        { selector: 'h5[slot="promo-text"]', textContent: 'this promo is great see terms' },
+        { selector: 'p[slot="heading-m"]' },
+        { selector: 'h3[slot="heading-xs"]' },
+        { selector: 'p[slot="promo-text"]', textContent: 'this promo is great see terms' },
         { selector: 'div[slot="body-xs"]', textContent: 'Create gorgeous images, rich graphics, and incredible art. Save 10% for the first year. Ends Mar 20.See terms' },
         { attribute: { name: 'variant', value: 'catalog' } },
         { attribute: { name: 'badge-background-color', value: '#EDCC2D' } },
@@ -171,8 +173,8 @@ describe('Catalog Card', () => {
     const merchCard = await init(document.querySelector('.merch-card.catalog.empty-badge'));
     expectToValidateHTMLAssertions(merchCard, {
       elements: [
-        { selector: 'h3[slot="heading-m"]' },
-        { selector: 'h4[slot="heading-xs"]' },
+        { selector: 'p[slot="heading-m"]' },
+        { selector: 'h3[slot="heading-xs"]' },
         { selector: 'div[slot="body-xs"]', textContent: 'Create gorgeous images, rich graphics, and incredible art. Save 10% for the first year. Ends Mar 20.See terms' },
         { attribute: { name: 'variant', value: 'catalog' } },
         { attribute: { name: 'action-menu', value: 'true' } },
@@ -187,8 +189,8 @@ describe('Catalog Card', () => {
     const merchCard = await init(document.querySelector('.merch-card.catalog.empty-action-menu'));
     expectToValidateHTMLAssertions(merchCard, {
       elements: [
-        { selector: 'h3[slot="heading-m"]' },
-        { selector: 'h4[slot="heading-xs"]' },
+        { selector: 'p[slot="heading-m"]' },
+        { selector: 'h3[slot="heading-xs"]' },
         { selector: 'div[slot="body-xs"]', textContent: 'Create gorgeous images, rich graphics, and incredible art. Save 10% for the first year. Ends Mar 20.See terms' },
         { attribute: { name: 'variant', value: 'catalog' } },
       ],
@@ -204,8 +206,8 @@ describe('Catalog Card', () => {
     const merchCard = await init(document.querySelector('.merch-card.catalog.empty-badge.action-menu-exist'));
     expectToValidateHTMLAssertions(merchCard, {
       elements: [
-        { selector: 'h3[slot="heading-m"]' },
-        { selector: 'h4[slot="heading-xs"]' },
+        { selector: 'p[slot="heading-m"]' },
+        { selector: 'h3[slot="heading-xs"]' },
         { selector: 'div[slot="body-xs"]', textContent: 'Create gorgeous images, rich graphics, and incredible art. Save 10% for the first year. Ends Mar 20.See terms' },
         { attribute: { name: 'variant', value: 'catalog' } },
         { attribute: { name: 'badge-background-color', value: '#EDCC2D' } },
@@ -237,7 +239,7 @@ describe('Catalog Card', () => {
     expectToValidateHTMLAssertions(merchCard, {
       elements: [
         { selector: 'h3[slot="heading-xs"]' },
-        { selector: 'h4[slot="heading-m"]' },
+        { selector: 'p[slot="heading-m"]' },
         { selector: 'div[slot="body-xs"]', textContent: 'Create gorgeous images, rich graphics, and incredible art. Save 10% for the first year. Ends Mar 20.' },
         { attribute: { name: 'variant', value: 'catalog' } },
         { attribute: { name: 'badge-background-color', value: '#EDCC2D' } },
@@ -271,7 +273,7 @@ describe('Mini Compare Chart Merch Card', () => {
       elements: [
         { selector: 'h3[slot="heading-m"]', textContent: 'Illustrator' },
         { selector: 'div[slot="body-m"]', textContent: 'Get Illustrator on desktop and iPad as part of Creative Cloud. This is promo text' },
-        { selector: 'h4[slot="heading-m-price"]' },
+        { selector: 'p[slot="heading-m-price"]' },
         { selector: 'div[slot="footer"]' },
         { selector: 'div[slot="footer-rows"] picture.footer-row-icon' },
         { selector: 'div[slot="footer-rows"] .footer-row-cell-description' },
@@ -315,6 +317,71 @@ describe('Mini Compare Chart Merch Card', () => {
     setTimeout(() => {
       merchCard.style.visibility = 'visible';
     }, 500);
+  });
+
+  it('Supports Mini Compare Chart with checkmarks footer rows', async () => {
+    // Test for mobile
+    window.matchMedia = (query) => ({
+      matches: query.includes('(max-width: 767px)'),
+      addListener: () => {},
+      removeListener: () => {},
+    });
+    document.body.innerHTML = await readMockText('/test/blocks/merch-card/mocks/mini-compare-chart-featured-list.html');
+    const merchCards = document.querySelectorAll('.merch-card.mini-compare-chart');
+    const merchCardChevonClose = await init(merchCards[0]);
+    expectToValidateHTMLAssertions(merchCardChevonClose, {
+      elements: [
+        { selector: 'div[slot="footer-rows"] picture.footer-row-icon-checkmark' },
+        { selector: 'div[slot="footer-rows"] .footer-row-cell-description' },
+      ],
+    });
+    const hr = merchCardChevonClose.querySelector('hr');
+    expect(hr).to.exist;
+    expect(hr.style.backgroundColor).to.be.equals('rgb(232, 232, 232)');
+    expect(merchCardChevonClose.querySelector('.checkmark-copy-container').classList.contains('close'));
+    const footerRowsTitle = merchCardChevonClose.querySelector('.footer-rows-title');
+    expect(footerRowsTitle).to.exist;
+    const footerRowCellCheckmark = merchCardChevonClose.querySelectorAll('.footer-row-cell-checkmark');
+    expect(footerRowCellCheckmark).to.exist;
+    for (let i = 0; i < footerRowCellCheckmark.length; i += 1) {
+      expect(footerRowCellCheckmark[i].querySelector('.footer-row-icon-checkmark')).to.exist;
+    }
+
+    // Test for the second merch card (chevron open)
+    if (footerRowsTitle) {
+      footerRowsTitle.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      expect(merchCardChevonClose.querySelector('.checkmark-copy-container').classList.contains('open')).to.be.false;
+      expect(footerRowsTitle.querySelector('.chevron-icon').innerHTML).to.include('svg');
+    }
+
+    // Test for the second merch card (chevron open)
+    const merchCardChevonOpen = await init(merchCards[1]);
+    expectToValidateHTMLAssertions(merchCardChevonOpen, {
+      elements: [
+        { selector: 'div[slot="footer-rows"] picture.footer-row-icon-checkmark' },
+        { selector: 'div[slot="footer-rows"] .footer-row-cell-description' },
+      ],
+    });
+    expect(merchCardChevonOpen.querySelector('.checkmark-copy-container').classList.contains('open')).to.be.false;
+
+    // Simulate click to test chevron toggle
+    const footerRowsTitleOpen = merchCardChevonOpen.querySelector('.footer-rows-title');
+    expect(footerRowsTitleOpen).to.exist;
+    if (footerRowsTitleOpen) {
+      footerRowsTitleOpen.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      expect(merchCardChevonOpen.querySelector('.checkmark-copy-container').classList.contains('open')).to.be.true;
+      expect(footerRowsTitleOpen.querySelector('.chevron-icon').innerHTML).to.include('svg');
+    }
+
+    // Test for desktop
+    window.matchMedia = (query) => ({
+      matches: query.includes('(max-width: 600px)'),
+      addListener: () => {},
+      removeListener: () => {},
+    });
+    const merchCardDesktop = await init(merchCards[2]);
+    expect(merchCardDesktop.querySelector('.checkmark-copy-container')).to.not.be.null;
+    expect(merchCardChevonOpen.querySelector('.checkmark-copy-container').classList.contains('open')).to.be.true;
   });
 });
 
@@ -495,5 +562,18 @@ describe('Viewport Responsiveness without Sinon', () => {
     const bigPrice = merchCard.querySelector('strong span[is="inline-price"]');
     expect(bigPrice).to.exist;
     expect(bigPrice.style.fontSize).to.equal('16px');
+  });
+});
+
+describe('Product Merch Card', () => {
+  it('Supports Product Merch card with callout', async () => {
+    document.body.innerHTML = await readMockText('/test/blocks/merch-card/mocks/product.html');
+    const merchCard = await init(document.querySelector('.product'));
+
+    const calloutSlot = merchCard.querySelector('[slot="callout-content"]');
+    expect(calloutSlot).to.exist;
+
+    const lowerBodySlot = merchCard.querySelector('[slot="body-lower"]');
+    expect(lowerBodySlot).to.exist;
   });
 });

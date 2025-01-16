@@ -30,7 +30,7 @@
     import { runTests } from '@web/test-runner-mocha';
     import { expect } from '@esm-bundle/chai';
     import { stub } from 'sinon';
-    import { default as init, cloneObj, updateObj, getHashConfig } from '../../../libs/blocks/caas-config/caas-config.js';
+    import { default as init, cloneObj, updateObj, getHashConfig, addIdOverlays } from '../../../libs/blocks/caas-config/caas-config.js';
     import {
       findByLabel,
       tagSelectorDropdownChoose,
@@ -350,6 +350,28 @@
         // v2 getHashConfig is async
         const hashConfig = await getHashConfig();
         expect(hashConfig.cardStyle).to.equal('full-card');
+      });
+
+      it('adds a button with a title attribute that shows hover message', async () => {
+        // Simulate a caas-config element with a .consonant-Card element
+        const cardElement = document.createElement('div');
+        cardElement.classList.add('consonant-Card');
+        cardElement.id = 'test-card-id';
+        document.body.appendChild(cardElement);
+
+        // Call the addIdOverlays function to add the button
+        addIdOverlays();
+
+        // Find the newly created button
+        const idButton = cardElement.querySelector('.cardid');
+
+        // Verify the button exists and the title is correctly set
+        expect(idButton).to.not.be.null;
+        expect(idButton.innerText).to.equal('test-card-id');
+        expect(idButton.title).to.equal('Click to copy this ID');
+
+        // Clean up after the test
+        document.body.removeChild(cardElement);
       });
 
     });

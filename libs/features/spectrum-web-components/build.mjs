@@ -15,6 +15,8 @@ const ICONS = [
   'corner-triangle',
 ];
 
+const THEMES = ['dark', 'light'];
+
 /**
  * Mapping of modules that contain multiple components (e.g: sp-clear-button is included in button.js)
  */
@@ -97,8 +99,7 @@ build({
 });
 
 mods.forEach((mod) => {
-  if (mod === 'lit.js') return;
-  if (mod === 'polyfills') return;
+  if (mod === 'lit.js' || mod === 'polyfills' || mod === 'themes') return;
   build({
     define: DEFINE,
     bundle: true,
@@ -131,5 +132,22 @@ ICONS.forEach((icon) => {
     minify: true,
     plugins: [rewriteImports('../../../..')],
     outfile: `./dist/icons/${icon}.js`,
+  });
+});
+
+THEMES.forEach((theme) => {
+  console.log(`./src/themes/${theme}.js`);
+  build({
+    define: DEFINE,
+    bundle: true,
+    banner: { js: BANNER },
+    entryPoints: [`./src/themes/${theme}.js`],
+    platform: 'browser',
+    format: 'esm',
+    sourcemap: false,
+    legalComments: 'none',
+    target: TARGET,
+    minify: true,
+    outfile: `./dist/themes/${theme}.js`,
   });
 });

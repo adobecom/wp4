@@ -1,5 +1,5 @@
 version: 1
-# See https://www.hlx.live/docs/setup-indexing.
+# See https://www.aem.live/docs/setup-indexing.
 
 indices:
   wiki:
@@ -60,16 +60,40 @@ indices:
       - '/blog/drafts/**'
     target: /blog/query-index.xlsx
     properties:
+      author:
+        select: head > meta[name="author"]
+        value: |
+          attribute(el, 'content')
       title:
         select: head > meta[property="og:title"]
         value: |
           attribute(el, 'content')
+      date:
+        select: head > meta[name="publication-date"]
+        value: |
+          dateValue(attribute(el, 'content'), 'MM-DD-YYYY')
       image:
         select: head > meta[property="og:image"]
         value: |
           match(attribute(el, 'content'), 'https:\/\/[^/]+(\/.*)')
+      imageAlt:
+        select: head > meta[property="og:image:alt"]
+        value: |
+          attribute(el, 'content')
       description:
         select: head > meta[name="description"]
+        value: |
+          attribute(el, 'content')
+      tags:
+        select: head > meta[property="article:tag"]
+        values: |
+          attribute(el, 'content')
+      category:
+        select: head > meta[property="category"]
+        values: |
+          attribute(el, 'content')
+      robots:
+        select: head > meta[name="robots"]
         value: |
           attribute(el, 'content')
       lastModified:

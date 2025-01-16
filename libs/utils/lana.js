@@ -1,4 +1,6 @@
-(function () {
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-console */
+(function iife() {
   const MSG_LIMIT = 2000;
 
   const defaultOptions = {
@@ -10,6 +12,7 @@
     tags: '',
     implicitSampleRate: 1,
     useProd: true,
+    isProdDomain: false,
   };
 
   const w = window;
@@ -49,10 +52,6 @@
     }, {});
   }
 
-  function sendUnhandledError(e) {
-    log(e.reason || e.error || e.message, { errorType: 'i' });
-  }
-
   function log(msg, options) {
     msg = msg && msg.stack ? msg.stack : (msg || '');
     if (msg.length > MSG_LIMIT) {
@@ -65,11 +64,12 @@
       return;
     }
 
-    const sampleRate = o.errorType === 'i' ? o.implicitSampleRate : o.sampleRate;
+    const sampleRateParam = parseInt(new URL(window.location).searchParams.get('lana-sample'), 10);
+    const sampleRate = sampleRateParam || (o.errorType === 'i' ? o.implicitSampleRate : o.sampleRate);
 
     if (!w.lana.debug && !w.lana.localhost && sampleRate <= Math.random() * 100) return;
 
-    const isProdDomain = isProd();
+    const isProdDomain = isProd() || o.isProdDomain;
 
     const endpoint = (!isProdDomain || !o.useProd) ? o.endpointStage : o.endpoint;
     const queryParams = [
@@ -95,8 +95,13 @@
       }
       xhr.open('GET', `${endpoint}?${queryParams.join('&')}`);
       xhr.send();
+      // eslint-disable-next-line consistent-return
       return xhr;
     }
+  }
+
+  function sendUnhandledError(e) {
+    log(e.reason || e.error || e.message, { errorType: 'i' });
   }
 
   function hasDebugParam() {

@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Merch Card Web Component demo page</title>
+    <link
+        rel="stylesheet"
+        href="http://localhost:2023/__wds-outside-root__/2/styles/styles.css"
+    />
+    <script>
+        window.process = {
+            env: {},
+        };
+    </script>
+    <style>
+        main {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-direction: column;
+            padding-top: 80px;
+        }
+
+        main>div {
+            display: initial;
+        }
+
+        #sidenav {
+            display: none;
+        }
+
+        @media screen and (min-width: 1440px) {
+            #sidenav {
+                flex: 1;
+                justify-content: stretch;
+                padding-top: 8px;
+                display: flex;
+                position: fixed;
+                bottom: 0px;
+                left: 0px;
+                gap: 20px;
+                flex-direction: column;
+                width: 220px;
+            }
+        }
+
+        #firstcards {
+            background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(140, 43, 95, 0.4430147058823529) 35%, rgba(0, 212, 255, 1) 100%);
+        }
+    </style>
+</head>
+
+<body>
+    <script type="module" src="./merch-card.test.html.js"></script>
+    <main>
+        <div id="sidenav">
+            <button onclick="toggleRTL()">Toggle RTL</button>
+        </div>
+        <div class="four-merch-cards segment">
+            <merch-card variant="segment" badge-color="#EDCC2D" badge-background-color="#000000"
+                badge-text="Best value">
+                <h3 slot="heading-xs">Individuals</h3>
+                <h3 slot="heading-xs">
+                    <span is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                        data-display-tax="false" data-template="priceOptical" data-wcs-osi="abm-edu"></span>
+                    <span is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                        data-display-tax="false" data-template="priceStrikethrough" data-wcs-osi="abm"></span>
+                </h3>
+                <div slot="body-xs">
+                    <p>Get 20+ Creative Cloud apps and services.</p>
+                    <p><a href="https://adobe.com">See what’s included.</a> | <a href="https://adobe.com">Learn
+                            more.</a></p>
+                </div>
+                <div slot="footer">
+                    <a href="https://business.adobe.com/" class="con-button blue">Save now</a>
+                </div>
+            </merch-card>
+            <merch-card variant="segment">
+                <h3 slot="heading-xs">Students and teachers</h3>
+                <h3 slot="heading-xs">
+                    <span is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                        data-display-tax="false" data-template="priceOptical" data-wcs-osi="abm-edu"></span>
+                    <span is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                        data-display-tax="false" data-template="priceStrikethrough" data-wcs-osi="abm"></span>
+                </h3>
+                <div slot="body-xs">
+                    <p>Get 20+ Creative Cloud apps and services.</p>
+                    <p>Get 20+ Creative Cloud apps and services.</p>
+                    <p>Get 20+ Creative Cloud apps and services.</p>
+                    <p>Get 20+ Creative Cloud apps and services.</p>
+                    <p><a href="https://adobe.com">See what’s included.</a> | <a href="https://adobe.com">Learn
+                            more.</a></p>
+                </div>
+                <div slot="footer">
+                    <a href="https://business.adobe.com/" class="con-button blue">Save now</a>
+                </div>
+            </merch-card>
+            <merch-card variant="segment">
+                <h3 slot="heading-xs">Students and teachers</h3>
+                <h3 slot="heading-xs">
+                    <span is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                        data-display-tax="false" data-template="priceOptical" data-wcs-osi="abm-edu"></span>
+                    <span is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                        data-display-tax="false" data-template="priceStrikethrough" data-wcs-osi="abm"></span>
+                </h3>
+                <div slot="body-xs">
+                    <p>Get 20+ Creative Cloud apps and services.</p>
+                    <p>Get 20+ Creative Cloud apps and services.</p>
+                    <p>Get 20+ Creative Cloud apps and services.</p>
+                    <p>Get 20+ Creative Cloud apps and services.</p>
+                    <p><a href="https://adobe.com">See what’s included.</a> | <a href="https://adobe.com">Learn
+                            more.</a></p>
+                </div>
+                <div slot="footer">
+                    <a href="https://business.adobe.com/" class="con-button blue">Save now</a>
+                </div>
+            </merch-card>
+            <merch-card variant="segment">
+                <h3 slot="heading-xs">Students and teachers</h3>
+                <h3 slot="heading-xs">
+                    <span is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                        data-display-tax="false" data-template="priceOptical" data-wcs-osi="abm-edu"></span>
+                    <span is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                        data-display-tax="false" data-template="priceStrikethrough" data-wcs-osi="abm"></span>
+                </h3>
+                <div slot="body-xs">
+                    <p>Get 20+ Creative Cloud apps and services.</p>
+                    <p>Get 20+ Creative Cloud apps and services.</p>
+                    <p>Get 20+ Creative Cloud apps and services.</p>
+                    <p>Get 20+ Creative Cloud apps and services.</p>
+                    <p><a href="https://adobe.com">See what’s included.</a> | <a href="https://adobe.com">Learn
+                            more.</a></p>
+                </div>
+                <div slot="footer">
+                    <a href="https://business.adobe.com/" class="con-button blue">Save now</a>
+                </div>
+            </merch-card>
+        </div>
+        <div class="three-merch-cards plans">
+            <merch-card variant="plans" badge-color="#EDCC2D" badge-background-color="#000000"" badge-text=" Best value"
+                secure-label="Secure Transaction" checkbox-label="Add a 30-day free trial of Adobe Stock.*"
+                stock-offer-osis="stock-puf,stock-abm,stock-m2m">
+                <merch-icon slot="icons" size="l" src="/test/mocks/img/creative-cloud.svg"
+                    alt="Creative Cloud All Apps"></merch-icon>
+                <h4 slot="heading-xs">Creative Cloud All Apps</h4>
+                <h3 slot="heading-m">
+                    <span is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                        data-display-tax="false" data-wcs-osi="m2m"></span>
+                </h3>
+                <p slot="body-xxs" id="individuals1">Desktop</p>
+                <div slot="body-xs">
+                    <p>Get 20+ Creative Cloud apps including Photoshop, Illustrator, Adobe Express, Premiere Pro, and
+                        Acrobat Pro. (Substance 3D apps are not included.)</p>
+                    <p><a href="https://adobe.com">See plans & pricing details</a></p>
+                </div>
+                <div slot="footer">
+                    <a is="checkout-link" href="#" class="con-button blue active" data-wcs-osi="m2m">Save now</a>
+                </div>
+            </merch-card>
+            <merch-card variant="plans" badge-color="#EDCC2D" badge-background-color="#000000"" badge-text=" Best value"
+                checkbox-label="Add a 30-day free trial of Adobe Stock.*"
+                stock-offer-osis="stock-puf,stock-abm,stock-m2m">
+                <merch-icon slot="icons" size="l" src="/test/mocks/img/creative-cloud.svg"
+                    alt="Creative Cloud All Apps"></merch-icon>
+                <h4 slot="heading-xs">Photography</h4>
+                <h3 slot="heading-m">
+                    <span is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                        data-display-tax="false" data-wcs-osi="abm"></span>
+                </h3>
+                <p slot="body-xxs" id="individuals1">Desktop + Mobile</p>
+                <div slot="body-xs">
+                    <p>Lightroom, Lightroom Classic, Photoshop on desktop and iPad, and 1TB of cloud storage.</p>
+                    <p><a href="https://adobe.com">Compare photography plans</a></p>
+                    <p><a href="https://adobe.com">See plans & pricing details</a></p>
+                </div>
+                <div slot="footer">
+                    <a is="checkout-link" href="#" class="con-button blue active" data-wcs-osi="abm">Save now</a>
+                </div>
+            </merch-card>
+            <merch-card variant="plans" badge-color="#EDCC2D" badge-background-color="#000000"" badge-text=" Best value"
+                checkbox-label="Add a 30-day free trial of Adobe Stock.*"
+                stock-offer-osis="stock-puf,stock-abm,stock-m2m">
+                <merch-icon slot="icons" size="l" src="/test/mocks/img/creative-cloud.svg"
+                    alt="Creative Cloud All Apps"></merch-icon>
+                <h4 slot="heading-xs">Photography</h4>
+                <h3 slot="heading-m">
+                    <span is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                        data-display-tax="false" data-wcs-osi="puf"></span>
+                </h3>
+                <p slot="body-xxs" id="individuals1">Desktop + Mobile</p>
+                <div slot="body-xs">
+                    <p>Lightroom, Lightroom Classic, Photoshop on desktop and iPad, and 1TB of cloud storage.</p>
+                    <p><a href="https://adobe.com">Compare photography plans</a></p>
+                    <p><a href="https://adobe.com">See plans & pricing details</a></p>
+                </div>
+                <div slot="footer">
+                    <a is="checkout-link" href="#" class="con-button blue active" data-wcs-osi="puf">Save now</a>
+                </div>
+            </merch-card>
+        </div>
+        <div class="content">
+            <h2 id="merch-card-main-variants">Acrobat</h2>
+        </div>
+        <div class="two-merch-cards plans">
+            <merch-card variant="plans" badge-color="#000000" badge-background-color="#EDCC2D" badge-text="Recommended"
+                secure-label="Secure Transaction">
+                <h4 slot="heading-xs">Acrobat Pro</h4>
+                <div slot="body-xs">
+                    <p slot="description">Access advanced PDF and form creation, editing, and protection features
+                        tailored to enterprise security and compliance requirements.</p>
+                    <h4>
+                        <span slot="price"></span>
+                    </h4>
+                    <merch-offer-select container="merch-card">
+                        <merch-offer text="Annual, monthly payment">
+                            <span slot="price" is="inline-price" data-display-per-unit="false"
+                                data-display-recurrence="true" data-display-tax="false" data-template="priceOptical"
+                                data-wcs-osi="abm"></span>
+                            <a slot="cta" is="checkout-link" data-checkout-workflow="UCv3"
+                                data-checkout-workflow-step="email" data-quantity="1" data-wcs-osi="abm"
+                                class="con-button blue">Buy now</a>
+                        </merch-offer>
+                        <merch-offer text="Annual, one-time payment" badge-text="">
+                            <span slot="price" is="inline-price" data-display-per-unit="false"
+                                data-display-recurrence="true" data-display-tax="false" data-template="priceOptical"
+                                data-wcs-osi="puf"></span>
+                            <a slot="cta" is="checkout-link" data-checkout-workflow="UCv3"
+                                data-checkout-workflow-step="email" data-quantity="1" data-wcs-osi="puf"
+                                class="con-button blue">Continue</a>
+                        </merch-offer>
+                        <merch-offer text="Monthly, without commitment" badge-text="Only today!">
+                            <span slot="price" is="inline-price" data-display-per-unit="false"
+                                data-display-recurrence="true" data-display-tax="false" data-template="priceOptical"
+                                data-wcs-osi="m2m"></span>
+                            <a slot="cta" is="checkout-link" data-checkout-workflow="UCv3"
+                                data-checkout-workflow-step="email" data-quantity="1" data-wcs-osi="m2m"
+                                class="con-button blue">Buy now</a>
+                            <p slot="description">
+                                New Description text with <a disablelinktracking="false"
+                                    href="https://helpx.stage.adobe.com/ua/manage-account/using/cancel-subscription.html"
+                                    data-disable-query="false"><u>a formatted link</u></a> inside.
+                            </p>
+                        </merch-offer>
+                    </merch-offer-select>
+                </div>
+                <div slot="footer">
+                    <a slot="cta"></a>
+                </div>
+            </merch-card>
+            <merch-card variant="plans" badge-color="#000000" badge-background-color="#EDCC2D" badge-text="Recommended"
+                secure-label="Secure Transaction">
+                <h4 slot="heading-xs">Acrobat Pro</h4>
+                <div slot="body-xs">
+                    <p>Access advanced PDF and form creation, editing, and protection features tailored to enterprise
+                        security and compliance requirements.</p>
+                    <h4 slot="heading-xs"><span is="inline-price" data-display-per-unit="false"
+                            data-display-recurrence="true" data-display-tax="false" data-template="priceOptical"
+                            data-wcs-osi="abm"></span></h4>
+                </div>
+                <div slot="footer">
+                    <a is="checkout-link" data-checkout-workflow="UCv3" data-checkout-workflow-step="email"
+                        data-quantity="1" data-wcs-osi="m2m" class="con-button blue">Buy now</a>
+                </div>
+            </merch-card>
+        </div>
+        <div class="one-merch-card inline-heading">
+            <merch-card variant="inline-heading" badge-background-color="#EDCC2D" badge-color="#000000"
+                badge-text="Best Value" tabindex="0" filters="" types="">
+                <merch-icon slot="icons" size="l" src="/test/mocks/img/creative-cloud.svg"
+                    alt="Creative Cloud All Apps"></merch-icon>
+                <h3 slot="heading-xs">Real-Time CDP</h3>
+                <div slot="body-xs">
+                    <p>Our real-time customer data platform collects B2C and B2B data from across systems and unifies it
+                        into real-time profiles ready for activation across any channel.</p>
+                </div>
+                <div slot="footer">
+                    <a href="https://business.adobe.com" class="con-button blue">Learn more</a>
+                </div>
+            </merch-card>
+        </div>
+        <div class="one-merch-card inline-heading">
+            <merch-card variant="inline-heading" badge-background-color="#EDCC2D" badge-color="#000000"
+                badge-text="Best Value" tabindex="0" filters="" types="">
+                <merch-icon slot="icons" size="l" src="/test/mocks/img/creative-cloud.svg"
+                    alt="Creative Cloud All Apps"></merch-icon>
+                <h3 slot="heading-xs">Real-Time CDP</h3>
+                <div slot="body-xs">
+                    <p>Our real-time customer data platform collects B2C and B2B data from across systems and unifies it
+                        into real-time profiles ready for activation across any channel.</p>
+                </div>
+                <div slot="footer">
+                    <a href="https://business.adobe.com" class="con-button blue">Learn more</a>
+                </div>
+            </merch-card>
+        </div>
+        <div class="one-merch-card image">
+            <merch-card variant="image" badge-background-color="#EDCC2D" badge-color="#000000" badge-text="Best Value"
+                tabindex="0" filters="" types="">
+                <merch-icon slot="icons" size="l" src="/test/mocks/img/creative-cloud.svg"
+                    alt="Creative Cloud All Apps"></merch-icon>
+                <h3 slot="heading-xs">Photoshop</h3>
+                <h4 slot="body-xxs">Desktop + Mobile</h4>
+                <div slot="body-xs">
+                    <p>Our real-time customer data platform collects B2C and B2B data from across systems and unifies it
+                        into real-time profiles ready for activation across any channel.</p>
+                </div>
+                <div slot="footer">
+                    <a href="https://business.adobe.com" class="con-button blue">Learn more</a>
+                </div>
+                <div slot="bg-image" class="bgimage">
+                    <picture>
+                        <source type="image/webp" srcset="../img/special-offers-img.webp"
+                            media="(min-width: 600px)">
+                        <source type="image/webp" srcset="../img/special-offers-img.webp">
+                        <source type="image/png" srcset="../img/special-offers-img.png" media="(min-width: 600px)">
+                        <img loading="lazy" alt="" src="../img/special-offers-img.png" width="750" height="357">
+                    </picture>
+                </div>
+            </merch-card>
+            <merch-card variant="image" class="intro-pricing" badge-background-color="#EDCC2D" badge-color="#000000" badge-text="Best Value"
+              tabindex="0" filters="" types="">
+              <merch-icon slot="icons" size="l" src="/test/mocks/img/creative-cloud.svg"
+                  alt="Creative Cloud All Apps"></merch-icon>
+              <h3 slot="heading-xs">Photoshop</h3>
+              <h4 slot="body-xxs">Desktop + Mobile</h4>
+              <div slot="body-xs">
+                  <p>Our real-time customer data platform collects B2C and B2B data from across systems and unifies it
+                      into real-time profiles ready for activation across any channel.</p>
+              </div>
+              <div slot="footer">
+                  <a href="https://business.adobe.com" class="con-button blue">Learn more</a>
+              </div>
+              <div slot="bg-image" class="bgimage">
+                  <picture>
+                      <source type="image/webp" srcset="../img/special-offers-img.webp"
+                          media="(min-width: 600px)">
+                      <source type="image/webp" srcset="../img/special-offers-img.webp">
+                      <source type="image/png" srcset="../img/special-offers-img.png" media="(min-width: 600px)">
+                      <img loading="lazy" alt="" src="../img/special-offers-img.png" width="750" height="357">
+                  </picture>
+              </div>
+          </merch-card>
+        </div>
+        <div class="four-merch-cards plans">
+            <merch-card variant="plans" size="super-wide" badge-color="#000000" badge-background-color="#EDCC2D"
+                badge-text="Recommended" secure-label="Secure Transaction">
+                <h4 slot="heading-xs">Acrobat Pro</h4>
+                <div slot="body-xs">
+                    <p slot="description">Access advanced PDF and form creation, editing, and protection features
+                        tailored to enterprise security and compliance requirements.</p>
+                    <h4>
+                        <span slot="price"></span>
+                    </h4>
+                    <merch-offer-select container="merch-card">
+                        <merch-offer text="Annual, monthly payment">
+                            <span slot="price" is="inline-price" data-display-per-unit="false"
+                                data-display-recurrence="true" data-display-tax="false" data-template="priceOptical"
+                                data-wcs-osi="abm"></span>
+                            <a slot="cta" is="checkout-link" data-checkout-workflow="UCv3"
+                                data-checkout-workflow-step="email" data-quantity="1" data-wcs-osi="abm"
+                                class="con-button blue">Buy now</a>
+                        </merch-offer>
+                        <merch-offer text="Annual, one-time payment" badge-text="">
+                            <span slot="price" is="inline-price" data-display-per-unit="false"
+                                data-display-recurrence="true" data-display-tax="false" data-template="priceOptical"
+                                data-wcs-osi="puf"></span>
+                            <a slot="cta" is="checkout-link" data-checkout-workflow="UCv3"
+                                data-checkout-workflow-step="email" data-quantity="1" data-wcs-osi="puf"
+                                class="con-button blue">Continue</a>
+                        </merch-offer>
+                        <merch-offer text="Monthly, without commitment" badge-text="Only today!">
+                            <span slot="price" is="inline-price" data-display-per-unit="false"
+                                data-display-recurrence="true" data-display-tax="false" data-template="priceOptical"
+                                data-wcs-osi="m2m"></span>
+                            <div></div>
+                            <a slot="cta" is="checkout-link" data-checkout-workflow="UCv3"
+                                data-checkout-workflow-step="email" data-quantity="1" data-wcs-osi="m2m"
+                                class="con-button blue">Buy now</a>
+                            <p slot="description">
+                                New Description text with <a disablelinktracking="false"
+                                    href="https://helpx.stage.adobe.com/ua/manage-account/using/cancel-subscription.html"
+                                    data-disable-query="false"><u>a formatted link</u></a> inside.
+                            </p>
+                        </merch-offer>
+                    </merch-offer-select>
+                </div>
+                <div slot="footer">
+                    <a slot="cta"></a>
+                </div>
+            </merch-card>
+            <merch-card variant="plans" badge-color="#000000" badge-background-color="#EDCC2D" badge-text="Best value"
+                secure-label="Secure Transaction" type="q-ty">
+                <h4 slot="heading-xs">Acrobat Pro</h4>
+                <div slot="body-xs">
+                    <p slot="description">Access advanced PDF and form creation, editing, and protection features
+                        tailored to enterprise security and compliance requirements.</p>
+                </div>
+                <div slot="quantity-select">
+                    <merch-quantity-select title="Select a quantity" min="1" max="10" step="1"></merch-quantity-select>
+                </div>
+                <div slot="footer">
+                    <a is="checkout-link" data-checkout-workflow="UCv3" data-checkout-workflow-step="email"
+                        data-quantity="1" data-wcs-osi="puf" class="con-button blue">Continue</a>
+                </div>
+            </merch-card>
+        </div>
+
+        <div class="two-merch-cards twp">
+            <merch-card class="merch-card twp" variant="twp" filters="all" types="" tabindex="0">
+                <merch-icon slot="icons" size="l" src="../img/lightroom.svg" alt="Lightroom"></merch-icon>
+                <merch-icon slot="icons" size="l" src="./mocks/img/photoshop.svg" alt="Photoshop"></merch-icon>
+                <p slot="heading-xs" class="heading-xs">
+                    <strong>Photography</strong>
+                </p>
+                <p slot="body-xs-top" class="body-xs-top">Edit, organize and transform your photos.</p>
+                <div slot="body-xs">
+                    <p>
+                        <strong>What you get:</strong>
+                    </p>
+                    <ul>
+                        <li>Lightroom on desktop, mobile and web</li>
+                        <li>Photoshop on desktop and iPad</li>
+                        <li>Lightroom Classic on desktop</li>
+                        <li>Tutorials, fonts, templates, and more</li>
+                        <li>X,XXX monthly <a href="https://firefly.adobe.com/">generative credits</a></li>
+                    </ul>
+                </div>
+                <div slot="footer">
+                    <p>
+                        <strong>7-day free trial, then</strong>
+                    </p>
+                    <p>
+                        <strong>
+                            <span is="inline-price" data-display-old-price="true" data-display-per-unit="false"
+                                data-display-recurrence="true" data-display-tax="false" data-force-tax-exclusive="false"
+                                data-quantity="1" data-template="price"
+                                data-wcs-osi="BNTtrDS9wbigrk5Hjeyn6BO62hcRZ-X5fJM9nLqJL6c">
+                            </span>
+                        </strong>
+                    </p>
+                </div>
+            </merch-card>
+            <merch-card class="merch-card twp" variant="twp" badge-background-color="#2D9D78" badge-color="#FFFFFF"
+                badge-text="Best value" filters="all" types="" tabindex="0">
+                <merch-icon slot="icons" size="l" src="/test/mocks/img/creative-cloud.svg"
+                    alt="Creative Cloud All Apps"></merch-icon>
+                <p slot="heading-xs" class="heading-xs">
+                    <strong>Creative Cloud All Apps</strong>
+                </p>
+                <p slot="body-xs-top" class="body-xs-top">The ultimate toolkit for unlimited creativity.</p>
+                <div slot="body-xs">
+                    <p><strong>What you get:</strong></p>
+                    <ul>
+                        <li>20+ apps – Photoshop, Illustrator, Adobe Express, Firefly, Acrobat Pro, and more</li>
+                        <li>Tutorials, fonts , templates, and more</li>
+                        <li>100GB of cloud storage</li>
+                        <li>X,XXX monthly <a href="https://firefly.adobe.com/">generative credits</a></li>
+                    </ul>
+                    <p><a href="https://adobe.com/">See all included apps.</a></p>
+                </div>
+                <div slot="footer">
+                    <p><strong>7-day free trial, then</strong></p>
+                    <p>
+                    <div>
+                        <span id="M2M" is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                            data-display-tax="false" data-wcs-osi="m2m"></span>
+                    </div>
+                    <div>
+                        <span id="ABM" is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                            data-display-tax="false" data-wcs-osi="abm-promo"></span>
+                    </div>
+                    </p>
+                </div>
+            </merch-card>
+        </div>
+        <div class="three-merch-cards segment">
+            <merch-card class="merch-card background-opacity-70 segment badge-card custom-border-color" variant="segment" size=""
+                badge-background-color="#2D9D78" badge-color="#fff" badge-text="Save a lot" filters="all" types="" tabindex="0" border-color="#1473E6"
+                style="border: 1px solid rgb(20, 115, 230);">
+                <h3 id="merch-card-background-opacity-70-segment" class="card-heading" slot="heading-xs">merch-card aaa bbbccc dddeee bbbccc dddeee</h3>
+                <div slot="body-xs">
+                    <h5 id="this-is-the-green-promo-text-with-link">This is the green promo text with <a href="https://www.adobe.com">link</a>!</h5>
+                    <p>Save over 25% on 20+ apps, including Photoshop, Illustrator, and more. First year only. Ends 27 here is an
+                        inline price <span is="inline-price" data-display-old-price="true" data-display-per-unit="false"
+                            data-display-recurrence="true" data-display-tax="false" data-force-tax-exclusive="false"
+                            data-quantity="1" data-template="price"
+                            data-wcs-osi="abm"></span>
+                    </p>
+                    <p><a href="https://www.adobe.com/creativecloud.html#cc-see-whats-included" target="_blank">See what's
+                            included</a> | <a href="https://www.adobe.com/creativecloud/all-apps.html" target="_blank">Learn
+                            more</a></p>
+                    <p class="action-area"></p>
+                </div>
+                <div slot="callout-content">
+                    <div>
+                        <div>
+                            <div>AI Assistant add-on available </div>
+                            <img src="./img/info-icon.svg" title="this is a dummy tooltip text" class="callout-icon"/>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <div>
+                                For a limited time pay
+                                <span is="inline-price" data-display-old-price="true" data-display-per-unit="false" data-quantity="1" data-template="price" data-wcs-osi="Mutn1LYoGojkrcMdCLO7LQlx1FyTHw27ETsfLv0h8DQ" class="placeholder-failed"></span> when you add AI assistant to Acrobat Reader, Standard, or Pro. Ends 6/4.<a href="https://www.adobe.com/creativecloud/all-apps.html" daa-ll="Learn More-1--H4 Subtext H5 Promo Text" target="_blank">Learn More</a> 
+                            </div>
+                            <img src="./img/info-icon.svg" title="this is a dummy tooltip text" class="callout-icon"/>
+                        </div>
+                    </div>
+                </div> 
+                <div slot="footer"><a href="https://business.adobe.com/" class="con-button blue" target="_blank">Save now</a></div>
+            </merch-card>
+            <merch-card class="merch-card background-opacity-70 segment badge-card" variant="segment" size=""
+                badge-background-color="#2D9D78" badge-color="#fff" badge-text="Save a lot" filters="all" types="" tabindex="0"
+                style="border: 1px solid rgb(45, 157, 120);">
+                <h3 id="merch-card-background-opacity-70-segment" class="card-heading" slot="heading-xs">Photoshop</h3>
+                <div slot="body-xs">
+                    <p>Save over 25% on 20+ apps, including Photoshop, Illustrator, and more. First year only. Ends 27 here is an
+                        inline price <span is="inline-price" data-display-old-price="true" data-display-per-unit="false"
+                            data-display-recurrence="true" data-display-tax="false" data-force-tax-exclusive="false"
+                            data-quantity="1" data-template="price"
+                            data-wcs-osi="abm"></span>
+                    </p>
+                    <p><a href="https://www.adobe.com/creativecloud.html#cc-see-whats-included" target="_blank">See what's
+                            included</a> | <a href="https://www.adobe.com/creativecloud/all-apps.html" target="_blank">Learn
+                            more</a></p>
+                    <p class="action-area"></p>
+                </div>
+                <div slot="callout-content">
+                    <div>
+                        <div>
+                            <div>AI Assistant add-on available </div>
+                            <img src="./img/info-icon.svg" title="this is a dummy tooltip text" class="callout-icon"/>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <div>
+                                For a limited time pay
+                                <span is="inline-price" data-display-old-price="true" data-display-per-unit="false" data-quantity="1" data-template="price" data-wcs-osi="Mutn1LYoGojkrcMdCLO7LQlx1FyTHw27ETsfLv0h8DQ" class="placeholder-failed"></span> when you add AI assistant to Acrobat Reader, Standard, or Pro. Ends 6/4.<a href="https://www.adobe.com/creativecloud/all-apps.html" daa-ll="Learn More-1--H4 Subtext H5 Promo Text" target="_blank">Learn More</a> 
+                            </div>
+                            <img src="./img/info-icon.svg" title="this is a dummy tooltip text" class="callout-icon"/>
+                        </div>
+                    </div>
+                </div> 
+                <div slot="footer"><a href="https://business.adobe.com/" class="con-button blue" target="_blank">Save now</a></div>
+            </merch-card>
+            <merch-card class="merch-card background-opacity-70 segment badge-card" variant="segment" size=""
+                badge-background-color="#2D9D78" badge-color="#fff" badge-text="Save a lot" filters="all" types="" tabindex="0"
+                style="border: 1px solid rgb(45, 157, 120);">
+                <h3 id="merch-card-background-opacity-70-segment" class="card-heading" slot="heading-xs">Acrobat</h3>
+                <div slot="body-xs">
+                    <p>Save over 25% on 20+ apps, including Photoshop, Illustrator, and more. First year only. Ends 27 here is an
+                        inline price <span is="inline-price" data-display-old-price="true" data-display-per-unit="false"
+                            data-display-recurrence="true" data-display-tax="false" data-force-tax-exclusive="false"
+                            data-quantity="1" data-template="price"
+                            data-wcs-osi="abm"></span>
+                    </p>
+                    <p><a href="https://www.adobe.com/creativecloud.html#cc-see-whats-included" target="_blank">See what's
+                            included</a> | <a href="https://www.adobe.com/creativecloud/all-apps.html" target="_blank">Learn
+                            more</a></p>
+                    <p class="action-area"></p>
+                </div>
+                <div slot="callout-content">
+                    <div>
+                        <div>
+                            <div>AI Assistant add-on available </div>
+                            <img src="./img/info-icon.svg" title="this is a dummy tooltip text" class="callout-icon"/>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <div>
+                                For a limited time pay
+                                <span is="inline-price" data-display-old-price="true" data-display-per-unit="false" data-quantity="1" data-template="price" data-wcs-osi="Mutn1LYoGojkrcMdCLO7LQlx1FyTHw27ETsfLv0h8DQ" class="placeholder-failed"></span> when you add AI assistant to Acrobat Reader, Standard, or Pro. Ends 6/4.<a href="https://www.adobe.com/creativecloud/all-apps.html" daa-ll="Learn More-1--H4 Subtext H5 Promo Text" target="_blank">Learn More</a> 
+                            </div>
+                            <img src="./img/info-icon.svg" title="this is a dummy tooltip text" class="callout-icon"/>
+                        </div>
+                    </div>
+                </div>
+                <div slot="footer"><a href="https://business.adobe.com/" class="con-button blue" target="_blank">Save now</a></div>
+            </merch-card>
+        </div>
+        <div class="three-merch-cards product">
+            <merch-card class="merch-card background-opacity-70 segment badge-card" variant="segment" size=""
+                badge-background-color="#2D9D78" badge-color="#fff" badge-text="Save a lot" filters="all" types="" tabindex="0"
+                style="border: 1px solid rgb(45, 157, 120);">
+                <h3 id="merch-card-background-opacity-70-segment" class="card-heading" slot="heading-xs">merch-card aaa bbbccc dddeee bbbccc dddeee</h3>
+                <div slot="body-xs">
+                    <p>Save over 25% on 20+ apps, including Photoshop, Illustrator, and more. First year only. Ends 27 here is an
+                        inline price <span is="inline-price" data-display-old-price="true" data-display-per-unit="false"
+                            data-display-recurrence="true" data-display-tax="false" data-force-tax-exclusive="false"
+                            data-quantity="1" data-template="price"
+                            data-wcs-osi="abm"></span>
+                    </p>
+                    <p><a href="https://www.adobe.com/creativecloud.html#cc-see-whats-included" target="_blank">See what's
+                            included</a> | <a href="https://www.adobe.com/creativecloud/all-apps.html" target="_blank">Learn
+                            more</a></p>
+                    <p class="action-area"></p>
+                </div>
+                <div slot="callout-content">
+                    <div>
+                        <div>
+                            <div>AI Assistant add-on available </div>
+                            <img src="./img/info-icon.svg" title="this is a dummy tooltip text" class="callout-icon"/>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <div>
+                                For a limited time pay
+                                <span is="inline-price" data-display-old-price="true" data-display-per-unit="false" data-quantity="1" data-template="price" data-wcs-osi="Mutn1LYoGojkrcMdCLO7LQlx1FyTHw27ETsfLv0h8DQ" class="placeholder-failed"></span> when you add AI assistant to Acrobat Reader, Standard, or Pro. Ends 6/4.<a href="https://www.adobe.com/creativecloud/all-apps.html" daa-ll="Learn More-1--H4 Subtext H5 Promo Text" target="_blank">Learn More</a> 
+                            </div>
+                            <img src="./img/info-icon.svg" title="this is a dummy tooltip text" class="callout-icon"/>
+                        </div>
+                    </div>
+                </div>
+                <div slot="footer"><a href="https://business.adobe.com/" class="con-button blue" target="_blank">Save now</a></div>
+            </merch-card>
+            <merch-card class="merch-card background-opacity-70 segment badge-card" variant="segment" size=""
+                badge-background-color="#2D9D78" badge-color="#fff" badge-text="Save a lot" filters="all" types="" tabindex="0"
+                style="border: 1px solid rgb(45, 157, 120);">
+                <h3 id="merch-card-background-opacity-70-segment" class="card-heading" slot="heading-xs">Photoshop</h3>
+                <div slot="body-xs">
+                    <p>Save over 25% on 20+ apps, including Photoshop, Illustrator, and more. First year only. Ends 27 here is an
+                        inline price <span is="inline-price" data-display-old-price="true" data-display-per-unit="false"
+                            data-display-recurrence="true" data-display-tax="false" data-force-tax-exclusive="false"
+                            data-quantity="1" data-template="price"
+                            data-wcs-osi="abm"></span>
+                    </p>
+                    <p slot="promo-text" class="promo-text">This is promo text <a href="https://adobe.com/"
+                        target="_blank">with a
+                        link</a></p>
+                    <div slot="body-xs">
+                        <p>Save over 25% on 20+ apps, including Photoshop, Illustrator, and more. First year only. Ends 27 here is an
+                            inline price <span is="inline-price" data-display-old-price="true" data-display-per-unit="false"
+                                data-display-recurrence="true" data-display-tax="false" data-force-tax-exclusive="false"
+                                data-quantity="1" data-template="price"
+                                data-wcs-osi="abm"></span>
+                        </p>
+                        <p><a href="https://www.adobe.com/creativecloud.html#cc-see-whats-included" target="_blank">See what's
+                                included</a> | <a href="https://www.adobe.com/creativecloud/all-apps.html" target="_blank">Learn
+                                more</a></p>
+                        <p class="action-area"></p>
+                    </div>
+                    <p><a href="https://www.adobe.com/creativecloud.html#cc-see-whats-included" target="_blank">See what's
+                            included</a> | <a href="https://www.adobe.com/creativecloud/all-apps.html" target="_blank">Learn
+                            more</a></p>
+                    <p class="action-area"></p>
+                </div>
+                <div slot="callout-content">
+                    <div>
+                        <div>
+                            <div>AI Assistant add-on available </div>
+                            <img src="./img/info-icon.svg" title="this is a dummy tooltip text" class="callout-icon"/>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <div>
+                                For a limited time pay
+                                <span is="inline-price" data-display-old-price="true" data-display-per-unit="false" data-quantity="1" data-template="price" data-wcs-osi="Mutn1LYoGojkrcMdCLO7LQlx1FyTHw27ETsfLv0h8DQ" class="placeholder-failed"></span> when you add AI assistant to Acrobat Reader, Standard, or Pro. Ends 6/4.<a href="https://www.adobe.com/creativecloud/all-apps.html" daa-ll="Learn More-1--H4 Subtext H5 Promo Text" target="_blank">Learn More</a> 
+                            </div>
+                            <img src="./img/info-icon.svg" title="this is a dummy tooltip text" class="callout-icon"/>
+                        </div>
+                    </div>
+                </div>
+                <div slot="footer"><a href="https://business.adobe.com/" class="con-button blue" target="_blank">Save now</a></div>
+            </merch-card>
+            <merch-card class="merch-card background-opacity-70 segment badge-card" variant="segment" size=""
+                badge-background-color="#2D9D78" badge-color="#fff" badge-text="Save a lot" filters="all" types="" tabindex="0"
+                style="border: 1px solid rgb(45, 157, 120);">
+                <h3 id="merch-card-background-opacity-70-segment" class="card-heading" slot="heading-xs">Acrobat</h3>
+                <div slot="body-xs">
+                    <p>Save over 25% on 20+ apps, including Photoshop, Illustrator, and more. First year only. Ends 27 here is an
+                        inline price <span is="inline-price" data-display-old-price="true" data-display-per-unit="false"
+                            data-display-recurrence="true" data-display-tax="false" data-force-tax-exclusive="false"
+                            data-quantity="1" data-template="price"
+                            data-wcs-osi="abm"></span>
+                    </p>
+                    <p><a href="https://www.adobe.com/creativecloud.html#cc-see-whats-included" target="_blank">See what's
+                            included</a> | <a href="https://www.adobe.com/creativecloud/all-apps.html" target="_blank">Learn
+                            more</a></p>
+                    <p class="action-area"></p>
+                </div>
+                <div slot="callout-content">
+                    <div>
+                        <div>
+                            <div>AI Assistant add-on available </div>
+                            <img src="./img/info-icon.svg" title="this is a dummy tooltip text" class="callout-icon"/>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <div>
+                                For a limited time pay
+                                <span is="inline-price" data-display-old-price="true" data-display-per-unit="false" data-quantity="1" data-template="price" data-wcs-osi="Mutn1LYoGojkrcMdCLO7LQlx1FyTHw27ETsfLv0h8DQ" class="placeholder-failed"></span> when you add AI assistant to Acrobat Reader, Standard, or Pro. Ends 6/4.<a href="https://www.adobe.com/creativecloud/all-apps.html" daa-ll="Learn More-1--H4 Subtext H5 Promo Text" target="_blank">Learn More</a> 
+                            </div>
+                            <img src="./img/info-icon.svg" title="this is a dummy tooltip text" class="callout-icon"/>
+                        </div>
+                    </div>
+                </div>
+                <div slot="footer"><a href="https://business.adobe.com/" class="con-button blue" target="_blank">Save now</a></div>
+            </merch-card>
+        </div>
+        <div class="three-merch-cards plans">
+            <merch-card variant="plans" badge-color="#EDCC2D" badge-background-color="#000000"" badge-text=" Best value"
+                secure-label="Secure Transaction" checkbox-label="Add a 30-day free trial of Adobe Stock.*"
+                stock-offer-osis="stock-puf,stock-abm,stock-m2m">
+                <merch-icon slot="icons" size="l" src="/test/mocks/img/creative-cloud.svg"
+                    alt="Creative Cloud All Apps"></merch-icon>
+                <h4 slot="heading-xs">Creative Cloud All Apps</h4>
+                <h3 slot="heading-m">
+                    <span is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                        data-display-tax="false" data-wcs-osi="m2m"></span>
+                </h3>
+                <p slot="body-xxs" id="individuals1">Desktop</p>
+                <div slot="body-xs">
+                    <p>Get 20+ Creative Cloud apps including Photoshop, Illustrator, Adobe Express, Premiere Pro, and
+                        Acrobat Pro. (Substance 3D apps are not included.)</p>
+                    <p>
+                    <a href="https://adobe.com">See plans & pricing details</a></p>
+                </div>
+                <div slot="callout-content">
+                    <div>
+                        <div>
+                            <div>AI Assistant add-on available </div>
+                            <img src="./img/info-icon.svg" title="this is a dummy tooltip text" class="callout-icon"/>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <div>
+                                For a limited time pay
+                                <span is="inline-price" data-display-old-price="true" data-display-per-unit="false" data-quantity="1" data-template="price" data-wcs-osi="Mutn1LYoGojkrcMdCLO7LQlx1FyTHw27ETsfLv0h8DQ" class="placeholder-failed"></span> when you add AI assistant to Acrobat Reader, Standard, or Pro. Ends 6/4.<a href="https://www.adobe.com/creativecloud/all-apps.html" daa-ll="Learn More-1--H4 Subtext H5 Promo Text" target="_blank">Learn More</a> 
+                            </div>
+                            <img src="./img/info-icon.svg" title="this is a dummy tooltip text" class="callout-icon"/>
+                        </div>
+                    </div>
+                </div>                    
+                </div>
+                <div slot="footer">
+                    <a is="checkout-link" href="#" class="con-button blue active" data-wcs-osi="m2m">Save now</a>
+                </div>
+            </merch-card>
+            <merch-card variant="plans" badge-color="#EDCC2D" badge-background-color="#000000"" badge-text=" Best value"
+                checkbox-label="Add a 30-day free trial of Adobe Stock.*"
+                stock-offer-osis="stock-puf,stock-abm,stock-m2m">
+                <merch-icon slot="icons" size="l" src="/test/mocks/img/creative-cloud.svg"
+                    alt="Creative Cloud All Apps"></merch-icon>
+                <h4 slot="heading-xs">Photography</h4>
+                <h3 slot="heading-m">
+                    <span is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                        data-display-tax="false" data-wcs-osi="abm"></span>
+                </h3>
+                <p slot="body-xxs" id="individuals1">Desktop + Mobile</p>
+                <div slot="body-xs">
+                    <p>Lightroom, Lightroom Classic, Photoshop on desktop and iPad, and 1TB of cloud storage.</p>
+                    <p><a href="https://adobe.com">Compare photography plans</a></p>
+                    <p><a href="https://adobe.com">See plans & pricing details</a></p>
+                </div>
+                <div slot="callout-content">
+                    <div>
+                        <div>
+                            <div>AI Assistant add-on available </div>
+                            <img src="./img/info-icon.svg" title="this is a dummy tooltip text" class="callout-icon"/>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <div>
+                                For a limited time pay
+                                <span is="inline-price" data-display-old-price="true" data-display-per-unit="false" data-quantity="1" data-template="price" data-wcs-osi="Mutn1LYoGojkrcMdCLO7LQlx1FyTHw27ETsfLv0h8DQ" class="placeholder-failed"></span> when you add AI assistant to Acrobat Reader, Standard, or Pro. Ends 6/4.<a href="https://www.adobe.com/creativecloud/all-apps.html" daa-ll="Learn More-1--H4 Subtext H5 Promo Text" target="_blank">Learn More</a> 
+                            </div>
+                            <img src="./img/info-icon.svg" title="this is a dummy tooltip text" class="callout-icon"/>
+                        </div>
+                    </div>
+                </div> 
+                <div slot="footer">
+                    <a is="checkout-link" href="#" class="con-button blue active" data-wcs-osi="abm">Save now</a>
+                </div>
+            </merch-card>
+            <merch-card variant="plans" badge-color="#EDCC2D" badge-background-color="#000000"" badge-text=" Best value"
+                checkbox-label="Add a 30-day free trial of Adobe Stock.*"
+                stock-offer-osis="stock-puf,stock-abm,stock-m2m">
+                <merch-icon slot="icons" size="l" src="/test/mocks/img/creative-cloud.svg"
+                    alt="Creative Cloud All Apps"></merch-icon>
+                <h4 slot="heading-xs">Photography</h4>
+                <h3 slot="heading-m">
+                    <span is="inline-price" data-display-per-unit="false" data-display-recurrence="true"
+                        data-display-tax="false" data-wcs-osi="puf"></span>
+                </h3>
+                <p slot="body-xxs" id="individuals1">Desktop + Mobile</p>
+                <div slot="body-xs">
+                    <p>Lightroom, Lightroom Classic, Photoshop on desktop and iPad, and 1TB of cloud storage.</p>
+                    <p><a href="https://adobe.com">Compare photography plans</a></p>
+                    <p><a href="https://adobe.com">See plans & pricing details</a></p>
+                </div>
+                <div slot="callout-content">
+                    <div>
+                        <div>
+                            <div>AI Assistant add-on available </div>
+                            <img src="./img/info-icon.svg" title="this is a dummy tooltip text" class="callout-icon"/>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <div>
+                                For a limited time pay
+                                <span is="inline-price" data-display-old-price="true" data-display-per-unit="false" data-quantity="1" data-template="price" data-wcs-osi="Mutn1LYoGojkrcMdCLO7LQlx1FyTHw27ETsfLv0h8DQ" class="placeholder-failed"></span> when you add AI assistant to Acrobat Reader, Standard, or Pro. Ends 6/4.<a href="https://www.adobe.com/creativecloud/all-apps.html" daa-ll="Learn More-1--H4 Subtext H5 Promo Text" target="_blank">Learn More</a> 
+                            </div>
+                            <img src="./img/info-icon.svg" title="this is a dummy tooltip text" class="callout-icon"/>
+                        </div>
+                    </div>
+                </div> 
+                <div slot="footer">
+                    <a is="checkout-link" href="#" class="con-button blue active" data-wcs-osi="puf">Save now</a>
+                </div>
+            </merch-card>
+        </div>
+        <div class="four-merch-cards plans">
+            <merch-card
+            badge-background-color="#EDCC2D"
+            badge-color="#000000"
+            badge-text="Best Value"
+            secure-label="Secure Transaction"
+            tabindex="0"
+            filters=""
+            types=""
+            >
+                <merch-icon slot="icons" size="l" src="/test/mocks/img/creative-cloud.svg" alt="Creative Cloud All Apps"></merch-icon>
+                <h3 slot="heading-xs">Photoshop</h3>
+                <h4 slot="body-xxs">Desktop + Mobile</h4>
+                <div slot="body-xs">
+                    <p>Our real-time customer data platform collects B2C and B2B data from across systems and unifies it into real-time profiles ready for activation across any channel.</p>
+                </div>
+                <div slot="footer">
+                    <a is="checkout-link" data-checkout-workflow="UCv3" data-checkout-workflow-step="email"
+                        data-quantity="1" data-wcs-osi="m2m" class="con-button blue">Very long CTA text, too long to fit in one line</a>
+                </div>
+            </merch-card>
+            <merch-card
+                badge-background-color="#EDCC2D"
+                badge-color="#000000"
+                badge-text="Best Value"
+                secure-label="Secure Transaction"
+                tabindex="0"
+                filters=""
+                types=""
+            >
+                <merch-icon slot="icons" size="l" src="/test/mocks/img/creative-cloud.svg" alt="Creative Cloud All Apps"></merch-icon>
+                <h3 slot="heading-xs">Photoshop</h3>
+                <h4 slot="body-xxs">Desktop + Mobile</h4>
+                <div slot="body-xs">
+                    <p>Our real-time customer data platform collects B2C and B2B data from across systems and unifies it into real-time profiles ready for activation across any channel.</p>
+                </div>
+                <div slot="footer">
+                    <a is="checkout-link" data-checkout-workflow="UCv3" data-checkout-workflow-step="email"
+                        data-quantity="1" data-wcs-osi="m2m" class="con-button blue">Very long CTA text, too long to fit in one line</a>
+                </div>
+            </merch-card>
+            <merch-card
+                badge-background-color="#EDCC2D"
+                badge-color="#000000"
+                badge-text="Best Value"
+                secure-label="Secure Transaction"
+                tabindex="0"
+                filters=""
+                types=""
+            >
+                <merch-icon slot="icons" size="l" src="/test/mocks/img/creative-cloud.svg" alt="Creative Cloud All Apps"></merch-icon>
+                <h3 slot="heading-xs">Photoshop</h3>
+                <h4 slot="body-xxs">Desktop + Mobile</h4>
+                <div slot="body-xs">
+                    <p>Our real-time customer data platform collects B2C and B2B data from across systems and unifies it into real-time profiles ready for activation across any channel.</p>
+                </div>
+                <div slot="footer">
+                    <a is="checkout-link" data-checkout-workflow="UCv3" data-checkout-workflow-step="email"
+                        data-quantity="1" data-wcs-osi="m2m" class="con-button blue">Very long CTA text, too long to fit in one line</a>
+                </div>
+            </merch-card>
+            <merch-card
+                badge-background-color="#EDCC2D"
+                badge-color="#000000"
+                badge-text="Best Value"
+                secure-label="Secure Transaction"
+                tabindex="0"
+                filters=""
+                variant="product"
+                types=""
+            >
+                <merch-icon slot="icons" size="l" src="/test/mocks/img/creative-cloud.svg" alt="Creative Cloud All Apps"></merch-icon>
+                <h3 slot="heading-xs">Photoshop</h3>
+                <h4 slot="body-xxs">Desktop + Mobile</h4>
+                <div slot="body-xs">
+                    <p>Our real-time customer data platform collects B2C and B2B data from across systems and unifies it into real-time profiles ready for activation across any channel.</p>
+                </div>
+                <div slot="footer">
+                    <a is="checkout-link" data-checkout-workflow="UCv3" data-checkout-workflow-step="email"
+                        data-quantity="1" data-wcs-osi="m2m" class="con-button blue">Very long CTA text, too long to fit in one line</a>
+                </div>
+            </merch-card>
+        </div>
+</div>
+
+    </main>
+</body>
+</html>

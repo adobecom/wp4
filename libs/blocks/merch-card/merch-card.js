@@ -77,6 +77,7 @@ export async function loadMnemonicList(foreground) {
   try {
     const { base } = getConfig();
     const stylePromise = new Promise((resolve) => {
+      /* c8 ignore next */
       loadStyle(`${base}/blocks/mnemonic-list/mnemonic-list.css`, resolve);
     });
     const loadModule = import(`${base}/blocks/mnemonic-list/mnemonic-list.js`)
@@ -155,7 +156,7 @@ const parseTwpContent = async (el, merchCard) => {
 };
 
 const appendPaymentDetails = (element, merchCard) => {
-  if (element.firstChild.nodeType !== Node.TEXT_NODE) return;
+  if (element.firstChild?.nodeType !== Node.TEXT_NODE) return;
   const paymentDetails = createTag('div', { class: 'payment-details' }, element.innerHTML);
   const headingM = merchCard.querySelector('h4[slot="heading-m"]');
   headingM?.append(paymentDetails);
@@ -204,6 +205,7 @@ const appendCalloutContent = (element, merchCard) => {
 const parseContent = async (el, merchCard) => {
   let bodySlotName = `body-${merchCard.variant !== MINI_COMPARE_CHART ? 'xs' : 'm'}`;
   let headingMCount = 0;
+  let headingXsCount = 0;
 
   if (merchCard.variant === MINI_COMPARE_CHART) {
     bodySlotName = 'body-m';
@@ -229,6 +231,7 @@ const parseContent = async (el, merchCard) => {
       let slotName = SLOT_MAP[merchCard.variant]?.[tagName] || SLOT_MAP_DEFAULT[tagName];
       if (slotName) {
         if (['H2', 'H3', 'H4', 'H5'].includes(tagName)) {
+          if (tagName === 'H3') headingXsCount += 1;
           element.classList.add('card-heading');
           if (merchCard.badgeText) {
             element.closest('div[role="tabpanel"')?.classList.add('badge-merch-cards');
@@ -247,6 +250,8 @@ const parseContent = async (el, merchCard) => {
           }
         }
         element.setAttribute('slot', slotName);
+        tagName = (headingXsCount === 1 && tagName === 'H3')
+        || (merchCard.variant === MINI_COMPARE_CHART && slotName === 'heading-m') ? 'h3' : 'p';
         const newElement = createTag(tagName);
         Array.from(element.attributes).forEach((attr) => {
           newElement.setAttribute(attr.name, attr.value);
@@ -359,6 +364,22 @@ const simplifyHrs = (el) => {
       hr.parentElement.replaceWith(hr);
     }
   });
+  if (el.variant === PRODUCT) {
+    const calloutContent = el.querySelector('div[slot="callout-content"]');
+    const bodySlot = el.querySelector('div[slot="body-xs"]');
+    if (calloutContent && bodySlot) {
+      const bodyLowerContent = createTag('div', { slot: 'body-lower' });
+      const elements = [...bodySlot.children];
+      elements.forEach((element) => {
+        if (element.tagName !== 'P') {
+          bodyLowerContent.append(element);
+        }
+      });
+      if (bodyLowerContent.childNodes.length > 0) {
+        calloutContent.parentElement.appendChild(bodyLowerContent);
+      }
+    }
+  }
 };
 
 const getMiniCompareChartFooterRows = (el) => {
@@ -371,23 +392,98 @@ const getMiniCompareChartFooterRows = (el) => {
   return footerRows;
 };
 
-const decorateFooterRows = (merchCard, footerRows) => {
-  if (footerRows) {
-    const footerRowsSlot = createTag('div', { slot: 'footer-rows' });
-    footerRows.forEach((row) => {
-      const rowIcon = row.firstElementChild.querySelector('picture');
-      const rowText = row.querySelector('div > div:nth-child(2)').innerHTML;
-      const rowTextParagraph = createTag('div', { class: 'footer-row-cell-description' }, rowText);
-      const footerRowCell = createTag('div', { class: 'footer-row-cell' });
-      if (rowIcon) {
-        rowIcon.classList.add('footer-row-icon');
-        footerRowCell.appendChild(rowIcon);
-      }
-      footerRowCell.appendChild(rowTextParagraph);
-      footerRowsSlot.appendChild(footerRowCell);
+const createFirstRow = async (firstRow, isMobile, checkmarkCopyContainer, defaultChevronState) => {
+  const firstRowText = firstRow.querySelector('div > div:last-child').innerHTML;
+  let firstRowTextParagraph;
+
+  if (isMobile) {
+    const { chevronDownSVG, chevronUpSVG } = await import('./img/chevron.js');
+    const chevronIcon = createTag('span', { class: 'chevron-icon' }, chevronDownSVG);
+    firstRowTextParagraph = createTag('div', { class: 'footer-rows-title' }, firstRowText);
+    firstRowTextParagraph.appendChild(chevronIcon);
+
+    if (defaultChevronState === 'open') {
+      checkmarkCopyContainer.classList.add('open');
+    }
+
+    firstRowTextParagraph.addEventListener('click', () => {
+      const isOpen = checkmarkCopyContainer.classList.toggle('open');
+      chevronIcon.innerHTML = isOpen ? chevronUpSVG : chevronDownSVG;
     });
-    merchCard.appendChild(footerRowsSlot);
+  } else {
+    firstRowTextParagraph = createTag('div', { class: 'footer-rows-title' }, firstRowText);
+    checkmarkCopyContainer.classList.add('open');
   }
+
+  return firstRowTextParagraph;
+};
+
+const createFooterRowCell = (row, isCheckmark) => {
+  const rowIcon = row.firstElementChild.querySelector('picture');
+  const rowText = row.querySelector('div > div:nth-child(2)').innerHTML;
+  const rowTextParagraph = createTag('div', { class: 'footer-row-cell-description' }, rowText);
+  const footerRowCellClass = isCheckmark ? 'footer-row-cell-checkmark' : 'footer-row-cell';
+  const footerRowIconClass = isCheckmark ? 'footer-row-icon-checkmark' : 'footer-row-icon';
+  const footerRowCell = createTag('li', { class: footerRowCellClass });
+
+  if (rowIcon) {
+    rowIcon.classList.add(footerRowIconClass);
+    footerRowCell.appendChild(rowIcon);
+  }
+  footerRowCell.appendChild(rowTextParagraph);
+
+  return footerRowCell;
+};
+
+const decorateFooterRows = async (merchCard, footerRows) => {
+  if (!footerRows) return;
+
+  const footerRowsSlot = createTag('div', { slot: 'footer-rows' });
+  const isCheckmark = merchCard.classList.contains('bullet-list');
+  const isMobile = window.matchMedia('(max-width: 767px)').matches;
+
+  const ulContainer = createTag('ul');
+  if (isCheckmark) {
+    const firstRow = footerRows[0];
+    const firstRowContent = firstRow.querySelector('div > div:first-child').innerHTML.split(',');
+    let bgStyle = '#E8E8E8';
+    let defaultChevronState = 'close';
+
+    firstRowContent.forEach((item) => {
+      const trimmedItem = item.trim();
+      if (trimmedItem.startsWith('#')) {
+        bgStyle = trimmedItem;
+      } else if (trimmedItem === 'open' || trimmedItem === 'close') {
+        defaultChevronState = trimmedItem;
+      }
+    });
+
+    const hrElem = createTag('hr', { style: `background: ${bgStyle};` });
+    footerRowsSlot.appendChild(hrElem);
+    merchCard.classList.add('has-divider');
+
+    ulContainer.classList.add('checkmark-copy-container');
+    const firstRowTextParagraph = await createFirstRow(
+      firstRow,
+      isMobile,
+      ulContainer,
+      defaultChevronState,
+    );
+
+    footerRowsSlot.appendChild(firstRowTextParagraph);
+
+    footerRows.splice(0, 1);
+    footerRowsSlot.style.padding = '0px var(--consonant-merch-spacing-xs)';
+    footerRowsSlot.style.marginBlockEnd = 'var(--consonant-merch-spacing-xs)';
+  }
+  footerRowsSlot.appendChild(ulContainer);
+
+  footerRows.forEach((row) => {
+    const footerRowCell = createFooterRowCell(row, isCheckmark);
+    ulContainer.appendChild(footerRowCell);
+  });
+
+  merchCard.appendChild(footerRowsSlot);
 };
 
 const setMiniCompareOfferSlot = (merchCard, offers) => {
@@ -496,7 +592,7 @@ export default async function init(el) {
     }
   }
   let footerRows;
-  if ([MINI_COMPARE_CHART, PLANS, SEGMENT].includes(cardType)) {
+  if ([MINI_COMPARE_CHART, PLANS, SEGMENT, PRODUCT].includes(cardType)) {
     intersectionObserver.observe(merchCard);
   }
   if (cardType === MINI_COMPARE_CHART) {
@@ -526,7 +622,7 @@ export default async function init(el) {
     merchCard.append(
       createTag(
         'div',
-        { slot: 'action-menu-content' },
+        { slot: 'action-menu-content', tabindex: '0' },
         actionMenuContent.innerHTML,
       ),
     );
@@ -604,7 +700,7 @@ export default async function init(el) {
     decorateBlockHrs(merchCard);
     simplifyHrs(merchCard);
     if (merchCard.classList.contains('has-divider')) merchCard.setAttribute('custom-hr', true);
-    decorateFooterRows(merchCard, footerRows);
+    await decorateFooterRows(merchCard, footerRows);
   } else {
     parseTwpContent(el, merchCard);
   }

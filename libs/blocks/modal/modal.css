@@ -21,6 +21,11 @@
   z-index: 102;
 }
 
+#locale-modal-v2 .dialog-close,
+#locale-modal-v2 .georouting-wrapper {
+  display: block;
+}
+
 .dialog-modal.commerce-frame {
   z-index: 103;
 }
@@ -215,10 +220,33 @@
   overflow: hidden;
 }
 
+.dialog-modal.tall-video {
+  line-height: 0;
+  width: fit-content;
+}
+
+.dialog-modal.tall-video .milo-video {
+  aspect-ratio: var(--aspect-ratio-tall);
+  height: auto;
+  padding-bottom: 0;
+  min-width: 90vw;
+}
+
 @media (min-width: 600px) {
   .dialog-modal {
     max-width: 80vw;
     width: fit-content;
+  }
+
+  .dialog-modal.tall-video {
+    --modal-width-var: 50vw;
+
+    max-width: var(--modal-width-var);
+    padding: var(--spacing-xl);
+  }
+
+  .dialog-modal.tall-video .milo-video {
+    min-width: var(--modal-width-var);
   }
 
   .region-selector .content {
@@ -227,6 +255,20 @@
 
   .upgrade-flow-modal .upgrade-flow-iframe {
     padding: 0 0 10px;
+  }
+}
+
+@media (min-width: 600px) and (orientation: landscape) {
+  .dialog-modal.tall-video,
+  .dialog-modal.tall-video .milo-video {
+    --modal-width-var: 19vw;
+  }
+}
+
+@media (min-width: 900px) and (min-height: 431px)  and (orientation: landscape) {
+  .dialog-modal.tall-video,
+  .dialog-modal.tall-video .milo-video {
+    --modal-width-var: 25vw;
   }
 }
 
@@ -284,18 +326,24 @@
     height: 100%;
   }
 
-  .dialog-modal.commerce-frame .milo-iframe {
+  .dialog-modal.dynamic-height > .fragment,
+  .dialog-modal.dynamic-height > .section,
+  .dialog-modal.dynamic-height > .fragment > .section {
+    height: 100%;
+  }
+
+  .dialog-modal.commerce-frame .milo-iframe, .dialog-modal.dynamic-height .milo-iframe  {
     padding-bottom: 0;
     height: 100%;
   }
 
-  .dialog-modal.commerce-frame.height-fit-content {
+  .dialog-modal.commerce-frame.height-fit-content, .dialog-modal.dynamic-height.height-fit-content {
     height: auto;
     max-height: 850px;
     min-width: 1000px;
   }
 
-  .dialog-modal.commerce-frame.height-fit-content .milo-iframe {
+  .dialog-modal.commerce-frame.height-fit-content .milo-iframe, .dialog-modal.dynamic-height.height-fit-content .milo-iframe {
     height: 100%;
     max-height: 845px;
   }
@@ -309,6 +357,51 @@
     max-width: 1100px;
     overflow: hidden;
     width: 80%;
+  }
+
+  .dialog-modal.tall-video,
+  .dialog-modal.tall-video .milo-video {
+    --modal-width-var: 35vw;
+  }
+}
+
+@media (min-width: 1200px) and (orientation: landscape) {
+  .dialog-modal.tall-video,
+  .dialog-modal.tall-video .milo-video {
+    --modal-width-var: 25vw;
+  }
+}
+
+@media (min-width: 1400px) {
+  .dialog-modal.tall-video,
+  .dialog-modal.tall-video .milo-video {
+    --modal-width-var: 25vw;
+
+    max-height: 1200px;
+  }
+
+  .dialog-modal.tall-video .milo-video {
+    height: 100%;
+  }
+}
+
+@media (min-width: 1400px) and (orientation: landscape) {
+  .dialog-modal.tall-video,
+  .dialog-modal.tall-video .milo-video {
+    --modal-width-var: 20vw;
+  }
+}
+
+@media (min-width: 2000px) {
+  .dialog-modal.tall-video,
+  .dialog-modal.tall-video .milo-video {
+    --modal-width-var: 22vw;
+  }
+}
+
+@media (min-width: 1500px) {
+  .dialog-modal.dynamic-height .milo-iframe {
+    min-width: 1200px;
   }
 }
 

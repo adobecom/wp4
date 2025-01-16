@@ -10,7 +10,7 @@
 }
 
 .graybox {
-  display: none;
+  display: none !important;
 }
 
 .gb-graybox-body {
@@ -39,10 +39,14 @@
   position: fixed;
 }
 
+.gb-no-click {
+  pointer-events: none;
+  user-select: none;
+}
+
 .gb-no-click::after {
   content: "";
   height: 100%;
-  pointer-events: none;
   position: absolute;
   width: 100%;
   z-index: var(--above-all);

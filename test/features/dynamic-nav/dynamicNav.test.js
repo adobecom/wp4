@@ -1,7 +1,7 @@
 import { readFile } from '@web/test-runner-commands';
 import { expect } from '@esm-bundle/chai';
 import { setConfig } from '../../../libs/utils/utils.js';
-import dynamicNav from '../../../libs/features/dynamic-navigation.js';
+import dynamicNav from '../../../libs/features/dynamic-navigation/dynamic-navigation.js';
 
 describe('Dynamic nav', () => {
   beforeEach(() => {
@@ -58,6 +58,24 @@ describe('Dynamic nav', () => {
     expect(url).to.equal('gnav/aem-sites');
   });
 
+  it('Returns the provided url when the group has not been set', async () => {
+    document.head.innerHTML = await readFile({ path: './mocks/on.html' });
+    const url = dynamicNav('gnav/aem-sites', 'bacom');
+    expect(url).to.equal('some-source-string');
+  });
+
+  it('Returns the provided url when the group does not match', async () => {
+    document.head.innerHTML = await readFile({ path: './mocks/on.html' });
+    const groupMeta = document.createElement('meta');
+    groupMeta.setAttribute('name', 'dynamic-nav-group');
+    groupMeta.setAttribute('content', 'test');
+    document.head.appendChild(groupMeta);
+
+    window.sessionStorage.setItem('dynamicNavGroup', 'no-test');
+    const url = dynamicNav('gnav/aem-sites', 'bacom');
+    expect(url).to.equal('gnav/aem-sites');
+  });
+
   it('Returns the sessionStorage url when dynamic nav ignore items are present but do not match the metadata', async () => {
     document.head.innerHTML = await readFile({ path: './mocks/on-ignore-does-not-match.html' });
     const url = dynamicNav('gnav/aem-sites', 'bacom');
@@ -72,6 +90,18 @@ describe('Dynamic nav', () => {
 
   it('Returns the sessionStorage url when dynamic nav ignore metadata content is empty', async () => {
     document.head.innerHTML = await readFile({ path: './mocks/on-ignore-no-content.html' });
+    const url = dynamicNav('gnav/aem-sites', 'bacom');
+    expect(url).to.equal('some-source-string');
+  });
+
+  it('Returns the sessionStorage url when the groups match', async () => {
+    document.head.innerHTML = await readFile({ path: './mocks/on.html' });
+    const groupMeta = document.createElement('meta');
+    groupMeta.setAttribute('name', 'dynamic-nav-group');
+    groupMeta.setAttribute('content', 'test');
+    document.head.appendChild(groupMeta);
+
+    window.sessionStorage.setItem('dynamicNavGroup', 'test');
     const url = dynamicNav('gnav/aem-sites', 'bacom');
     expect(url).to.equal('some-source-string');
   });

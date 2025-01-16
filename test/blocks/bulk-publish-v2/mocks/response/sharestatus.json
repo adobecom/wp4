@@ -1,0 +1,39 @@
+{
+  "topic": "preview",
+  "name": "job-2024-09-23t15-57-43-405z",
+  "state": "stopped",
+  "createTime": "2024-09-23T15:57:43.405Z",
+  "data": {
+    "paths": ["/test/testing"],
+    "forceUpdate": true,
+    "phase": "completed",
+    "resources": [
+      {
+        "status": 200,
+        "path": "/test/testing",
+        "resourcePath": "/test/testing.md",
+        "source": {
+          "name": "marquee.docx",
+          "contentType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "lastModified": 1686611283000,
+          "location": "onedrive:/drives/b!rZMb0rzDlki1jv128EwoNOJDPlbbCaJHjZmSthYaBRurbdjrKwiWS7YyVFjPXMsO/items/01TMM4TXEIIWSQ7FOIEBEK2ZIJHGB426ZG",
+          "size": 37115607
+        }
+      }
+    ]
+  },
+  "startTime": "2024-09-23T15:57:44.503Z",
+  "stopTime": "2024-09-23T15:57:53.209Z",
+  "invocationId": "ef1308e9-3bae-5317-9cc1-5782a98a56cb",
+  "progress": {
+    "total": 1,
+    "processed": 1,
+    "failed": 0,
+    "notmodified": 0
+  },
+  "links": {
+    "list": "https://admin.hlx.page/job/adobecom/milo/main/preview",
+    "job": "https://admin.hlx.page/job/adobecom/milo/main/preview/job-2024-09-23t15-57-43-405z",
+    "self": "https://admin.hlx.page/job/adobecom/milo/main/preview/job-2024-09-23t15-57-43-405z/details"
+  }
+}

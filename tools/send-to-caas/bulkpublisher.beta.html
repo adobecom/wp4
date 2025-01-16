@@ -1,0 +1,223 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="/libs/ui/controls/accordion.css" />
+    <link rel="stylesheet" href="./bulkpublish.beta.css" />
+  </head>
+
+  <body>
+    <div class="page-title">
+      <h1>
+        <i>CaaS</i> BulkPublisher <i>Tool</i> 
+        <span class="beta">beta</span>
+        <button class="feedback">@FeedBack</button>
+      </h1>
+    </div>  
+
+    <div class="bulk-publisher">
+      <div class="main">
+        <div class="options-panel">
+          <dt class="title is-expanded">
+            <span>Settings</span>
+          </dt>
+          <dd class="content is-expanded">
+              
+              <div class="preset-options">
+                <h4>Consumer Presets</h4>
+                <div class="field">
+                  <select name="presetSelector" id="presetSelector">
+                    <option value="default">Select a Preset... </option>
+                    <option class="separator" disabled>───────────────</option>
+                    <option value="advanced">Advanced: View/Change Settings</option>
+                  </select>
+                </div>
+
+                <h5 class="basic-settings">Basic Settings</h5>
+
+                <div class="field">
+                  <label for="host">Host:  <span class="help host" title="Help about this functionality">(?)</span></label>
+                  <input id="host" name="host" type="text" />
+                </div>
+                <div class="field">
+                  <label for="repo">Repo:  <span class="help repo" title="Help about this functionality">(?)</span></label>
+                  <input id="repo" name="repo" type="text" />
+                </div>
+                <div class="field">
+                  <label for="owner">Owner:   <span class="help owner" title="Help about this functionality">(?)</span></label>
+                  <input id="owner" name="owner" type="text" />
+                </div>
+              </div>
+
+              <div class="advanced-options">
+                <h4>Advanced Options</h4>
+
+                <div class="field">
+                  <label for="caasEnv">CaaS Enviroment<span class="help caas-env" title="Help about this functionality">(?)</span></label>
+                  <select name="caasEnv" id="caasEnv">
+                    <option value="dev">Dev</option>
+                    <option value="stage">Stage</option>
+                    <option value="prod" selected>Production</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="contentType">ContentType Fallback: <span class="help content-type-fallback" title="Help about this functionality">(?)</span></label>
+                  <select name="contentType" id="contentType">
+                    <option value="">Auto Detect</option>
+                    <option value="caas:content-type/announcements">Announcements</option>
+                    <option value="caas:content-type/application">Application</option>
+                    <option value="caas:content-type/article">Article</option>
+                    <option value="caas:content-type/blog">Blog</option>
+                    <option value="caas:content-type/certification">Certification</option>
+                    <option value="caas:content-type/community">Community</option>
+                    <option value="caas:content-type/consulting">Consulting</option>
+                    <option value="caas:content-type/course">Course</option>
+                    <option value="caas:content-type/customer-story">Customer Story</option>
+                    <option value="caas:content-type/demo">Demo</option>
+                    <option value="caas:content-type/document">Document</option>
+                    <option value="caas:content-type/documentation">Documentation</option>
+                    <option value="caas:content-type/ebook">eBook</option>
+                    <option value="caas:content-type/event">Event</option>
+                    <option value="caas:content-type/event-session">Event Session</option>
+                    <option value="caas:content-type/event-speaker">Event Speaker</option>
+                    <option value="caas:content-type/features">Features</option>
+                    <option value="caas:content-type/financial-services">Financial Services</option>
+                    <option value="caas:content-type/guide">Guide</option>
+                    <option value="caas:content-type/how-to">How-to</option>
+                    <option value="caas:content-type/infographic">Infographic</option>
+                    <option value="caas:content-type/interview">Interview</option>
+                    <option value="caas:content-type/keynote">Keynote</option>
+                    <option value="caas:content-type/new-releases">New Releases</option>
+                    <option value="caas:content-type/partner">Partner</option>
+                    <option value="caas:content-type/partner-story">Partner Story</option>
+                    <option value="caas:content-type/plans-&amp;-pricing">Plans &amp;amp; Pricing</option>
+                    <option value="caas:content-type/podcast">Podcast</option>
+                    <option value="caas:content-type/product">Product</option>
+                    <option value="caas:content-type/product-page">Product Page</option>
+                    <option value="caas:content-type/product-tour">Product Tour</option>
+                    <option value="caas:content-type/product-updates">Product Updates</option>
+                    <option value="caas:content-type/progressive-offer">Progressive Offer</option>
+                    <option value="caas:content-type/promotion">Promotion</option>
+                    <option value="caas:content-type/quiz">Quiz</option>
+                    <option value="caas:content-type/r&amp;d">R&amp;amp;D</option>
+                    <option value="caas:content-type/report">Report</option>
+                    <option value="caas:content-type/solution">Solution</option>
+                    <option value="caas:content-type/solution-brief">Solution brief</option>
+                    <option value="caas:content-type/special-offers">Special Offers</option>
+                    <option value="caas:content-type/technology">Technology</option>
+                    <option value="caas:content-type/template">Template</option>
+                    <option value="caas:content-type/tutorial">Tutorial</option>
+                    <option value="caas:content-type/video">Video</option>
+                    <option value="caas:content-type/webinar">Webinar</option>
+                    <option value="caas:content-type/white-paper">White paper</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="publishToFloodgate">Publish to Floodgate <span class="help floodgate" title="Help about this functionality">(?)</span></label>
+                  <select name="publishToFloodgate" id="publishToFloodgate">
+                    <option value="default">Select...</option>
+                    <option value="pink">Pink</option>
+                    <option value="blue">Blue</option>
+                    <option value="purple">Purple</option>
+                  </select>
+                </div>
+
+                <div id="caas-draft-cb" class="field checkbox">
+                  <input type="checkbox" id="draftOnly" name="draftOnly" />
+                  <label for="draftOnly">Publish to CaaS DRAFT only <span class="help publish-to-draft" title="Help about this option">(?)</span></label>
+                </div>
+                <div id="use-html-cb" class="field checkbox">
+                  <input type="checkbox" id="useHtml" name="useHtml" />
+                  <label for="useHtml">Use .html extension on links <span class="help use-html" title="Help about this functionality">(?)</span></label>
+                </div>
+                <div id="use-preview-cb" class="field checkbox">
+                  <input type="checkbox" id="usePreview" name="usePreview" />
+                  <label for="usePreview">Use Preview Content (*.page)<span class="help use-preview" title="Help about this functionality">(?)</span></label>
+                </div>
+                <!--
+                <div class="field">
+                  <label for="excelFile">Path to Excel File (optional) <span class="help excel-file" title="Help about this functionality">(?)</span></label>
+                  <input id="excelFile" name="excelFile" type="text" />
+                </div>
+                -->
+              </div> 
+          </dd>
+        </div>
+
+        <div class="content-panel">
+
+          <div class="theme-options">Theme: 
+            <input type="radio" id="option-light" name="theme" value="light">Light
+            <input type="radio" id="option-dark" name="theme" value="dark">Dark
+          </div>
+
+          <div class="urls">
+            <h2>URLs</h2>
+            <p><i><b>Note</b>: This tool is in <b>BETA</b> stage. Please report any issues in the <b>#javelin-friends</b> channel on Slack.</i></p>
+            <p>Enter a URL or list of URLs, each on a separate line, to be sent to CaaS.</p>
+            <textarea id="urls" 
+              name="urls" 
+              rows="10"
+              placeholder="Enter URLs to publish here..."></textarea>
+
+            <p class="publish-warning">
+              <span class="warning-icon">&#9888;</span> <b>Warning</b>: You are publishing content to <b>CaaS Production/LIVE</b> environment. 
+              Use the <i>Advanced Options</i> to change the settings.
+            </p>
+            <div class="button-container">
+              <button id="bulkpublish" href="#">Publish</button>
+              <span class="config-msg" > &nbsp; * Please Select a Preset or Custom Settings</span>
+            </div>
+
+          </div>
+
+          <div class="status">
+            <button class="clear-results hidden">Clear Results</button>
+            <h2>Status</h2> 
+            <p class="status-checking">Checking...</p>
+            <p class="status-signed-in hidden"><i>&check;</i><b>Online</b>. All good to go!</p>
+            <p class="status-signed-out hidden"><i>&#10006</i><b>User Signed Out</b>. 
+              You must <a href="javascript:window.adobeIMS.signIn()">sign in</a> to use this tool.
+            </p>
+
+            <table class="success-table hidden">
+              <thead>
+                <tr>
+                  <th width="90px" colspan="2">Success</th>
+                  <th width="65%">URL</th>
+                  <th width="30%">EntityID</th>
+                </tr>
+              <tbody></tbody>
+            </table>
+
+            <table class="error-table hidden">
+              <thead>
+                <tr>
+                  <th width="90px" colspan="2">Errors</th>
+                  <th width="65%">URL</th>
+                  <th width="30%">Response</th>
+                </tr>
+              <tbody></tbody>
+            </table>
+
+            <div class="success">
+              <label for="success">Success:</label>
+              <textarea id="success" name="success" rows="10" cols="50"></textarea>
+            </div>
+
+            <div class="errors">
+              <label for="errors">Errors: <span>x</span></label>
+              <textarea id="errors" name="errors" rows="10" cols="50"></textarea>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script type="module">
+      import init from './bulk-publish-to-caas.beta.js';
+      init();
+    </script>
+  </body>
+</html>

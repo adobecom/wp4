@@ -1,0 +1,600 @@
+{
+  "type": "pageView",
+  "result": {
+      "destinations": [
+          {
+              "type": "profileLookup",
+              "destinationId": "06de1b59-e830-4e14-80ec-375418680ea9",
+              "alias": "Web Personalization via XLG audience",
+              "segments": [
+                  {
+                      "id": "1fe54fb3-8156-4247-ac8b-cb00462a1367",
+                      "namespace": "ups"
+                  }
+              ]
+          }
+      ],
+      "inferences": [],
+      "propositions": [
+          {
+              "id": "AT:eyJhY3Rpdml0eUlkIjoiMTYxNjY2MyIsImV4cGVyaWVuY2VJZCI6IjAifQ==",
+              "scope": "__view__",
+              "scopeDetails": {
+                  "decisionProvider": "TGT",
+                  "activity": {
+                      "id": "1616663"
+                  },
+                  "experience": {
+                      "id": "0"
+                  },
+                  "strategies": [
+                      {
+                          "step": "entry",
+                          "trafficType": "0"
+                      },
+                      {
+                          "step": "display",
+                          "trafficType": "0"
+                      }
+                  ],
+                  "correlationID": "1616663:0:0"
+              },
+              "items": [
+                  {
+                      "id": "901343",
+                      "schema": "https://ns.adobe.com/personalization/json-content-item",
+                      "meta": {
+                          "experience.id": "0",
+                          "activity.name": "MWPW-153998 branch:meppostlcp - realistic example",
+                          "activity.id": "1616663",
+                          "option.name": "Offer2",
+                          "experience.name": "Experience A",
+                          "option.id": "2",
+                          "offer.name": "MWPW-153998 branch:meppostlcp - realistic example",
+                          "offer.id": "901343",
+                          "profile.twentygroups": "Group15of20"
+                      },
+                      "data": {
+                          "id": "901343",
+                          "format": "application/json",
+                          "content": {
+                              "manifestLocation": "https://main--cc--adobecom.hlx.page/drafts/mepdev/fragments/2024/q3/meppostlcp/manifest.json",
+                              "manifestContent": {
+                                  "info": {
+                                      "total": 3,
+                                      "offset": 0,
+                                      "limit": 3,
+                                      "data": [
+                                          {
+                                              "key": "manifest-type",
+                                              "value": "Promo"
+                                          },
+                                          {
+                                              "key": "manifest-override-name",
+                                              "value": ""
+                                          },
+                                          {
+                                              "key": "manifest-execution-order",
+                                              "value": "Normal"
+                                          }
+                                      ]
+                                  },
+                                  "placeholders": {
+                                      "total": 0,
+                                      "offset": 0,
+                                      "limit": 0,
+                                      "data": []
+                                  },
+                                  "experiences": {
+                                      "total": 2,
+                                      "offset": 0,
+                                      "limit": 2,
+                                      "data": [
+                                          {
+                                              "action": "replace",
+                                              "selector": "tabs row2 col2",
+                                              "page filter (optional)": "",
+                                              "all": "1"
+                                          },
+                                          {
+                                              "action": "replace",
+                                              "selector": "any-marquee any-header",
+                                              "page filter (optional)": "",
+                                              "all": "PZN title"
+                                          }
+                                      ]
+                                  },
+                                  ":version": 3,
+                                  ":names": [
+                                      "info",
+                                      "placeholders",
+                                      "experiences"
+                                  ],
+                                  ":type": "multi-sheet"
+                              }
+                          }
+                      }
+                  }
+              ],
+              "renderAttempted": false
+          }
+      ],
+      "decisions": [
+          {
+              "id": "AT:eyJhY3Rpdml0eUlkIjoiMTYxNjY2MyIsImV4cGVyaWVuY2VJZCI6IjAifQ==",
+              "scope": "__view__",
+              "scopeDetails": {
+                  "decisionProvider": "TGT",
+                  "activity": {
+                      "id": "1616663"
+                  },
+                  "experience": {
+                      "id": "0"
+                  },
+                  "strategies": [
+                      {
+                          "step": "entry",
+                          "trafficType": "0"
+                      },
+                      {
+                          "step": "display",
+                          "trafficType": "0"
+                      }
+                  ],
+                  "correlationID": "1616663:0:0"
+              },
+              "items": [
+                  {
+                      "id": "901343",
+                      "schema": "https://ns.adobe.com/personalization/json-content-item",
+                      "meta": {
+                          "experience.id": "0",
+                          "activity.name": "MWPW-153998 branch:meppostlcp - realistic example",
+                          "activity.id": "1616663",
+                          "option.name": "Offer2",
+                          "experience.name": "Experience A",
+                          "option.id": "2",
+                          "offer.name": "MWPW-153998 branch:meppostlcp - realistic example",
+                          "offer.id": "901343",
+                          "profile.twentygroups": "Group15of20"
+                      },
+                      "data": {
+                          "id": "901343",
+                          "format": "application/json",
+                          "content": {
+                              "manifestLocation": "https://main--cc--adobecom.hlx.page/drafts/mepdev/fragments/2024/q3/meppostlcp/manifest.json",
+                              "manifestContent": {
+                                  "info": {
+                                      "total": 3,
+                                      "offset": 0,
+                                      "limit": 3,
+                                      "data": [
+                                          {
+                                              "key": "manifest-type",
+                                              "value": "Promo"
+                                          },
+                                          {
+                                              "key": "manifest-override-name",
+                                              "value": ""
+                                          },
+                                          {
+                                              "key": "manifest-execution-order",
+                                              "value": "Normal"
+                                          }
+                                      ]
+                                  },
+                                  "placeholders": {
+                                      "total": 0,
+                                      "offset": 0,
+                                      "limit": 0,
+                                      "data": []
+                                  },
+                                  "experiences": {
+                                      "total": 2,
+                                      "offset": 0,
+                                      "limit": 2,
+                                      "data": [
+                                          {
+                                              "action": "replace",
+                                              "selector": "tabs row2 col2",
+                                              "page filter (optional)": "",
+                                              "all": "1"
+                                          },
+                                          {
+                                              "action": "replace",
+                                              "selector": "any-marquee any-header",
+                                              "page filter (optional)": "",
+                                              "all": "PZN title"
+                                          }
+                                      ]
+                                  },
+                                  ":version": 3,
+                                  ":names": [
+                                      "info",
+                                      "placeholders",
+                                      "experiences"
+                                  ],
+                                  ":type": "multi-sheet"
+                              }
+                          }
+                      }
+                  }
+              ]
+          }
+      ]
+  },
+  "event": {
+      "_beforeSatelliteLoaded": true,
+      "sent": {},
+      "data": {
+          "eventMergeId": "",
+          "web": {
+              "webPageDetails": {
+                  "URL": "https://main--cc--adobecom.hlx.page/drafts/mepdev/fragments/2024/q3/meppostlcp/?milolibs=meppostlcp&target=postlcp",
+                  "siteSection": "main--cc--adobecom.hlx.page",
+                  "server": "main--cc--adobecom.hlx.page",
+                  "isErrorPage": false,
+                  "isHomePage": false,
+                  "name": "main--cc--adobecom.hlx.page:drafts:mepdev:fragments:2024:q3:meppostlcp",
+                  "pageViews": {
+                      "value": 1
+                  }
+              },
+              "webReferrer": {
+                  "URL": ""
+              }
+          },
+          "_adobe_corpnew": {
+              "digitalData": {
+                  "page": {
+                      "pageInfo": {
+                          "language": "en-US",
+                          "siteSection": "main--cc--adobecom.hlx.page",
+                          "pageName": "main--cc--adobecom.hlx.page:drafts:mepdev:fragments:2024:q3:meppostlcp",
+                          "processedPageName": "main--cc--adobecom.hlx.page:drafts:mepdev:fragments:2024:q3:meppostlcp",
+                          "location": {
+                              "href": "https://main--cc--adobecom.hlx.page/drafts/mepdev/fragments/2024/q3/meppostlcp/?milolibs=meppostlcp&target=postlcp",
+                              "origin": "https://main--cc--adobecom.hlx.page",
+                              "protocol": "https:",
+                              "host": "main--cc--adobecom.hlx.page",
+                              "hostname": "main--cc--adobecom.hlx.page",
+                              "port": "",
+                              "pathname": "/drafts/mepdev/fragments/2024/q3/meppostlcp/",
+                              "search": "?milolibs=meppostlcp&target=postlcp",
+                              "hash": ""
+                          }
+                      }
+                  },
+                  "target": {
+                      "at_property": "STAGE",
+                      "at_property_val": "bc8dfa27-29cc-625c-22ea-f7ccebfc6231"
+                  },
+                  "clickTaleInfo": "0.09659220339555374_1728935798110",
+                  "adobe": {
+                      "libraryVersions": "alloy",
+                      "gpc": "",
+                      "experienceCloud": {
+                          "agiCampaign": ""
+                      }
+                  },
+                  "diagnostic": {
+                      "franklin": {
+                          "implementation": "milo"
+                      }
+                  },
+                  "previousPage": {
+                      "pageInfo": {
+                          "pageName": "main--cc--adobecom.hlx.page:drafts:mepdev:fragments:2024:q3:meppostlcp"
+                      }
+                  },
+                  "primaryUser": {
+                      "primaryProfile": {
+                          "profileInfo": {
+                              "authState": "loggedOut",
+                              "entitlementCreativeCloud": "unknown",
+                              "entitlementStatusCreativeCloud": "unknown",
+                              "returningStatus": "Repeat"
+                          }
+                      }
+                  }
+              }
+          },
+          "marketingtech": {
+              "bootstrap": {
+                  "version": "0.29.0"
+              },
+              "adobe": {
+                  "alloy": {
+                      "edgeConfigIdLaunch": "e065836d-be57-47ef-b8d1-999e1657e8fd",
+                      "approach": "standard",
+                      "edgeConfigId": "8d2805dd-85bf-4748-82eb-f99fdad117a6"
+                  }
+              }
+          },
+          "__adobe": {
+              "target": {
+                  "is404": false,
+                  "authState": "loggedOut",
+                  "hitType": "pageView",
+                  "isMilo": true,
+                  "adobeLocale": "en-US",
+                  "hasGnav": true
+              }
+          },
+          "_i": 0,
+          "eventType": "web.webpagedetails.pageViews"
+      },
+      "xdm": {
+          "eventMergeId": "5256835b-764b-41fd-82bc-0825a7896332",
+          "web": {
+              "webPageDetails": {
+                  "URL": "https://main--cc--adobecom.hlx.page/drafts/mepdev/fragments/2024/q3/meppostlcp/?milolibs=meppostlcp&target=postlcp",
+                  "siteSection": "main--cc--adobecom.hlx.page",
+                  "server": "main--cc--adobecom.hlx.page",
+                  "isErrorPage": false,
+                  "isHomePage": false,
+                  "name": "main--cc--adobecom.hlx.page:drafts:mepdev:fragments:2024:q3:meppostlcp",
+                  "pageViews": {
+                      "value": 1
+                  }
+              },
+              "webReferrer": {
+                  "URL": ""
+              }
+          },
+          "device": {
+              "screenHeight": 1440,
+              "screenWidth": 3440,
+              "screenOrientation": "landscape"
+          },
+          "environment": {
+              "type": "browser",
+              "browserDetails": {
+                  "viewportWidth": 1510,
+                  "viewportHeight": 1187,
+                  "userAgentClientHints": {
+                      "architecture": "x86",
+                      "bitness": "64",
+                      "model": "",
+                      "platformVersion": "10.0.0",
+                      "wow64": false
+                  }
+              }
+          },
+          "placeContext": {
+              "localTimezoneOffset": 360,
+              "localTime": "2024-10-14T13:56:38.118-06:00"
+          },
+          "timestamp": "2024-10-14T19:56:38.118Z",
+          "implementationDetails": {
+              "name": "https://ns.adobe.com/experience/alloy",
+              "version": "2.22.0",
+              "environment": "browser"
+          }
+      },
+      "i": 1,
+      "result": {
+          "destinations": [
+              {
+                  "type": "profileLookup",
+                  "destinationId": "06de1b59-e830-4e14-80ec-375418680ea9",
+                  "alias": "Web Personalization via XLG audience",
+                  "segments": [
+                      {
+                          "id": "1fe54fb3-8156-4247-ac8b-cb00462a1367",
+                          "namespace": "ups"
+                      }
+                  ]
+              }
+          ],
+          "inferences": [],
+          "propositions": [
+              {
+                  "id": "AT:eyJhY3Rpdml0eUlkIjoiMTYxNjY2MyIsImV4cGVyaWVuY2VJZCI6IjAifQ==",
+                  "scope": "__view__",
+                  "scopeDetails": {
+                      "decisionProvider": "TGT",
+                      "activity": {
+                          "id": "1616663"
+                      },
+                      "experience": {
+                          "id": "0"
+                      },
+                      "strategies": [
+                          {
+                              "step": "entry",
+                              "trafficType": "0"
+                          },
+                          {
+                              "step": "display",
+                              "trafficType": "0"
+                          }
+                      ],
+                      "correlationID": "1616663:0:0"
+                  },
+                  "items": [
+                      {
+                          "id": "901343",
+                          "schema": "https://ns.adobe.com/personalization/json-content-item",
+                          "meta": {
+                              "experience.id": "0",
+                              "activity.name": "MWPW-153998 branch:meppostlcp - realistic example",
+                              "activity.id": "1616663",
+                              "option.name": "Offer2",
+                              "experience.name": "Experience A",
+                              "option.id": "2",
+                              "offer.name": "MWPW-153998 branch:meppostlcp - realistic example",
+                              "offer.id": "901343",
+                              "profile.twentygroups": "Group15of20"
+                          },
+                          "data": {
+                              "id": "901343",
+                              "format": "application/json",
+                              "content": {
+                                  "manifestLocation": "https://main--cc--adobecom.hlx.page/drafts/mepdev/fragments/2024/q3/meppostlcp/manifest.json",
+                                  "manifestContent": {
+                                      "info": {
+                                          "total": 3,
+                                          "offset": 0,
+                                          "limit": 3,
+                                          "data": [
+                                              {
+                                                  "key": "manifest-type",
+                                                  "value": "Promo"
+                                              },
+                                              {
+                                                  "key": "manifest-override-name",
+                                                  "value": ""
+                                              },
+                                              {
+                                                  "key": "manifest-execution-order",
+                                                  "value": "Normal"
+                                              }
+                                          ]
+                                      },
+                                      "placeholders": {
+                                          "total": 0,
+                                          "offset": 0,
+                                          "limit": 0,
+                                          "data": []
+                                      },
+                                      "experiences": {
+                                          "total": 2,
+                                          "offset": 0,
+                                          "limit": 2,
+                                          "data": [
+                                              {
+                                                  "action": "replace",
+                                                  "selector": "tabs row2 col2",
+                                                  "page filter (optional)": "",
+                                                  "all": "1"
+                                              },
+                                              {
+                                                  "action": "replace",
+                                                  "selector": "any-marquee any-header",
+                                                  "page filter (optional)": "",
+                                                  "all": "PZN title"
+                                              }
+                                          ]
+                                      },
+                                      ":version": 3,
+                                      ":names": [
+                                          "info",
+                                          "placeholders",
+                                          "experiences"
+                                      ],
+                                      ":type": "multi-sheet"
+                                  }
+                              }
+                          }
+                      }
+                  ],
+                  "renderAttempted": false
+              }
+          ],
+          "decisions": [
+              {
+                  "id": "AT:eyJhY3Rpdml0eUlkIjoiMTYxNjY2MyIsImV4cGVyaWVuY2VJZCI6IjAifQ==",
+                  "scope": "__view__",
+                  "scopeDetails": {
+                      "decisionProvider": "TGT",
+                      "activity": {
+                          "id": "1616663"
+                      },
+                      "experience": {
+                          "id": "0"
+                      },
+                      "strategies": [
+                          {
+                              "step": "entry",
+                              "trafficType": "0"
+                          },
+                          {
+                              "step": "display",
+                              "trafficType": "0"
+                          }
+                      ],
+                      "correlationID": "1616663:0:0"
+                  },
+                  "items": [
+                      {
+                          "id": "901343",
+                          "schema": "https://ns.adobe.com/personalization/json-content-item",
+                          "meta": {
+                              "experience.id": "0",
+                              "activity.name": "MWPW-153998 branch:meppostlcp - realistic example",
+                              "activity.id": "1616663",
+                              "option.name": "Offer2",
+                              "experience.name": "Experience A",
+                              "option.id": "2",
+                              "offer.name": "MWPW-153998 branch:meppostlcp - realistic example",
+                              "offer.id": "901343",
+                              "profile.twentygroups": "Group15of20"
+                          },
+                          "data": {
+                              "id": "901343",
+                              "format": "application/json",
+                              "content": {
+                                  "manifestLocation": "https://main--cc--adobecom.hlx.page/drafts/mepdev/fragments/2024/q3/meppostlcp/manifest.json",
+                                  "manifestContent": {
+                                      "info": {
+                                          "total": 3,
+                                          "offset": 0,
+                                          "limit": 3,
+                                          "data": [
+                                              {
+                                                  "key": "manifest-type",
+                                                  "value": "Promo"
+                                              },
+                                              {
+                                                  "key": "manifest-override-name",
+                                                  "value": ""
+                                              },
+                                              {
+                                                  "key": "manifest-execution-order",
+                                                  "value": "Normal"
+                                              }
+                                          ]
+                                      },
+                                      "placeholders": {
+                                          "total": 0,
+                                          "offset": 0,
+                                          "limit": 0,
+                                          "data": []
+                                      },
+                                      "experiences": {
+                                          "total": 2,
+                                          "offset": 0,
+                                          "limit": 2,
+                                          "data": [
+                                              {
+                                                  "action": "replace",
+                                                  "selector": "tabs row2 col2",
+                                                  "page filter (optional)": "",
+                                                  "all": "1"
+                                              },
+                                              {
+                                                  "action": "replace",
+                                                  "selector": "any-marquee any-header",
+                                                  "page filter (optional)": "",
+                                                  "all": "PZN title"
+                                              }
+                                          ]
+                                      },
+                                      ":version": 3,
+                                      ":names": [
+                                          "info",
+                                          "placeholders",
+                                          "experiences"
+                                      ],
+                                      ":type": "multi-sheet"
+                                  }
+                              }
+                          }
+                      }
+                  ]
+              }
+          ]
+      }
+  }
+}

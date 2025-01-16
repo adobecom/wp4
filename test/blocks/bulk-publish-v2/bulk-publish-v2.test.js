@@ -2,7 +2,7 @@ import { expect } from '@esm-bundle/chai';
 import sinon from 'sinon';
 import { readFile, sendKeys, sendMouse } from '@web/test-runner-commands';
 import { waitForRemoval } from '../../helpers/waitfor.js';
-import { mockFetch, unmockFetch } from './mocks/fetch.js';
+import { mockFetch, mockShare, unmockFetch, unmockShare } from './mocks/fetch.js';
 import { setConfig } from '../../../libs/utils/utils.js';
 import './mocks/authentication.js';
 
@@ -11,8 +11,7 @@ setConfig(conf);
 
 document.body.innerHTML = await readFile({ path: './mocks/body.html' });
 const { default: init } = await import('../../../libs/blocks/bulk-publish-v2/bulk-publish-v2.js');
-
-const testPage = 'https://main--milo--adobecom.hlx.page/tools/bulk-publish-v2-test';
+const testPage = 'https://main--milo--adobecom.aem.page/tools/bulk-publish-v2-test';
 
 Object.defineProperty(navigator, 'clipboard', { value: { writeText: async () => {} } });
 
@@ -52,8 +51,10 @@ const setTextArea = async (el, type) => {
 
 describe('Bulk Publish Tool', () => {
   let clock;
+
   before(async () => {
     await mockFetch();
+    await mockShare();
     clock = sinon.useFakeTimers({
       toFake: ['setTimeout'],
       shouldAdvanceTime: true,
@@ -94,6 +95,12 @@ describe('Bulk Publish Tool', () => {
     expect(pub).to.exist;
   });
 
+  it('can render a shared job', async () => {
+    expect(rootEl.querySelectorAll('job-process')).to.have.lengthOf(1);
+    bulkPub?.clearJobs();
+    await unmockShare();
+  });
+
   it('can select process type', async () => {
     const process = 'preview';
     await setProcess(rootEl, process);
@@ -107,7 +114,7 @@ describe('Bulk Publish Tool', () => {
   });
 
   it('can handle api error response', async () => {
-    await setTextArea(rootEl, 'https://error--milo--adobecom.hlx.page/not/a/valid/path');
+    await setTextArea(rootEl, 'https://error--milo--adobecom.aem.page/not/a/valid/path');
     await mouseEvent(rootEl.querySelector('#RunProcess'));
     const errors = rootEl.querySelector('.errors');
     expect(errors.querySelector('strong').innerText).to.equal('Unauthorized');
@@ -117,10 +124,11 @@ describe('Bulk Publish Tool', () => {
   it('can trigger cannot publish config', async () => {
     await clock.runAllAsync();
     await setProcess(rootEl, 'publish');
-    await setTextArea(rootEl, 'https://error--milo--adobecom.hlx.page/not/a/valid/path');
+    await setTextArea(rootEl, 'https://error--milo--adobecom.aem.page/not/a/valid/path');
     await mouseEvent(rootEl.querySelector('#RunProcess'));
     const errors = rootEl.querySelector('.errors');
-    expect(errors.querySelector('strong').innerText).to.equal('Publishing disabled until the test is over');
+    const errorText = errors?.querySelector('strong').innerText;
+    expect(errorText).to.equal('Publishing disabled until the test is over');
     await mouseEvent(rootEl.querySelector('.fix-btn'));
   });
 
@@ -129,7 +137,6 @@ describe('Bulk Publish Tool', () => {
     await setProcess(rootEl, 'publish');
     await setTextArea(rootEl, testPage);
     expect(rootEl.querySelector('#RunProcess').getAttribute('disable')).to.equal('false');
-    bulkPub.clearJobs();
   });
 
   it('can submit valid bulk publish job', async () => {
@@ -144,9 +151,9 @@ describe('Bulk Publish Tool', () => {
 
   it('can toggle job timing flyout', async () => {
     await clock.runAllAsync();
-    const doneJobProcess = rootEl.querySelector('job-process');
-    const jobInfo = doneJobProcess?.shadowRoot.querySelector('job-info');
-    const timerDetail = jobInfo?.shadowRoot.querySelector('.timer');
+    const jobProcess = rootEl.querySelectorAll('job-process')[0];
+    const jobInfo = jobProcess.shadowRoot.querySelector('job-info');
+    const timerDetail = jobInfo.shadowRoot.querySelector('.timer');
     await mouseEvent(timerDetail);
     await clock.runAllAsync();
     await mouseEvent(timerDetail);
@@ -187,12 +194,28 @@ describe('Bulk Publish Tool', () => {
     await clock.runAllAsync();
   });
 
+  it('can share a job', async () => {
+    const process = rootEl.querySelectorAll('job-process')[0];
+    const jobInfo = process?.shadowRoot.querySelector('job-info');
+    const shareIcon = jobInfo?.shadowRoot.querySelector('.share-link');
+    await mouseEvent(shareIcon);
+    await clock.runAllAsync();
+  });
+
+  it('can stop a job', async () => {
+    const process = rootEl.querySelectorAll('job-process')[0];
+    const jobInfo = process?.shadowRoot.querySelector('job-info');
+    const cancelIcon = jobInfo?.shadowRoot.querySelector('.cancel-job');
+    await mouseEvent(cancelIcon);
+    await clock.runAllAsync();
+  });
+
   it('can submit valid index job', async () => {
     await setProcess(rootEl, 'index', true);
     await setTextArea(rootEl, testPage);
     await clock.runAllAsync();
     await mouseEvent(rootEl.querySelector('#RunProcess'));
-    expect(rootEl.querySelectorAll('job-process')).to.have.lengthOf(4);
+    expect(rootEl.querySelectorAll('job-process')).to.have.lengthOf(3);
   });
 
   it('can toggle view mode', async () => {

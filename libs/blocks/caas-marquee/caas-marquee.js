@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow, consistent-return, max-len, quote-props, prefer-const */
-import { createTag, getConfig, loadMartech } from '../../utils/utils.js';
+import { createTag, getConfig, loadMartech, SLD } from '../../utils/utils.js';
 
 const SEGMENTS_MAP = {
   attributes: {
@@ -195,8 +195,8 @@ function getMetadata(el) {
 
 function isProd() {
   const { host } = window.location;
-  return !(host.includes('hlx.page')
-    || host.includes('hlx.live')
+  return !(host.includes(`${SLD}.page`)
+    || host.includes(`${SLD}.live`)
     || host.includes('localhost')
     || host.includes('stage.adobe')
     || host.includes('corp.adobe'));

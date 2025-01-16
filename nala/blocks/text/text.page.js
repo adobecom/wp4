@@ -3,7 +3,9 @@ export default class Text {
     this.page = page;
     // text  locators
     this.text = page.locator('.text').nth(nth);
-    this.textIntro = this.page.locator('.text.intro');
+    this.textBlocks = page.locator('.text');
+    this.textIntro = this.page.locator('.text.intro').nth(nth);
+    this.textIntroBlocks = this.page.locator('.text.intro');
     this.textFullWidth = this.page.locator('.text.full-width');
     this.textFullWidthLarge = this.page.locator('.text.full-width.large');
     this.textLongFormLarge = this.page.locator('.text.long-form');
@@ -17,7 +19,9 @@ export default class Text {
     this.legalDetail = page.locator('.foreground');
 
     this.headline = this.text.locator('#text');
+    this.headlineAlt = this.text.locator('h3');
     this.introHeadline = this.text.locator('#text-intro');
+    this.introHeadlineAlt = this.textIntro.locator('h2');
     this.fullWidthHeadline = this.text.locator('#text-full-width');
     this.fullWidthLargeHeadline = this.text.locator('#text-full-width-large');
     this.longFormLargeHeadline = this.text.locator('#text-long-form-large');

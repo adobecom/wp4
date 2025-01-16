@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { features } from './chart.spec.js';
 import ChartBlock from './chart.page.js';
+import { runAccessibilityTest } from '../../libs/accessibility.js';
 
 let chart;
 const miloLibs = process.env.MILO_LIBS || '';
@@ -28,6 +29,10 @@ test.describe('Milo Chart feature test suite', () => {
       expect(await chart.type.getAttribute('class')).toContain(data.chartType);
       await expect(await chart.footNote).toContainText(data.footNote);
     });
+
+    await test.step('step-3: Verify the accessibility test on the chart block', async () => {
+      await runAccessibilityTest({ page, testScope: chart.chart, skipA11yTest: true });
+    });
   });
 
   // Test 1 : Chart (bar, border)
@@ -51,6 +56,10 @@ test.describe('Milo Chart feature test suite', () => {
       await expect(await chart.legendEdge).toBeVisible();
 
       await expect(await chart.footNote).toContainText(data.footNote);
+    });
+
+    await test.step('step-3: Verify the accessibility test on the chart block', async () => {
+      await runAccessibilityTest({ page, testScope: chart.chart, skipA11yTest: true });
     });
   });
 
@@ -85,6 +94,10 @@ test.describe('Milo Chart feature test suite', () => {
 
       await expect(await chart.footNote).toContainText(data.footNote);
     });
+
+    await test.step('step-3: Verify the accessibility test on the chart block', async () => {
+      await runAccessibilityTest({ page, testScope: chart.chart, skipA11yTest: true });
+    });
   });
 
   // Test 3 : Chart (donut, border)
@@ -110,6 +123,10 @@ test.describe('Milo Chart feature test suite', () => {
       await expect(await chart.x_axisSunday).toBeVisible();
 
       await expect(await chart.footNote).toContainText(data.footNote);
+    });
+
+    await test.step('step-3: Verify the accessibility test on the chart block', async () => {
+      await runAccessibilityTest({ page, testScope: chart.chart, skipA11yTest: true });
     });
   });
 
@@ -140,6 +157,10 @@ test.describe('Milo Chart feature test suite', () => {
 
       await expect(await chart.footNote).toContainText(data.footNote);
     });
+
+    await test.step('step-3: Verify the accessibility test on the chart block', async () => {
+      await runAccessibilityTest({ page, testScope: chart.chart, skipA11yTest: true });
+    });
   });
 
   // Test 5 : Chart (oversized-number, border)
@@ -165,6 +186,10 @@ test.describe('Milo Chart feature test suite', () => {
       await expect(await chart.svgImgCircleSubTitle).toContainText(data.circleSubTitle);
 
       await expect(await chart.footNote).toContainText(data.footNote);
+    });
+
+    await test.step('step-3: Verify the accessibility test on the chart block', async () => {
+      await runAccessibilityTest({ page, testScope: chart.chart, skipA11yTest: true });
     });
   });
 
@@ -192,6 +217,10 @@ test.describe('Milo Chart feature test suite', () => {
       await expect(await chart.legendAdobeExperienceManager).toBeVisible();
 
       await expect(await chart.footNote).toContainText(data.footNote);
+    });
+
+    await test.step('step-3: Verify the accessibility test on the chart block', async () => {
+      await runAccessibilityTest({ page, testScope: chart.chart, skipA11yTest: true });
     });
   });
 });

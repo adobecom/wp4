@@ -94,6 +94,14 @@ describe('Section Metdata', () => {
     expect(sec.classList.contains('hide-sticky-section')).not.to.be.true;
   });
 
+  it('add promobar behaviour to be visible when no-delay', async () => {
+    const main = document.querySelector('main');
+    const sec = document.querySelector('.section.sticky-bottom-no-delay .promobar').closest('.section');
+    const sm = sec.querySelector('.section-metadata');
+    await init(sm);
+    expect(main.lastElementChild.classList.contains('hide-sticky-section')).to.be.false;
+  });
+
   it('should calculate the top position based on header height', async () => {
     const sec = document.querySelector('.section.sticky-top');
     const header = document.createElement('header');

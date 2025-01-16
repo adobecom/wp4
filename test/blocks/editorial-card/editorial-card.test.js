@@ -42,4 +42,9 @@ describe('editorial-card', () => {
     const lockup = editorialCards[4].classList.contains('m-lockup');
     expect(lockup).to.exist;
   });
+
+  it('media takes full height if no foreground', () => {
+    const editorialCardWithMediaOnly = editorialCards[8];
+    expect(editorialCardWithMediaOnly.classList.contains('no-foreground')).to.be.true;
+  });
 });

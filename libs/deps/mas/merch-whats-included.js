@@ -1,4 +1,8 @@
-import{html as e,css as o,LitElement as l}from"../lit-all.min.js";var t=class extends l{static styles=o`
+var r=Object.defineProperty;var n=(t,e,s)=>e in t?r(t,e,{enumerable:!0,configurable:!0,writable:!0,value:s}):t[e]=s;var o=(t,e,s)=>n(t,typeof e!="symbol"?e+"":e,s);import{html as l,css as a,LitElement as h}from"../lit-all.min.js";var i=class extends h{updated(){this.hideSeeMoreEls()}hideSeeMoreEls(){this.isMobile&&this.rows.forEach((e,s)=>{s>=5&&(e.style.display=this.showAll?"flex":"none")})}constructor(){super(),this.showAll=!1,this.mobileRows=this.mobileRows===void 0?5:this.mobileRows}toggle(){this.showAll=!this.showAll,this.dispatchEvent(new CustomEvent("hide-see-more-elements",{bubbles:!0,composed:!0})),this.requestUpdate()}render(){return l`<slot name="heading"></slot>
+            <slot name="content"></slot>
+            ${this.isMobile&&this.rows.length>this.mobileRows?l`<div @click=${this.toggle} class="see-more">
+                      ${this.showAll?"- See less":"+ See more"}
+                  </div>`:l``}`}get isMobile(){return window.matchMedia("(max-width: 767px)").matches}get rows(){return this.querySelectorAll("merch-mnemonic-list")}};o(i,"styles",a`
         :host {
             display: inline-grid;
             place-items: end start;
@@ -35,8 +39,4 @@ import{html as e,css as o,LitElement as l}from"../lit-all.min.js";var t=class ex
             color: var(--link-color-dark);
             margin-top: 16px;
         }
-    `;static properties={heading:{type:String,attribute:!0},mobileRows:{type:Number,attribute:!0}};updated(){this.hideSeeMoreEls()}hideSeeMoreEls(){this.isMobile&&this.rows.forEach((s,i)=>{i>=5&&(s.style.display=this.showAll?"flex":"none")})}constructor(){super(),this.showAll=!1,this.mobileRows=this.mobileRows===void 0?5:this.mobileRows}toggle(){this.showAll=!this.showAll,this.dispatchEvent(new CustomEvent("hide-see-more-elements",{bubbles:!0,composed:!0})),this.requestUpdate()}render(){return e`<slot name="heading"></slot>
-            <slot name="content"></slot>
-            ${this.isMobile&&this.rows.length>this.mobileRows?e`<div @click=${this.toggle} class="see-more">
-                      ${this.showAll?"- See less":"+ See more"}
-                  </div>`:e``}`}get isMobile(){return window.matchMedia("(max-width: 767px)").matches}get rows(){return this.querySelectorAll("merch-mnemonic-list")}};customElements.define("merch-whats-included",t);export{t as MerchWhatsIncluded};
+    `),o(i,"properties",{heading:{type:String,attribute:!0},mobileRows:{type:Number,attribute:!0}});customElements.define("merch-whats-included",i);export{i as MerchWhatsIncluded};

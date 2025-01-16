@@ -165,8 +165,8 @@ div[class*="-up"] .media .foreground > .media-row {
 }
 
 .media.qr-code .qr-button-container {
-  display: inline;
-  margin-right: var(--spacing-s);
+  display: inline-block;
+  margin: 0;
 }
 
 .media.qr-code .google-play,
@@ -179,7 +179,8 @@ div[class*="-up"] .media .foreground > .media-row {
   justify-content: center;
   padding: 0;
   display: inline-flex;
-  margin: var(--spacing-xs) var(--spacing-s) 0 0;
+  margin-top: var(--spacing-xs);
+  margin-inline-end: var(--spacing-s);
 }
 
 .media.qr-code .google-play {
@@ -475,7 +476,7 @@ div[class*="-up"] .media .foreground > .media-row {
   }
 }
 
-.media.in-modal > .container.foreground > .media-row {
+.media.in-modal:not(.space-between) > .container.foreground > .media-row {
   display: grid;
   gap: 0;
 }
@@ -503,7 +504,7 @@ div[class*="-up"] .media .foreground > .media-row {
 }
 
 @media (orientation: landscape) {
-  .media.in-modal > .container.foreground > .media-row {
+  .media.in-modal:not(.space-between) > .container.foreground > .media-row {
     grid-template-columns: 1fr 1fr;
   }
 

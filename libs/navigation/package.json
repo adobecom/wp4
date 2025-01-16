@@ -1,0 +1,16 @@
+{
+  "name": "@adobecom/standalone-feds",
+  "version": "0.0.2",
+  "description": "",
+  "main": "dist/navigation.js",
+  "type": "module",
+  "scripts": {
+    "build": "node ./build.mjs"
+  },
+  "files": ["dist"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "esbuild": "0.24.0"
+  }
+}

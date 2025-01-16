@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Merch Card Web Component demo page</title>
+    <script>
+        window.process = {
+            env: {},
+        };
+    </script>
+    <style>
+        main {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-direction: column;
+            padding-top: 80px;
+        }
+
+        main>div {
+            display: initial;
+        }
+
+        #sidenav {
+            display: none;
+        }
+
+        @media screen and (min-width: 1440px) {
+            #sidenav {
+                flex: 1;
+                justify-content: stretch;
+                padding-top: 8px;
+                display: flex;
+                position: fixed;
+                bottom: 0px;
+                left: 0px;
+                gap: 20px;
+                flex-direction: column;
+                width: 220px;
+            }
+        }
+
+        #firstcards {
+            background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(140, 43, 95, 0.4430147058823529) 35%, rgba(0, 212, 255, 1) 100%);
+        }
+    </style>
+</head>
+
+<body>
+    <script type="module" src="./merch-card.special-offer.test.html.js"></script>
+    <main>
+        <div id="sidenav">
+            <button onclick="toggleRTL()">Toggle RTL</button>
+            <button onclick="skipTests()">Skip tests</button>
+            <button onclick="runTests()">Run tests</button>
+        </div>
+        <div id="firstcards" class="three-merch-cards special-offers">
+            <h2 style="grid-column: span 1 / -1; text-align: center;">Three cards</h2>
+            <merch-card class="intro-pricing" types="web,mobile" variant="special-offers" badge-color="#EDCC2D"
+                badge-background-color="#000000" badge-text="Best value">
+                <h4 slot="detail-m" id="individuals">INDIVIDUALS</h4>
+                <h3 slot="heading-xs">Save over 30% on Creative Cloud All Apps.</h3>
+                <h3 slot="heading-xs"><span is="inline-price" data-display-per-unit="false"
+                        data-display-recurrence="true" data-display-tax="false" data-wcs-osi="puf"></span></h3>
+                <div slot="body-xs">
+                    <p>Get 20+ creative apps and save big when you choose a yearly plan instead of a monthly plan.</p>
+                    <p><a href="https://adobe.com/">See terms.</a></p>
+                </div>
+                <div slot="footer">
+                    <a href="https://business.adobe.com/" class="con-button blue">Save now</a>
+                </div>
+                <div slot="bg-image" class="bgimage">
+                    <picture>
+                        <source type="image/webp" srcset="../img/special-offers-img.webp"
+                            media="(min-width: 600px)">
+                        <source type="image/webp" srcset="../img/special-offers-img.webp">
+                        <source type="image/png" srcset="../img/special-offers-img.png" media="(min-width: 600px)">
+                        <img loading="lazy" alt="" src="../img/special-offers-img.png" width="750" height="357">
+                    </picture>
+                </div>
+            </merch-card>
+            <merch-card name="illustrator" types="tablet,desktop" variant="special-offers">
+                <h4 slot="detail-m" id="individuals1">STUDENTS AND TEACHERS</h4>
+                <h3 slot="heading-xs">Save over 60% on Creative Cloud All Apps.</h3>
+                <div slot="body-xs">
+                    <p>Get 20+ apps — including Photoshop, Premiere Pro, and Illustrator — and save big for the first
+                        year.
+                    </p>
+                    <p>Get 20+ apps — including Photoshop, Premiere Pro, and Illustrator — and save big for the first
+                        year.
+                    </p>
+                    <p>Get 20+ apps — including Photoshop, Premiere Pro, and Illustrator — and save big for the first
+                        year.
+                    </p>
+                </div>
+                <div slot="footer">
+                    <a href="https://business.adobe.com/" class="con-button blue">Save now</a>
+                </div>
+                <div slot="bg-image">
+                    <picture>
+                        <source type="image/webp" srcset="../img/special-offers-img2.webp"
+                            media="(min-width: 600px)">
+                        <source type="image/webp" srcset="../img/special-offers-img2.webp">
+                        <source type="image/png" srcset="../img/special-offers-img2.png"
+                            media="(min-width: 600px)">
+                        <img loading="lazy" alt="" src="../img/special-offers-img2.png" width="750" height="357">
+                    </picture>
+                </div>
+            </merch-card>
+            <merch-card types="web,desktop" variant="special-offers">
+                <h4 slot="detail-m" id="individuals1">INDIVIDUALS</h4>
+                <h3 slot="heading-xs">
+                    <p>Get 10% off Photoshop.</p>
+                </h3>
+                <h3 slot="heading-xs">
+                    <p>US$19.99/mo US$54.99/mo</p>
+                </h3>
+                <div slot="body-xs">
+                    <p>Create gorgeous images, rich graphics, and incredible art. Save 10% for the first year. Ends Mar
+                        20.
+                    </p>
+                    <p><a href="https://adobe.com/">See terms.</a></p>
+                </div>
+                <div slot="footer">
+                    <a href="https://business.adobe.com/" class="con-button blue">Save now</a>
+                </div>
+                <div slot="bg-image">
+                    <picture>
+                        <source type="image/webp" srcset="../img/special-offers-img.webp"
+                            media="(min-width: 600px)">
+                        <source type="image/webp" srcset="../img/special-offers-img.webp">
+                        <source type="image/png" srcset="../img/special-offers-img.png" media="(min-width: 600px)">
+                        <img loading="lazy" alt="" src="../img/special-offers-img.png" width="750" height="357">
+                    </picture>
+                </div>
+            </merch-card>
+        </div>
+        <div class="two-merch-cards special-offers">
+            <merch-card size="wide" types="mobile,tablet" variant="special-offers" badge-color="#EDCC2D"
+                badge-background-color="#000000"" badge-text=" Best value" detail-bg='#0ba307' type="super-wide">
+                <h4 slot="detail-m" id="individuals1">INDIVIDUALS</h4>
+                <h3 slot="heading-xs">
+                    <p>Get 10% off Photoshop.</p>
+                </h3>
+                <h3 slot="heading-xs">
+                    <p>US$19.99/mo US$54.99/mo</p>
+                </h3>
+                <div slot="body-xs">
+                    <p>Create gorgeous images, rich graphics, and incredible art. Save 10% for the first year. Ends Mar
+                        20.
+                    </p>
+                    <p><a href="https://adobe.com/">See terms.</a></p>
+                </div>
+                <div slot="footer">
+                    <a href="https://business.adobe.com/" class="con-button blue">Save now</a>
+                </div>
+                <div slot="bg-image">
+                    <picture>
+                        <source type="image/webp" srcset="../img/special-offers-img.webp"
+                            media="(min-width: 600px)">
+                        <source type="image/webp" srcset="../img/special-offers-img.webp">
+                        <source type="image/png" srcset="../img/special-offers-img.png" media="(min-width: 600px)">
+                        <img loading="lazy" alt="" src="../img/special-offers-img.png" width="750" height="357">
+                    </picture>
+                </div>
+            </merch-card>
+        </div>
+        <div class="three-merch-cards special-offers">
+            <merch-card size="super-wide" types="mobile,tablet" variant="special-offers" badge-color="#EDCC2D"
+                badge-background-color="#000000"" badge-text=" Best value" detail-bg='#0ba307' type="super-wide">
+                <h4 slot="detail-m" id="individuals1">INDIVIDUALS</h4>
+                <h3 slot="heading-xs">
+                    <p>Get 10% off Photoshop.</p>
+                </h3>
+                <h3 slot="heading-xs">
+                    <p>US$19.99/mo US$54.99/mo</p>
+                </h3>
+                <div slot="body-xs">
+                    <p>Create gorgeous images, rich graphics, and incredible art. Save 10% for the first year. Ends Mar
+                        20.
+                    </p>
+                    <p><a href="https://adobe.com/">See terms.</a></p>
+                </div>
+                <div slot="footer">
+                    <a href="https://business.adobe.com/" class="con-button blue">Save now</a>
+                </div>
+                <div slot="bg-image">
+                    <picture>
+                        <source type="image/webp" srcset="../img/special-offers-img.webp"
+                            media="(min-width: 600px)">
+                        <source type="image/webp" srcset="../img/special-offers-img.webp">
+                        <source type="image/png" srcset="../img/special-offers-img.png" media="(min-width: 600px)">
+                        <img loading="lazy" alt="" src="../img/special-offers-img.png" width="750" height="357">
+                    </picture>
+                </div>
+            </merch-card>
+        </div>
+    </main>
+</body>
+</html>

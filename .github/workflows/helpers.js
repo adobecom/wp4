@@ -3,36 +3,7 @@
 const owner = process.env.REPO_OWNER || ''; // example owner: adobecom
 const repo = process.env.REPO_NAME || ''; // example repo name: milo
 const auth = process.env.GH_TOKEN || ''; // https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
-const CURRENT_YEAR = 2024;
 const RCPDates = [
-  {
-    start: new Date('2024-05-26T00:00:00-07:00'),
-    end: new Date('2024-06-01T00:00:00-07:00'),
-  },
-  {
-    start: new Date('2024-06-13T11:00:00-07:00'),
-    end: new Date('2024-06-13T14:00:00-07:00'),
-  },
-  {
-    start: new Date('2024-06-30T00:00:00-07:00'),
-    end: new Date('2024-07-06T00:00:00-07:00'),
-  },
-  {
-    start: new Date('2024-08-25T00:00:00-07:00'),
-    end: new Date('2024-08-31T00:00:00-07:00'),
-  },
-  {
-    start: new Date('2024-09-12T11:00:00-07:00'),
-    end: new Date('2024-09-12T14:00:00-07:00'),
-  },
-  {
-    start: new Date('2024-10-07T00:00:00-07:00'),
-    end: new Date('2024-10-18T17:00:00-07:00'),
-  },
-  {
-    start: new Date('2024-11-17T00:00:00-08:00'),
-    end: new Date('2024-11-30T00:00:00-08:00'),
-  },
   {
     start: new Date('2024-12-12T11:00:00-08:00'),
     end: new Date('2024-12-12T14:00:00-08:00'),
@@ -41,19 +12,74 @@ const RCPDates = [
     start: new Date('2024-12-15T00:00:00-08:00'),
     end: new Date('2025-01-02T00:00:00-08:00'),
   },
+  {
+    start: new Date('2025-02-23T00:00:00-08:00'),
+    end: new Date('2025-03-01T00:00:00-08:00'),
+  },
+  {
+    start: new Date('2025-03-12T11:00:00-07:00'),
+    end: new Date('2025-03-12T14:00:00-07:00'),
+  },
+  {
+    start: new Date('2025-03-17T00:00:00-07:00'),
+    end: new Date('2025-03-20T17:00:00-07:00'),
+  },
+  {
+    start: new Date('2025-05-25T00:00:00-07:00'),
+    end: new Date('2025-05-31T00:00:00-07:00'),
+  },
+  {
+    start: new Date('2025-06-12T11:00:00-07:00'),
+    end: new Date('2025-06-12T14:00:00-07:00'),
+  },
+  {
+    start: new Date('2025-06-29T00:00:00-07:00'),
+    end: new Date('2025-07-05T00:00:00-07:00'),
+  },
+  {
+    start: new Date('2025-08-24T00:00:00-07:00'),
+    end: new Date('2025-08-30T00:00:00-07:00'),
+  },
+  {
+    start: new Date('2025-09-11T11:00:00-07:00'),
+    end: new Date('2025-09-11T14:00:00-07:00'),
+  },
+  {
+    start: new Date('2025-10-06T00:00:00-07:00'),
+    end: new Date('2025-10-16T17:00:00-07:00'),
+  },
+  {
+    start: new Date('2025-11-16T00:00:00-08:00'),
+    end: new Date('2025-11-29T00:00:00-08:00'),
+  },
+  {
+    start: new Date('2025-12-10T11:00:00-08:00'),
+    end: new Date('2025-12-10T14:00:00-08:00'),
+  },
+  {
+    start: new Date('2025-12-14T00:00:00-08:00'),
+    end: new Date('2026-01-04T00:00:00-08:00'),
+  },
 ];
 
-const isWithinRCP = (offset = 0) => {
+const isShortRCP = (start, end) => {
+  return ((end - start) / (1000 * 60 * 60)) < 24;
+};
+
+const isWithinRCP = ({ offset = 0, excludeShortRCP = false } = {}) => {
   const now = new Date();
-  if (now.getFullYear() !== CURRENT_YEAR) {
-    console.log(`ADD NEW RCPs for ${CURRENT_YEAR + 1}`);
+  const lastRcpDate = RCPDates.reverse()[0];
+  if (now > lastRcpDate.end) {
+    console.log('ADD NEW RCPs for the current year');
     return true;
   }
 
   if (RCPDates.some(({ start, end }) => {
     const adjustedStart = new Date(start);
     adjustedStart.setDate(adjustedStart.getDate() - offset);
-    return start <= now && now <= end
+    const match = adjustedStart <= now && now <= end;
+    if (!match || (excludeShortRCP && isShortRCP(start, end))) return false;
+    return true;
   })) {
     console.log(
       'Current date is within a RCP (2 days earlier for stage, to keep stage clean & make CSO contributions during an RCP easier). Stopping execution.'
@@ -148,5 +174,7 @@ module.exports = {
   getLocalConfigs,
   slackNotification,
   pulls: { addLabels, addFiles, getChecks, getReviews },
+  isShortRCP,
   isWithinRCP,
+  RCPDates,
 };

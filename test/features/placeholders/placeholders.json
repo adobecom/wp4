@@ -22,6 +22,18 @@
     {
       "key": "empty-value",
       "value": ""
+    },
+    {
+      "key": "add-to-cart",
+      "value": "Add to cart",
+      "color": "",
+      "url": ""
+    },
+    {
+      "key": "adobe-apps",
+      "value": "Adobe Apps",
+      "color": "",
+      "url": ""
     }
   ],
   ":type": "sheet"

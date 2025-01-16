@@ -1,0 +1,125 @@
+
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+  <title>M@S Benchmarks</title>
+  <script>
+    performance.mark('benchmark:start')
+    window.commercePromise = new Promise((resolve) => {
+      document.addEventListener('wcms:commerce:ready', () => {
+        //we measure the time it takes to load the commerce bundle and store it in a global variable
+        window.initTime = performance.measure('initTime', 'benchmark:start', 'mas:ready').duration;
+        console.log(`Commerce loaded in ${window.initTime}ms`);
+        resolve();
+      });
+    });
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://use.typekit.net/hah7vzn.css">
+    <!-- Include any additional stylesheets -->
+    <link rel="stylesheet" href="spectrum.css">
+    <link rel="stylesheet" href="styles.css">
+    <script type="module">
+      import { init } from './common.js';
+      init();
+    </script>
+</head>
+
+<script>
+  const measureCardPerformances = async (container, fragmentId) => {
+    return new Promise((resolve, reject) => {
+      const result = {};
+      const card = document.createElement('merch-card');
+      const fragment = document.createElement('aem-fragment');
+      fragment.setAttribute('fragment', fragmentId);
+      card.appendChild(fragment);
+      let timeoutId;
+      const onReady = () => {
+        clearTimeout(timeoutId);
+        const mark = (suffix) => `merch-card:${fragmentId}:${suffix}`;
+        result.duration = performance.measure(fragmentId, mark('start'), mark('ready')).duration;
+        console.log(`Card ${fragmentId} loaded in ${result.duration}ms`);
+        resolve(result);
+      };
+      card.addEventListener('mas:ready', onReady);    
+      timeoutId = setTimeout(() => {
+        card.removeEventListener('mas:ready', onReady);
+        result.timedOut = true;
+        console.log(`Card ${fragmentId} timed out`);
+        reject('Timed out');
+      }, 5000); // Timeout after 5 seconds
+      container.appendChild(card);
+      result.card = card;    
+    });
+  };
+  const fillContainer = async (container) => {
+    const fragmentIds = container.getAttribute('data-benchmark').split(',');
+    let limit = parseFloat(container.getAttribute('data-benchmark-limit')); 
+    const adjust = new URL(window.location.href).searchParams.get('adjust') === 'true';
+    if (adjust) {
+      //if adjust is set to true, we adjust the limit based on the stored initTime and
+      //reference time of 82ms it took on a quick network. This way, we should not be
+      //affected by network speed when comparing benchmarks to limit.
+      const referentInitialTime = 82.0;
+      const previousLimit = limit;
+      if (referentInitialTime < window.initTime) {
+        limit = limit * window.initTime / referentInitialTime;
+        container.setAttribute('data-benchmark-limit', limit);
+        container.setAttribute('data-benchmark-previous-limit', previousLimit);
+        console.log(`Adjusted limit ${previousLimit} to ${limit}`);
+      } else {
+        console.log('No need to adjust limit');
+      }
+    }
+    const promises = fragmentIds.map((fragmentId) => measureCardPerformances(container, fragmentId));
+    const results = await Promise.allSettled(promises);
+    results.forEach((result) => {
+      const { card, duration } = result.status === 'fulfilled' ? result.value : {};
+      const mask = document.createElement('div');
+      mask.style.position = 'absolute';
+      mask.style.width = card.offsetWidth + 'px';
+      mask.style.height = card.offsetHeight + 'px';
+      mask.style.top = card.offsetTop + 'px';
+      mask.style.left = card.offsetLeft + 'px';
+      mask.textContent = `⏱️  ${duration}ms`;
+      mask.classList.add('benchmark-mask');
+      mask.setAttribute('data-benchmark-time', duration);
+      mask.classList.add(duration > limit ? 'benchmark-mask-over-limit' : 'benchmark-mask-under-limit');
+      container.appendChild(mask);  
+    });        
+  }
+</script>
+
+<body class="spectrum spectrum--medium spectrum--light">
+  <aside class="sidenav">
+    <a href="/libs/features/mas/docs/mas.html">Home</a>
+    <a href="/libs/features/mas/docs/mas.js.html">mas.js</a>
+    <a href="/libs/features/mas/docs/checkout-link.html">Checkout Link</a>
+    <a href="/libs/features/mas/docs/inline-price.html">Inline Price</a>
+    <a href="/libs/features/mas/docs/merch-card.html">Merch Card</a>
+    <a href="/libs/features/mas/docs/ccd.html">CCD Gallery</a>
+    <a href="/libs/features/mas/docs/benchmarks.html">Benchmarks</a>
+  </aside>
+  <main>
+      <div class="gallery-content">
+        <h1 id="ccd-cards" tabindex="-1">CCD cards benchmark<a class="header-cards" href="#ccd-cards" href="#ccd-cards" title="Permalink to this heading">#</a></h1>
+        Marked as green if below each container limit, red otherwise. If you are running this page under a slow network, <a href="/libs/features/mas/docs/benchmarks.html?adjust=true">you can adjust the limit by adding <code>?adjust=true</code> to the URL.</a>      
+        <div class="three-merch-cards ccd-slice"         
+          data-benchmark="0ef2a804-e788-4959-abb8-b4d96a18b0ef,58c7906f-70a6-4e2b-bc29-257ff2ade513,51c23f28-504f-450d-9764-0e60f1e279b2,c13897c7-de77-4e45-b23b-eec9fd66cad1,bdf40d06-5914-4f1f-aa10-77c5676fe671,31205553-b453-4c9e-a2ef-7b6aa7bfdc72"
+          data-benchmark-limit="400">
+        </div>
+      </div>
+      <script>
+        window.commercePromise.then(() => {
+            const promises = Array.from(document.querySelectorAll('[data-benchmark]')).map((c) => fillContainer(c));
+            Promise.allSettled(promises).then((containers) => {
+              console.log('All containers have been processed');
+              const event = new Event('benchmark-done');
+              document.querySelector('body').dispatchEvent(event);
+            });
+          });
+      </script>
+  </main>
+</body>
+</html>

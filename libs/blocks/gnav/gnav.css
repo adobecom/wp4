@@ -106,14 +106,17 @@ header button.gnav-toggle {
 header .gnav-wrapper a.gnav-brand {
   width: 56px;
   grid-area: header;
-  justify-self: center;
   display: flex;
-  justify-content: center;
   align-items: center;
   color: #eb1000;
   font-size: 16px;
   line-height: 16px;
   font-weight: 700;
+  margin-left: 56px;
+}
+
+header .gnav-wrapper a.gnav-brand.brand-image-only {
+  width: auto;
 }
 
 header .gnav-wrapper a.gnav-brand.light {
@@ -123,6 +126,12 @@ header .gnav-wrapper a.gnav-brand.light {
 header a.gnav-brand svg,
 header a.gnav-brand img {
   width: 27px;
+}
+
+header a.gnav-brand.brand-image-only svg,
+header a.gnav-brand.brand-image-only img {
+  width: auto;
+  height: 36px;
 }
 
 header span.gnav-brand-title {
@@ -928,6 +937,7 @@ header .app-launcher {
     width: unset;
     grid-area: brand;
     padding-right: 20px;
+    margin-left: auto;
   }
 
   .gnav-wrapper span.gnav-brand-title {

@@ -6,11 +6,10 @@ import { init } from '../../../libs/features/personalization/personalization.js'
 import mepSettings from './mepSettings.js';
 
 document.body.innerHTML = await readFile({ path: './mocks/personalization.html' });
+const config = getConfig();
+config.env = { name: 'prod' };
 
 it('pageFilter should exclude page if it is not a match', async () => {
-  const config = getConfig();
-  config.env = { name: 'prod' };
-
   let manifestJson = await readFile({ path: './mocks/manifestPageFilterExclude.json' });
   manifestJson = JSON.parse(manifestJson);
   const replacePageHtml = await readFile({ path: './mocks/fragments/replacePage.plain.html' });
@@ -24,7 +23,7 @@ it('pageFilter should exclude page if it is not a match', async () => {
       });
     }),
   );
-  window.fetch.onCall(1).returns(
+  window.fetch.onCall(2).returns(
     new Promise((resolve) => {
       resolve({
         ok: true,
@@ -44,9 +43,6 @@ it('pageFilter should exclude page if it is not a match', async () => {
 });
 
 it('pageFilter should include page if it is a match', async () => {
-  const config = getConfig();
-  config.env = { name: 'prod' };
-
   let manifestJson = await readFile({ path: './mocks/manifestPageFilterInclude.json' });
   manifestJson = JSON.parse(manifestJson);
   const replacePageHtml = await readFile({ path: './mocks/fragments/replacePage.plain.html' });
@@ -60,7 +56,7 @@ it('pageFilter should include page if it is a match', async () => {
       });
     }),
   );
-  window.fetch.onCall(1).returns(
+  window.fetch.onCall(2).returns(
     new Promise((resolve) => {
       resolve({
         ok: true,

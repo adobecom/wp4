@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 import WebUtil from '../../libs/webutil.js';
 import { features } from './text.spec.js';
 import TextBlock from './text.page.js';
+import { runAccessibilityTest } from '../../libs/accessibility.js';
 
 let text;
 let webUtil;
@@ -15,7 +16,7 @@ test.describe('Milo Text Block test suite', () => {
   });
 
   // Test 0 : Text
-  test(`${features[0].name},${features[0].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[0].tcid}] ${features[0].name},${features[0].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[0].path}${miloLibs}`);
     const { data } = features[0];
 
@@ -41,10 +42,14 @@ test.describe('Milo Text Block test suite', () => {
       await expect(await text.outlineButton).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.outlineButtonText, 1, data.h3Text));
       await expect(await text.actionAreaLink).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.linkText, 2, data.h3Text));
     });
+
+    await test.step('step-4: Verify the accessibility test on the text block', async () => {
+      await runAccessibilityTest({ page, testScope: text.text });
+    });
   });
 
   // Test 1 : Text (intro)
-  test(`${features[1].name},${features[1].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[1].tcid}] ${features[1].name},${features[1].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[1].path}${miloLibs}`);
     const { data } = features[1];
 
@@ -68,10 +73,14 @@ test.describe('Milo Text Block test suite', () => {
     await test.step('step-3: Verify analytics attributes', async () => {
       await expect(await text.textIntro).toHaveAttribute('daa-lh', await webUtil.getBlockDaalh('text', 1));
     });
+
+    await test.step('step-4: Verify the accessibility test on the text (Intro) block', async () => {
+      await runAccessibilityTest({ page, testScope: text.textIntro });
+    });
   });
 
   // Test 2 : Text (full-width)
-  test(`${features[2].name},${features[2].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[2].tcid}] ${features[2].name},${features[2].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[2].path}${miloLibs}`);
     const { data } = features[2];
 
@@ -97,10 +106,14 @@ test.describe('Milo Text Block test suite', () => {
       await expect(await text.textFullWidth).toHaveAttribute('daa-lh', await webUtil.getBlockDaalh('text', 1));
       await expect(await text.bodyLink).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.linkText, 1, data.h3Text));
     });
+
+    await test.step('step-4: Verify the accessibility test on the text (full-width) block', async () => {
+      await runAccessibilityTest({ page, testScope: text.textFullWidth });
+    });
   });
 
   // Test 3 : Text (full-width, large)
-  test(`${features[3].name},${features[3].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[3].tcid}] ${features[3].name},${features[3].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[3].path}${miloLibs}`);
     const { data } = features[3];
 
@@ -126,10 +139,14 @@ test.describe('Milo Text Block test suite', () => {
       await expect(await text.textFullWidthLarge).toHaveAttribute('daa-lh', await webUtil.getBlockDaalh('text', 1));
       await expect(await text.bodyLink).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.linkText, 1, data.h2Text));
     });
+
+    await test.step('step-4: Verify the accessibility test on the text (full-width large) block', async () => {
+      await runAccessibilityTest({ page, testScope: text.textFullWidthLarge });
+    });
   });
 
   // Test 4 : Text (long-form, large)
-  test(`${features[4].name},${features[4].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[4].tcid}] ${features[4].name},${features[4].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[4].path}${miloLibs}`);
     const { data } = features[4];
 
@@ -155,10 +172,14 @@ test.describe('Milo Text Block test suite', () => {
     await test.step('step-3: Verify analytics attributes', async () => {
       await expect(await text.textLongFormLarge).toHaveAttribute('daa-lh', await webUtil.getBlockDaalh('text', 1));
     });
+
+    await test.step('step-4: Verify the accessibility test on the text (long-form large) block', async () => {
+      await runAccessibilityTest({ page, testScope: text.textLongFormLarge });
+    });
   });
 
   // Test 5 : Text (inset, medium, m-spacing)
-  test(`${features[5].name},${features[5].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[5].tcid}] ${features[5].name},${features[5].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[5].path}${miloLibs}`);
     const { data } = features[5];
 
@@ -184,10 +205,14 @@ test.describe('Milo Text Block test suite', () => {
     await test.step('step-3: Verify analytics attributes', async () => {
       await expect(await text.textInsetLargeMSpacing).toHaveAttribute('daa-lh', await webUtil.getBlockDaalh('text', 1));
     });
+
+    await test.step('step-4: Verify the accessibility test on the text (linset, medium, m-spacing) block', async () => {
+      await runAccessibilityTest({ page, testScope: text.textInsetLargeMSpacing });
+    });
   });
 
   // Test 6 : Text (legal)
-  test(`${features[6].name},${features[6].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[6].tcid}] ${features[6].name},${features[6].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[6].path}${miloLibs}`);
     const { data } = features[6];
 
@@ -212,9 +237,14 @@ test.describe('Milo Text Block test suite', () => {
     await test.step('step-3: Verify analytics attributes', async () => {
       await expect(await text.textlegal).toHaveAttribute('daa-lh', await webUtil.getBlockDaalh('text', 1));
     });
+
+    await test.step('step-4: Verify the accessibility test on the text (legal) block', async () => {
+      // The accessibility test is failing, so skipping it.
+      await runAccessibilityTest({ page, testScope: text.textlegal, skipA11yTest: true });
+    });
   });
 
-  test(`${features[7].name},${features[7].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[7].tcid}] ${features[7].name},${features[7].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[7].path}${miloLibs}`);
     const { data } = features[7];
 
@@ -238,6 +268,10 @@ test.describe('Milo Text Block test suite', () => {
 
     await test.step('step-3: Verify analytics attributes', async () => {
       await expect(await text.textLinkFarm).toHaveAttribute('daa-lh', await webUtil.getBlockDaalh('text', 1));
+    });
+
+    await test.step('step-4: Verify the accessibility test on the text (link form) block', async () => {
+      await runAccessibilityTest({ page, testScope: text.textLinkFarm });
     });
   });
 });

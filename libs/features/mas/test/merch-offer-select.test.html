@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Merch Offers Web Component demo page</title>
+    <link
+    rel="stylesheet"
+    href="http://localhost:2023/__wds-outside-root__/2/styles/styles.css" />
+    <script>
+        window.process = {
+            env: {},
+        };
+    </script>
+    <style>
+        main {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-direction: column;
+            padding: 40px;
+        }
+
+        main>div {
+            display: initial;
+        }
+    </style>
+</head>
+
+<body>
+    <script type="module" src="./merch-offer-select.test.html.js"></script>
+    <main></main>
+    <template id="card1">
+        <merch-card variant="plans" badge-color="#000000" badge-background-color="#EDCC2D" badge-text="Recommended"
+            secure-label="Secure Transaction">
+            <h4 slot="heading-xs">Acrobat Pro</h4>
+            <div slot="body-xs">
+                <p slot="description">Access advanced PDF.</p>
+                <h4>
+                    <span slot="price"></span>
+                </h4>
+                <merch-offer-select container="merch-card">
+                    <merch-offer text="Annual, monthly payment">
+                        <span slot="price" is="inline-price" data-display-per-unit="false"
+                            data-display-recurrence="true" data-display-tax="false" data-template="priceOptical"
+                            data-wcs-osi="abm"></span>
+                        <a slot="cta" is="checkout-link" data-checkout-workflow="UCv3"
+                            data-checkout-workflow-step="email" data-quantity="1" data-wcs-osi="abm"
+                            class="con-button blue">Buy now 1</a>
+                    </merch-offer>
+                    <merch-offer text="Annual, one-time payment" badge-text="Only today!">
+                        <span slot="price" is="inline-price" data-display-per-unit="false"
+                            data-display-recurrence="true" data-display-tax="false" data-template="priceOptical"
+                            data-wcs-osi="puf"></span>
+                        <a slot="cta" is="checkout-link" data-checkout-workflow="UCv3"
+                            data-checkout-workflow-step="segmentation" data-quantity="1" data-wcs-osi="puf"
+                            class="con-button blue">Buy now 2</a>
+                        <p slot="description">
+                            New Description text.
+                        </p>
+                    </merch-offer>
+                    <merch-offer text="Monthly, without commitment" badge-text="">
+                        <span slot="price" is="inline-price" data-display-per-unit="false"
+                            data-display-recurrence="true" data-display-tax="false" data-template="priceOptical"
+                            data-wcs-osi="m2m"></span>
+                        <div></div>
+                        <a slot="cta" is="checkout-link" data-checkout-workflow="UCv3"
+                            data-checkout-workflow-step="email" data-quantity="1" data-wcs-osi="m2m"
+                            class="con-button blue">Buy now 3</a>
+                    </merch-offer>
+                </merch-offer-select>
+            </div>
+            <div slot="footer">
+                <a slot="cta"></a>
+            </div>
+        </merch-card>
+    </template>
+    <template id="card2">
+        <merch-card variant="plans" badge-color="#000000" badge-background-color="#EDCC2D" badge-text="Recommended"
+            secure-label="Secure Transaction">
+            <h4 slot="heading-xs">Acrobat Pro</h4>
+
+            <body>
+                <div slot="body-xs">
+                    <h4>
+                        <span slot="price"></span>
+                    </h4>
+                    <p slot="description">Access advanced PDF.</p>
+                </div>
+            </body>
+            <div slot="quantity-select">
+                <merch-quantity-select title="Select a quantity" min="1" max="3" step="1">
+                    <merch-offer-select container="merch-card">
+                        <merch-offer value=1>
+                            <span slot="price" is="inline-price" data-display-per-unit="false"
+                                data-display-recurrence="true" data-display-tax="false" data-template="priceOptical"
+                                data-wcs-osi="abm"></span>
+                            <a slot="cta" is="checkout-link" data-checkout-workflow="UCv3"
+                                data-checkout-workflow-step="email" data-quantity="1" data-wcs-osi="abm"
+                                class="con-button blue">Buy now 1</a>
+                        </merch-offer>
+                        <merch-offer value=3>
+                            <span slot="price" is="inline-price" data-display-per-unit="false"
+                                data-display-recurrence="true" data-display-tax="false" data-template="priceOptical"
+                                data-wcs-osi="m2m"></span>
+                            <a slot="cta" is="checkout-link" data-checkout-workflow="UCv3"
+                                data-checkout-workflow-step="segmentation" data-quantity="1" data-wcs-osi="puf"
+                                class="con-button blue">Buy now 2</a>
+                        </merch-offer>
+                    </merch-offer-select>
+                </merch-quantity-select>
+            </div>
+            <div slot="footer">
+                <a slot="cta"></a>
+            </div>
+        </merch-card>
+    </template>
+    <template id="card3">
+        <merch-card class="photography" variant="plans">
+            <h4 slot="heading-xs">Photography</h4>
+            <div slot="body-xs">
+                <p slot="description">Photography</p>
+                <h4>
+                    <span slot="price"></span>
+                </h4>
+                <p>Storage:</p>
+                <merch-offer-select variant="horizontal" container="merch-card">
+                    <merch-offer text="20GB">
+                        <span slot="price" is="inline-price" data-display-per-unit="false" data-wcs-osi="20gb"></span>
+                        <a slot="secondary-cta" is="checkout-link" data-checkout-workflow="UCv3"
+                            data-checkout-workflow-step="segmentation" data-quantity="1" data-wcs-osi="20gbtrial"
+                            class="con-button" daa-ll="Free trial-1|Heading XS 18/22 Med">Free trial</a>
+                        <a slot="cta" is="checkout-link" data-checkout-workflow="UCv3"
+                            data-checkout-workflow-step="email" data-quantity="1" data-wcs-osi="20gb"
+                            class="con-button blue">Buy now 1</a>
+                    </merch-offer>
+                    <merch-offer text="1TB">
+                        <span slot="price" is="inline-price" data-display-per-unit="false" data-wcs-osi="1tb"></span>
+                        <a slot="secondary-cta" is="checkout-link" data-checkout-workflow="UCv3"
+                            data-checkout-workflow-step="segmentation" data-quantity="1" data-wcs-osi="1tbtrial"
+                            class="con-button" daa-ll="Free trial-1|Heading XS 18/22 Med">Free trial</a>
+                        <a slot="cta" is="checkout-link" data-checkout-workflow="UCv3"
+                            data-checkout-workflow-step="segmentation" data-quantity="1" data-wcs-osi="1tb"
+                            class="con-button blue">Buy now 2</a>
+                        <p slot="description">
+                            1TB is way cooler than 20GB.
+                        </p>
+                    </merch-offer>
+                </merch-offer-select>
+            </div>
+            <div slot="footer">
+                <a slot="secondary-cta"></a>
+                <a slot="cta"></a>
+            </div>
+        </merch-card>
+    </template>
+</body>
+
+</html>

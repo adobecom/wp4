@@ -394,6 +394,25 @@ input[type="checkbox"] + label {
   line-height: 1.375em;
 }
 
+.dialog-modal .faas-form-confirm-overlay {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: #FBFBFB;
+  opacity: 0.5;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fade-in-to-opaque .5s ease-in;
+}
+
+.dialog-modal .faas-form-confirm-overlay .icon-milo.checkmark-green {
+  height: 44px;
+  animation: pulse 2s ease;
+}
+
+
 /* for mobile */
 @media (max-width:799.99px) {
   .faas-form label,
@@ -448,5 +467,30 @@ input[type="checkbox"] + label {
   .section.one-up-tablet .faas.column2 .faas-form .row.legal,
   .section.one-up-tablet .faas.column2 .faas-form .row:not(.submit).FaaS-35 {
     width: 100%;
+  }
+}
+
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.7);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(0.7);
+  }
+}
+
+@keyframes fade-in-to-opaque {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0.5;
   }
 }

@@ -8,6 +8,7 @@ import {
   arrayToObj,
   getPageLocale,
   getCountryAndLang,
+  stageMapToCaasTransforms,
 } from '../../../libs/blocks/caas/utils.js';
 
 const mockLocales = ['ar', 'br', 'ca', 'ca_fr', 'cl', 'co', 'la', 'mx', 'pe', '', 'africa', 'be_fr', 'be_en', 'be_nl',
@@ -161,6 +162,10 @@ describe('getConfig', () => {
     expect(config).to.be.eql({
       collection: {
         mode: 'lightest',
+        partialLoadWithBackgroundFetch: {
+          enabled: false,
+          partialLoadCount: 100,
+        },
         layout: { type: '4up', gutter: '4x', container: '1200MaxWidth' },
         button: { style: 'primary' },
         collectionButtonStyle: 'primary',
@@ -426,6 +431,10 @@ describe('getConfig', () => {
     expect(config).to.be.eql({
       collection: {
         mode: 'lightest',
+        partialLoadWithBackgroundFetch: {
+          enabled: false,
+          partialLoadCount: 100,
+        },
         layout: { type: '4up', gutter: '4x', container: '1200MaxWidth' },
         button: { style: 'primary' },
         collectionButtonStyle: 'primary',
@@ -674,6 +683,26 @@ describe('getConfig', () => {
       linkTransformer: {},
     });
   });
+
+  it('should pass stageDomainsMap as caasLinkTransformer on stage', async () => {
+    expect(stageMapToCaasTransforms({
+      env: { name: 'stage' },
+      stageDomainsMap: { localhost: { 'www.adobe.com': 'stage.adobe.com', 'business.adobe.com': 'origin' } },
+    })).to.eql({
+      enabled: true,
+      hostnameTransforms: [
+        { from: 'www.adobe.com', to: 'stage.adobe.com' },
+        { from: 'business.adobe.com', to: 'localhost' },
+      ],
+    });
+  });
+
+  it('should not pass stageDomainsMap as caasLinkTransformer on prod', async () => {
+    expect(stageMapToCaasTransforms({
+      env: { name: 'prod' },
+      stageDomainsMap: { localhost: { 'www.adobe.com': 'stage.adobe.com', 'business.adobe.com': 'origin' } },
+    })).to.eql({});
+  });
 });
 
 describe('getCountryAndLang', () => {
@@ -740,6 +769,21 @@ describe('getCountryAndLang', () => {
       locales: '',
     });
   });
+
+  it('should include partial load settings in the config', async () => {
+    const state = {
+      ...defaultState,
+      partialLoadEnabled: true,
+      partialLoadCount: 75,
+    };
+
+    const config = await getConfig(state, strings);
+
+    expect(config.collection.partialLoadWithBackgroundFetch).to.deep.equal({
+      enabled: true,
+      partialLoadCount: 75,
+    });
+  });
 });
 
 describe('getFloodgateCaasConfig', () => {
@@ -752,6 +796,10 @@ describe('getFloodgateCaasConfig', () => {
     expect(caasFgConfig).to.be.eql({
       collection: {
         mode: 'lightest',
+        partialLoadWithBackgroundFetch: {
+          enabled: false,
+          partialLoadCount: 100,
+        },
         layout: { type: '4up', gutter: '4x', container: '1200MaxWidth' },
         button: { style: 'primary' },
         collectionButtonStyle: 'primary',

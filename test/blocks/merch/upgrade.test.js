@@ -54,6 +54,23 @@ describe('Switch Modal (Upgrade Flow)', () => {
       modal?.dispatchEvent(new Event('closeModal'));
     });
 
+    it('updates the hash when modal opens, and restores it when modal closes', async () => {
+      const initialHash = window.location.hash;
+      const { handler } = await handleUpgradeOffer(
+        CTA_PRODUCT_FAMILY,
+        UPGRADE_OFFER,
+        ENTITLEMENTS,
+        CC_SINGLE_APPS_ALL,
+        CC_ALL_APPS,
+      );
+      window.location.hash = '#prev-hash';
+      await handler(new Event('click'), 'new-hash');
+      expect(window.location.hash).to.equal('#new-hash');
+      document.querySelector('.dialog-modal.upgrade-flow-modal').dispatchEvent(new Event('closeModal'));
+      expect(window.location.hash).to.equal('#prev-hash');
+      window.location.hash = initialHash;
+    });
+
     it('should return an upgrade action for PROD', async () => {
       const result = await handleUpgradeOffer(
         CTA_PRODUCT_FAMILY,
@@ -98,7 +115,7 @@ describe('Switch Modal (Upgrade Flow)', () => {
       expect(result).to.equal(undefined);
     });
 
-    it('should return undefined if user is has one of upgrade targets already', async () => {
+    it('should return undefined if user has one of upgrade targets already', async () => {
       const ENTITLEMENTS_WITH_UPGRADE_TARGET = [
         {
           offer: {

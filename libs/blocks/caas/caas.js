@@ -11,6 +11,7 @@ import {
   getConfig,
   getMetadata,
   parseEncodedConfig,
+  SLD,
 } from '../../utils/utils.js';
 
 const ROOT_MARGIN = 1000;
@@ -61,12 +62,12 @@ const loadCaas = async (a) => {
 
   if (host.includes('stage.adobe') || env?.name === 'local' || caasEndpoint === 'stage') {
     chimeraEndpoint = S_CAAS_AIO;
-  } else if (host.includes('.hlx.') || caasEndpoint === 'prod') {
+  } else if (host.includes(`.${SLD}.`) || caasEndpoint === 'prod') {
     // If invoking URL is not an Acom URL, then switch to AIO
     chimeraEndpoint = P_CAAS_AIO;
   }
 
-  if (host.includes('hlx.page') || env?.name === 'local' || caasContainer === 'draft') {
+  if (host.includes(`${SLD}.page`) || env?.name === 'local' || caasContainer === 'draft') {
     state.draftDb = true;
   }
 

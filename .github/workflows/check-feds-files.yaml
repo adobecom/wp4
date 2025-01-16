@@ -1,0 +1,25 @@
+name: Feds File Watch
+
+on:
+  pull_request_target:
+    types: [opened, labeled]
+
+env:
+  FEDS_WATCH_HOOK: ${{ secrets.FEDS_WATCH_HOOK }}
+
+jobs:
+  send_alert:
+    if: github.repository_owner == 'adobecom'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.ref }}
+
+      - name: Send Slack messages if a PR contains feds related files.
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const main = require('./.github/workflows/check-feds-files.js')
+            main({ github, context })

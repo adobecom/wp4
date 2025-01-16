@@ -29,6 +29,8 @@ export const loadPrivacy = async (getConfig, loadScript) => {
   const ids = {
     'hlx.page': '3a6a37fe-9e07-4aa9-8640-8f358a623271-test',
     'hlx.live': '926b16ce-cc88-4c6a-af45-21749f3167f3-test',
+    'aem.page': '01930689-3b6a-7d5f-9797-8df2c3901a05-test',
+    'aem.live': '01930691-c4e5-75ba-aa0e-721e1213c139-test',
   };
 
   const otDomainId = ids?.[Object.keys(ids)
@@ -49,7 +51,7 @@ export const loadPrivacy = async (getConfig, loadScript) => {
   });
 };
 
-export const loadGoogleLogin = async (getMetadata, loadIms, loadScript) => {
+export const loadGoogleLogin = async (getMetadata, loadIms, loadScript, getConfig) => {
   const googleLogin = getMetadata('google-login')?.toLowerCase();
   if (window.adobeIMS?.isSignedInUser() || !['mobile', 'desktop', 'on'].includes(googleLogin)) return;
   const desktopViewport = window.matchMedia('(min-width: 900px)').matches;
@@ -57,7 +59,7 @@ export const loadGoogleLogin = async (getMetadata, loadIms, loadScript) => {
   if (googleLogin === 'desktop' && !desktopViewport) return;
 
   const { default: initGoogleLogin } = await import('../features/google-login.js');
-  initGoogleLogin(loadIms, getMetadata, loadScript);
+  initGoogleLogin(loadIms, getMetadata, loadScript, getConfig);
 };
 
 /**
@@ -73,7 +75,7 @@ const loadDelayed = ([
   setTimeout(() => {
     loadPrivacy(getConfig, loadScript);
     loadJarvisChat(getConfig, getMetadata, loadScript, loadStyle);
-    loadGoogleLogin(getMetadata, loadIms, loadScript);
+    loadGoogleLogin(getMetadata, loadIms, loadScript, getConfig);
     if (getMetadata('interlinks') === 'on') {
       const { locale } = getConfig();
       const path = `${locale.contentRoot}/keywords.json`;
@@ -82,7 +84,7 @@ const loadDelayed = ([
     } else {
       resolve(null);
     }
-    import('../utils/samplerum.js').then(({ sampleRUM }) => sampleRUM('cwv'));
+    import('../utils/samplerum.js').then(({ sampleRUM }) => sampleRUM());
   }, DELAY);
 });
 

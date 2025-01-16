@@ -6,7 +6,6 @@
   color: #eee;
   font-weight: 600;
   font-size: 24px;
-  counter-reset: preview;
   display: block !important;
 }
 
@@ -37,6 +36,10 @@
 
 .mep-popup-header > div > div:not(.mep-manifest-page-info-title) {
   padding-left: 15px;
+}
+
+.mep-popup, .mep-badge {
+  direction: ltr;
 }
 
 @media screen and (max-width: 599px) {
@@ -118,6 +121,9 @@
 }
 
 .mep-popup {
+  font-size: 14px;
+}
+.mep-popup.in-page {
   position: absolute;
   bottom: 64px;
   left: -8px;
@@ -129,20 +135,22 @@
 }
 
 .mep-popup a.mep-edit-manifest {
-  position: absolute;
-  display: block;
-  right: 0;
-  top: 0;
+  position: relative; 
+  margin-left: 6px;
   cursor: pointer;
+  color: inherit;
 }
 
 .mep-popup .mep-popup-header {
   display: flex;
   justify-content: space-between;
   padding: 0 16px;
-  background-color: #222;
   border-radius: 16px 16px 0 0;
   position: relative;
+}
+
+.mep-popup.in-page .mep-popup-header {
+  background-color: #222;
 }
 
 .mep-popup .mep-popup-header > div {
@@ -171,7 +179,7 @@
   margin: 0;
 }
 
-.mep-popup::before {
+.mep-popup.in-page::before {
   content: '';
   width: 0;
   height: 0;
@@ -216,7 +224,7 @@
   padding: 0 12px 0 26px;
 }
 
-.mep-popup .dark {
+.mep-popup .advanced-options {
   display: flex;
   justify-content: flex-end;
   padding: 15px;
@@ -224,6 +232,10 @@
 
 .mep-popup label {
   font-weight: 500;
+}
+
+.mep-popup .target-activity-name {
+  font-style: italic;
 }
 
 label.mep-manifest-selected-variant::after {
@@ -240,17 +252,16 @@ label.mep-manifest-selected-variant::after {
   padding-right: 20px;
 }
 
-.mep-manifest-title::before {
-  counter-increment: preview;
-  content: counter(preview) '. ';
-}
-
-.mep-manifest-list {
+.mep-popup.in-page .mep-manifest-list {
   max-height: calc(100vh - 300px);
   overflow-y: auto;
 }
 
-input#new-manifest {
+.mep-popup:not(.in-page) .promo-schedule-info {
+  display: none;
+}
+
+.mep-popup input.new-manifest {
   height: 28px;
   width: 98%;
   margin-bottom: 5px;

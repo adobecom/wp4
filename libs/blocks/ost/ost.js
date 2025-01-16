@@ -8,7 +8,7 @@ const IMS_COMMERCE_CLIENT_ID = 'aos_milo_commerce';
 const IMS_SCOPE = 'AdobeID,openid';
 const IMS_ENV = 'prod';
 const IMS_PROD_URL = 'https://auth.services.adobe.com/imslib/imslib.min.js';
-const OST_VERSION = '1.18.4';
+const OST_VERSION = '1.19.1';
 const OST_BASE = `https://www.stage.adobe.com/special/tacocat/ost/lib/${OST_VERSION}`;
 const OST_SCRIPT_URL = `${OST_BASE}/index.js`;
 const OST_STYLE_URL = `${OST_BASE}/index.css`;
@@ -98,7 +98,8 @@ export const createLinkMarkup = (
 
 export async function loadOstEnv() {
   /* c8 ignore next */
-  const { Log, Defaults, getLocaleSettings } = await import('../../deps/mas/commerce.js');
+  const { Log, Defaults } = await import('../../deps/mas/commerce.js');
+  const { getMiloLocaleSettings } = await import('../merch/merch.js');
 
   const searchParameters = new URLSearchParams(window.location.search);
   const ostSearchParameters = new URLSearchParams();
@@ -157,7 +158,7 @@ export async function loadOstEnv() {
   const referrer = searchParameters.get('referrer');
   const repo = searchParameters.get('repo');
 
-  let { country, language } = getLocaleSettings();
+  let { country, language } = getMiloLocaleSettings();
   const { locales } = getConfig();
   const log = Log.module('ost');
   const metadata = {};
@@ -170,7 +171,8 @@ export async function loadOstEnv() {
       const json = await res.json();
       url = new URL(json.preview.url);
       const locale = getLocale(locales, url.pathname);
-      ({ country, language } = getLocaleSettings({ locale }));
+      /* c8 ignore next 1 */
+      ({ country, language } = getMiloLocaleSettings(locale));
     } catch (error) {
       log.error('Unable to fetch page status:', error);
     }

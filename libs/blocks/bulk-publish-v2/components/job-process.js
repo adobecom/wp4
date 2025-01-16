@@ -28,7 +28,7 @@ class JobProcess extends LitElement {
   async connectedCallback() {
     super.connectedCallback();
     this.renderRoot.adoptedStyleSheets = [styleSheet];
-    if (this.job?.useBulk) {
+    if (this.job?.useBulk && this.job?.status?.state !== 'stopped') {
       await pollJobStatus(this.job, (detail) => {
         if (detail.state === 'stopped') {
           this.jobStatus = detail;
@@ -143,7 +143,11 @@ class JobProcess extends LitElement {
     const jobData = this.jobStatus ?? this.job.result.job;
     return html`
       <div class="job-process">
-        <job-info .status=${jobData} .reworkErrors=${() => this.reworkErrors(jobData)}></job-info>
+        <job-info 
+          .status=${jobData} 
+          .reworkErrors=${() => this.reworkErrors(jobData)}
+          .cancelJob=${() => this.cancelJob(jobData)}>
+        </job-info>
         ${job.data.paths.map((path, pathIndex) => this.renderJobItem(path, pathIndex))}
       </div>
     `;

@@ -76,7 +76,10 @@ function isFragmentFromMep(fragPath, mep) {
   });
 }
 
+const boolStr = (val) => `${!!val}`;
+
 function observeLCP(lanaData, delay, mep) {
+  const sectionOne = document.querySelector('main > div');
   new PerformanceObserver((list) => {
     const entries = list.getEntries();
     const lastEntry = entries[entries.length - 1]; // Use the latest LCP candidate
@@ -84,10 +87,11 @@ function observeLCP(lanaData, delay, mep) {
     const lcpEl = lastEntry.element;
     lanaData.lcpElType = lcpEl.nodeName.toLowerCase();
     lanaData.lcpEl = getElementInfo(lcpEl);
+    lanaData.lcpSectionOne = boolStr(sectionOne.contains(lcpEl));
     const closestFrag = lcpEl.closest('.fragment');
-    lanaData.isFrag = closestFrag ? 'true' : 'false';
+    lanaData.isFrag = boolStr(closestFrag);
     if (closestFrag) {
-      lanaData.isMep = isFragmentFromMep(closestFrag.dataset.path, mep) ? 'true' : 'false';
+      lanaData.isMep = boolStr(isFragmentFromMep(closestFrag.dataset.path, mep));
     } else {
       lanaData.isMep = 'false';
     }

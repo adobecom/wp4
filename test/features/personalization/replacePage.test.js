@@ -24,7 +24,7 @@ it('replacePage should replace all of the main block', async () => {
       });
     }),
   );
-  window.fetch.onCall(1).returns(
+  window.fetch.onCall(2).returns(
     new Promise((resolve) => {
       resolve({
         ok: true,

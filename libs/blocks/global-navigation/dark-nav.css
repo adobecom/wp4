@@ -1,44 +1,49 @@
 :root {
-  --text-color: #F2F2F2;
+  --text-color: #f2f2f2;
   --background-color: #111;
   --link-color: #1473e6;
   --link-hover-color: #1473e6;
   /* Top navigation - backgrounds */
   --feds-background-popup: #111;
   --feds-background-nav: #222;
-  --feds-background-nav--desktop: #1B1B1B;
+  --feds-background-nav--desktop: #1b1b1b;
   /* Top navigation - borders */
   --feds-borderColor: #303030;
-  --feds-borderColor-menu: #4B4B4B;
-  --feds-borderColor-navLink: #DBDBDB;
+  --feds-borderColor-menu: #4b4b4b;
+  --feds-borderColor-navLink: #dbdbdb;
+  --feds-background-promo: #1d1d1d;
   /* Top navigation - colors */
-  --feds-color-adobeBrand: #FFF;
-  --feds-color-headline--mobile: #F2F2F2;
-  --feds-color-headline: #EBEBEB;
-  --feds-color-popup: #EBEBEB;
-  --feds-color-hamburger: #FFF;
-  --feds-color-breadcrumbs--current: #DBDBDB;
-  --feds-color-signIn: #DBDBDB;
-  --feds-color-search: #DBDBDB;
+  --feds-color-adobeBrand: #fff;
+  --feds-color-headline--mobile: #f2f2f2;
+  --feds-color-headline: #ebebeb;
+  --feds-color-popup: #ebebeb;
+  --feds-color-hamburger: #fff;
+  --feds-color-breadcrumbs--current: #dbdbdb;
+  --feds-color-signIn: #dbdbdb;
+  --feds-color-search: #dbdbdb;
   /* Links */
-  --feds-color-link: #F2F2F2;
-  /* --feds-color-link--mobile: #F2F2F2; */
-  --feds-color-link--desktop: #DBDBDB;
+  --feds-color-link: #f2f2f2;
+  /* --feds-color-link--mobile: #f2f2f2; */
+  --feds-color-link--desktop: #dbdbdb;
   --feds-color-link--hover: #1473e6;
-  --feds-color-blue-link: #5eaaf7;
-  --feds-color-navLink-description: #B0B0B0;
-  --feds-color-link-breadcrumbs: #B0B0B0;
-  --feds-background-link--hover: #1B1B1B;
+  --feds-color-blue-link: #5eaaF7;
+  --feds-color-navLink-description: #b0b0b0;
+  --feds-color-link-breadcrumbs: #b0b0b0;
+  --feds-background-link--hover: #1b1b1b;
   --feds-borderColor-link: #323232;
   /* Footer */
   --feds-background-footer: #222;
-  --feds-background-footer--desktop: #1B1B1B;
+  --feds-background-footer--desktop: #1b1b1b;
   --feds-borderColor-featuredProducts: #999;
   /* Dropdown */
   --feds-color-profile-heading--dark: #909090;
-  --feds-color-profile--dark: #DBDBDB;
-  --feds-color-profile--emphasis--dark: #F2F2F2;
+  --feds-color-profile--dark: #dbdbdb;
+  --feds-color-profile--emphasis--dark: #f2f2f2;
   --feds-border-profile--dark: 1px solid var(--feds-borderColor);
+
+  /* mobile gnav redesign */
+  --feds-borderColor-link-v2: #323232;
+  --feds-borderColor-localnav-v2: #323232;
 }
 
 .feds--dark .feds-navLink--hoverCaret:hover,
@@ -81,6 +86,44 @@
   border-color: #444;
   background-color: #2C2C2C;
   color: var(--feds-color-link--dark);
+}
+
+header.new-nav.feds--dark .feds-nav > section.feds-navItem > .feds-popup .top-bar {
+  background-color: var(--feds-background-nav--desktop);
+  border-bottom: 1px solid var(--feds-background-nav--desktop);
+}
+
+header.new-nav.feds--dark .feds-nav > section.feds-navItem > .feds-popup .title {
+  background-color: var(--background-color);
+  border-bottom: 1px solid var(--feds-borderColor-link-v2);
+}
+
+header.new-nav.feds--dark .feds-nav > section.feds-navItem > .feds-popup .tabs {
+  background-color: var(--background-color);
+}
+
+header.new-nav.feds--dark .feds-nav > section.feds-navItem > .feds-popup .tab-content {
+  background-color: var(--background-color);
+  border-left: 1px solid var(--feds-borderColor-link-v2);
+}
+
+[dir = "rtl"] header.new-nav.feds--dark .feds-nav > section.feds-navItem > .feds-popup .tab-content {
+  border-left: none;
+  border-right: 1px solid var(--feds-borderColor-link-v2);
+}
+
+header.new-nav.feds--dark .feds-nav > section.feds-navItem > .feds-popup .tabs button[aria-selected="true"] {
+  color: var(--background-color);
+  background-color: var(--feds-borderColor-navLink);
+}
+
+header.new-nav.feds--dark .feds-nav > section.feds-navItem > .feds-popup .sticky-cta {
+  background-color: var(--background-color);
+  border-top: 1px solid var(--feds-borderColor-link-v2);
+}
+
+header.new-nav.feds--dark .feds-nav > section.feds-navItem > .feds-popup .top-bar .main-menu {
+  color: var(--text-color);
 }
 
 /* Popup */
@@ -166,7 +209,7 @@
 @media (min-width: 900px) {
   .feds--dark .feds-promo {
     border: 1px solid var(--feds-borderColor);
-    background: #1D1D1D;
+    background: var(--feds-background-promo);
   }
   
   .feds--dark .feds-promo--dark,

@@ -22,6 +22,7 @@ it('verify default options', () => {
     sampleRate: 1,
     tags: '',
     implicitSampleRate: 1,
+    isProdDomain: false,
     useProd: true,
   });
 });
@@ -109,6 +110,7 @@ describe('LANA', () => {
           endpointStage: 'https://www.stage.adobe.com/lana/ll',
           errorType: 'e',
           implicitSampleRate: 100,
+          isProdDomain: false,
           sampleRate: 100,
           tags: '',
           useProd: true,
@@ -132,6 +134,7 @@ describe('LANA', () => {
         endpointStage: 'https://www.stage.adobe.com/lana/ll',
         errorType: 'e',
         implicitSampleRate: 100,
+        isProdDomain: false,
         sampleRate: 100,
         tags: '',
         useProd: true,
@@ -169,5 +172,56 @@ describe('LANA', () => {
     expect(xhrRequests[0].url).to.equal(
       'https://www.stage.adobe.com/lana/ll?m=only%20the%20clientId%20set%20in%20window.lana.options&c=blah&s=100&t=e',
     );
+  });
+
+  it('The lana-sample query param overrides existing sampleRate', () => {
+    window.lana.options = {
+      clientId: 'blah',
+      sampleRate: 0,
+      implicitSampleRate: 0,
+    };
+    const originalUrl = window.location.href;
+
+    window.lana.log('Sample rate is zero so should not be logged');
+    expect(xhrRequests.length).to.equal(0);
+
+    // create a new url based on the current url that adds a query param for lana-sample
+    const newUrl = new URL(window.location.href);
+    newUrl.searchParams.set('lana-sample', '100');
+
+    window.history.pushState({ path: newUrl.toString() }, '', newUrl.toString());
+
+    window.lana.log('lana-sample query param');
+    expect(xhrRequests.length).to.equal(1);
+    expect(xhrRequests[0].method).to.equal('GET');
+    expect(xhrRequests[0].url).to.equal(
+      'https://www.stage.adobe.com/lana/ll?m=lana-sample%20query%20param&c=blah&s=100&t=e',
+    );
+
+    window.history.pushState({ path: originalUrl }, '', originalUrl);
+  });
+
+  it('Invalid lana-sample query params are ignored', () => {
+    window.lana.options = {
+      clientId: 'blah',
+      sampleRate: 100,
+      implicitSampleRate: 100,
+    };
+    const originalUrl = window.location.href;
+
+    // create a new url based on the current url that adds a query param for lana-sample
+    const newUrl = new URL(window.location.href);
+    newUrl.searchParams.set('lana-sample', 'notvalid');
+
+    window.history.pushState({ path: newUrl.toString() }, '', newUrl.toString());
+
+    window.lana.log('lana-sample query param');
+    expect(xhrRequests.length).to.equal(1);
+    expect(xhrRequests[0].method).to.equal('GET');
+    expect(xhrRequests[0].url).to.equal(
+      'https://www.stage.adobe.com/lana/ll?m=lana-sample%20query%20param&c=blah&s=100&t=e',
+    );
+
+    window.history.pushState({ path: originalUrl }, '', originalUrl);
   });
 });

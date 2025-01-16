@@ -85,8 +85,8 @@
           <p>Popularity</p>
           <p>Alphabetical</p>
           <p>0 results</p>
-          <p>1 result in <strong><u>filter</u></strong></p>
-          <p><u>10</u> results in <strong><u>filter</u></strong></p>
+          <p>1 result in <strong><u>/filter/</u></strong></p>
+          <p><u>10</u> results in <strong><u>/filter/</u></strong></p>
           <p>1 result for <strong><u>search</u></strong></p>
           <p><u>10</u> results for <strong><u>search</u></strong></p>
           <p>1 result for: <strong><u>search</u></strong></p>
@@ -192,8 +192,82 @@
             <li>Make sure all words are spelled correctly</li>
             <li>Use quotes to search for an entire phrase, such as "crop an image"</li>
           </ul></div><p slot="showMoreText">Show more</p></merch-card-collection>
-  </div>
 
+    <div id="fragmented-literals" class="merch-card-collection catalog">
+      <div>
+        <a href="https://main--milo--adobecom.hlx.live/query-index-cards.json?sheet=catalog">query index</a>
+        <p>all, 18</p>
+      </div>
+      <div>
+          <p data-path="foo/bar">Search all products</p>
+          <p data-path="foo/bar">Filters</p>
+          <p>Sort</p>
+          <p>Popularity</p>
+          <p>Alphabetical</p>
+          <p>0 results</p>
+          <p>1 result in <strong><u>filter</u></strong></p>
+          <p><u>10</u> results in <strong><u>filter</u></strong></p>
+          <p>1 result for <strong><u>search</u></strong></p>
+          <p><u>10</u> results for <strong><u>search</u></strong></p>
+          <p>1 result for: <strong><u>search</u></strong></p>
+          <p><u>10</u> results for: <strong><u>search</u></strong></p>
+          <p>Your search for <strong><u>search</u></strong> did not yield any results</p>
+          <hr>
+          <p>Your search for <strong><u>search</u></strong> did not yield any results. Try a different search term.</p>
+          <p>Suggestions:</p>
+          <ul>
+            <li>Make sure all words are spelled correctly</li>
+            <li>Use quotes to search for an entire phrase, such as "crop an image"</li>
+          </ul>
+          <hr>
+          <p>Show more</p>
+      </div>
+    </div>
+    <!--this the expected merch-cards element -->
+    <merch-card-collection filter="all" class="merch-card-collection catalog" limit="18" types="" search="" page="1"><p data-path="foo/bar" slot="searchText">Search all products</p><p data-path="foo/bar" slot="filtersText">Filters</p><p slot="sortText">Sort</p><p slot="popularityText">Popularity</p><p slot="alphabeticallyText">Alphabetical</p><p slot="noResultText">0 results</p><p slot="resultText">1 result in <strong><span data-placeholder="filter"></span></strong></p><p slot="resultsText"><span data-placeholder="resultCount"></span> results in <strong><span data-placeholder="filter"></span></strong></p><p slot="searchResultText">1 result for <strong><span data-placeholder="searchTerm"></span></strong></p><p slot="searchResultsText"><span data-placeholder="resultCount"></span> results for <strong><span data-placeholder="searchTerm"></span></strong></p><p slot="searchResultMobileText">1 result for: <strong><span data-placeholder="searchTerm"></span></strong></p><p slot="searchResultsMobileText"><span data-placeholder="resultCount"></span> results for: <strong><span data-placeholder="searchTerm"></span></strong></p><p slot="noSearchResultsText">Your search for <strong><span data-placeholder="searchTerm"></span></strong> did not yield any results</p><div slot="noSearchResultsMobileText"><p>Your search for <strong><span data-placeholder="searchTerm"></span></strong> did not yield any results. Try a different search term.</p><p>Suggestions:</p><ul>
+            <li>Make sure all words are spelled correctly</li>
+            <li>Use quotes to search for an entire phrase, such as "crop an image"</li>
+          </ul></div><p slot="showMoreText">Show more</p></merch-card-collection>
+    
+    <div id="literals-4-translation" class="merch-card-collection catalog">
+      <div>
+        <a href="https://main--milo--adobecom.hlx.live/query-index-cards.json?sheet=catalog">query index</a>
+        <p>all, 18</p>
+      </div>
+      <div>
+        <div>
+          <p>Search all products</p>
+          <p>Filters</p>
+          <p>Sort</p>
+          <p>Popularity</p>
+          <p>Alphabetical</p>
+          <p>0 results</p>
+          <p>1 result in <strong><u>/filter/</u></strong></p>
+          <p><u>/10/</u> results in <strong><u>/filter/</u></strong></p>
+          <p>1 result for <strong><u>/search/</u></strong></p>
+          <p><u>/10/</u> results for <strong><u>/search/</u></strong></p>
+          <p>1 result for: <strong><u>/search/</u></strong></p>
+          <p><u>/10/</u> results for: <strong><u>/search/</u></strong></p>
+          <p>Your search for <strong><u>/search/</u></strong> did not yield any results</p>
+          <hr>
+          <p>Your search for <strong><u>/search/</u></strong> did not yield any results. Try a different search term.</p>
+          <p>Suggestions:</p>
+          <ul>
+            <li>Make sure all words are spelled correctly</li>
+            <li>Use quotes to search for an entire phrase, such as "crop an image"</li>
+          </ul>
+          <hr>
+          <p>Show more</p>
+        </div>
+      </div>
+    </div>        
+    <!--this the expected merch-cards element -->
+    <merch-card-collection filter="all" class="merch-card-collection catalog" limit="18"><p slot="searchText">Search all products</p><p slot="filtersText">Filters</p><p slot="sortText">Sort</p><p slot="popularityText">Popularity</p><p slot="alphabeticallyText">Alphabetical</p><p slot="noResultText">0 results</p><p slot="resultText">1 result in <strong><span data-placeholder="filter"></span></strong></p><p slot="resultsText"><span data-placeholder="resultCount"></span> results in <strong><span data-placeholder="filter"></span></strong></p><p slot="searchResultText">1 result for <strong><span data-placeholder="searchTerm"></span></strong></p><p slot="searchResultsText"><span data-placeholder="resultCount"></span> results for <strong><span data-placeholder="searchTerm"></span></strong></p><p slot="searchResultMobileText">1 result for: <strong><span data-placeholder="searchTerm"></span></strong></p><p slot="searchResultsMobileText"><span data-placeholder="resultCount"></span> results for: <strong><span data-placeholder="searchTerm"></span></strong></p><p slot="noSearchResultsText">Your search for <strong><span data-placeholder="searchTerm"></span></strong> did not yield any results</p><div slot="noSearchResultsMobileText"><p>Your search for <strong><span data-placeholder="searchTerm"></span></strong> did not yield any results. Try a different search term.</p><p>Suggestions:</p><ul>
+            <li>Make sure all words are spelled correctly</li>
+            <li>Use quotes to search for an entire phrase, such as "crop an image"</li>
+          </ul></div><p slot="showMoreText">Show more</p></merch-card-collection>
+
+  </div>
   <div id="cards">
     <div class="merch-card catalog">
       <div>

@@ -121,13 +121,24 @@
   font-size: 14px;
 }
 
+.cancel-job {
+  width: 12px;
+  cursor: pointer;
+}
+
+.share-link {
+  width: 15px;
+  cursor: pointer;
+  padding: 0 3px 0 0;
+}
+
 .job-id-link {
   width: 20px;
   cursor: pointer;
   color: var(--link-color);
 }
 
-.job-id-copied {
+.copied {
   background-color: rgba(255 255 255 / 78%);
   position: absolute;
   padding: 0 10px;

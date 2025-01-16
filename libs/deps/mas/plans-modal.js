@@ -4232,10 +4232,9 @@ var setCustomTemplateLiteralTag = (e16) => {
 
 // ../node_modules/@spectrum-web-components/icons-ui/src/icons/Cross200.js
 var Cross200Icon = ({ width: t13 = 24, height: e16 = 24, title: r9 = "Cross200" } = {}) => tag`<svg
+    aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 10 10"
-    aria-hidden="true"
-    role="img"
     fill="currentColor"
     aria-label=${r9}
     width=${t13}
@@ -4262,10 +4261,9 @@ init_src();
 
 // ../node_modules/@spectrum-web-components/icons-ui/src/icons/Cross300.js
 var Cross300Icon = ({ width: t13 = 24, height: e16 = 24, title: r9 = "Cross300" } = {}) => tag`<svg
+    aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 12 12"
-    aria-hidden="true"
-    role="img"
     fill="currentColor"
     aria-label=${r9}
     width=${t13}
@@ -4292,10 +4290,9 @@ init_src();
 
 // ../node_modules/@spectrum-web-components/icons-ui/src/icons/Cross400.js
 var Cross400Icon = ({ width: t13 = 24, height: e16 = 24, title: r9 = "Cross400" } = {}) => tag`<svg
+    aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 12 12"
-    aria-hidden="true"
-    role="img"
     fill="currentColor"
     aria-label=${r9}
     width=${t13}
@@ -4322,10 +4319,9 @@ init_src();
 
 // ../node_modules/@spectrum-web-components/icons-ui/src/icons/Cross500.js
 var Cross500Icon = ({ width: t13 = 24, height: e16 = 24, title: r9 = "Cross500" } = {}) => tag`<svg
+    aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 14 14"
-    aria-hidden="true"
-    role="img"
     fill="currentColor"
     aria-label=${r9}
     width=${t13}
@@ -5006,7 +5002,7 @@ styles.innerHTML = `
     --consonant-merch-card-detail-font-size: 12px;
     --consonant-merch-card-detail-font-weight: 500;
     --consonant-merch-card-detail-letter-spacing: 0.8px;
-    --consonant-merch-card-background-color: #fff;
+    --merch-card-background-color: #fff;
 
     --consonant-merch-card-heading-font-size: 18px;
     --consonant-merch-card-heading-line-height: 22.5px;
@@ -5231,7 +5227,7 @@ merch-card [slot='callout-content'] > div > div {
 
 merch-card [slot='callout-content'] > div > div > div {
     display: inline-block;
-    text-align: left;
+    text-align: start;
     font: normal normal normal var(--consonant-merch-card-callout-font-size)/var(--consonant-merch-card-callout-line-height) var(--body-font-family, 'Adobe Clean');
     letter-spacing: var(--consonant-merch-card-callout-letter-spacing);
     color: var(--consonant-merch-card-callout-font-color);
@@ -5240,7 +5236,9 @@ merch-card [slot='callout-content'] > div > div > div {
 merch-card [slot='callout-content'] img {
     width: var(--consonant-merch-card-callout-icon-size);
     height: var(--consonant-merch-card-callout-icon-size);
-    margin: 2.5px 0px 0px 9px;
+    margin-inline-end: 2.5px;
+    margin-inline-start: 9px;
+    margin-block-start: 2.5px;
 }
 
 merch-card [slot='detail-m'] {

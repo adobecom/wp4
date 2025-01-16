@@ -37,8 +37,9 @@
   text-decoration: underline;
 }
 
-.link-farm.text-block a:hover {
+.link-farm.text-block a:is(:hover, :focus) {
   text-decoration-style: double;
+  outline-offset: 3px;
 }
 
 

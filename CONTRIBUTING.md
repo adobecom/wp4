@@ -21,7 +21,7 @@ Ensure that your PR follows the [pull request template](.github/pull_request_tem
 
 * description contains Issue or Ticket
 * description _always_ contains at least one Milo-specific testing URL
-  * `https://<branch>--milo--<user>.hlx.page/?martech=off`
+  * `https://<branch>--milo--<user>.aem.page/?martech=off`
 
 Ensure your PR passes all checks:
 

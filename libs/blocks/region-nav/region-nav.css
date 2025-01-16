@@ -56,6 +56,10 @@
   column-count: 1;
 }
 
+.region-nav.hide {
+  display: none;
+}
+
 @media (min-width: 600px) {
   .region-nav > div:nth-of-type(2) {
     column-count: 3;

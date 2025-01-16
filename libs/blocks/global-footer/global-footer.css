@@ -11,6 +11,10 @@
   list-style-type: none;
 }
 
+.global-footer a {
+  text-decoration: unset;
+}
+
 .global-footer a:hover {
   text-decoration: none;
 }
@@ -246,6 +250,20 @@
 .feds-adChoices-icon {
   width: 12px;
   height: 12px;
+}
+
+@media (min-width: 600px) {
+  dialog.feds-dialog {
+    max-width: 80vw;
+    width: fit-content;
+  }
+}
+
+@media (min-width: 1200px) {
+  dialog.feds-dialog {
+    width: 1200px;
+    max-width: calc((100% - 6px) - 2em);
+  }
 }
 
 @media (min-width: 900px) {

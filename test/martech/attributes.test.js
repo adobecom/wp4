@@ -30,6 +30,8 @@ describe('Analytics', async () => {
 
     const cardLink = document.querySelector('.milo-card-section a');
     expect(cardLink.getAttribute('daa-ll')).to.equal('Learn more AI for gr-1--Header for tiles bel');
+    const nestedCard = document.querySelector('#test-header');
+    expect(nestedCard.getAttribute('daa-lh')).to.equal('b1|t1abm--merch-card');
   });
   it('should decorate pzn with attributes', async () => {
     document.body.outerHTML = await readFile({ path: './mocks/body.html' });
@@ -45,6 +47,8 @@ describe('Analytics', async () => {
     section.querySelectorAll('a').forEach((link, idx) => {
       expect(link.getAttribute('daa-ll')).to.equal(expectedLinkValues[idx]);
     });
+    const nestedCard = document.querySelector('#test-header');
+    expect(nestedCard.getAttribute('daa-lh')).to.equal('b1|t1abm--merch-card|smb|hp');
   });
   it('should limit analytics header length to analytics-header-limit when this metadata value is set to a number', async () => {
     document.body.outerHTML = await readFile({ path: './mocks/body.html' });

@@ -1,6 +1,6 @@
 /* global AdobeDC */
 
-import { createTag, getConfig, loadScript } from '../../utils/utils.js';
+import { createTag, getConfig, loadScript, SLD } from '../../utils/utils.js';
 
 const API_SOURCE_URL = 'https://acrobatservices.adobe.com/view-sdk/viewer.js';
 const PDF_RENDER_DIV_ID = 'adobe-dc-view';
@@ -14,7 +14,7 @@ export const getPdfConfig = () => {
   let clientId = env.consumer?.pdfViewerClientId || env.pdfViewerClientId;
   let reportSuiteId = env.consumer?.pdfViewerReportSuite || env.pdfViewerReportSuite;
 
-  if (host.includes('hlx.live') || query === 'live') {
+  if (host.includes(`${SLD}.live`) || query === 'live') {
     /* c8 ignore next 2 */
     clientId = live?.pdfViewerClientId || CLIENT_ID_LIVE;
     reportSuiteId = live?.pdfViewerReportSuite || env.pdfViewerReportSuite;

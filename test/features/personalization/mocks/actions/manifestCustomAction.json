@@ -35,13 +35,25 @@
       "firefox": "",
       "android": "",
       "ios": ""
-    },    {
+    },
+    {
       "action": "replace",
       "selector": "in-block:my-block /fragments/new-sub-menu",
       "page filter (optional)": "",
       "param-newoffer=123": "",
       "chrome": "/fragments/even-more-new-sub-menu",
       "target-var1": "/fragments/even-more-new-sub-menu",
+      "firefox": "",
+      "android": "",
+      "ios": ""
+    },
+    {
+      "action": "replace",
+      "selector": "in-block:my-block /federal/fragments/new-sub-menu",
+      "page filter (optional)": "",
+      "param-newoffer=123": "",
+      "chrome": "/federal/fragments/even-more-new-sub-menu",
+      "target-var1": "/federal/fragments/even-more-new-sub-menu",
       "firefox": "",
       "android": "",
       "ios": ""

@@ -13,7 +13,7 @@ window.addEventListener('pageshow', (event) => {
 export function adjustModalHeight(contentHeight) {
   if (!(window.location.hash || document.getElementById('checkout-link-modal'))) return;
   let selector = '#checkout-link-modal';
-  if (!/=/.test(window.location.hash)) selector = `${selector},div.dialog-modal.commerce-frame${window.location.hash}`;
+  if (!/=/.test(window.location.hash)) selector = `${selector},div.dialog-modal.commerce-frame${window.location.hash},div.dialog-modal.dynamic-height${window.location.hash}`;
   const dialog = document.querySelector(selector);
   const iframe = dialog?.querySelector('iframe');
   const iframeWrapper = dialog?.querySelector('.milo-iframe');
@@ -65,7 +65,8 @@ function reactToMessage({ data, source }) {
 }
 
 export function adjustStyles({ dialog, iframe }) {
-  const isAutoHeightAdjustment = /\/mini-plans\/.*mid=ft.*web=1/.test(iframe.src); // matches e.g. https://www.adobe.com/mini-plans/photoshop.html?mid=ft&web=1
+  // matches e.g. https://www.adobe.com/mini-plans/photoshop.html?mid=ft&web=1 or https://www.adobe.com/creativecloud/whats-included/plans/*
+  const isAutoHeightAdjustment = /\/mini-plans\/.*mid=ft.*web=1/.test(iframe.src) || /\/creativecloud\/whats-included\/plans\//.test(iframe.src);
   if (isAutoHeightAdjustment) {
     dialog.classList.add('height-fit-content');
     // fail safe.

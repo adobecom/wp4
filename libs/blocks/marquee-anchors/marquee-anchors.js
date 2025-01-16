@@ -54,11 +54,11 @@ export default function init(el) {
   decorateBlockText(copy, blockTypeSizes.default[size]);
   const links = createTag('div', { class: 'links' }, list);
   const foreground = createTag('div', { class: 'foreground' }, copy);
-  decorateBlockText(links, blockTypeSizes.default.xsmall);
   foreground.append(links);
   el.append(foreground);
 
-  [...list].forEach((i) => {
+  [...list].forEach((i, index) => {
+    decorateBlockText(i, blockTypeSizes.default.xsmall);
     const aTag = i.querySelector('a');
     if (aTag?.textContent.charAt(0) === '#') {
       const content = i.querySelector(':scope > div');
@@ -73,12 +73,10 @@ export default function init(el) {
       } else {
         aTag.classList.add('external');
       }
+    } else {
+      i.classList.add(`links-${index === 0 ? 'header' : 'footer'}`);
     }
   });
-  const emptyLinkRows = links.querySelectorAll(':scope > div:not([class])');
-  if (emptyLinkRows[0]) emptyLinkRows[0].classList.add('links-header');
-  if (emptyLinkRows[1]) emptyLinkRows[1].classList.add('links-footer', 'body-s');
-  decorateBlockText(emptyLinkRows[0], blockTypeSizes.default.xsmall);
 
   const anchors = el.querySelectorAll('.anchor-link');
   if (anchors.length) decorateAnchors(anchors);

@@ -10,6 +10,7 @@ import {
   loadCaasTags,
   postDataToCaaS,
   setConfig,
+  getConfig,
 } from './send-utils.js';
 
 const [setPublishingTrue, setPublishingFalse, isPublishing] = (() => {
@@ -297,7 +298,8 @@ const checkIms = async (publishingModal, loadScript) => {
       'You must be logged in with an Adobe ID in order to publish to CaaS.\nDo you want to log in?',
     );
     if (shouldLogIn) {
-      window.adobeIMS.signIn();
+      const { signInContext } = getConfig();
+      window.adobeIMS.signIn(signInContext);
     }
     setPublishingFalse();
     return false;
@@ -324,7 +326,10 @@ const postToCaaS = async ({ accessToken, caasEnv, caasProps, draftOnly, publishi
         ctaText: 'Login',
       });
       setPublishingFalse();
-      if (shouldLogIn) window.adobeIMS.signIn();
+      if (shouldLogIn) {
+        const { signInContext } = getConfig();
+        window.adobeIMS.signIn(signInContext);
+      }
     } else {
       showAlert(
         response.message || response.error || JSON.stringify(response),

@@ -25,6 +25,9 @@ export function createIntersectionObserver({ el, callback /* , once = true, opti
   callback(el, { target: el });
 }
 
+const PAGE_URL = new URL(window.location.href);
+export const SLD = PAGE_URL.hostname.includes('.aem.') ? 'aem' : 'hlx';
+
 export const parseEncodedConfig = stub().returns({
   analyticsTrackImpression: false,
   analyticsCollectionName: '',

@@ -7,32 +7,43 @@
   --feds-height-breadcrumbs: 33px;
   --feds-gutter: 8px;
   /* Top navigation - backgrounds */
-  --feds-background-nav: #fff;
-  --feds-background-popup: #fafafa;
+  --feds-background-nav: #f8f8f8;
+  --feds-background-popup: #f3f3f3;
+  --feds-background-promo: #fff;
   --feds-background-promo--dark: #000;
   /* Top navigation - borders */
   --feds-borderColor: #eaeaea;
   --feds-borderColor-menu: #e1e1e1;
   --feds-borderColor-navLink: #2c2c2c;
   /* Top navigation - colors */
-  --feds-color-adobeBrand: #EB1000;
+  --feds-color-adobeBrand: #eb1000;
   --feds-color-headline: #505050;
   --feds-color-hamburger: #2d2d2d;
   --feds-color-breadcrumbs--current: #2c2c2c;
-  --feds-color-signIn: #4B4B4B;
+  --feds-color-signIn: #4b4b4b;
   /* Top navigation - misc */
   --feds-radius-utilityIcon: 4px;
   /* Links */
-  --feds-background-link--hover: #f5f5f5;
-  --feds-borderColor-link: #f3f3f3;
-  --feds-color-link: #2c2c2c;
-  --feds-color-link--hover: #1473e6;
-  --feds-color-navLink-description: #656565;
+  --feds-background-link--hover: #e9e9e9;
+  --feds-borderColor-link: #e9e9e9;
+  --feds-color-link: #292929;
+  --feds-color-blue-link: #3b63fb;
+  --feds-color-link--hover: #274dea;
+  --feds-color-navLink-description: #505050;
   --feds-color-link-breadcrumbs: #707070;
   /* Footer */
   --feds-background-footer: #fafafa;
   --feds-borderColor-featuredProducts: #999;
   --feds-gutter-footer: 32px;
+
+  /* mobile gnav redesign */
+  --feds-color-white-v2: #fff;
+  --feds-color-black-v2: #000;
+  --feds-background-cloudmenu-v2: #111;
+  --feds-borderColor-link-v2: #eaeaea;
+  --feds-backgroundColor-tabs-v2: #f8f8f8;
+  --feds-backgroundColor-tabContent-v2: #f3f3f3;
+  --feds-borderColor-localnav-v2: #eee;
 }
 
 /* Nav Link styles */
@@ -57,7 +68,7 @@
 }
 
 .feds-navLink--blue {
-  color: var(--feds-color-link--hover);
+  color: var(--feds-color-blue-link);
 }
 
 .feds-navLink--hoverCaret {
@@ -116,8 +127,8 @@
   align-items: center;
 }
 
-header.global-navigation {
-  visibility: visible;
+header.global-navigation.ready {
+  visibility: visible !important;
 }
 
 /* Desktop styles */

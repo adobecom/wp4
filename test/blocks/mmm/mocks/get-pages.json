@@ -1,0 +1,47 @@
+{
+    "result": [
+        {
+            "geo": "",
+            "pageId": 4,
+            "page": "/",
+            "locale": "en-US",
+            "numOfActivities": 1,
+            "url": "https://www.adobe.com/"
+        },
+        {
+            "geo": "",
+            "pageId": 7,
+            "page": "/acrobat/pricing.html",
+            "locale": "en-US",
+            "numOfActivities": 1,
+            "url": "https://www.adobe.com/acrobat/pricing.html"
+        },
+        {
+            "geo": "",
+            "pageId": 3,
+            "page": "/creativecloud.html",
+            "locale": "en-US",
+            "numOfActivities": 1,
+            "url": "https://www.adobe.com/creativecloud.html"
+        },
+        {
+            "geo": "ca_fr",
+            "pageId": 16,
+            "page": "/",
+            "locale": "fr-CA",
+            "numOfActivities": 1,
+            "url": "https://www.adobe.com/ca_fr/"
+        },
+        {
+            "geo": "de",
+            "pageId": 61,
+            "page": "/",
+            "locale": "de-DE",
+            "numOfActivities": 1,
+            "url": "https://www.adobe.com/de/"
+        }
+    ],
+    "totalRecords": 20,
+    "pageNum": 1,
+    "perPage": 5
+}

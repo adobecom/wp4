@@ -50,6 +50,12 @@ dealing w/ groups of media and associated text
 
 .lockup-area > * { line-height: 0; }
 
+.lockup-area a { text-decoration: none; }
+
+.lockup-area a:hover,
+.lockup-area a:focus,
+.lockup-area a:active { text-decoration: underline; }
+
 .center .lockup-area { justify-content: center; }
 .right .lockup-area { justify-content: flex-end; }
 

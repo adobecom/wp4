@@ -3,9 +3,10 @@
  * https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Tab_Role
  */
 import { debounce } from '../../utils/action.js';
-import { createTag, MILO_EVENTS } from '../../utils/utils.js';
+import { createTag, MILO_EVENTS, getConfig } from '../../utils/utils.js';
+import { processTrackingLabels } from '../../martech/attributes.js';
 
-const PADDLE = '<svg viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.50001 13.25C1.22022 13.25 0.939945 13.1431 0.726565 12.9292C0.299315 12.5019 0.299315 11.8096 0.726565 11.3823L5.10938 7L0.726565 2.61768C0.299315 2.19043 0.299315 1.49805 0.726565 1.0708C1.15333 0.643068 1.84669 0.643068 2.27345 1.0708L7.4297 6.22656C7.63478 6.43164 7.75001 6.70996 7.75001 7C7.75001 7.29004 7.63478 7.56836 7.4297 7.77344L2.27345 12.9292C2.06007 13.1431 1.7798 13.2495 1.50001 13.25Z" fill="currentColor"/></svg>';
+const PADDLE = '<svg aria-hidden="true" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.50001 13.25C1.22022 13.25 0.939945 13.1431 0.726565 12.9292C0.299315 12.5019 0.299315 11.8096 0.726565 11.3823L5.10938 7L0.726565 2.61768C0.299315 2.19043 0.299315 1.49805 0.726565 1.0708C1.15333 0.643068 1.84669 0.643068 2.27345 1.0708L7.4297 6.22656C7.63478 6.43164 7.75001 6.70996 7.75001 7C7.75001 7.29004 7.63478 7.56836 7.4297 7.77344L2.27345 12.9292C2.06007 13.1431 1.7798 13.2495 1.50001 13.25Z" fill="currentColor"/></svg>';
 
 const isTabInTabListView = (tab) => {
   const tabList = tab.closest('[role="tablist"]');
@@ -33,10 +34,20 @@ const removeAttributes = (el, attrsKeys) => {
   attrsKeys.forEach((key) => el.removeAttribute(key));
 };
 
+const scrollStackedMobile = (content) => {
+  if (!window.matchMedia('(max-width: 600px)').matches) return;
+  const rects = content.getBoundingClientRect();
+  const stickyTop = document.querySelector('.feds-localnav') ?? document.querySelector('.global-navigation, .gnav');
+  const navHeight = stickyTop?.scrollHeight || 0;
+  const topOffset = rects.top + window.scrollY - navHeight - 1;
+  window.scrollTo({ top: topOffset, behavior: 'smooth' });
+};
+
 function changeTabs(e) {
   const { target } = e;
   const parent = target.parentNode;
   const content = parent.parentNode.parentNode.lastElementChild;
+  const targetContent = content.querySelector(`#${target.getAttribute('aria-controls')}`);
   const blockId = target.closest('.tabs').id;
   parent
     .querySelectorAll(`[aria-selected="true"][data-block-id="${blockId}"]`)
@@ -46,9 +57,8 @@ function changeTabs(e) {
   content
     .querySelectorAll(`[role="tabpanel"][data-block-id="${blockId}"]`)
     .forEach((p) => p.setAttribute('hidden', true));
-  content
-    .querySelector(`#${target.getAttribute('aria-controls')}`)
-    .removeAttribute('hidden');
+  targetContent.removeAttribute('hidden');
+  scrollStackedMobile(targetContent);
 }
 
 function getStringKeyName(str) {
@@ -254,7 +264,6 @@ const init = (block) => {
         id: `tab-panel-${tabId}-${tabName}`,
         role: 'tabpanel',
         class: 'tabpanel',
-        tabindex: '0',
         'aria-labelledby': `tab-${tabId}-${tabName}`,
         'data-block-id': `tabs-${tabId}`,
       };
@@ -296,6 +305,10 @@ const init = (block) => {
         assocTabItem = rootElem.querySelector(`#tab-panel-${id}-${val}`);
       }
       if (assocTabItem) {
+        const tabLabel = tabListItems[val - 1]?.innerText;
+        if (tabLabel) {
+          assocTabItem.setAttribute('data-nested-lh', `t${val}${processTrackingLabels(tabLabel, getConfig(), 3)}`);
+        }
         const section = sectionMetadata.closest('.section');
         assocTabItem.append(section);
       }

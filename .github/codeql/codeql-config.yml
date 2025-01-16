@@ -6,3 +6,4 @@ paths-ignore:
   - 'tools/translation/**'
   - node_modules
   - libs/deps/mas
+  - libs/features/mas/dist

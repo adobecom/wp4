@@ -7,6 +7,7 @@ import {
   init, matchGlob, createContent, combineMepSources, buildVariantInfo,
 } from '../../../libs/features/personalization/personalization.js';
 import mepSettings from './mepSettings.js';
+import mepSettingsPreview from './mepPreviewSettings.js';
 
 document.head.innerHTML = await readFile({ path: './mocks/metadata.html' });
 document.body.innerHTML = await readFile({ path: './mocks/personalization.html' });
@@ -279,14 +280,27 @@ describe('Functional Test', () => {
     });
   });
 
-  it('invalid selector should output error to console', async () => {
+  it('invalid selector should output error to console in preview mode', async () => {
     window.console.log = stub();
-
     await loadManifestAndSetResponse('./mocks/manifestInvalidSelector.json');
-
-    await init(mepSettings);
-
+    await init(mepSettingsPreview);
     assert.calledWith(window.console.log, 'Invalid selector: ');
+    window.console.log.reset();
+  });
+
+  it('invalid selector should not output error to console if not in preview mode', async () => {
+    window.console.log = stub();
+    await loadManifestAndSetResponse('./mocks/manifestInvalidSelector.json');
+    await init(mepSettings);
+    assert.neverCalledWith(window.console.log, 'Invalid selector: ');
+    window.console.log.reset();
+  });
+
+  it('missing selector should output error to console if in preview mode', async () => {
+    window.console.log = stub();
+    await loadManifestAndSetResponse('./mocks/manifestEmptyAction.json');
+    await init(mepSettingsPreview);
+    assert.calledWith(window.console.log, 'Row found with empty action field: ');
     window.console.log.reset();
   });
 
@@ -331,34 +345,21 @@ describe('matchGlob function', () => {
     const result = matchGlob('/products/special-offers**', '/products/special-offers/free-download');
     expect(result).to.be.true;
   });
-});
-
-describe('matchGlob function', () => {
-  it('should match page', async () => {
-    const result = matchGlob('/products/special-offers', '/products/special-offers');
-    expect(result).to.be.true;
-  });
-
-  it('should match page with HTML extension', async () => {
-    const result = matchGlob('/products/special-offers', '/products/special-offers.html');
-    expect(result).to.be.true;
-  });
-
-  it('should not match child page', async () => {
-    const result = matchGlob('/products/special-offers', '/products/special-offers/free-download');
-    expect(result).to.be.false;
-  });
-
-  it('should match child page', async () => {
-    const result = matchGlob('/products/special-offers**', '/products/special-offers/free-download');
-    expect(result).to.be.true;
-  });
 
   it('should hide the wrapping <p> for the delayed modal anchor', async () => {
     const parent = document.createElement('div');
     const el = document.createElement('div');
     parent.appendChild(el);
-    const wrapper = createContent(el, '/fragments/promos/path-to-promo/#modal-hash:delay=1');
+    const wrapper = createContent(
+      el,
+      {
+        content: '/fragments/promos/path-to-promo/#modal-hash:delay=1',
+        manifestId: 'manifest',
+        targetManifestId: '',
+        action: 'insertAfter',
+        modifiers: [],
+      },
+    );
     expect(wrapper.tagName).to.equal('P');
     expect(wrapper.classList.contains('hide-block')).to.be.true;
   });

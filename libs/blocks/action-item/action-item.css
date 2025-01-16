@@ -114,18 +114,11 @@
   transition: transform .2s ease;
 }
 
-.action-item:not(.zoom) a:focus-visible picture:not(.floated-icon) img,
-.action-item.zoom a:focus-visible picture:not(.floated-icon) {
-  outline-color: -webkit-focus-ring-color;
-  outline-style: auto;
-}
-
 .action-item:not(.float-button) a {
   width: 100%;
 }
 
 .action-item a:not(.con-button):focus-visible {
-  outline: none;
   text-decoration: underline;
 }
 

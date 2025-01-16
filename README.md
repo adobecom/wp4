@@ -4,7 +4,7 @@ Milo is a shared set of features and services to power Franklin-based websites o
 [![codecov](https://codecov.io/gh/adobecom/milo/branch/main/graph/badge.svg?token=a7ZTCbitBt)](https://codecov.io/gh/adobecom/milo)
 
 ## Environments
-[Preview](https://main--milo--adobecom.hlx.page) | [Live](https://milo.adobe.com)
+[Preview](https://main--milo--adobecom.aem.page) | [Live](https://milo.adobe.com)
 
 ## Getting started
 
@@ -16,7 +16,7 @@ Milo is a shared set of features and services to power Franklin-based websites o
 
 ### Detailed
 1. Fork this repo.
-1. Install the [AEM Code Sync](https://github.com/apps/aem-code-sync) on your forked repo.
+1. Install the [AEM Code Sync](https://github.com/apps/aem-code-sync) on your forked repo. Make sure that a `main` branch exists in your forked repository.  
 1. Clone your forked repo down to your computer.
 1. Install the [AEM CLI](https://github.com/adobe/helix-cli) using your terminal: `sudo npm install -g @adobe/aem-cli`
 1. In a terminal, run `aem up` your repo's folder on your computer. It will open a browser.
@@ -51,11 +51,11 @@ You can then test any of the following:
 ```
 http://localhost:3000/?milolibs=local (local code, stage content)
 
-https://main--project--owner.hlx.page/?milolibs=local (prod code, stage content)
+https://main--project--owner.aem.page/?milolibs=local (prod code, stage content)
 
-https://main--project--owner.hlx.live/?milolibs=local (prod code, prod content)
+https://main--project--owner.aem.live/?milolibs=local (prod code, prod content)
 
-https://feat-branch--project--owner.hlx.page/?milolibs=local (feature code, stage content)
+https://feat-branch--project--owner.aem.page/?milolibs=local (feature code, stage content)
 ```
 
 ## Testing
@@ -74,6 +74,8 @@ npm run test:watch
 -----
 
 #### 1. Running Nala Tests
+Make sure you ran `npm install` in the project root.
+You might need also to run `npx playwright install`.
 Nala tests are run using the `npm run nala <env> [options]` command:
 
 ```sh
@@ -91,8 +93,14 @@ npm run nala <env> [options]
   - config=<config-file>               # Configuration file (default: Playwright default)
   - project=<project-name>             # Project configuration (default: milo-live-chromium)
   - milolibs=<local|prod|feature|any|> # Milolibs?=<env> 
-
 ```
+
+Examples:
+```
+npm run nala local test=masccd.test.js                # Run tests from masccd.test.js file on your local changes. Don't forget `aem up` before running.
+npm run nala MWPW-162385 owner='npeltier' @mas-ccd    # Run tests tagged as 'mas-ccd' in 'npeltier' fork on MWPW-162385 branch
+```
+
 #### 2. Nala Help Command:
 To view examples of how to use Nala commands with various options, you can run
 ```sh

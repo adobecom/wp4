@@ -32,5 +32,5 @@ Resolves: [MWPW-111111](https://jira.corp.adobe.com/browse/MWPW-111111)
 - After: https://main--blog--adobecom.hlx.page/?milolibs=<branch>--milo--<owner>
 
 **Milo:**
-- Before: https://main--milo--adobecom.hlx.page/ch_de/drafts/ramuntea/gnav-refactor?martech=off
-- After: https://<branch>--milo--<owner>.hlx.page/ch_de/drafts/ramuntea/gnav-refactor?martech=off
+- Before: https://main--milo--adobecom.aem.page/ch_de/drafts/ramuntea/gnav-refactor?martech=off
+- After: https://<branch>--milo--<owner>.aem.page/ch_de/drafts/ramuntea/gnav-refactor?martech=off

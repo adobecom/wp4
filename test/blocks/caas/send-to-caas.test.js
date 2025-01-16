@@ -1,7 +1,7 @@
 import { readFile } from '@web/test-runner-commands';
 import { expect } from '@esm-bundle/chai';
 
-import { checkUrl, getOrigin, setConfig } from '../../../tools/send-to-caas/send-utils.js';
+import { checkUrl, getKeyValPairs, getOrigin, setConfig } from '../../../tools/send-to-caas/send-utils.js';
 
 document.body.innerHTML = await readFile({ path: './mocks/body.html' });
 
@@ -23,5 +23,25 @@ describe('checkUrl function', () => {
     setConfig({ project: 'dc' });
     const result = getOrigin('someFloodgateColor');
     expect(result).to.equal('doccloud');
+  });
+
+  it('should send arbitrary fields as key-value pairs when set', () => {
+    const authoredPairs = 'mpcVideoId:mpcVideoIdGM,thumbnailUrl: thumbnailUrlGM';
+    const result = getKeyValPairs(authoredPairs);
+    expect(JSON.stringify(result)).to.equal('[{"mpcVideoId":"mpcVideoIdGM"},{"thumbnailUrl":"thumbnailUrlGM"}]');
+  });
+
+  it('should only accept valid key:value pairs as arbitrary fields', () => {
+    const missingColon = 'key1 value1, key2: value2';
+    const resultMissingColon = getKeyValPairs(missingColon);
+    expect(JSON.stringify(resultMissingColon)).to.equal('[{"key2":"value2"}]');
+
+    const multipeColons = 'key1: value1: extra, key2: value2';
+    const resultMultipeColons = getKeyValPairs(multipeColons);
+    expect(JSON.stringify(resultMultipeColons)).to.equal('[{"key1":"value1: extra"},{"key2":"value2"}]');
+
+    const emptyKeyVal = ': value1, key2:, :, key3: value3';
+    const resultEmptyKeyVal = getKeyValPairs(emptyKeyVal);
+    expect(JSON.stringify(resultEmptyKeyVal)).to.equal('[{"key3":"value3"}]');
   });
 });

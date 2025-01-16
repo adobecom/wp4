@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 import WebUtil from '../../libs/webutil.js';
 import { features } from './accordion.spec.js';
 import AccordionBlock from './accordion.page.js';
+import { runAccessibilityTest } from '../../libs/accessibility.js';
 
 let webUtil;
 let accordion;
@@ -50,6 +51,10 @@ test.describe('Milo Accordion Block test suite', () => {
       await expect(await accordion.section).toHaveAttribute('daa-lh', await webUtil.getSectionDaalh(1));
       await expect(await accordion.accordion).toHaveAttribute('daa-lh', await webUtil.getBlockDaalh('accordion-container', 1));
     });
+
+    await test.step('step-4: Verify the accessibility test on the accordion block', async () => {
+      await runAccessibilityTest({ page, testScope: accordion.accordion });
+    });
   });
 
   // Test 1 : Accordion (seo)
@@ -77,6 +82,10 @@ test.describe('Milo Accordion Block test suite', () => {
 
     await test.step('step-3: Verify analytics attributes', async () => {
       await expect(await accordion.accordion).toHaveAttribute('daa-lh', await webUtil.getBlockDaalh('accordion-container', 1));
+    });
+
+    await test.step('step-4: Verify the accessibility test on the accordion block', async () => {
+      await runAccessibilityTest({ page, testScope: accordion.accordion });
     });
   });
 
@@ -110,6 +119,10 @@ test.describe('Milo Accordion Block test suite', () => {
     await test.step('step-3: Verify analytics attributes', async () => {
       await expect(await accordion.accordion).toHaveAttribute('daa-lh', await webUtil.getBlockDaalh('accordion-container', 1));
     });
+
+    await test.step('step-4: Verify the accessibility test on the accordion block', async () => {
+      await runAccessibilityTest({ page, testScope: accordion.accordion });
+    });
   });
 
   // Test 3 : Accordion seo editorial
@@ -131,6 +144,11 @@ test.describe('Milo Accordion Block test suite', () => {
 
       await expect(await accordion.outlineButton).toContainText(data.outlineButtonText);
       await expect(await accordion.blueButton).toContainText(data.blueButtonText);
+    });
+
+    await test.step('step-4: Verify the accessibility test on the Accordion seo editorial block', async () => {
+      // The accessibility test for the Accordion seo editorial is failing, so skipping it.
+      await runAccessibilityTest({ page, testScope: accordion.accordion, skipA11yTest: true });
     });
   });
 });

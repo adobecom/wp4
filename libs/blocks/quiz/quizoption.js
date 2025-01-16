@@ -5,7 +5,7 @@ export const OptionCard = ({
   text, title, image, icon, iconTablet, iconDesktop, options, disabled, selected, background,
 }) => {
   const getOptionClass = () => {
-    let className = '';
+    let className = 'no-track ';
     if (icon || iconTablet || iconDesktop) className += 'has-icon ';
     if (image) className += 'has-image ';
     if (background) className += 'has-background ';
@@ -92,7 +92,7 @@ export const GetQuizOption = ({
       <div class="quiz-button-container">
         <button 
           disabled=${countSelectedCards < minSelections && 'disabled'}
-          aria-label="Next" 
+          aria-label="${btnText}" 
           class="quiz-button" 
           daa-ll="${btnAnalyticsData}"
           onClick=${() => { handleOnNextClick(); }}>

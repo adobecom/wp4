@@ -204,7 +204,7 @@ const openChat = (event) => {
 };
 
 const startInitialization = async (config, event, onDemand) => {
-  const asset = 'https://client.messaging.adobe.com/latest/AdobeMessagingClient';
+  const asset = `https://${config.env.name !== 'prod' ? 'stage-' : ''}client.messaging.adobe.com/latest/AdobeMessagingClient`;
   await Promise.all([
     loadStyle(`${asset}.css`),
     loadScript(`${asset}.js`),
@@ -246,7 +246,7 @@ const startInitialization = async (config, event, onDemand) => {
       initErrorCallback: () => {},
       chatStateCallback: () => {},
       getContextCallback: () => {},
-      signInProvider: window.adobeIMS?.signIn,
+      signInProvider: () => window.adobeIMS?.signIn(config.signInContext),
       analyticsCallback: (eventData) => {
         if (!window.alloy_all || !window.digitalData) return;
         const data = eventData?.events?.[0]?.data;

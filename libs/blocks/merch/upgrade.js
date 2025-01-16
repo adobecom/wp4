@@ -118,7 +118,7 @@ export default async function handleUpgradeOffer(
   if (upgradeUrl) {
     window.addEventListener('message', handleIFrameEvents);
     const { getModal } = await import('../modal/modal.js');
-    const showModal = async (e) => {
+    const showModal = async (e, hash) => {
       e.preventDefault();
       await Promise.all([
         import(`${base}/features/spectrum-web-components/dist/theme.js`),
@@ -140,6 +140,13 @@ export default async function handleUpgradeOffer(
       theme.append(pCircle);
       content.append(theme);
       content.append(iframe);
+      if (hash) {
+        const prevHash = window.location.hash.replace('#', '') === hash ? '' : window.location.hash;
+        window.location.hash = hash;
+        window.addEventListener('milo:modal:closed', () => {
+          window.location.hash = prevHash;
+        }, { once: true });
+      }
       return getModal(null, { id: 'switch-modal', content, closeEvent: 'closeModal', class: ['upgrade-flow-modal'] });
     };
     const text = await replaceKey('upgrade-now', getConfig());

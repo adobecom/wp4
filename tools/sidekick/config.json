@@ -4,10 +4,14 @@
   "libraries": [
     {
       "text": "Blocks",
-      "paths": ["https://main--milo--adobecom.hlx.page/docs/library/blocks.json"]
+      "paths": ["https://main--milo--adobecom.aem.page/docs/library/blocks.json"]
     }
   ],
   "plugins": [
+    {
+      "id": "publish",
+      "confirm": true
+    },
     {
       "id": "path",
       "title": "Path",
@@ -48,7 +52,7 @@
       "id": "localize-v2",
       "title": "Localize project (V2)",
       "environments": [ "edit" ],
-      "url": "https://locui--milo--adobecom.hlx.page/tools/loc",
+      "url": "https://locui--milo--adobecom.aem.page/tools/loc",
       "passReferrer": true,
       "passConfig": true,
       "excludePaths": [ "/**" ],

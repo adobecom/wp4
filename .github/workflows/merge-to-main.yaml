@@ -9,6 +9,7 @@ on:
 
 env:
   MILO_RELEASE_SLACK_WH: ${{ secrets.MILO_RELEASE_SLACK_WH }}
+  MIN_SOT_APPROVALS: ${{ secrets.MIN_SOT_APPROVALS }}
 
 jobs:
   merge-to-main:

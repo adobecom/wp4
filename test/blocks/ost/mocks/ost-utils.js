@@ -22,6 +22,13 @@ function getMetadata(name, doc = document) {
 const loadScript = () => Promise.resolve();
 
 const loadStyle = () => Promise.resolve();
+
+const createTag = () => Promise.resolve();
+
+const loadArea = () => Promise.resolve();
+
+const localizeLink = () => Promise.resolve();
+
 const mockRes = ({ payload, status = 200 } = {}) => new Promise((resolve) => {
   resolve({
     status,
@@ -99,15 +106,20 @@ function unmockOstDeps() {
 }
 
 const customFetch = window.fetch;
-
+const PAGE_URL = new URL(window.location.href);
+const SLD = PAGE_URL.hostname.includes('.aem.') ? 'aem' : 'hlx';
 export {
+  createTag,
   getConfig,
   getLocale,
   getMetadata,
+  loadArea,
   loadScript,
   loadStyle,
+  localizeLink,
   mockOstDeps,
   unmockOstDeps,
   mockRes,
   customFetch,
+  SLD,
 };

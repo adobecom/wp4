@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Merch Card CCD Suggested Web Component demo page</title>
+    <script>
+        window.process = {
+            env: {},
+        };
+    </script>
+    <style>
+        main {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-direction: column;
+            padding-top: 80px;
+            width: 100%;
+            height: 100%;
+        }
+        merch-card {
+          margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <script type="module" src="./merch-card.ccd-suggested.test.html.js"></script>
+    <main>
+      <sp-theme  color="light" scale="medium" dir="ltr">
+          <merch-card class="" tabindex="0" variant="ccd-suggested">
+            <sp-status-light size="l" variant="info" dir="ltr"></sp-status-light>
+            <merch-icon
+              slot="icons"
+              src="./img/pixel.png"
+              alt=""
+              href=""
+              size="l"
+              >undefined</merch-icon
+            >
+            <merch-icon
+              slot="icons"
+              src="./img/pixel.png"
+              alt=""
+              href=""
+              size="l"
+              >undefined</merch-icon
+            >
+            <p slot="detail-m">YOUR EXPIRED PLAN</p>
+            <p slot="heading-xs"><strong>Photography plan (20GB)</strong></p>
+            <p slot="body-xs">
+              Creative Cloud Photography plan.<br>
+              Starting at US$19.99/mo
+            </p>
+            <div slot="price">
+              <span is="inline-price" data-wcs-osi="r_JXAnlFI7xD6FxWKl2ODvZriLYBoSL701Kd1hRyhe8"></span>
+        </div>
+          <div slot="cta">
+                <a href="https://www.adobe.com"><span is="checkout-link" data-wcs-osi="r_JXAnlFI7xD6FxWKl2ODvZriLYBoSL701Kd1hRyhe8"></span></a
+                >
+          </div>
+          </merch-card>
+          <merch-card strip-background="./img/pixel.png" tabindex="0" variant="ccd-suggested">
+            <sp-status-light size="l" variant="info" dir="ltr"></sp-status-light>
+            <merch-icon
+              slot="icons"
+              src="./img/pixel.png"
+              alt=""
+              href=""
+              size="l"
+              >undefined</merch-icon
+            >
+            <p slot="detail-m">YOUR RECENT TRIAL</p>
+            <p slot="heading-xs"><strong>Try the All Apps plan</strong></p>
+            <p slot="body-xs">
+              Creative Cloud Photography plan.<br>
+              Starting at US$19.99/mo
+            </p>
+              <div slot="price">
+                <span is="inline-price" data-wcs-osi="r_JXAnlFI7xD6FxWKl2ODvZriLYBoSL701Kd1hRyhe8"></span>
+              </div>
+                <div slot="cta">
+                  <strong>Buy now</strong>
+                </div>
+          </merch-card>
+          <merch-card background-image="./img/pixel.png" tabindex="0" variant="ccd-suggested" class="wide-strip">
+            <sp-status-light size="l" variant="info" dir="ltr"></sp-status-light>
+            <merch-icon
+              slot="icons"
+              src="./img/pixel.png"
+              alt=""
+              href=""
+              size="l"
+              >undefined</merch-icon
+            >
+            <merch-icon
+              slot="icons"
+              src="./img/pixel.png"
+              alt=""
+              href=""
+              size="l"
+              >undefined</merch-icon
+            >
+            <p slot="detail-m">YOUR EXPIRED PLAN</p>
+            <p slot="heading-xs"><strong>Photography plan (20GB)</strong></p>
+            <p slot="body-xs">
+              Creative Cloud Photography plan.<br>
+              Starting at US$19.99/mo
+            </p>
+              <div slot="price">
+                <span is="inline-price" data-wcs-osi="r_JXAnlFI7xD6FxWKl2ODvZriLYBoSL701Kd1hRyhe8"></span>
+              </div>
+                <div slot="cta">
+                  <sp-button variant="secondary">Browse all tutorials</sp-button>
+                </div>
+          </merch-card>
+      </sp-theme>
+      <sp-theme  color="dark" scale="medium" dir="rtl">
+        <merch-card class="dark-theme" background-image="./img/pixel.png" tabindex="0" variant="ccd-suggested">
+          <sp-status-light size="l" variant="info" dir="ltr"></sp-status-light>
+          <merch-icon
+            slot="icons"
+            src="./img/pixel.png"
+            alt=""
+            href=""
+            size="l"
+            >undefined</merch-icon
+          >
+          <merch-icon
+            slot="icons"
+            src="./img/pixel.png"
+            alt=""
+            href=""
+            size="l"
+            >undefined</merch-icon
+          >
+          <p slot="detail-m">YOUR EXPIRED PLAN</p>
+          <p slot="heading-xs"><strong>Photography plan (20GB)</strong></p>
+          <p slot="body-xs">
+            Creative Cloud Photography plan.<br>
+            Starting at US$19.99/mo
+            <br>
+            <a href="https://adobe.com">See terms</a>
+          </p>
+            <div slot="price">
+              <span is="inline-price" data-wcs-osi="r_JXAnlFI7xD6FxWKl2ODvZriLYBoSL701Kd1hRyhe8"></span>
+            </div>
+              <div slot="cta">
+                <sp-button variant="secondary">Browse all tutorials</sp-button>
+              </div>
+        </merch-card>
+      </sp-theme>
+    </main>
+</body>
+</html>

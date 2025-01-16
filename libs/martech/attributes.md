@@ -25,7 +25,8 @@ Input a string and outputs the clean string. Optional 2nd parameter of character
 > Used in decorateSectionAnalytics, so every block will be passed through this function.
 Can be used inside a block to add daa-ll attributes. Does not overwrite existing daa-ll attributes.
 You only need to call this function in the block if you need the daa-ll attributes added during block decoration.
-Input the block element no return value.
+Input the block element no return value. You can opt out of daa-ll attributes by adding the .no-track class to 
+specific links or buttons in your block.
 
 ### decorateSectionAnalytics
 

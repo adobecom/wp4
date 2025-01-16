@@ -36,15 +36,17 @@ const getRegionalPromoManifests = (manifestNames, region, searchParams) => {
   }
   return schedule.split(',')
     .map((manifest) => {
-      const [name, start, end, manifestPath, locales] = manifest.trim().split('|').map((s) => s.trim());
+      const [name, start, end, manifestPath, locales, cdtStart, cdtEnd] = manifest.trim().split('|').map((s) => s.trim());
       if (attachedManifests.includes(name) && isManifestWithinLocale(locales)) {
         const event = {
           name,
           start: GMTStringToLocalDate(start),
           end: GMTStringToLocalDate(end),
+          cdtStart,
+          cdtEnd,
         };
         const disabled = isDisabled(event, searchParams);
-        return { manifestPath, disabled, event };
+        return { manifestPath, disabled, event, source: ['promo'] };
       }
       return null;
     })

@@ -1,4 +1,4 @@
-import { customFetch, getConfig } from '../utils/utils.js';
+import { customFetch, getConfig, getMetadata } from '../utils/utils.js';
 
 const fetchedPlaceholders = {};
 window.mph = {};
@@ -35,6 +35,7 @@ function keyToStr(key) {
 async function getPlaceholder(key, config, sheet) {
   let defaultFetched = false;
   const defaultLocale = 'en-US';
+  const geoLocDisabled = getMetadata('disable-geo-placeholders') || 'off';
 
   const getDefaultContentRoot = () => {
     const defaultContentRoot = config.locale.contentRoot;
@@ -66,11 +67,13 @@ async function getPlaceholder(key, config, sheet) {
   };
 
   if (config.placeholders?.[key]) return config.placeholders[key];
+  let placeholders;
 
-  const placeholders = await fetchPlaceholders({ config, sheet }).catch(async () => {
-    const defaultPlaceholders = await getDefaultPlaceholders();
-    return defaultPlaceholders;
-  });
+  if (geoLocDisabled === 'on') {
+    placeholders = await getDefaultPlaceholders();
+  } else {
+    placeholders = await fetchPlaceholders({ config, sheet });
+  }
 
   if (typeof placeholders?.[key] === 'string') return placeholders[key];
 
@@ -135,8 +138,14 @@ export async function decoratePlaceholderArea({
     if (nodeEl.nodeType === Node.TEXT_NODE) {
       nodeEl.nodeValue = await replaceText(nodeEl.nodeValue, config);
     } else if (nodeEl.nodeType === Node.ELEMENT_NODE) {
-      const hrefVal = await replaceText(nodeEl.getAttribute('href'), config);
-      nodeEl.setAttribute('href', hrefVal);
+      const attrPromises = [...nodeEl.attributes].map(async (attr) => {
+        const attrVal = await replaceText(attr.value, config);
+        return { name: attr.name, value: attrVal };
+      });
+      const results = await Promise.all(attrPromises);
+      results.forEach(({ name, value }) => {
+        nodeEl.setAttribute(name, value);
+      });
     }
   });
   await Promise.all(replaceNodes);

@@ -11,8 +11,7 @@ function createDynamicSlots(el, bodySlot) {
   if (pricePlaceholder) {
     pricePlaceholder.setAttribute('slot', 'price');
   } else {
-    const tagName = isTWP ? 'p' : 'h5';
-    const priceSlot = createTag(tagName, { class: 'merch-card-price' });
+    const priceSlot = createTag('p', { class: 'merch-card-price' });
     createTag('span', { slot: 'price', is: 'inline-price' }, null, { parent: priceSlot });
     bodySlot.append(priceSlot);
   }

@@ -174,8 +174,8 @@ const defaultOptions = {
     featured: 'Featured',
     dateDesc: 'Date: (Newest to Oldest)',
     dateAsc: 'Date: (Oldest to Newest)',
-    modifiedDesc: 'Date: (Last Modified, Newest to Oldest)',
-    modifiedAsc: 'Date (Last Modified, Oldest to Newest)',
+    modifiedDesc: 'Modified Date: (Newest to Oldest)',
+    modifiedAsc: 'Modified Date: (Oldest to Newest)',
     eventSort: 'Events: (Live, Upcoming, OnDemand)',
     titleAsc: 'Title: (A - Z)',
     titleDesc: 'Title: (Z - A)',
@@ -217,6 +217,10 @@ const defaultOptions = {
   cardHoverEffect: {
     default: 'Default',
     grow: 'Grow',
+  },
+  partialLoadEnabled: {
+    true: 'Enabled',
+    false: 'Disabled',
   },
 };
 
@@ -343,6 +347,9 @@ const BasicsPanel = ({ tagsData }) => {
     <${Select} options=${countryTags} prop="country" label="Country" sort />
     <${Select} options=${languageTags} prop="language" label="Language" sort />`;
 
+  const partialLoadOptions = html`
+    <${Input} label="Partial Load Count" prop="partialLoadCount" type="number" />`;
+
   return html`
   <${Input} label="Collection Name" placeholder="Only used in the author link" prop="collectionName" type="text" />
   <${Input} label="Collection Title" prop="collectionTitle" type="text" title="Enter a title, {placeholder}, or leave empty "/>
@@ -352,7 +359,8 @@ const BasicsPanel = ({ tagsData }) => {
     <${Input} label="Total Cards to Show" prop="totalCardsToShow" type="number" />
     <${Input} label="Auto detect country & lang" prop="autoCountryLang" type="checkbox" />
     ${!state.autoCountryLang && countryLangOptions}
-
+  <${Input} label="Partial Load Enabled" prop="partialLoadEnabled" options="${defaultOptions.partialLoadEnabled}" type="checkbox"  />
+    ${state.partialLoadEnabled && partialLoadOptions}
   `;
 };
 
@@ -537,10 +545,10 @@ const SortPanel = () => {
     <div>Sort options to display:</div>
     <div class="sort-options">
       <${Input} label="Featured Sort" prop="sortFeatured" type="checkbox" />
-      <${Input} label="Date: (Oldest to Newest)" prop="sortDateAsc" type="checkbox" />
       <${Input} label="Date: (Newest to Oldest)" prop="sortDateDesc" type="checkbox" />
-      <${Input} label="Date (Last Modified, Oldest to Newest)" prop="sortModifiedAsc" type="checkbox" />
-      <${Input} label="Date: (Last Modified, Newest to Oldest)" prop="sortModifiedDesc" type="checkbox" />
+      <${Input} label="Date: (Oldest to Newest)" prop="sortDateAsc" type="checkbox" />
+      <${Input} label="Modified Date: (Oldest to Newest)" prop="sortModifiedAsc" type="checkbox" />
+      <${Input} label="Modified Date: (Newest to Oldest)" prop="sortModifiedDesc" type="checkbox" />
       <${Input} label="Events" prop="sortEventSort" type="checkbox" />
       <${Input} label="Title A-Z" prop="sortTitleAsc" type="checkbox" />
       <${Input} label="Title Z-A" prop="sortTitleDesc" type="checkbox" />
@@ -957,12 +965,14 @@ const getPanels = (tagsData) => [
 ];
 
 /* c8 ignore next 15 */
-const addIdOverlays = () => {
+export const addIdOverlays = () => {
   document.querySelectorAll('.consonant-Card').forEach((card) => {
     if (!card.querySelector('.cardid')) {
       const idBtn = document.createElement('button');
       idBtn.classList.add('cardid');
       idBtn.innerText = card.id;
+
+      idBtn.title = 'Click to copy this ID';
 
       idBtn.addEventListener('click', (e) => {
         const id = e.target.textContent;

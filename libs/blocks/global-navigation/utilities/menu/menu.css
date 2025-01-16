@@ -71,6 +71,10 @@
   box-sizing: content-box;
 }
 
+.feds-localnav-items .feds-menu-headline:after {
+  right: 38px;
+}
+
 [dir = "rtl"] .feds-menu-headline:after {
   right: unset;
   left: 30px;
@@ -86,6 +90,15 @@
 
 .feds-crossCloudMenu-wrapper {
   display: none;
+}
+
+.feds-image-wrapper {
+  padding: 12px 38px;
+}
+
+.gnav-image {
+  width: 316px;
+  box-sizing: content-box;
 }
 
 @media (min-width: 900px) {
@@ -165,7 +178,7 @@
     flex-direction: column;
     width: 100%;
     border: 1px solid var(--feds-borderColor);
-    background: var(--feds-background-nav);
+    background: var(--feds-background-promo);
     white-space: normal;
     box-sizing: content-box;
   }
@@ -223,8 +236,8 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    border-top: solid 1px #f3f3f3;
-    background-color: #fff;
+    border-top: solid 1px var(--feds-borderColor);
+    background-color: var(--feds-background-nav);
   }
 
   .feds-crossCloudMenu {

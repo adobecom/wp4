@@ -3,14 +3,9 @@
 # See https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
 
 # Milo Core (alphabetical order)
-/fstab.yaml @adobecom/admins
-/libs/features/ @adobecom/admins
 /libs/features/seotech/ @hparra
 /libs/features/title-append/ @hparra
-/libs/martech/ @adobecom/admins
-/libs/scripts/ @adobecom/admins
 /libs/scripts/taxonomy.js @meganthecoder @JasonHowellSlavin @Brandon32 @rgclayton
-/libs/utils/ @adobecom/admins
 
 # Milo Blocks (alphabetical order)
 /libs/blocks/accordion/ @fullcolorcoder @ryanmparrish

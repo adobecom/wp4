@@ -7,6 +7,7 @@ function StepIndicator({
   bottom = false,
   top = false,
 }) {
+  const step = currentStep < totalSteps ? currentStep + 1 : currentStep;
   const quizSteps = html`
     <div class="quiz-step-container${totalSteps > 3 ? ' wide' : ''}${top ? ' top' : ''}${bottom ? ' bottom' : ''}">
       ${Array.from({ length: totalSteps }).map((_, index) => {
@@ -21,7 +22,9 @@ function StepIndicator({
       default:
         className = 'future';
     }
-    return html`<div class="quiz-step ${className}"></div>`;
+    return html`<div class="quiz-step ${className}"
+      aria-current="${index === currentStep ? 'step' : null}"
+      aria-label="${index === currentStep ? `Step ${step} of ${totalSteps}` : null}"></div>`;
   })}
     </div>
   `;

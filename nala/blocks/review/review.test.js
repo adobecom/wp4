@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { features } from './review.spec.js';
 import ReviewBlock from './review.page.js';
+import { runAccessibilityTest } from '../../libs/accessibility.js';
 
 let review;
 
@@ -14,7 +15,7 @@ test.describe('Milo Review Block test suite', () => {
     review = new ReviewBlock(page);
   });
 
-  test(`${features[0].name},${features[0].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[0].tcid}] ${features[0].name},${features[0].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[0].path}${miloLibs}`);
 
     await test.step('step-1: Go to review feature test page', async () => {
@@ -30,7 +31,7 @@ test.describe('Milo Review Block test suite', () => {
     });
   });
 
-  test(`${features[1].name},${features[1].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[1].tcid}] ${features[1].name},${features[1].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[1].path}${miloLibs}`);
 
     await test.step('step-1: Go to review block test page', async () => {
@@ -39,7 +40,11 @@ test.describe('Milo Review Block test suite', () => {
       await expect(page).toHaveURL(`${baseURL}${features[1].path}${miloLibs}`);
     });
 
-    await test.step('step-2: Verify review block and submit the review > 3', async () => {
+    await test.step('step-2: Verify the accessibility test on the review block', async () => {
+      await runAccessibilityTest({ page, testScope: review.review });
+    });
+
+    await test.step('step-3: Verify review block and submit the review > 3', async () => {
       const { data } = features[1];
       expect(await review.verifyReview(data)).toBeTruthy();
       expect(await review.submitReview(data)).toBeTruthy();

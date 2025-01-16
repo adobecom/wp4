@@ -16,10 +16,7 @@
 .timer-label {
   font-size: var(--type-body-s-size);
   font-weight: 700;
-  height: 27px;
-}
-
-.light .timer-label {
+  line-height: var(--type-body-xxl-size);
   color: #000;
 }
 
@@ -28,15 +25,20 @@
 }
 
 .horizontal .timer-label {
-  margin: 0 2px 27px;
+  margin: 0 2px var(--type-body-xxl-size);
+}
+
+.timer-separator {
+  margin: 0px 2px;
+  line-height: var(--type-body-xxl-size);
+}
+
+.horizontal .timer-block {
+  margin-inline-start: 10px;
 }
 
 .timer-block {
   display: flex;
-}
-
-.horizontal .timer-block {
-  margin-left: 10px;
 }
 
 .timer-fragment {
@@ -46,15 +48,13 @@
 }
 
 .timer-box {
-  padding: 0 9px;
-  width: 10px;
+  padding: 0 calc(var(--font-size-multiplier, 1) * 9px);
+  width: var(--type-detail-s-size);
   border-radius: 5px;
   font-size: var(--type-body-m-size);
   font-weight: 700;
   text-align: center;
-}
-
-.light .timer-box {
+  line-height: var(--type-body-xxl-size);
   background-color: #222;
   color: #FFF;
 }
@@ -62,6 +62,10 @@
 .dark .timer-box {
   background-color: #EBEBEB;
   color: #1D1D1D;
+}
+
+html[dir="rtl"] .timer-unit-container {
+  flex-direction: row-reverse;
 }
 
 .timer-unit-container {
@@ -75,9 +79,7 @@
   font-size: var(--type-body-xs-size);
   font-weight: 400;
   text-align: start;
-}
-
-.light .timer-unit-label {
+  line-height: var(--type-body-xxl-size);
   color: #464646;
 }
 

@@ -3,6 +3,7 @@ import { expect } from '@esm-bundle/chai';
 import { readFile, setViewport } from '@web/test-runner-commands';
 import initGoogleLogin from '../../../libs/features/google-login.js';
 import { viewports } from '../../blocks/global-navigation/test-utilities.js';
+import { getConfig } from '../../../libs/utils/utils.js';
 
 describe('Google Login', () => {
   let initializeSpy;
@@ -37,12 +38,12 @@ describe('Google Login', () => {
   });
 
   it('should create a placeholder to inject DOM markup', async () => {
-    await initGoogleLogin(sinon.stub(), sinon.stub(), sinon.stub());
+    await initGoogleLogin(sinon.stub(), sinon.stub(), sinon.stub(), getConfig);
     expect(document.getElementById('feds-googleLogin')).to.exist;
   });
 
   it('should initialize and render the login element', async () => {
-    await initGoogleLogin(sinon.stub(), sinon.stub(), sinon.stub());
+    await initGoogleLogin(sinon.stub(), sinon.stub(), sinon.stub(), getConfig);
     expect(initializeSpy.called).to.be.true;
     expect(promptSpy.called).to.be.true;
     expect(initializeSpy.getCall(0).args[0].prompt_parent_id).to.equal('feds-googleLogin');
@@ -59,14 +60,14 @@ describe('Google Login', () => {
     const socialHeadlessSignInStub = sinon.stub(window.adobeIMS, 'socialHeadlessSignIn')
       .returns(new Promise((resolve, reject) => { reject(); }));
     const signInWithSocialProviderSpy = sinon.spy(window.adobeIMS, 'signInWithSocialProvider');
-    await initGoogleLogin(sinon.stub(), sinon.stub(), sinon.stub());
+    await initGoogleLogin(sinon.stub(), sinon.stub(), sinon.stub(), getConfig);
     let onToken = initializeSpy.getCall(0).args[0].callback;
-    await onToken(sinon.stub(), sinon.stub());
+    await onToken(sinon.stub(), sinon.stub(), getConfig);
     expect(signInWithSocialProviderSpy.called).to.be.true;
 
     // Existing account
     socialHeadlessSignInStub.returns(new Promise((resolve) => { resolve(); }));
-    await initGoogleLogin(sinon.stub(), sinon.stub(), sinon.stub());
+    await initGoogleLogin(sinon.stub(), sinon.stub(), sinon.stub(), getConfig);
     onToken = initializeSpy.getCall(0).args[0].callback;
     window.DISABLE_PAGE_RELOAD = true;
     signInWithSocialProviderSpy.resetHistory();
@@ -81,9 +82,9 @@ describe('Google Login', () => {
   it('should not initialize if IMS is not ready or user is already logged-in', async () => {
     window.adobeIMS = window.adobeIMS || { isSignedInUser: () => {} };
     const loggedInStub = sinon.stub(window.adobeIMS, 'isSignedInUser').returns(() => true);
-    await initGoogleLogin(sinon.stub(), sinon.stub(), sinon.stub());
+    await initGoogleLogin(sinon.stub(), sinon.stub(), sinon.stub(), getConfig);
     expect(document.getElementById('feds-googleLogin')).not.to.exist;
-    await initGoogleLogin(Promise.reject, sinon.stub(), sinon.stub());
+    await initGoogleLogin(Promise.reject, sinon.stub(), sinon.stub(), getConfig);
     expect(document.getElementById('feds-googleLogin')).not.to.exist;
     loggedInStub.restore();
   });

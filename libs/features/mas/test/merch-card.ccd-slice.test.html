@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Merch Card CCD SliceWeb Component demo page</title>
+    <script>
+        window.process = {
+            env: {},
+        };
+    </script>
+    <style>
+        main {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-direction: column;
+            padding-top: 80px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <script type="module" src="./merch-card.ccd-slice.test.html.js"></script>
+    <main>
+      <sp-theme  color="light" scale="medium">
+          <merch-card class="" tabindex="0" variant="ccd-slice" filters="" types="">
+            <sp-status-light size="l" variant="info" dir="ltr"></sp-status-light>
+            <merch-icon
+              slot="icons"
+              src="https://www.adobe.com/content/dam/shared/images/product-icons/svg/photoshop.svg"
+              alt=""
+              href=""
+              size="l"
+              >undefined</merch-icon
+            >
+            <merch-icon
+              slot="icons"
+              src="https://www.adobe.com/content/dam/shared/images/product-icons/svg/lightroom.svg"
+              alt=""
+              href=""
+              size="l"
+              >undefined</merch-icon
+            >
+            <p slot="body-s">
+              <strong>Creative Cloud Photography plan.<br>
+              Starting at US$19.99/mo
+              </strong>
+            </p>
+            <div slot="footer">
+                <sp-button size="s" focusable>Buy now</sp-button>
+            </div>
+            <div slot="image">
+              <img src="./img/pixel.png" alt="">
+            </div>
+            </merch-card>
+          <merch-card size="wide" class="" tabindex="0" variant="ccd-slice" filters="" types="">
+            <sp-status-light size="l" variant="info" dir="ltr"></sp-status-light>
+            <merch-icon
+              slot="icons"
+              src="https://www.adobe.com/content/dam/shared/images/product-icons/svg/creative-cloud.svg"
+              alt=""
+              href=""
+              size="l"
+              >undefined</merch-icon
+            >
+            <p slot="body-s">
+              <strong>Save over 30% on Creative Cloud All Apps. Register for MAX by August 31 and save US$200 on a full conference pass.</strong>
+              <br><a href="https://www.adobe.com/creativecloud/all-apps.html" target="_blank">See terms</a>
+                    </p>
+            <div slot="footer">
+                <sp-button size="s" focusable>Register now</sp-button>
+            </div>
+            <div slot="image">
+              <img src="./img/pixel.png" alt="">
+            </div>
+          </merch-card>
+          <merch-card id="withBadge" size="wide" class="" tabindex="0" variant="ccd-slice" filters="" types="" badge-text="Huge Savings" badge-color="#000000" badge-background-color="#F8D904">
+            <sp-status-light size="l" variant="info" dir="ltr"></sp-status-light>
+            <merch-icon
+              slot="icons"
+              src="https://www.adobe.com/content/dam/shared/images/product-icons/svg/creative-cloud.svg"
+              alt=""
+              href=""
+              size="l"
+              >undefined</merch-icon
+            >
+            <p slot="body-s">
+              <strong>Save over 30% on Creative Cloud All Apps. Register for MAX by August 31 and save US$200 on a full conference pass.</strong>
+              <br><a href="https://www.adobe.com/creativecloud/all-apps.html" target="_blank">See terms</a>
+                    </p>
+            <div slot="footer">
+                <sp-button size="s" focusable>Register now</sp-button>
+            </div>
+            <div slot="image">
+              <img src="./img/pixel.png" alt="">
+            </div>
+          </merch-card>
+      </sp-theme>
+      <sp-theme  color="dark" scale="medium">
+        <merch-card class="" tabindex="0" variant="ccd-slice" filters="" types="">
+          <sp-status-light size="l" variant="info" dir="ltr"></sp-status-light>
+          <merch-icon
+            slot="icons"
+            src="https://www.adobe.com/content/dam/shared/images/product-icons/svg/photoshop.svg"
+            alt=""
+            href=""
+            size="l"
+            >undefined</merch-icon
+          >
+          <merch-icon
+            slot="icons"
+            src="https://www.adobe.com/content/dam/shared/images/product-icons/svg/lightroom.svg"
+            alt=""
+            href=""
+            size="l"
+            >undefined</merch-icon
+          >
+          <p slot="body-s">
+            <strong>Creative Cloud Photography plan.<br>
+            Starting at US$19.99/mo
+            </strong>
+          </p>
+          <div slot="footer">
+              <sp-button size="s" focusable>Buy now</sp-button>
+          </div>
+          <div slot="image">
+            <img src="./img/pixel.png" alt="">
+          </div>
+          </merch-card
+        >
+      <merch-card size="wide" class="" tabindex="0" variant="ccd-slice" filters="" types="">
+      <sp-status-light size="l" variant="info" dir="ltr"></sp-status-light>
+      <merch-icon
+      slot="icons"
+      src="https://www.adobe.com/content/dam/shared/images/product-icons/svg/creative-cloud.svg"
+      alt=""
+      href=""
+      size="l"
+      >undefined</merch-icon
+      >
+      <p slot="body-s">
+      <strong>Save over 30% on Creative Cloud All Apps. Register for MAX by August 31 and save US$200 on a full conference pass.</strong>
+      <br><a href="https://www.adobe.com/creativecloud/all-apps.html" target="_blank">See terms</a>
+            </p>
+      <div slot="footer">
+        <sp-button size="s" focusable>Register now</sp-button>
+      </div>
+      <div slot="image">
+      <img src="./img/pixel.png" alt="">
+      </div>
+      </merch-card>
+      </sp-theme>
+</main>
+</body>
+</html>

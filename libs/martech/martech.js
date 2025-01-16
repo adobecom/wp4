@@ -1,11 +1,16 @@
 import {
-  getConfig, getMetadata, loadIms, loadLink, loadScript, getMepEnablement,
+  getConfig, loadIms, loadLink, loadScript, getMepEnablement, getMetadata,
 } from '../utils/utils.js';
 
 const ALLOY_SEND_EVENT = 'alloy_sendEvent';
 const ALLOY_SEND_EVENT_ERROR = 'alloy_sendEvent_error';
-const TARGET_TIMEOUT_MS = 4000;
 const ENTITLEMENT_TIMEOUT = 3000;
+
+const TARGET_TIMEOUT_MS = 4000;
+const params = new URL(window.location.href).searchParams;
+const timeout = parseInt(params.get('target-timeout'), 10)
+  || parseInt(getMetadata('target-timeout'), 10)
+  || TARGET_TIMEOUT_MS;
 
 const setDeep = (obj, path, value) => {
   const pathArr = path.split('.');
@@ -22,7 +27,7 @@ const setDeep = (obj, path, value) => {
 };
 
 // eslint-disable-next-line max-len
-const waitForEventOrTimeout = (eventName, timeout, returnValIfTimeout) => new Promise((resolve) => {
+const waitForEventOrTimeout = (eventName, timeoutLocal, returnValIfTimeout) => new Promise((resolve) => {
   const listener = (event) => {
     // eslint-disable-next-line no-use-before-define
     clearTimeout(timer);
@@ -42,39 +47,11 @@ const waitForEventOrTimeout = (eventName, timeout, returnValIfTimeout) => new Pr
     } else {
       resolve({ timeout: true });
     }
-  }, timeout);
+  }, timeoutLocal);
 
   window.addEventListener(eventName, listener, { once: true });
   window.addEventListener(ALLOY_SEND_EVENT_ERROR, errorListener, { once: true });
 });
-
-const handleAlloyResponse = (response) => {
-  const items = (
-    (response.propositions?.length && response.propositions)
-    || (response.decisions?.length && response.decisions)
-    || []
-  ).map((i) => i.items).flat();
-
-  if (!items?.length) return [];
-
-  return items
-    .map((item) => {
-      const content = item?.data?.content;
-      if (!content || !(content.manifestLocation || content.manifestContent)) return null;
-
-      return {
-        manifestPath: content.manifestLocation || content.manifestPath,
-        manifestUrl: content.manifestLocation,
-        manifestData: content.manifestContent?.experiences?.data || content.manifestContent?.data,
-        manifestPlaceholders: content.manifestContent?.placeholders?.data,
-        manifestInfo: content.manifestContent?.info.data,
-        name: item.meta['activity.name'],
-        variantLabel: item.meta['experience.name'] && `target-${item.meta['experience.name']}`,
-        meta: item.meta,
-      };
-    })
-    .filter(Boolean);
-};
 
 function roundToQuarter(num) {
   return Math.ceil(num / 250) / 4;
@@ -85,47 +62,31 @@ function calculateResponseTime(responseStart) {
   return roundToQuarter(responseTime);
 }
 
-function sendTargetResponseAnalytics(failure, responseStart, timeout, message) {
-  // temporary solution until we can decide on a better timeout value
-  const responseTime = calculateResponseTime(responseStart);
-  const timeoutTime = roundToQuarter(timeout);
-  let val = `target response time ${responseTime}:timed out ${failure}:timeout ${timeoutTime}`;
-  if (message) val += `:${message}`;
-  // eslint-disable-next-line no-underscore-dangle
-  window._satellite?.track?.('event', {
-    documentUnloading: true,
-    xdm: {
-      eventType: 'web.webinteraction.linkClicks',
-      web: {
-        webInteraction: {
-          linkClicks: { value: 1 },
-          type: 'other',
-          name: val,
-        },
-      },
-    },
-    data: { _adobe_corpnew: { digitalData: { primaryEvent: { eventInfo: { eventName: val } } } } },
-  });
-}
-
-export const getTargetPersonalization = async () => {
-  const params = new URL(window.location.href).searchParams;
-
-  const timeout = parseInt(params.get('target-timeout'), 10)
-    || parseInt(getMetadata('target-timeout'), 10)
-    || TARGET_TIMEOUT_MS;
-
+export const getTargetPersonalization = async (
+  { handleAlloyResponse, sendTargetResponseAnalytics },
+) => {
   const responseStart = Date.now();
   window.addEventListener(ALLOY_SEND_EVENT, () => {
     const responseTime = calculateResponseTime(responseStart);
-    window.lana.log(`target response time: ${responseTime}`, { tags: 'martech', errorType: 'i' });
+    try {
+      window.lana.log(`target response time: ${responseTime}`, { tags: 'martech', errorType: 'i' });
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error('Error logging target response time:', e);
+    }
   }, { once: true });
 
   let targetManifests = [];
   let targetPropositions = [];
+
   const response = await waitForEventOrTimeout(ALLOY_SEND_EVENT, timeout);
   if (response.error) {
-    window.lana.log('target response time: ad blocker', { tags: 'martech', errorType: 'i' });
+    try {
+      window.lana.log('target response time: ad blocker', { tags: 'martech', errorType: 'i' });
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error('Error logging target response time for ad blocker:', e);
+    }
     return { targetManifests, targetPropositions };
   }
   if (response.timeout) {
@@ -142,8 +103,8 @@ export const getTargetPersonalization = async () => {
 
 const setupEntitlementCallback = () => {
   const setEntitlements = async (destinations) => {
-    const { default: parseEntitlements } = await import('../features/personalization/entitlements.js');
-    return parseEntitlements(destinations);
+    const { getEntitlements } = await import('../features/personalization/personalization.js');
+    return getEntitlements(destinations);
   };
 
   const getEntitlements = (resolve) => {
@@ -163,13 +124,13 @@ const setupEntitlementCallback = () => {
   getEntitlements(resolveEnt);
 
   loadLink(
-    `${miloLibs || codeRoot}/features/personalization/entitlements.js`,
+    `${miloLibs || codeRoot}/features/personalization/personalization.js`,
     { as: 'script', rel: 'modulepreload' },
   );
 };
 
 function isProxied() {
-  return /^(www|milo|business|blog)(\.stage)?\.adobe\.com$/.test(window.location.hostname);
+  return /^(www|milo|business|blog|news)(\.stage)?\.adobe\.com$/.test(window.location.hostname);
 }
 
 let filesLoadedPromise = false;
@@ -184,7 +145,7 @@ const loadMartechFiles = async (config) => {
         .then(() => {
           if (window.adobeIMS.isSignedInUser()) setupEntitlementCallback();
         })
-        .catch(() => {});
+        .catch(() => { });
     }
 
     setDeep(

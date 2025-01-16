@@ -44,6 +44,7 @@ const MILO_BLOCKS = [
   'iframe',
   'instagram',
   'locui',
+  'locui-create',
   'marketo',
   'marquee',
   'marquee-anchors',
@@ -53,6 +54,7 @@ const MILO_BLOCKS = [
   'merch-card',
   'merch-card-collection',
   'merch-offers',
+  'mmm',
   'mnemonic-list',
   'mobile-app-banner',
   'modal',
@@ -140,19 +142,24 @@ ENVS.local = {
 };
 
 export const MILO_EVENTS = { DEFERRED: 'milo:deferred' };
+const TARGET_TIMEOUT_MS = 4000;
 
 const LANGSTORE = 'langstore';
 const PREVIEW = 'target-preview';
 const PAGE_URL = new URL(window.location.href);
-const SLD = PAGE_URL.hostname.includes('.aem.') ? 'aem' : 'hlx';
+export const SLD = PAGE_URL.hostname.includes('.aem.') ? 'aem' : 'hlx';
 
 const PROMO_PARAM = 'promo';
 
-function getEnv(conf) {
+export function getEnv(conf) {
   const { host } = window.location;
   const query = PAGE_URL.searchParams.get('env');
 
   if (query) return { ...ENVS[query], consumer: conf[query] };
+
+  const { clientEnv } = conf;
+  if (clientEnv) return { ...ENVS[clientEnv], consumer: conf[clientEnv] };
+
   if (host.includes('localhost')) return { ...ENVS.local, consumer: conf.local };
   /* c8 ignore start */
   if (host.includes(`${SLD}.page`)
@@ -193,7 +200,7 @@ export function getMetadata(name, doc = document) {
 
 const handleEntitlements = (() => {
   const { martech } = Object.fromEntries(PAGE_URL.searchParams);
-  if (martech === 'off') return () => {};
+  if (martech === 'off') return () => { };
   let entResolve;
   const entPromise = new Promise((resolve) => {
     entResolve = resolve;
@@ -225,6 +232,7 @@ export const [setConfig, updateConfig, getConfig] = (() => {
       config.base = config.miloLibs || config.codeRoot;
       config.locale = pathname ? getLocale(conf.locales, pathname) : getLocale(conf.locales);
       config.autoBlocks = conf.autoBlocks ? [...AUTO_BLOCKS, ...conf.autoBlocks] : AUTO_BLOCKS;
+      config.signInContext = conf.signInContext || {};
       config.doNotInline = conf.doNotInline
         ? [...DO_NOT_INLINE, ...conf.doNotInline]
         : DO_NOT_INLINE;
@@ -306,7 +314,7 @@ export function localizeLink(
     const isLocalizedLink = path.startsWith(`/${LANGSTORE}`)
       || path.startsWith(`/${PREVIEW}`)
       || Object.keys(locales).some((loc) => loc !== '' && (path.startsWith(`/${loc}/`)
-      || path.endsWith(`/${loc}`)));
+        || path.endsWith(`/${loc}`)));
     if (isLocalizedLink) return processedHref;
     const urlPath = `${locale.prefix}${path}${url.search}${hash}`;
     return relative ? urlPath : `${url.origin}${urlPath}`;
@@ -351,6 +359,16 @@ export function appendHtmlToCanonicalUrl() {
   canonEl.setAttribute('href', `${canonEl.href}.html`);
 }
 
+export function appendSuffixToTitles() {
+  const appendage = getMetadata('title-append');
+  if (!appendage) return;
+  document.title = `${document.title} ${appendage}`;
+  const ogTitleEl = document.querySelector('meta[property="og:title"]');
+  if (ogTitleEl) ogTitleEl.setAttribute('content', document.title);
+  const twitterTitleEl = document.querySelector('meta[name="twitter:title"]');
+  if (twitterTitleEl) twitterTitleEl.setAttribute('content', document.title);
+}
+
 export function appendHtmlToLink(link) {
   const { useDotHtml } = getConfig();
   if (!useDotHtml) return;
@@ -391,7 +409,7 @@ export function appendHtmlToLink(link) {
   }
 }
 
-export const loadScript = (url, type) => new Promise((resolve, reject) => {
+export const loadScript = (url, type, { mode } = {}) => new Promise((resolve, reject) => {
   let script = document.querySelector(`head > script[src="${url}"]`);
   if (!script) {
     const { head } = document;
@@ -400,6 +418,7 @@ export const loadScript = (url, type) => new Promise((resolve, reject) => {
     if (type) {
       script.setAttribute('type', type);
     }
+    if (['async', 'defer'].includes(mode)) script.setAttribute(mode, true);
     head.append(script);
   }
 
@@ -473,6 +492,7 @@ export async function loadBlock(block) {
       try {
         const { default: init } = await import(`${blockPath}.js`);
         await init(block);
+        block.dataset.blockStatus = 'loaded';
       } catch (err) {
         console.log(`Failed loading ${name}`, err);
         const config = getConfig();
@@ -495,7 +515,7 @@ export function decorateSVG(a) {
   try {
     // Mine for URL and alt text
     const splitText = textContent.split('|');
-    const textUrl = new URL(splitText.shift().trim());
+    const authoredUrl = new URL(splitText.shift().trim());
     const altText = splitText.join('|').trim();
 
     // Relative link checking
@@ -503,13 +523,14 @@ export function decorateSVG(a) {
       ? new URL(`${window.location.origin}${a.href}`)
       : new URL(a.href);
 
-    const src = textUrl.hostname.includes(`.${SLD}.`) ? textUrl.pathname : textUrl;
+    const src = (authoredUrl.hostname.includes('.hlx.') || authoredUrl.hostname.includes('.aem.'))
+      ? authoredUrl.pathname
+      : authoredUrl;
 
-    const img = createTag('img', { loading: 'lazy', src });
-    if (altText) img.alt = altText;
+    const img = createTag('img', { loading: 'lazy', src, alt: altText || '' });
     const pic = createTag('picture', null, img);
 
-    if (textUrl.pathname === hrefUrl.pathname) {
+    if (authoredUrl.pathname === hrefUrl.pathname) {
       a.parentElement.replaceChild(pic, a);
       return pic;
     }
@@ -639,19 +660,29 @@ const decorateCopyLink = (a, evt) => {
   });
 };
 
-export function convertStageLinks({ anchors, config, hostname }) {
-  if (config.env?.name === 'prod' || !config.stageDomainsMap) return;
-  const matchedRules = Object.entries(config.stageDomainsMap)
-    .find(([domain]) => hostname.includes(domain));
+export function convertStageLinks({ anchors, config, hostname, href }) {
+  const { env, stageDomainsMap, locale } = config;
+  if (env?.name === 'prod' || !stageDomainsMap) return;
+  const matchedRules = Object.entries(stageDomainsMap)
+    .find(([domain]) => (new RegExp(domain)).test(href));
   if (!matchedRules) return;
   const [, domainsMap] = matchedRules;
   [...anchors].forEach((a) => {
+    const hasLocalePrefix = a.pathname.startsWith(locale.prefix);
+    const noLocaleLink = hasLocalePrefix ? a.href.replace(locale.prefix, '') : a.href;
     const matchedDomain = Object.keys(domainsMap)
-      .find((domain) => a.href.includes(domain));
+      .find((domain) => (new RegExp(domain)).test(noLocaleLink));
     if (!matchedDomain) return;
-    a.href = a.href.replace(a.hostname, domainsMap[matchedDomain] === 'origin'
-      ? hostname
-      : domainsMap[matchedDomain]);
+    const convertedLink = noLocaleLink.replace(
+      new RegExp(matchedDomain),
+      domainsMap[matchedDomain] === 'origin'
+        ? `${matchedDomain.includes('https') ? 'https://' : ''}${hostname}`
+        : domainsMap[matchedDomain],
+    );
+    const convertedUrl = new URL(convertedLink);
+    convertedUrl.pathname = `${hasLocalePrefix ? locale.prefix : ''}${convertedUrl.pathname}`;
+    a.href = convertedUrl.toString();
+    if (/(\.page|\.live).*\.html(?=[?#]|$)/.test(a.href)) a.href = a.href.replace(/\.html(?=[?#]|$)/, '');
   });
 }
 
@@ -659,7 +690,7 @@ export function decorateLinks(el) {
   const config = getConfig();
   decorateImageLinks(el);
   const anchors = el.getElementsByTagName('a');
-  const { hostname } = window.location;
+  const { hostname, href } = window.location;
   const links = [...anchors].reduce((rdx, a) => {
     appendHtmlToLink(a);
     a.href = localizeLink(a.href);
@@ -686,16 +717,26 @@ export function decorateLinks(el) {
       a.href = a.href.replace(loginEvent, '');
       a.addEventListener('click', (e) => {
         e.preventDefault();
-        window.adobeIMS?.signIn();
+        const { signInContext } = config;
+        window.adobeIMS?.signIn(signInContext);
       });
     }
     const copyEvent = '#_evt-copy';
     if (a.href.includes(copyEvent)) {
       decorateCopyLink(a, copyEvent);
     }
+    // Append aria-label
+    const pipeRegex = /\s?\|([^|]*)$/;
+    if (pipeRegex.test(a.textContent) && !/\.[a-z]+/i.test(a.textContent)) {
+      const node = [...a.childNodes].reverse()[0];
+      const ariaLabel = node.textContent.match(pipeRegex)[1];
+      node.textContent = node.textContent.replace(pipeRegex, '');
+      a.setAttribute('aria-label', ariaLabel.trim());
+    }
+
     return rdx;
   }, []);
-  convertStageLinks({ anchors, config, hostname });
+  convertStageLinks({ anchors, config, hostname, href });
   return links;
 }
 
@@ -732,7 +773,17 @@ function decorateDefaults(el) {
   });
 }
 
-function decorateHeader() {
+export async function getGnavSource() {
+  const { locale, dynamicNavKey } = getConfig();
+  let url = getMetadata('gnav-source') || `${locale.contentRoot}/gnav`;
+  if (dynamicNavKey) {
+    const { default: dynamicNav } = await import('../features/dynamic-navigation/dynamic-navigation.js');
+    url = dynamicNav(url, dynamicNavKey);
+  }
+  return url;
+}
+
+async function decorateHeader() {
   const breadcrumbs = document.querySelector('.breadcrumbs');
   breadcrumbs?.remove();
   const header = document.querySelector('header');
@@ -745,7 +796,7 @@ function decorateHeader() {
   }
   header.className = headerMeta || 'global-navigation';
   const metadataConfig = getMetadata('breadcrumbs')?.toLowerCase()
-  || getConfig().breadcrumbs;
+    || getConfig().breadcrumbs;
   if (metadataConfig === 'off') return;
   const baseBreadcrumbs = getMetadata('breadcrumbs-base')?.length;
 
@@ -753,9 +804,20 @@ function decorateHeader() {
   const dynamicNavActive = getMetadata('dynamic-nav') === 'on'
     && window.sessionStorage.getItem('gnavSource') !== null;
   if (!dynamicNavActive && (baseBreadcrumbs || breadcrumbs || autoBreadcrumbs)) header.classList.add('has-breadcrumbs');
+  const gnavSource = await getGnavSource();
+  const newNavEnabled = new URLSearchParams(window.location.search).get('newNav') || getMetadata('mobile-gnav-v2') !== 'off';
+  if (gnavSource.split('/').pop().startsWith('localnav-') && newNavEnabled) {
+    // Preserving space to avoid CLS issue
+    const localNavWrapper = createTag('div', { class: 'feds-localnav' });
+    header.after(localNavWrapper);
+  }
   if (breadcrumbs) header.append(breadcrumbs);
   const promo = getMetadata('gnav-promo-source');
-  if (promo?.length) header.classList.add('has-promo');
+  if (promo?.length) {
+    const fedsPromoWrapper = createTag('div', { class: 'feds-promo-aside-wrapper' });
+    header.before(fedsPromoWrapper);
+    header.classList.add('has-promo');
+  }
 }
 
 async function decorateIcons(area, config) {
@@ -800,14 +862,15 @@ const findReplaceableNodes = (area) => {
 };
 
 let placeholderRequest;
-async function decoratePlaceholders(area, config) {
+export async function decoratePlaceholders(area, config) {
   if (!area) return;
   const nodes = findReplaceableNodes(area);
   if (!nodes.length) return;
+  area.dataset.hasPlaceholders = 'true';
   const placeholderPath = `${config.locale?.contentRoot}/placeholders.json`;
   placeholderRequest = placeholderRequest
-  || customFetch({ resource: placeholderPath, withCacheRules: true })
-    .catch(() => ({}));
+    || customFetch({ resource: placeholderPath, withCacheRules: true })
+      .catch(() => ({}));
   const { decoratePlaceholderArea } = await import('../features/placeholders.js');
   await decoratePlaceholderArea({ placeholderPath, placeholderRequest, nodes });
 }
@@ -896,7 +959,7 @@ export async function decorateFooterPromo(doc = document) {
 }
 
 const getMepValue = (val) => {
-  const valMap = { on: true, off: false, gnav: 'gnav' };
+  const valMap = { on: true, off: false, postLCP: 'postlcp' };
   const finalVal = val?.toLowerCase().trim();
   if (finalVal in valMap) return valMap[finalVal];
   return finalVal;
@@ -942,7 +1005,7 @@ let imsLoaded;
 export async function loadIms() {
   imsLoaded = imsLoaded || new Promise((resolve, reject) => {
     const {
-      locale, imsClientId, imsScope, env, base, adobeid,
+      locale, imsClientId, imsScope, env, base, adobeid, imsTimeout,
     } = getConfig();
     if (!imsClientId) {
       reject(new Error('Missing IMS Client ID'));
@@ -950,7 +1013,7 @@ export async function loadIms() {
     }
     const [unavMeta, ahomeMeta] = [getMetadata('universal-nav')?.trim(), getMetadata('adobe-home-redirect')];
     const defaultScope = `AdobeID,openid,gnav${unavMeta && unavMeta !== 'off' ? ',pps.read,firefly_api,additional_info.roles,read_organizations' : ''}`;
-    const timeout = setTimeout(() => reject(new Error('IMS timeout')), 5000);
+    const timeout = setTimeout(() => reject(new Error('IMS timeout')), imsTimeout || 5000);
     window.adobeid = {
       client_id: imsClientId,
       scope: imsScope || defaultScope,
@@ -1003,12 +1066,36 @@ export async function loadMartech({
   }
 
   window.targetGlobalSettings = { bodyHidingEnabled: false };
-  loadIms().catch(() => {});
+  loadIms().catch(() => { });
 
   const { default: initMartech } = await import('../martech/martech.js');
   await initMartech({ persEnabled, persManifests, postLCP });
 
   return true;
+}
+
+/**
+ * Checks if the user is signed out based on the server timing and navigation performance.
+ *
+ * @returns {boolean} True if the user is signed out, otherwise false.
+ */
+function isSignedOut() {
+  const serverTiming = window.performance?.getEntriesByType('navigation')?.[0]?.serverTiming?.reduce(
+    (acc, { name, description }) => ({ ...acc, [name]: description }),
+    {},
+  );
+
+  return !Object.keys(serverTiming || {}).length || serverTiming?.sis === '0';
+}
+
+/**
+ * Enables personalization (V2) for the page.
+ *
+ * @returns {boolean} True if personalization is enabled, otherwise false.
+ */
+export function enablePersonalizationV2() {
+  const enablePersV2 = document.head.querySelector('meta[name="personalization-v2"]');
+  return !!enablePersV2 && isSignedOut();
 }
 
 async function checkForPageMods() {
@@ -1018,13 +1105,51 @@ async function checkForPageMods() {
     mepButton,
     martech,
   } = Object.fromEntries(PAGE_URL.searchParams);
+  let targetInteractionPromise = null;
   if (mepParam === 'off') return;
   const pzn = getMepEnablement('personalization');
   const promo = getMepEnablement('manifestnames', PROMO_PARAM);
   const target = martech === 'off' ? false : getMepEnablement('target');
   const xlg = martech === 'off' ? false : getMepEnablement('xlg');
+
   if (!(pzn || target || promo || mepParam
     || mepHighlight || mepButton || mepParam === '' || xlg)) return;
+
+  const enablePersV2 = enablePersonalizationV2();
+  if ((target || xlg) && enablePersV2) {
+    const params = new URL(window.location.href).searchParams;
+    const calculatedTimeout = parseInt(params.get('target-timeout'), 10)
+      || parseInt(getMetadata('target-timeout'), 10)
+      || TARGET_TIMEOUT_MS;
+
+    const { locale } = getConfig();
+    targetInteractionPromise = (async () => {
+      const { loadAnalyticsAndInteractionData } = await import('../martech/helpers.js');
+      const now = performance.now();
+      performance.mark('interaction-start');
+      const data = await loadAnalyticsAndInteractionData(
+        { locale, env: getEnv({})?.name, calculatedTimeout },
+      );
+      performance.mark('interaction-end');
+      performance.measure('total-time', 'interaction-start', 'interaction-end');
+      const respTime = performance.getEntriesByName('total-time')[0];
+
+      return { targetInteractionData: data, respTime, respStartTime: now };
+    })();
+
+    const { init } = await import('../features/personalization/personalization.js');
+    await init({
+      mepParam,
+      mepHighlight,
+      mepButton,
+      pzn,
+      promo,
+      target,
+      targetInteractionPromise,
+      calculatedTimeout,
+    });
+    return;
+  }
   if (target || xlg) {
     loadMartech();
   } else if (pzn && martech !== 'off') {
@@ -1038,19 +1163,25 @@ async function checkForPageMods() {
 
   const { init } = await import('../features/personalization/personalization.js');
   await init({
-    mepParam, mepHighlight, mepButton, pzn, promo, target,
+    mepParam, mepHighlight, mepButton, pzn, promo, target, targetInteractionPromise,
   });
 }
 
 async function loadPostLCP(config) {
   await decoratePlaceholders(document.body.querySelector('header'), config);
-  if (config.mep?.targetEnabled === 'gnav') {
+  const sk = document.querySelector('aem-sidekick, helix-sidekick');
+  if (sk) import('./sidekick-decorate.js').then((mod) => { mod.default(sk); });
+  if (config.mep?.targetEnabled === 'postlcp') {
     /* c8 ignore next 2 */
     const { init } = await import('../features/personalization/personalization.js');
     await init({ postLCP: true });
+    if (enablePersonalizationV2()) {
+      loadMartech();
+    }
   } else {
     loadMartech();
   }
+
   const georouting = getMetadata('georouting') || config.geoRouting;
   if (georouting === 'on') {
     const { default: loadGeoRouting } = await import('../features/georoutingv2/georoutingv2.js');
@@ -1091,8 +1222,7 @@ export function scrollToHashedElement(hash) {
 }
 
 export async function loadDeferred(area, blocks, config) {
-  const event = new Event(MILO_EVENTS.DEFERRED);
-  area.dispatchEvent(event);
+  area.dispatchEvent(new Event(MILO_EVENTS.DEFERRED));
 
   if (area !== document) {
     return;
@@ -1112,12 +1242,6 @@ export async function loadDeferred(area, blocks, config) {
     });
   }
 
-  import('./samplerum.js').then(({ sampleRUM }) => {
-    sampleRUM('lazy');
-    sampleRUM.observe(blocks);
-    sampleRUM.observe(area.querySelectorAll('picture > img'));
-  });
-
   if (getMetadata('pageperf') === 'on') {
     import('./logWebVitals.js')
       .then((mod) => mod.default(getConfig().mep, {
@@ -1129,6 +1253,12 @@ export async function loadDeferred(area, blocks, config) {
     import('../features/personalization/preview.js')
       .then(({ default: decoratePreviewMode }) => decoratePreviewMode());
   }
+  if (config?.dynamicNavKey && config?.env?.name !== 'prod') {
+    const { miloLibs } = config;
+    loadStyle(`${miloLibs}/features/dynamic-navigation/status.css`);
+    const { default: loadDNStatus } = await import('../features/dynamic-navigation/status.js');
+    loadDNStatus();
+  }
 }
 
 function initSidekick() {
@@ -1137,7 +1267,7 @@ function initSidekick() {
     init({ createTag, loadBlock, loadScript, loadStyle });
   };
 
-  if (document.querySelector('helix-sidekick')) {
+  if (document.querySelector('aem-sidekick, helix-sidekick')) {
     initPlugins();
   } else {
     document.addEventListener('sidekick-ready', () => {
@@ -1148,9 +1278,9 @@ function initSidekick() {
 
 function decorateMeta() {
   const { origin } = window.location;
-  const contents = document.head.querySelectorAll(`[content*=".${SLD}."]`);
+  const contents = document.head.querySelectorAll('[content*=".hlx."], [content*=".aem."]');
   contents.forEach((meta) => {
-    if (meta.getAttribute('property') === 'hlx:proxyUrl') return;
+    if (meta.getAttribute('property') === 'hlx:proxyUrl' || meta.getAttribute('name')?.endsWith('schedule')) return;
     try {
       const url = new URL(meta.content);
       const localizedLink = localizeLink(`${origin}${url.pathname}`);
@@ -1174,19 +1304,10 @@ function decorateMeta() {
 function decorateDocumentExtras() {
   decorateMeta();
   decorateHeader();
-
-  import('./samplerum.js').then(({ addRumListeners }) => {
-    addRumListeners();
-  });
 }
 
 async function documentPostSectionLoading(config) {
   decorateFooterPromo();
-
-  const appendage = getMetadata('title-append');
-  if (appendage) {
-    import('../features/title-append/title-append.js').then((module) => module.default(appendage));
-  }
   if (getMetadata('seotech-structured-data') === 'on' || getMetadata('seotech-video-url')) {
     import('../features/seotech/seotech.js').then((module) => module.default(
       { locationUrl: window.location.href, getMetadata, createTag, getConfig },
@@ -1279,6 +1400,7 @@ export async function loadArea(area = document) {
   if (isDoc) {
     await checkForPageMods();
     appendHtmlToCanonicalUrl();
+    appendSuffixToTitles();
   }
   const config = getConfig();
 

@@ -43,10 +43,10 @@ describe('MEP Utils', () => {
       const targetEnabled = getMepEnablement('target');
       expect(targetEnabled).to.equal(false);
     });
-    it('checks target metadata set to gnav', async () => {
-      document.head.innerHTML = await readFile({ path: './mocks/mep/head-target-gnav.html' });
+    it('checks target metadata set to postlcp', async () => {
+      document.head.innerHTML = await readFile({ path: './mocks/mep/head-target-postlcp.html' });
       const targetEnabled = getMepEnablement('target');
-      expect(targetEnabled).to.equal('gnav');
+      expect(targetEnabled).to.equal('postlcp');
     });
     it('checks from just metadata with no target metadata', async () => {
       document.head.innerHTML = await readFile({ path: './mocks/mep/head-promo.html' });

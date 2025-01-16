@@ -1,11 +1,15 @@
-.dialog-modal.locale-modal-v2 .georouting-wrapper {
-  display: block !important;
-  padding: 56px 24px 40px;
-}
-
 .dialog-modal.locale-modal-v2 {
   overflow: visible;
   font-family: 'Adobe Clean', adobe-clean, 'Trebuchet MS', sans-serif;
+}
+
+.dialog-modal.locale-modal-v2 .dialog-close,
+.dialog-modal.locale-modal-v2 .georouting-wrapper {
+  display: none;
+}
+
+.dialog-modal.locale-modal-v2 .georouting-wrapper {
+  padding: 56px 24px 40px;
 }
 
 .dialog-modal.locale-modal-v2 .georouting-bg {

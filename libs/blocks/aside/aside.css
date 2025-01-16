@@ -298,6 +298,7 @@
 }
 
 .aside.rounded-corners .foreground .image img,
+.aside.rounded-corners .foreground .image:not(:has(.video-container)) .pause-play-wrapper,
 .aside.rounded-corners .foreground .image video {
   border-radius: 16px;
 }
@@ -751,7 +752,7 @@
   }
 
   .aside .split-image .modal-img-link,
-  .aside.split .split-image img,
+  .aside.split .split-image img:not(.accessibility-control),
   .aside.split .split-image video {
     width: 50vw;
     position: absolute;

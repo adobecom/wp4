@@ -45,6 +45,28 @@
     color: var(--color-black);
     text-decoration: none;
   }
+
+  .con-block.light-mobile-only a.con-button.fill {
+    border-color: var(--text-color);
+    background-color: var(--text-color);
+    color: var(--color-white);
+  }
+
+  .con-block.dark-mobile-only a.con-button.fill {
+    border-color: var(--color-white);
+    background-color: var(--color-white);
+    color: var(--text-color);
+  }
+  
+  .con-block.light-mobile-only a.con-button.fill:is(:hover, :focus, :active) {
+    border-color: var(--color-black);
+    background-color: var(--color-black);
+  }
+  
+  .con-block.dark-mobile-only a.con-button.fill:is(:hover, :focus, :active) {
+    color: var(--color-black);
+  }
+  
 }
 
 /* Tablet ONLY */
@@ -80,6 +102,27 @@
     border-color: var(--color-white);
     color: var(--color-black);
     text-decoration: none;
+  }
+
+  .con-block.light-tablet-only a.con-button.fill {
+    border-color: var(--text-color);
+    background-color: var(--text-color);
+    color: var(--color-white);
+  }
+
+  .con-block.dark-tablet-only a.con-button.fill {
+    border-color: var(--color-white);
+    background-color: var(--color-white);
+    color: var(--text-color);
+  }
+  
+  .con-block.light-tablet-only a.con-button.fill:is(:hover, :focus, :active) {
+    border-color: var(--color-black);
+    background-color: var(--color-black);
+  }
+  
+  .con-block.dark-tablet-only a.con-button.fill:is(:hover, :focus, :active) {
+    color: var(--color-black);
   }
 }
 
@@ -117,6 +160,27 @@
     color: var(--color-black);
     text-decoration: none;
   }
+
+  .con-block.light-tablet a.con-button.fill {
+    border-color: var(--text-color);
+    background-color: var(--text-color);
+    color: var(--color-white);
+  }
+
+  .con-block.dark-tablet a.con-button.fill {
+    border-color: var(--color-white);
+    background-color: var(--color-white);
+    color: var(--text-color);
+  }
+  
+  .con-block.light-tablet a.con-button.fill:is(:hover, :focus, :active) {
+    border-color: var(--color-black);
+    background-color: var(--color-black);
+  }
+  
+  .con-block.dark-tablet a.con-button.fill:is(:hover, :focus, :active) {
+    color: var(--color-black);
+  }
 }
 
 /* desktop up */
@@ -153,5 +217,26 @@
     border-color: var(--color-white);
     color: var(--color-black);
     text-decoration: none;
+  }
+
+  .con-block.light-desktop a.con-button.fill {
+    border-color: var(--text-color);
+    background-color: var(--text-color);
+    color: var(--color-white);
+  }
+
+  .con-block.dark-desktop a.con-button.fill {
+    border-color: var(--color-white);
+    background-color: var(--color-white);
+    color: var(--text-color);
+  }
+  
+  .con-block.light-desktop a.con-button.fill:is(:hover, :focus, :active) {
+    border-color: var(--color-black);
+    background-color: var(--color-black);
+  }
+  
+  .con-block.dark-desktop a.con-button.fill:is(:hover, :focus, :active) {
+    color: var(--color-black);
   }
 }

@@ -17,41 +17,67 @@ const localRunConfigs = {
   origin: process.env.LOCAL_RUN_ORIGIN || 'origin',
 };
 
-const getPrDescription = ({ branch, scriptPath }) => `## Description
-Update ${scriptPath} to the latest version
+const getPrDescription = ({ branch, scriptPath }) => {
+  switch(scriptPath) {
+    case './libs/deps/imslib.min.js':
+      return `## Description
+      Update ${scriptPath} to the latest version
+      
+      ## Related Issue
+      Resolves: NO TICKET - AUTOMATED CREATED PR.
+      
+      ## Testing instructions - IMS Libs
+      1. Signing in should still function
+      2. Signing out should still work
+      3. Regression tests on all consumers
 
-## Related Issue
-Resolves: NO TICKET - AUTOMATED CREATED PR.
+      ## Test URLs - IMS 
+      **Acrobat:**
+      - Before: https://www.stage.adobe.com/acrobat/online/sign-pdf.html?martech=off
+      - After: https://www.stage.adobe.com/acrobat/online/sign-pdf.html?martech=off&milolibs=${branch}--milo--adobecom
 
-## Testing instructions
-1. Signing in should still function
-2. Signing out should still work
-3. Regression tests on all consumers
+      **BACOM:**
+      - Before: https://business.stage.adobe.com/fr/customer-success-stories.html?martech=off
+      - After: https://business.stage.adobe.com/fr/customer-success-stories.html?martech=off&milolibs=${branch}--milo--adobecom
 
-## Test URLs
-**Acrobat:**
-- Before: https://www.stage.adobe.com/acrobat/online/sign-pdf.html?martech=off
-- After: https://www.stage.adobe.com/acrobat/online/sign-pdf.html?martech=off&milolibs=${branch}--milo--adobecom
+      **CC:**
+      - Before: https://main--cc--adobecom.hlx.live/?martech=off
+      - After: https://main--cc--adobecom.hlx.live/?martech=off&milolibs=${branch}--milo--adobecom
 
-**BACOM:**
-- Before: https://business.stage.adobe.com/fr/customer-success-stories.html?martech=off
-- After: https://business.stage.adobe.com/fr/customer-success-stories.html?martech=off&milolibs=${branch}--milo--adobecom
+      **Homepage:**
+      - Before: https://main--homepage--adobecom.hlx.page/homepage/index-loggedout?martech=off
+      - After: https://main--homepage--adobecom.hlx.page/homepage/index-loggedout?martech=off&milolibs=${branch}--milo--adobecom
 
-**CC:**
-- Before: https://main--cc--adobecom.hlx.live/?martech=off
-- After: https://main--cc--adobecom.hlx.live/?martech=off&milolibs=${branch}--milo--adobecom
+      **Blog:**
+      - Before: https://main--blog--adobecom.hlx.page/?martech=off
+      - After: https://main--blog--adobecom.hlx.page/?martech=off&milolibs=${branch}--milo--adobecom
 
-**Homepage:**
-- Before: https://main--homepage--adobecom.hlx.page/homepage/index-loggedout?martech=off
-- After: https://main--homepage--adobecom.hlx.page/homepage/index-loggedout?martech=off&milolibs=${branch}--milo--adobecom
+      **Milo:**
+      - Before: https://main--milo--adobecom.aem.page/ch_de/drafts/ramuntea/gnav-refactor?martech=off
+      - After: https://${branch}--milo--adobecom.aem.page/ch_de/drafts/ramuntea/gnav-refactor?martech=off`
+    case './libs/deps/forms2.min.js':
+      return   `## Description
+      Update ${scriptPath} to the latest version
+      
+      ## Related Issue
+      Resolves: NO TICKET - AUTOMATED CREATED PR.
+      
+      ## Testing instructions - Marketo Forms
+      1. The form should still load 
+      2. The form should still submit 
+      3. The form should redirect you a new page
+      
+      ## Test URLs - Marketo
 
-**Blog:**
-- Before: https://main--blog--adobecom.hlx.page/?martech=off
-- After: https://main--blog--adobecom.hlx.page/?martech=off&milolibs=${branch}--milo--adobecom
+      **BACOM:**
+      - Before: https://business.stage.adobe.com?martech=off
+      - After: https://business.stage.adobe.com?martech=off&milolibs=${branch}--milo--adobecom
 
-**Milo:**
-- Before: https://main--milo--adobecom.hlx.page/ch_de/drafts/ramuntea/gnav-refactor?martech=off
-- After: https://${branch}--milo--adobecom.hlx.page/ch_de/drafts/ramuntea/gnav-refactor?martech=off`;
+      **Milo:**
+      - Before: https://main--milo--adobecom.hlx.live/drafts/bmarshal/marketo/full
+      - After: https://${branch}--milo--adobecom.hlx.live/drafts/bmarshal/marketo/full`
+  }
+}
 
 const fetchScript = (path) =>
   new Promise((resolve, reject) => {

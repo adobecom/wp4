@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 import WebUtil from '../../libs/webutil.js';
 import { features } from './modal.spec.js';
 import ModalBlock from './modal.page.js';
+import { runAccessibilityTest } from '../../libs/accessibility.js';
 
 let modal;
 let webUtil;
@@ -15,7 +16,7 @@ test.describe('Milo Modal feature test suite', () => {
   });
 
   // Test 0 : Modal with Text block
-  test(`${features[0].name},${features[0].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[0].tcid}] ${features[0].name},${features[0].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[0].path}${miloLibs}`);
 
     await test.step('step-1: Go to Modal feature test page', async () => {
@@ -40,6 +41,10 @@ test.describe('Milo Modal feature test suite', () => {
 
       expect(await WebUtil.isModalInViewport(modal.page, modal.modalSelector)).toBeTruthy();
 
+      await test.step('step-2.1: Verify the accessibility test on Modal text fragment block', async () => {
+        await runAccessibilityTest({ page, testScope: modal.dialog });
+      });
+
       // click the modal close button
       await expect(await modal.dialogCloseButton).toBeVisible();
       await modal.dialogCloseButton.click();
@@ -47,7 +52,7 @@ test.describe('Milo Modal feature test suite', () => {
   });
 
   // Test 1 : Modal with Media block
-  test(`${features[1].name}, ${features[1].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[1].tcid}] ${features[1].name}, ${features[1].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[1].path}${miloLibs}`);
 
     await test.step('step-1: Go to Modal feature test page', async () => {
@@ -82,7 +87,7 @@ test.describe('Milo Modal feature test suite', () => {
   });
 
   // Test 2 : Modal with Video Autoplay
-  test(`${features[2].name}, ${features[2].tags}`, async ({ page, baseURL }) => {
+  test(`[Test Id - ${features[2].tcid}] ${features[2].name}, ${features[2].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[2].path}${miloLibs}`);
 
     await test.step('step-1: Go to Modal feature test page', async () => {

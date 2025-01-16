@@ -205,10 +205,11 @@
 
 .section.sticky-bottom.promo-sticky-section {
   background: none;
-  z-index: 40000;
+  z-index: 4; 
 }
 
-.section.sticky-bottom.popup {
+.section.sticky-bottom.popup,
+.section.sticky-bottom:has(.notification.pill) {
   bottom: var(--spacing-xs);
 }
 

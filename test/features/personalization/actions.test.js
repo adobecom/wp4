@@ -3,7 +3,7 @@ import { readFile } from '@web/test-runner-commands';
 import { stub } from 'sinon';
 import { getConfig, loadBlock } from '../../../libs/utils/utils.js';
 import initFragments from '../../../libs/blocks/fragment/fragment.js';
-import { init, handleFragmentCommand } from '../../../libs/features/personalization/personalization.js';
+import { init, handleCommands } from '../../../libs/features/personalization/personalization.js';
 import mepSettings from './mepSettings.js';
 
 document.head.innerHTML = await readFile({ path: './mocks/metadata.html' });
@@ -40,7 +40,8 @@ describe('replace action', () => {
     const el = parentEl.firstElementChild.firstElementChild;
     expect(el.href)
       .to.equal('http://localhost:2000/test/features/personalization/mocks/fragments/milo-replace-content-chrome-howto-h2');
-    expect(getConfig().mep.commands[0].targetManifestId).to.equal(false);
+    const el2 = document.querySelector('a[href="/test/features/personalization/mocks/fragments/milo-replace-content-chrome-howto-h2"]');
+    expect(el2.dataset.adobeTargetTestid).to.equal(undefined);
     // .how-to should not be changed as it is targeted to firefox
     expect(document.querySelector('.how-to')).to.not.be.null;
   });
@@ -55,7 +56,8 @@ describe('replace action', () => {
     expect(document.querySelector('a[href="/fragments/replaceme"]')).to.exist;
     expect(document.querySelector('a[href="/fragments/inline-replaceme#_inline"]')).to.exist;
     await init(mepSettings);
-    expect(getConfig().mep.commands[0].targetManifestId).to.equal(false);
+    const el = document.querySelector('a[href="/test/features/personalization/mocks/fragments/milo-replace-content-chrome-howto-h2"]');
+    expect(el.dataset.adobeTargetTestid).to.be.equal(undefined);
 
     const fragmentResp = await readFile({ path: './mocks/fragments/fragmentReplaced.plain.html' });
     const inlineFragmentResp = await readFile({ path: './mocks/fragments/inlineFragReplaced.plain.html' });
@@ -139,7 +141,8 @@ describe('prependToSection action', async () => {
 
     expect(document.querySelector('a[href="/test/features/personalization/mocks/fragments/prependToSection"]')).to.be.null;
     await init(mepSettings);
-    expect(getConfig().mep.commands[0].targetManifestId).to.equal(false);
+    const el = document.querySelector('a[href="/test/features/personalization/mocks/fragments/prependToSection"]');
+    expect(el.dataset.adobeTargetTestid).to.equal(undefined);
 
     const fragment = document.querySelector('main > div:nth-child(2) > div:first-child a[href="/test/features/personalization/mocks/fragments/prependToSection"]');
     expect(fragment).to.not.be.null;
@@ -148,7 +151,6 @@ describe('prependToSection action', async () => {
 
 describe('appendToSection action', async () => {
   it('appendToSection should add fragment to end of section', async () => {
-    config.mep = { handleFragmentCommand };
     let manifestJson = await readFile({ path: './mocks/actions/manifestAppendToSection.json' });
 
     manifestJson = JSON.parse(manifestJson);
@@ -156,10 +158,29 @@ describe('appendToSection action', async () => {
 
     expect(document.querySelector('a[href="/test/features/personalization/mocks/fragments/appendToSection"]')).to.be.null;
     await init(mepSettings);
-    expect(getConfig().mep.commands[0].targetManifestId).to.equal(false);
+    const el = document.querySelector('a[href="/test/features/personalization/mocks/fragments/appendToSection"]');
+    expect(el.dataset.adobeTargetTestid).to.equal(undefined);
 
     const fragment = document.querySelector('main > div:nth-child(2) > div:last-child a[href="/test/features/personalization/mocks/fragments/appendToSection"]');
     expect(fragment).to.not.be.null;
+  });
+});
+
+describe('addHash', async () => {
+  it('if forceInline is true, addHash is called', async () => {
+    config.mep.commands = [{
+      action: 'replace',
+      content: '/new-fragment',
+      selector: 'h1',
+    }];
+    const rootEl = document.createElement('div');
+    handleCommands(config.mep.commands, rootEl, true, true);
+    console.log(config.mep.commands[0].content);
+    expect(config.mep.commands[0].content).to.equal('/new-fragment#_inline');
+    config.mep.commands[0].content = 'https://main--cc--adobecom.hlx.page/cc/fragments/new-fragment';
+    handleCommands(config.mep.commands, rootEl, true, true);
+    console.log(config.mep.commands[0].content);
+    expect(config.mep.commands[0].content).to.equal('https://main--cc--adobecom.hlx.page/cc/fragments/new-fragment#_inline');
   });
 });
 
@@ -180,8 +201,10 @@ describe('replace action with html/text instead of fragment', () => {
     expect(primaryCTA.href).to.not.equal('updated text');
     expect(secondaryCTA.innerText).to.not.equal('updated text');
     expect(actionArea.innerHTML).to.not.equal('<p>updated text</p>');
+    config.placeholders = { 'marquee-href': 'https://test.com/updated_href' };
 
     await init(mepSettings);
+    config.placeholders = null;
 
     expect(header.innerText).to.equal('updated text');
     expect(primaryCTA.innerText).to.equal('updated text');
@@ -198,7 +221,6 @@ describe('remove action', () => {
     setFetchResponse(manifestJson);
     mepSettings.mepButton = 'off';
     await init(mepSettings);
-    expect(getConfig().mep.commands[0].targetManifestId).to.equal(false);
   });
   it('remove should remove content', async () => {
     expect(document.querySelector('.z-pattern')).to.be.null;
@@ -216,21 +238,25 @@ describe('remove action', () => {
     let manifestJson = await readFile({ path: './mocks/actions/manifestRemove.json' });
     manifestJson = JSON.parse(manifestJson);
     setFetchResponse(manifestJson);
+    delete config.mep;
 
-    setTimeout(async () => {
-      expect(document.querySelector('.z-pattern')).to.not.be.null;
-      mepSettings.mepButton = false;
-      await init(mepSettings);
-      expect(getConfig().mep.commands[0].targetManifestId).to.equal(false);
+    expect(document.querySelector('.z-pattern')).to.not.be.null;
+    await init({
+      mepParam: '',
+      mepHighlight: false,
+      mepButton: false,
+      pzn: '/path/to/manifest.json',
+      promo: false,
+      target: false,
+    });
 
-      expect(document.querySelector('.z-pattern')).to.not.be.null;
-      expect(document.querySelector('.z-pattern').dataset.removedManifestId).to.not.be.null;
+    expect(document.querySelector('.z-pattern')).to.not.be.null;
+    expect(document.querySelector('.z-pattern').dataset.removedManifestId).to.equal('manifest.json');
 
-      const removeMeFrag = document.querySelector('a[href="/fragments/removeme"]');
-      await initFragments(removeMeFrag);
-      expect(document.querySelector('a[href="/fragments/removeme"]')).to.not.be.null;
-      expect(document.querySelector('a[href="/fragments/removeme"]').dataset.removedManifestId).to.not.be.null;
-    }, 50);
+    const removeMeFrag = document.querySelector('a[href="/fragments/removeme"]');
+    await initFragments(removeMeFrag);
+    expect(document.querySelector('a[href="/fragments/removeme"]')).to.not.be.null;
+    expect(document.querySelector('a[href="/fragments/removeme"]').dataset.removedManifestId).to.not.be.null;
   });
 });
 
@@ -274,7 +300,6 @@ describe('custom actions', async () => {
     manifestJson = JSON.parse(manifestJson);
     setFetchResponse(manifestJson);
     await init(mepSettings);
-    expect(getConfig().mep.commands[0].targetManifestId).to.equal(false);
     expect(getConfig().mep.custom).to.be.undefined;
   });
 
@@ -288,27 +313,44 @@ describe('custom actions', async () => {
       'my-block': {
         commands: [{
           action: 'replace',
-          target: '/fragments/fragmentreplaced',
+          content: '/fragments/fragmentreplaced',
           manifestId: false,
           targetManifestId: false,
+          pageFilter: '',
+          // selector: 'in-block:my-block',
+          selectorType: 'in-block:',
         },
         {
           action: 'replace',
-          target: '/fragments/new-large-menu',
+          content: '/fragments/new-large-menu',
           manifestId: false,
           selector: '.large-menu',
           targetManifestId: false,
+          pageFilter: '',
+          selectorType: 'in-block:',
         }],
         fragments: {
           '/fragments/sub-menu': {
             action: 'replace',
-            target: '/fragments/even-more-new-sub-menu',
+            content: '/fragments/even-more-new-sub-menu',
             manifestId: false,
             targetManifestId: false,
+            pageFilter: '',
+            selectorType: 'in-block:',
           },
           '/fragments/new-sub-menu': {
             action: 'replace',
-            target: '/fragments/even-more-new-sub-menu',
+            content: '/fragments/even-more-new-sub-menu',
+            manifestId: false,
+            targetManifestId: false,
+            pageFilter: '',
+            selectorType: 'in-block:',
+          },
+          'https://main--federal--adobecom.aem.page/federal/fragments/new-sub-menu': {
+            action: 'replace',
+            pageFilter: '',
+            content: 'https://main--federal--adobecom.aem.page/federal/fragments/even-more-new-sub-menu',
+            selectorType: 'in-block:',
             manifestId: false,
             targetManifestId: false,
           },

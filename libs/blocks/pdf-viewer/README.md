@@ -1,7 +1,7 @@
 # PDF Viewer
 
 ## Feature Branch Testing
-The client ids are specific to the origin (no wildcards), so the stage **pdfViewerClientId** only works for **main--milo--adobecom.hlx.page**. If you want to test the pdf on a feature branch, you need to create a new temporary client id. Alternatively, you can name your branch **pdf-viewsdk** and use the existing client id that's set up for **pdf-viewsdk--milo--adobecom.hlx.page**. You can find it in the [developer console](https://developer.adobe.com/console/) under "Milo PDF Viewer Branch".
+The client ids are specific to the origin (no wildcards), so the stage **pdfViewerClientId** only works for **main--milo--adobecom.aem.page**. If you want to test the pdf on a feature branch, you need to create a new temporary client id. Alternatively, you can name your branch **pdf-viewsdk** and use the existing client id that's set up for **pdf-viewsdk--milo--adobecom.aem.page**. You can find it in the [developer console](https://developer.adobe.com/console/) under "Milo PDF Viewer Branch".
 
 How to create a new client id:
 1. Got to https://acrobatservices.adobe.com/dc-integration-creation-app-cdn/main.html?api=pdf-embed-api.

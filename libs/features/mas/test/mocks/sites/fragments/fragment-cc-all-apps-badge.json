@@ -1,0 +1,28 @@
+{
+    "path": "/content/dam/mas/nala/ccd/slice-cc-allapps31211211",
+    "name": "",
+    "title": "CCD Suggested CC All Apps",
+    "id": "3d26df5b-0784-4967-8149-8a9e59131084",
+    "description": "",
+    "model": { "id": "L2NvbmYvbWFzL3NldHRpbmdzL2RhbS9jZm0vbW9kZWxzL2NhcmQ" },
+    "fields": {
+        "variant": "ccd-slice",
+        "mnemonicIcon": ["/test/mocks/img/creative-cloud.svg"],
+        "mnemonicAlt": ["creative"],
+        "mnemonicLink": [],
+        "badge": { "value": "Save 65%", "mimeType": "text/html" },
+        "backgroundImage": "/test/img/pixel.png",
+        "prices": { "mimeType": "text/html" },
+        "shortDescription": { "mimeType": "text/html" },
+        "description": {
+            "value": "<p><b>Save on Creative Cloud with Mastercard*</b></p><p><a href=\"https://www.adobe.com/creativecloud/plans.html\">See terms</a></p>",
+            "mimeType": "text/html"
+        },
+        "ctas": {
+            "value": "<a is=\"checkout-link\" class=\"accent\" href=\"\" data-wcs-osi=\"PpnQ-UmW9NBwZwXlFw79zw2JybhvwIUwMTDYiIlu5qI\" title=\"\" target=\"_self\">Get Offer</a>",
+            "mimeType": "text/html"
+        },
+        "stockOffer": { "mimeType": "text/html" },
+        "secure": false
+    }
+}

@@ -3,14 +3,23 @@ import Picker from '../../ui/controls/TagSelectPicker.js';
 import { loadCaasTags } from '../caas/utils.js';
 
 const CAAS_LABEL = 'CaaS';
+const TAG_KEYS = ['Type', 'Name'];
 
-async function fetchData(url) {
+async function fetchTags(url) {
   const resp = await fetch(url.toLowerCase());
 
   if (!resp.ok) throw new Error('Network error');
 
-  const json = await resp.json();
-  return json;
+  const { data } = await resp.json();
+
+  if (!Array.isArray(data)) throw new Error('Could not parse data');
+
+  return data.map((item) => {
+    const tag = Object.create(null);
+    TAG_KEYS.forEach((key) => { tag[key] = item[key]; });
+
+    return tag;
+  });
 }
 
 const TagPreview = ({ selectedTags = [] }) => {
@@ -93,9 +102,12 @@ const TagSelector = ({ consumerUrls = [] }) => {
 
     const fetchConsumer = () => {
       consumerUrls.forEach(({ title, url }) => {
-        fetchData(url).then((json) => {
-          const tags = getConsumerTags(json.data);
+        fetchTags(url).then((data) => {
+          const tags = getConsumerTags(data);
           setTagSelectorTags((prevConsumerTags) => ({ [title]: tags, ...prevConsumerTags }));
+        }).catch((e) => {
+          /* c8 ignore next 2 */
+          window.lana.log(`Tag Selector. Error fetching consumer tags: ${e.message}`, { tags: 'tag-selector', errorType: 'i' });
         });
       });
     };

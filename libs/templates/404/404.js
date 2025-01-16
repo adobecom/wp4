@@ -68,7 +68,7 @@ export default async function init() {
   if (style === 'feds') await get404();
   if (style === 'local') await get404(`${root}/fragments/404`);
   if (!style) await getLegacy404();
-  sampleRUM('404', { source: document.referrer, target: window.location.href });
+  sampleRUM('404', { source: document.referrer });
 }
 
 (async () => {

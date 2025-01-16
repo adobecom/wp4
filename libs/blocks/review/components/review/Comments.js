@@ -6,7 +6,6 @@ import {
 } from '../../../../deps/htm-preact.js';
 
 function Comments({
-  label,
   comment,
   handleCommentChange,
   placeholderText,
@@ -61,20 +60,19 @@ function Comments({
   `;
   return html`
     <fieldset className=${commentsClass}>
-      <label htmlFor="rating-comments" />
+      <label htmlFor="rating-comments">${placeholderText}</label>
       <textarea
         id="rating-comments"
         ref=${textArea}
         cols="40"
         maxlength=${maxLength}
         name="rating-comments"
-        aria-label=${label}
-        placeholder=${placeholderText}
+        aria-label=${placeholderText}
         onInput=${onCommentChange}
         onFocus=${onFocus}
         value=${comment}
         onBlur=${onBlur}
-      />
+      ></textarea>
       <div id="ctaCover" onClick=${onCtaCoverClick}>
         ${charCountElement}
       </div>

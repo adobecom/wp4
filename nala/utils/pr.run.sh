@@ -33,6 +33,7 @@ toRepoName=${repoParts[1]}
 prRepo=${prRepo:-$toRepoName}
 prOrg=${prOrg:-$toRepoOrg}
 
+# TODO ADD HLX5 SUPPORT
 PR_BRANCH_LIVE_URL_GH="https://$FEATURE_BRANCH--$prRepo--$prOrg.hlx.live"
 
 # set pr branch url as env
@@ -72,7 +73,7 @@ npx playwright install --with-deps
 # Run Playwright tests on the specific projects using root-level playwright.config.js
 # This will be changed later
 echo "*** Running tests on specific projects ***"
-npx playwright test --config=./playwright.config.js ${TAGS} ${EXCLUDE_TAGS} --project=milo-live-chromium --project=milo-live-firefox ${REPORTER} || EXIT_STATUS=$?
+npx playwright test --config=./playwright.config.js ${TAGS} ${EXCLUDE_TAGS} --project=milo-live-chromium --project=milo-live-firefox --project=milo-live-webkit ${REPORTER} || EXIT_STATUS=$?
 
 # Check if tests passed or failed
 if [ $EXIT_STATUS -ne 0 ]; then

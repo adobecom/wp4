@@ -108,20 +108,24 @@ async function buildSharing() {
     twitter: {
       'data-href': `https://www.twitter.com/share?&url=${url}&text=${title}`,
       'aria-label': 'share twitter',
+      tabindex: '0',
     },
     linkedin: {
       'data-type': 'LinkedIn',
       'data-href': `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${title}&summary=${description || ''}`,
       'aria-label': 'share linkedin',
+      tabindex: '0',
     },
     facebook: {
       'data-type': 'Facebook',
       'data-href': `https://www.facebook.com/sharer/sharer.php?u=${url}`,
       'aria-label': 'share facebook',
+      tabindex: '0',
     },
     link: {
       id: 'copy-to-clipboard',
       'aria-label': 'copy to clipboard',
+      tabindex: '0',
     },
   };
 

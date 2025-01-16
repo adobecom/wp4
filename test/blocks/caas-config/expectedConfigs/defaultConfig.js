@@ -1,6 +1,10 @@
 const defaultConfig = {
   collection: {
     mode: 'lightest',
+    partialLoadWithBackgroundFetch: {
+      enabled: false,
+      partialLoadCount: 100,
+    },
     layout: { type: '4up', gutter: '4x', container: '1200MaxWidth' },
     button: { style: 'primary' },
     collectionButtonStyle: 'primary',

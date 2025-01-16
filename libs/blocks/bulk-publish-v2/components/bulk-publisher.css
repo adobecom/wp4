@@ -52,10 +52,31 @@
 .prompt .message {
   display: inline-flex;
   align-items: center;
-  height: 33px;
   text-align: center;
+  flex-wrap: wrap;
 }
 
+.prompt .message.share {
+  gap: 10px;
+  padding: 0 15px;
+}
+
+.prompt .close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  background-color: #303030;
+  color: white;
+  font-weight: bold;
+  padding: 0 11px;
+  border-radius: 0 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.prompt .close:hover {
+  background-color: #444;
+}
 
 .prompt .load-indicator.hide,
 .prompt .message.hide {

@@ -38,10 +38,10 @@ describe('Utils - MEP GNav', () => {
 
     it('have target be set to gnav and save in config', async () => {
       window.fetch = sinon.stub().returns(htmlResponse());
-      document.head.innerHTML = await readFile({ path: './mocks/mep/head-target-gnav.html' });
+      document.head.innerHTML = await readFile({ path: './mocks/mep/head-target-postlcp.html' });
       await utils.loadArea();
       const resultConfig = utils.getConfig();
-      expect(resultConfig.mep.targetEnabled).to.equal('gnav');
+      expect(resultConfig.mep.targetEnabled).to.equal('postlcp');
     });
   });
 });

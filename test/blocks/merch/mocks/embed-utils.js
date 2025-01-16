@@ -23,6 +23,9 @@ export function createTag(tag, attributes, html) {
   return el;
 }
 
+const PAGE_URL = new URL(window.location.href);
+export const SLD = PAGE_URL.hostname.includes('.aem.') ? 'aem' : 'hlx';
+
 export const getConfig = () => config;
 
 export const setConfig = (c) => { config = c; };

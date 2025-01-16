@@ -1,4 +1,5 @@
 @import url('../../styles/iframe.css');
+@import url('../video/video.css');
 
 a[href*='.mp4'].hide-video {
   visibility: hidden !important;

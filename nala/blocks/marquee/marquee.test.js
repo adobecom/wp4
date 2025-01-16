@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 import WebUtil from '../../libs/webutil.js';
 import { features } from './marquee.spec.js';
 import MarqueeBlock from './marquee.page.js';
+import { runAccessibilityTest } from '../../libs/accessibility.js';
 
 let webUtil;
 let marquee;
@@ -42,6 +43,10 @@ test.describe('Milo Marquee Block test suite', () => {
       await expect(await marquee.outlineButton).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.outlineButtonText, 1, data.h2Text));
       await expect(await marquee.blueButton).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.blueButtonText, 2, data.h2Text));
     });
+
+    await test.step('step-4: Verify the accessibility test on the marquee(light) block', async () => {
+      await runAccessibilityTest({ page, testScope: marquee.marqueeLight });
+    });
   });
 
   // Test 1 : Marquee (light, xxl-button)
@@ -68,6 +73,10 @@ test.describe('Milo Marquee Block test suite', () => {
 
       await expect(await marquee.backgroundImage).toBeVisible();
       await expect(await marquee.backgroundImage).toHaveAttribute('loading', 'eager');
+    });
+
+    await test.step('step-3: Verify the accessibility test on the  Marquee (light, xxl-button) block', async () => {
+      await runAccessibilityTest({ page, testScope: marquee.marqueeLightXxlButton });
     });
   });
 
@@ -96,6 +105,10 @@ test.describe('Milo Marquee Block test suite', () => {
     await test.step('step-3: Verify analytic attributes', async () => {
       await expect(await marquee.marqueeSmall).toHaveAttribute('daa-lh', await webUtil.getBlockDaalh('marquee', 1));
       await expect(await marquee.blueButton).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.blueButtonText, 1, data.h2Text));
+    });
+
+    await test.step('step-4: Verify the accessibility test on the  Marquee (small) block', async () => {
+      await runAccessibilityTest({ page, testScope: marquee.marqueeSmall });
     });
   });
 
@@ -128,6 +141,10 @@ test.describe('Milo Marquee Block test suite', () => {
       await expect(await marquee.outlineButton).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.outlineButtonText, 1, data.h2Text));
       await expect(await marquee.blueButton).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.blueButtonText, 2, data.h2Text));
     });
+
+    await test.step('step-4: Verify the accessibility test on the  Marquee (small, light) block', async () => {
+      await runAccessibilityTest({ page, testScope: marquee.marqueeSmallLight });
+    });
   });
 
   // Test 4 : Marquee (large)
@@ -157,6 +174,10 @@ test.describe('Milo Marquee Block test suite', () => {
       await expect(await marquee.marqueeLarge).toHaveAttribute('daa-lh', await webUtil.getBlockDaalh('marquee', 1));
       await expect(await marquee.outlineButtonXL).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.outlineButtonText, 1, data.h2Text));
       await expect(await marquee.blueButtonXL).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.blueButtonText, 2, data.h2Text));
+    });
+
+    await test.step('step-4: Verify the accessibility test on the  Marquee (large) block', async () => {
+      await runAccessibilityTest({ page, testScope: marquee.marqueeLarge });
     });
   });
 
@@ -188,6 +209,10 @@ test.describe('Milo Marquee Block test suite', () => {
       await expect(await marquee.outlineButtonXL).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.outlineButtonText, 1, data.h2Text));
       await expect(await marquee.blueButtonXL).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.blueButtonText, 2, data.h2Text));
     });
+
+    await test.step('step-4: Verify the accessibility test on the  Marquee (large, light ) block', async () => {
+      await runAccessibilityTest({ page, testScope: marquee.marqueeLargeLight });
+    });
   });
 
   // Test 6 : Marquee (large standard)
@@ -215,6 +240,10 @@ test.describe('Milo Marquee Block test suite', () => {
       await expect(await marquee.backgroundImage).toBeVisible();
       await expect(await marquee.backgroundImage).toHaveAttribute('loading', 'eager');
     });
+
+    await test.step('step-4: Verify the accessibility test on the  Marquee (large standard) block', async () => {
+      await runAccessibilityTest({ page, testScope: marquee.marqueeLargeStandardDark });
+    });
   });
 
   // Test 7 : Marquee (large compact)
@@ -240,13 +269,17 @@ test.describe('Milo Marquee Block test suite', () => {
       await expect(await marquee.backgroundImage).toBeVisible();
       await expect(await marquee.backgroundImage).toHaveAttribute('loading', 'eager');
     });
+
+    await test.step('step-3: Verify the accessibility test on the  Marquee (large compact) block', async () => {
+      await runAccessibilityTest({ page, testScope: marquee.marqueeLargeCompactDark });
+    });
   });
   // Test 8 : Marquee (quiet)
   test(`[Test Id - ${features[8].tcid}] ${features[8].name},${features[8].tags}`, async ({ page, baseURL }) => {
     console.info(`[Test Page]: ${baseURL}${features[8].path}${miloLibs}`);
     const { data } = features[8];
 
-    await test.step('step-1: Go to Marquee (quiet ) block test page', async () => {
+    await test.step('step-1: Go to Marquee (quiet) block test page', async () => {
       await page.goto(`${baseURL}${features[8].path}${miloLibs}`);
       await page.waitForLoadState('domcontentloaded');
       await expect(page).toHaveURL(`${baseURL}${features[8].path}${miloLibs}`);
@@ -267,6 +300,10 @@ test.describe('Milo Marquee Block test suite', () => {
       await expect(await marquee.marqueeQuiet).toHaveAttribute('daa-lh', await webUtil.getBlockDaalh('marquee', 1));
       await expect(await marquee.blueButton).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.blueButtonText, 1, data.h2Text));
     });
+
+    await test.step('step-4: Verify the accessibility test on the  Marquee (quiet) block', async () => {
+      await runAccessibilityTest({ page, testScope: marquee.marqueeQuiet });
+    });
   });
 
   // Test 9 : Marquee (inline)
@@ -274,7 +311,7 @@ test.describe('Milo Marquee Block test suite', () => {
     console.info(`[Test Page]: ${baseURL}${features[9].path}${miloLibs}`);
     const { data } = features[9];
 
-    await test.step('step-1: Go to Marquee (inline ) block test page', async () => {
+    await test.step('step-1: Go to Marquee (inline) block test page', async () => {
       await page.goto(`${baseURL}${features[9].path}${miloLibs}`);
       await page.waitForLoadState('domcontentloaded');
       await expect(page).toHaveURL(`${baseURL}${features[9].path}${miloLibs}`);
@@ -292,6 +329,10 @@ test.describe('Milo Marquee Block test suite', () => {
 
     await test.step('step-3: Verify analytic attributes', async () => {
       await expect(await marquee.marqueeInline).toHaveAttribute('daa-lh', await webUtil.getBlockDaalh('marquee', 1));
+    });
+
+    await test.step('step-4: Verify the accessibility test on the Marquee (inline) block', async () => {
+      await runAccessibilityTest({ page, testScope: marquee.marqueeInline });
     });
   });
 
@@ -322,6 +363,10 @@ test.describe('Milo Marquee Block test suite', () => {
       await expect(await marquee.marqueeSplitSmall).toHaveAttribute('daa-lh', await webUtil.getBlockDaalh('marquee', 1));
       await expect(await marquee.outlineButton).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.outlineButtonText, 1, data.h2Text));
       await expect(await marquee.blueButton).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.blueButtonText, 2, data.h2Text));
+    });
+
+    await test.step('step-4: Verify the accessibility test on the Marquee (split, small) block', async () => {
+      await runAccessibilityTest({ page, testScope: marquee.marqueeSplitSmall });
     });
   });
 
@@ -357,6 +402,10 @@ test.describe('Milo Marquee Block test suite', () => {
       await expect(await marquee.blueButtonXL).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.blueButtonText, 1, data.h2Text));
       await expect(await marquee.actionLink2).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.linkText, 2, data.h2Text));
     });
+
+    await test.step('step-4: Verify the accessibility test on the Marquee (split, large) block', async () => {
+      await runAccessibilityTest({ page, testScope: marquee.marqueeSplitLarge, skipA11yTest: true });
+    });
   });
 
   // Test 12 : Marquee (split,one-third,large,light)
@@ -390,6 +439,10 @@ test.describe('Milo Marquee Block test suite', () => {
       await expect(await marquee.marqueeSplitOneThirdLargeLight).toHaveAttribute('daa-lh', await webUtil.getBlockDaalh('marquee', 1));
       await expect(await marquee.blueButtonXL).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.blueButtonText, 1, data.h2Text));
       await expect(await marquee.actionLink2).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.linkText, 2, data.h2Text));
+    });
+
+    await test.step('step-4: Verify the accessibility test on the Marquee (split, one-third, large, light) block', async () => {
+      await runAccessibilityTest({ page, testScope: marquee.marqueeSplitOneThirdLargeLight, skipA11yTest: true });
     });
   });
 
@@ -425,6 +478,10 @@ test.describe('Milo Marquee Block test suite', () => {
       await expect(await marquee.blueButtonL).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.blueButtonText, 1, data.h2Text));
       await expect(await marquee.actionLink2).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.linkText, 2, data.h2Text));
     });
+
+    await test.step('step-4: Verify the accessibility test on the Marquee (split, one-third) block', async () => {
+      await runAccessibilityTest({ page, testScope: marquee.marqueeSplitOneThird, skipA11yTest: true });
+    });
   });
 
   // Test 14 : Marquee (split,one-third,small,light)
@@ -454,6 +511,10 @@ test.describe('Milo Marquee Block test suite', () => {
       await expect(await marquee.marqueeSplitOneThirdSmallLight).toHaveAttribute('daa-lh', await webUtil.getBlockDaalh('marquee', 1));
       await expect(await marquee.blueButtonL).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.blueButtonText, 1, data.h2Text));
     });
+
+    await test.step('step-4: Verify the accessibility test on the Marquee (split,one-third,small,light) block', async () => {
+      await runAccessibilityTest({ page, testScope: marquee.marqueeSplitOneThirdSmallLight, skipA11yTest: true });
+    });
   });
 
   // Test 15 : Marquee small (background video playsinline)
@@ -482,7 +543,11 @@ test.describe('Milo Marquee Block test suite', () => {
 
     await test.step('step-3: Verify analytic attributes', async () => {
       await expect(await marquee.marqueeSmallDark).toHaveAttribute('daa-lh', await webUtil.getBlockDaalh('marquee', 1));
-      await expect(await marquee.blueButtonL).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.blueButtonText, 1, data.h2Text));
+      await expect(await marquee.blueButtonL).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.blueButtonText, 2, data.h2Text));
+    });
+
+    await test.step('step-4: Verify the accessibility test on the Marquee (small) background video playsinline block', async () => {
+      await runAccessibilityTest({ page, testScope: marquee.marqueeSmallDark });
     });
   });
 
@@ -505,7 +570,7 @@ test.describe('Milo Marquee Block test suite', () => {
       await expect(await marquee.headingXXL).toContainText(data.h2Text);
       await expect(await marquee.bodyXL).toContainText(data.bodyText);
       await expect(await marquee.blueButtonXL).toContainText(data.blueButtonText);
-      await expect(await marquee.actionLink2).toContainText(data.linkText);
+      await expect(await marquee.actionLink3).toContainText(data.linkText);
 
       await expect(await marquee.backgroundVideoDesktop).toBeVisible();
       expect(await webUtil.verifyAttributes(marquee.backgroundVideoDesktop, marquee.attributes['backgroundVideo.inline'])).toBeTruthy();
@@ -516,8 +581,8 @@ test.describe('Milo Marquee Block test suite', () => {
 
     await test.step('step-3: Verify analytic attributes', async () => {
       await expect(await marquee.marqueeLargeLight).toHaveAttribute('daa-lh', await webUtil.getBlockDaalh('marquee', 1));
-      await expect(await marquee.blueButtonXL).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.blueButtonText, 1, data.h2Text));
-      await expect(await marquee.actionLink2).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.linkText, 2, data.h2Text));
+      await expect(await marquee.blueButtonXL).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.blueButtonText, 2, data.h2Text));
+      await expect(await marquee.actionLink3).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.linkText, 3, data.h2Text));
     });
   });
 
@@ -550,7 +615,7 @@ test.describe('Milo Marquee Block test suite', () => {
 
     await test.step('step-3: Verify analytic attributes', async () => {
       await expect(await marquee.marqueeLargeDark).toHaveAttribute('daa-lh', await webUtil.getBlockDaalh('marquee', 2));
-      await expect(await marquee.blueButtonXL).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.blueButtonText, 1, data.h2Text));
+      await expect(await marquee.blueButtonXL).toHaveAttribute('daa-ll', await webUtil.getLinkDaall(data.blueButtonText, 2, data.h2Text));
     });
   });
 
@@ -559,7 +624,7 @@ test.describe('Milo Marquee Block test suite', () => {
     console.info(`[Test Page]: ${baseURL}${features[18].path}${miloLibs}`);
     const { data } = features[18];
 
-    await test.step('step-1: Go to Marquee ( background image focal point ) block test page', async () => {
+    await test.step('step-1: Go to Marquee (background image focal point) block test page', async () => {
       await page.goto(`${baseURL}${features[18].path}${miloLibs}`);
       await page.waitForLoadState('domcontentloaded');
       await expect(page).toHaveURL(`${baseURL}${features[18].path}${miloLibs}`);
@@ -581,6 +646,10 @@ test.describe('Milo Marquee Block test suite', () => {
 
       await expect(await marquee.backgroundImage).toBeVisible();
       await expect(await marquee.backgroundImage).toHaveAttribute('style', 'object-position: right bottom;');
+    });
+
+    await test.step('step-4: Verify the accessibility test on the Marquee (background image focal point) block', async () => {
+      await runAccessibilityTest({ page, testScope: marquee.marqueeDark });
     });
   });
 });

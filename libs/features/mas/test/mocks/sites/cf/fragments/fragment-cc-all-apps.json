@@ -1,0 +1,198 @@
+{
+    "path": "/content/dam/mas/ccd-slice-cc-allapps",
+    "title": "CCD Suggested CC All Apps",
+    "description": "",
+    "id": "fragment-cc-all-apps",
+    "created": {
+        "at": "2024-10-28T11:42:14.523Z",
+        "by": "sling-distribution-importer",
+        "fullName": "sling-distribution-importer"
+    },
+    "modified": {
+        "at": "2024-11-14T16:56:11.178Z",
+        "by": "cod23684@adobe.com",
+        "fullName": "cod23684@adobe.com"
+    },
+    "status": "DRAFT",
+    "fields": [
+        {
+            "name": "variant",
+            "type": "text",
+            "multiple": false,
+            "locked": false,
+            "values": ["ccd-slice"]
+        },
+        {
+            "name": "osi",
+            "type": "text",
+            "multiple": false,
+            "locked": false,
+            "values": []
+        },
+        {
+            "name": "size",
+            "type": "text",
+            "multiple": false,
+            "locked": false,
+            "values": []
+        },
+        {
+            "name": "mnemonicIcon",
+            "type": "text",
+            "multiple": true,
+            "locked": false,
+            "values": ["/test/mocks/img/creative-cloud.svg"]
+        },
+        {
+            "name": "mnemonicAlt",
+            "type": "text",
+            "multiple": true,
+            "locked": false,
+            "values": []
+        },
+        {
+            "name": "mnemonicLink",
+            "type": "text",
+            "multiple": true,
+            "locked": false,
+            "values": []
+        },
+        {
+            "name": "badge",
+            "type": "long-text",
+            "multiple": false,
+            "locked": false,
+            "mimeType": "text/html",
+            "values": []
+        },
+        {
+            "name": "backgroundImage",
+            "type": "text",
+            "multiple": false,
+            "locked": false,
+            "values": ["/test/img/pixel.png"]
+        },
+        {
+            "name": "backgroundImageAltText",
+            "type": "text",
+            "multiple": false,
+            "locked": false,
+            "values": []
+        },
+        {
+            "name": "cardTitle",
+            "type": "text",
+            "multiple": false,
+            "locked": false,
+            "values": []
+        },
+        {
+            "name": "cardTitleLink",
+            "type": "text",
+            "multiple": false,
+            "locked": false,
+            "values": []
+        },
+        {
+            "name": "subtitle",
+            "type": "text",
+            "multiple": false,
+            "locked": false,
+            "values": []
+        },
+        {
+            "name": "prices",
+            "type": "long-text",
+            "multiple": false,
+            "locked": false,
+            "mimeType": "text/html",
+            "values": []
+        },
+        {
+            "name": "shortDescription",
+            "type": "long-text",
+            "multiple": false,
+            "locked": false,
+            "mimeType": "text/html",
+            "values": []
+        },
+        {
+            "name": "description",
+            "type": "long-text",
+            "multiple": false,
+            "locked": false,
+            "mimeType": "text/html",
+            "values": [
+                "<p><strong>Save over 40% when you upgrade to Creative Cloud All apps</strong></p>"
+            ]
+        },
+        {
+            "name": "ctas",
+            "type": "long-text",
+            "multiple": false,
+            "locked": false,
+            "mimeType": "text/html",
+            "values": [
+                "<a is=\"checkout-link\" class=\"accent\" href=\"\" data-promotion-code=\"testpromo\" data-wcs-osi=\"PpnQ-UmW9NBwZwXlFw79zw2JybhvwIUwMTDYiIlu5qI\">Buy now</a>"
+            ]
+        },
+        {
+            "name": "parent",
+            "type": "content-fragment",
+            "multiple": false,
+            "locked": false,
+            "values": []
+        },
+        {
+            "name": "product",
+            "type": "content-reference",
+            "multiple": false,
+            "locked": false,
+            "values": []
+        },
+        {
+            "name": "stockOffer",
+            "type": "long-text",
+            "multiple": false,
+            "locked": false,
+            "mimeType": "text/html",
+            "values": []
+        },
+        {
+            "name": "secure",
+            "type": "boolean",
+            "multiple": false,
+            "locked": false,
+            "values": [false]
+        },
+        {
+            "name": "tags",
+            "type": "tag",
+            "multiple": true,
+            "locked": false,
+            "values": []
+        }
+    ],
+    "variations": [],
+    "tags": [
+        {
+            "id": "mas:product/cc/creativecloud",
+            "title": "Creative Cloud All Apps",
+            "i18n": [],
+            "titlePath": "Merch at Scale : PRODUCT / Creative Cloud / Creative Cloud All Apps",
+            "name": "creativecloud",
+            "path": "/content/cq:tags/mas/product/cc/creativecloud",
+            "description": ""
+        }
+    ],
+    "references": [],
+    "model": {
+        "id": "L2NvbmYvbWFzL3NldHRpbmdzL2RhbS9jZm0vbW9kZWxzL2NhcmQ",
+        "path": "/conf/mas/settings/dam/cfm/models/card",
+        "name": "Card",
+        "title": "Card",
+        "description": "universal m@s card model"
+    },
+    "validationStatus": [],
+    "fieldTags": []
+}

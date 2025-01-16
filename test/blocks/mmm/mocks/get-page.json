@@ -1,0 +1,48 @@
+{
+  "activities": [
+      {
+          "eventEnd": null,
+          "lastSeen": "2024-12-06T01:22:42.000Z",
+          "variantNames": "target-apro-twp-abdn||target-cc-lapsed||target-smb||target-edu||target-dc||target-return||phone||all",
+          "targetActivityName": "PZN | US | Homepage | Logged Out - 11/15/24 - Blk-Frdy-Cybr-Mndy",
+          "eventStart": null,
+          "source": "target",
+          "manifestId": 6,
+          "url": "https://main--homepage--adobecom.hlx.page/homepage/fragments/mep/hp-11-15-black-friday.json",
+          "pathname": "/homepage/fragments/mep/hp-11-15-black-friday.json"
+      },
+      {
+          "eventEnd": null,
+          "lastSeen": "2024-12-06T00:23:37.000Z",
+          "variantNames": "target-apro-twp-abdn||target-cc-lapsed||target-smb||target-edu||target-dc||target-return||phone",
+          "targetActivityName": null,
+          "eventStart": null,
+          "source": "pzn",
+          "manifestId": 15,
+          "url": "https://main--homepage--adobecom.hlx.page/homepage/fragments/mep/hp-12-09-24-cybr-tkdwn-ste.json",
+          "pathname": "/homepage/fragments/mep/hp-12-09-24-cybr-tkdwn-ste.json"
+      },
+      {
+          "eventEnd": "2024-12-09T15:00:00.000Z",
+          "lastSeen": "2024-12-06T18:54:14.000Z",
+          "variantNames": "all",
+          "targetActivityName": null,
+          "eventStart": "2024-11-15T15:45:00.000Z",
+          "source": "promo",
+          "manifestId": 7,
+          "url": "https://main--homepage--adobecom.hlx.page/homepage/fragments/loggedout/promos/2024/bfcm/global/bfcm-cct-row-133146.json",
+          "pathname": "/homepage/fragments/loggedout/promos/2024/bfcm/global/bfcm-cct-row-133146.json"
+      }
+  ],
+  "page": {
+      "personalization": "on",
+      "lastSeen": "2024-12-06T21:02:46.000Z",
+      "geo": "",
+      "pageId": 4,
+      "page": "/",
+      "locale": "en-US",
+      "region": "us",
+      "url": "https://www.adobe.com/",
+      "target": "on"
+  }
+}

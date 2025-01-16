@@ -1,6 +1,7 @@
 import { getConfig } from '../../../../utils/utils.js';
-import { toFragment, getFedsPlaceholderConfig, trigger, closeAllDropdowns, logErrorFor } from '../../utilities/utilities.js';
+import { toFragment, trigger, closeAllDropdowns, logErrorFor } from '../../utilities/utilities.js';
 import { replaceKeyArray } from '../../../../features/placeholders.js';
+import { getFedsPlaceholderConfig } from '../../../../utils/federated.js';
 
 const getLanguage = (ietfLocale) => {
   if (!ietfLocale.length) return 'en';

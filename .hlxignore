@@ -10,3 +10,4 @@ web-test-runner.config.mjs
 codecov.yaml
 libs/features/mas/*
 !libs/features/mas/docs
+!libs/features/mas/dist

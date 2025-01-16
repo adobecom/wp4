@@ -1,32 +1,62 @@
-main {
+body {
+  margin: 0;
+  padding: 0;
   display: flex;
-  justify-content: center;
 }
 
-sp-theme {
-  max-width: 1100px;
-  font-family:
-    var(
-      --mod-body-sans-serif-font-family,
-      var(--spectrum-body-sans-serif-font-family)
-    );
-  font-style:
-    var(
-      --mod-body-sans-serif-font-style,
-      var(--spectrum-body-sans-serif-font-style)
-    );
-  font-weight:
-    var(
-      --mod-body-sans-serif-font-weight,
-      var(--spectrum-body-sans-serif-font-weight)
-    );
-  font-size: var(--mod-body-font-size, var(--spectrum-body-font-size));
-  color:
-    var(
-      --highcontrast-body-font-color,
-      var(--mod-body-font-color, var(--spectrum-body-font-color))
-    );
-  line-height: var(--mod-body-line-height, var(--spectrum-body-line-height));
+body.spectrum--darkest {
+  background-color: #1e1e1e;
+}
+
+.sidenav {
+  width: 105px;
+  background-color: #f4f4f4;
+  padding: 5px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidenav a {
+  display: block;
+  padding: 5px 5px;
+  text-decoration: none;
+  color: #333;
+  font-size: 13px;
+  font-weight: bold; /* Makes text bold */
+  text-transform: uppercase; /* Converts text to uppercase */
+}
+
+.sidenav a:hover {
+  background-color: #ddd;
+  color: #000;
+}
+
+main {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  margin: 0 16px;
+  padding: 20px;
+}
+
+/* Media query for small screens */
+@media (max-width: 768px) {
+  body {
+    flex-direction: column; /* Stack content vertically */
+  }
+
+  .sidenav {
+    width: 100%; /* Make sidenav take full width */
+    box-shadow: none; /* Remove shadow for bottom layout */
+  }
+}
+
+.container {
+  width: 100%;
+  max-width: 966px;
+  font-family: adobe-clean, var(--spectrum-body-sans-serif-font-family);
+  font-style: var(--spectrum-body-sans-serif-font-style);
+  font-weight: var(--spectrum-body-sans-serif-font-weight);
+  line-height: var(--spectrum-body-line-height);
   margin-block: 0;
 }
 
@@ -62,7 +92,8 @@ tr:nth-child(even) {
   margin: 0;
 }
 
-.price-unit-type::before {
+.price-unit-type::before,
+.price-tax-inclusivity::before {
   content: " ";
 }
 
@@ -77,6 +108,135 @@ tr:nth-child(even) {
   padding: 0 10px;
 }
 
-.placeholder-failed::after {
+span.placeholder-failed::after {
   content: "failed";
+}
+
+merch-card {
+  justify-self: stretch;
+}
+
+merch-card:not([variant]) {
+  display: none;
+}
+
+pre {
+  max-height: 500px;
+  overflow: scroll;
+  background-color: var(--spectrum-global-color-gray-300);
+}
+
+.demo-container {
+  display: flex;
+  padding: 16px;
+  flex-direction: column;
+  background-color: var(--spectrum-global-color-gray-300);
+}
+
+.light .demo-container {
+  background-color: var(--spectrum-global-color-gray-100);
+}
+
+#log,
+#log2,
+#log3 {
+  display: block;
+}
+
+button {
+  margin-top: 16px;
+}
+
+.gallery-content {
+  padding: 30px;
+}
+
+code {
+  max-width: 90vw;
+}
+
+.spectrum--darkest .gallery-content {
+  color: #fbecec;
+}
+
+.gallery-content .three-merch-cards {
+  justify-content: start;
+}
+
+.three-merch-cards.ccd-suggested {
+  grid-template-columns: minmax(270px, 305px);
+}
+
+@media screen and (min-width: 644px) {
+  .three-merch-cards.ccd-suggested {
+    grid-template-columns: repeat(2, minmax(270px, 305px));
+  }
+}
+
+@media screen and (min-width: 966px) {
+  .three-merch-cards.ccd-suggested {
+    grid-template-columns: repeat(3, minmax(270px, 305px));
+  }
+}
+
+merch-card[variant="ccd-slice"][size="wide"] {
+  grid-column: span 2;
+}
+
+.three-merch-cards.ccd-slice {
+  grid-template-columns: minmax(290px, 322px);
+}
+
+@media screen and (min-width: 644px) {
+  .three-merch-cards.ccd-slice {
+    grid-template-columns: repeat(2, minmax(290px, 322px));
+  }
+}
+
+@media screen and (min-width: 966px) {
+  .three-merch-cards.ccd-slice {
+    grid-template-columns: repeat(3, minmax(290px, 322px));
+  }
+}
+
+.flex-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+}
+
+/*.benchmark stuff */
+.benchmark-mask {
+  font-size: larger;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.benchmark-mask-over-limit {
+  background:rgba(217, 109, 109, 0.7);
+}
+
+.benchmark-mask-under-limit {
+  background:rgba(133, 215, 133, 0.7);
+}
+
+/*.benchmark stuff */
+.benchmark-mask {
+  font-size: larger;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.benchmark-mask-over-limit {
+  background:rgba(217, 109, 109, 0.7);
+}
+
+.benchmark-mask-under-limit {
+  background:rgba(133, 215, 133, 0.7);
 }

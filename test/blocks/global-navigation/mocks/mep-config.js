@@ -4,7 +4,7 @@ export default {
       commands: [
         {
           action: 'replace',
-          target: '/test/blocks/global-navigation/mocks/mep-large-menu-table',
+          content: '/test/blocks/global-navigation/mocks/mep-large-menu-table',
           manifestId: 'manifest.json',
           selector: '.large-menu',
         },
@@ -12,7 +12,7 @@ export default {
       fragments: {
         '/old/navigation': {
           action: 'replace',
-          target: '/test/blocks/global-navigation/mocks/mep-global-navigation',
+          content: '/test/blocks/global-navigation/mocks/mep-global-navigation',
           manifestId: 'manifest.json',
         },
       },

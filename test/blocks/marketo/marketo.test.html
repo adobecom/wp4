@@ -92,7 +92,7 @@
 
         it('loads Marketo script', async () => {
           expect(loadScript.calledOnce).to.be.true;
-          expect(loadScript.calledWith('https://engage.adobe.com/js/forms2/js/forms2.min.js')).to.be.true;
+          expect(loadScript.calledWith('/deps/forms2.min.js')).to.be.true;
         });
 
         it('loads form', () => {

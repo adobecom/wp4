@@ -10,6 +10,7 @@
 
 .card-horizontal a {
   color: var(--text-color);
+  text-decoration: none;
 }
 
 .card-horizontal a:focus {

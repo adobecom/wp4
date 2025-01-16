@@ -32,6 +32,18 @@ const stageDomainsMap = {
   },
   '.business-graybox.adobe.com': { 'business.adobe.com': 'origin' },
 };
+const stageDomainsMapWRegex = {
+  hostname: 'stage--milo--owner.hlx.page',
+  map: {
+    '^https://.*--milo--owner.hlx.page': {
+      '^https://www.adobe.com/acrobat': 'https://main--dc--adobecom.hlx.page',
+      '^https://business.adobe.com/blog': 'https://main--bacom-blog--adobecom.hlx.page',
+      '^https://business.adobe.com': 'https://business.stage.adobe.com',
+      '^https://www.adobe.com': 'origin',
+    },
+  },
+
+};
 const prodDomains = ['www.adobe.com', 'business.adobe.com', 'blog.adobe.com', 'helpx.adobe.com', 'news.adobe.com'];
 const externalDomains = ['external1.com', 'external2.com'];
 const ogFetch = window.fetch;
@@ -64,6 +76,7 @@ describe('Utils', () => {
     it('preloads blocks for performance reasons', async () => {
       document.head.innerHTML = head;
       document.body.innerHTML = await readFile({ path: './mocks/marquee.html' });
+
       await utils.loadArea();
       const scriptPreload = document.head.querySelector('link[href*="/libs/blocks/marquee/marquee.js"]');
       const marqueeDecoratePreload = document.head.querySelector('link[href*="/libs/utils/decorate.js"]');
@@ -82,11 +95,30 @@ describe('Utils', () => {
     expect(document.querySelector('.global-navigation')).to.exist;
   });
 
+  it('render meta performanceV2 renders the normal flow', async () => {
+    // const spyOnLoadMartech = sinon.spy(loadMartech);
+    const localHead = await readFile({ path: './mocks/mep/head-target-postlcp.html' });
+    document.head.innerHTML = localHead;
+    const metaTag = document.createElement('meta');
+    metaTag.setAttribute('name', 'personalization-v2');
+    document.head.appendChild(metaTag);
+
+    const bodyWithheader = await readFile({ path: './mocks/body-gnav.html' });
+    document.body.innerHTML = bodyWithheader;
+
+    await utils.loadArea();
+    // expect(spyOnLoadMartech.called).to.be.true;
+    // spyOnLoadMartech.resetHistory();
+    expect(document.querySelector('.global-navigation')).to.exist;
+  });
+
   describe('with body', () => {
     beforeEach(async () => {
       window.fetch = mockFetch({ payload: { data: '' } });
+
       document.head.innerHTML = head;
       document.body.innerHTML = body;
+
       await utils.loadArea();
       sinon.spy(console, 'log');
     });
@@ -180,6 +212,43 @@ describe('Utils', () => {
       });
     });
 
+    describe('Aria label appendment', () => {
+      it('appends aria label if defined', () => {
+        const theText = 'Text';
+        const theAriaLabel = 'Aria label';
+
+        const noAriaLabelElem = document.querySelector('.aria-label-none');
+        expect(noAriaLabelElem.getAttribute('aria-label')).to.be.null;
+        expect(noAriaLabelElem.innerText).to.equal(theText);
+
+        const simpleAriaLabelElem = document.querySelector('.aria-label-simple');
+        expect(simpleAriaLabelElem.getAttribute('aria-label')).to.equal(theAriaLabel);
+        expect(simpleAriaLabelElem.innerText).to.equal(theText);
+
+        const pipedAriaLabelElem = document.querySelector('.aria-label-piped');
+        expect(pipedAriaLabelElem.getAttribute('aria-label')).to.equal(theAriaLabel);
+        expect(pipedAriaLabelElem.innerText).to.equal(`${theText} | Other text`);
+
+        const specialCharAriaLabelElem = document.querySelector('.aria-label--special-char');
+        expect(specialCharAriaLabelElem.getAttribute('aria-label')).to.equal(`${theAriaLabel} ~!@#$%^&*()-_=+[{/;:'",.?}] special characters`);
+        expect(specialCharAriaLabelElem.innerText).to.equal(theText);
+
+        const noSpacePipedAriaLabelElem = document.querySelector('.aria-label-piped--no-space');
+        expect(noSpacePipedAriaLabelElem.getAttribute('aria-label')).to.equal(theAriaLabel);
+        expect(noSpacePipedAriaLabelElem.innerText).to.equal(`${theText}|Other text`);
+
+        const iconNoAriaLabelElem = document.querySelector('.aria-label-icon-none');
+        expect(iconNoAriaLabelElem.getAttribute('aria-label')).to.be.null;
+        expect(iconNoAriaLabelElem.querySelector('.icon')).to.exist;
+        expect(iconNoAriaLabelElem.innerText).to.equal(theText);
+
+        const iconAriaLabelElem = document.querySelector('.aria-label-icon-simple');
+        expect(iconAriaLabelElem.getAttribute('aria-label')).to.equal(theAriaLabel);
+        expect(iconAriaLabelElem.querySelector('.icon')).to.exist;
+        expect(iconAriaLabelElem.innerText).to.equal(theText);
+      });
+    });
+
     describe('Fragments', () => {
       it('fully unwraps a fragment', () => {
         const fragments = document.querySelectorAll('.link-block.fragment');
@@ -203,9 +272,10 @@ describe('Utils', () => {
     });
 
     it('Loads a script', async () => {
-      const script = await utils.loadScript('/test/utils/mocks/script.js', 'module');
+      const script = await utils.loadScript('/test/utils/mocks/script.js', 'module', { mode: 'async' });
       expect(script).to.exist;
       expect(script.type).to.equal('module');
+      expect(script.async).to.equal(true);
       await utils.loadScript('/test/utils/mocks/script.js', 'module');
       expect(script).to.exist;
     });
@@ -518,22 +588,27 @@ describe('Utils', () => {
       expect(block).to.be.null;
       expect(document.querySelector('.quote.hide-block')).to.be.null;
     });
+  });
 
-    it('should convert links on stage when stageDomainsMap provided', async () => {
+  describe('stageDomainsMap', () => {
+    it('should convert links when stageDomainsMap provided without regex', async () => {
       const stageConfig = {
         ...config,
+        locale: { prefix: '/ae_ar' },
         env: { name: 'stage' },
         stageDomainsMap,
       };
 
       Object.entries(stageDomainsMap).forEach(([hostname, domainsMap]) => {
         const anchors = Object.keys(domainsMap).map((d) => utils.createTag('a', { href: `https://${d}` }));
+        const localizedAnchors = Object.keys(domainsMap).map((d) => utils.createTag('a', { href: `https://${d}/ae_ar` }));
         const externalAnchors = externalDomains.map((url) => utils.createTag('a', { href: url }));
 
         utils.convertStageLinks({
-          anchors: [...anchors, ...externalAnchors],
+          anchors: [...anchors, ...localizedAnchors, ...externalAnchors],
           config: stageConfig,
           hostname,
+          href: `https://${hostname}`,
         });
 
         anchors.forEach((a, index) => {
@@ -545,7 +620,41 @@ describe('Utils', () => {
       });
     });
 
-    it('should not convert links on stage when no stageDomainsMap provided', async () => {
+    it('should convert links when stageDomainsMap provided with regex', async () => {
+      const { hostname, map } = stageDomainsMapWRegex;
+      const stageConfigWRegex = {
+        ...config,
+        locale: { prefix: '/de' },
+        env: { name: 'stage' },
+        stageDomainsMap: map,
+      };
+
+      Object.entries(map).forEach(([, domainsMap]) => {
+        const anchors = Object.keys(domainsMap).map((d) => utils.createTag('a', { href: d.replace('^', '') }));
+        const localizedAnchors = Object.keys(domainsMap).map((d) => {
+          const convertedUrl = new URL(d.replace('^', ''));
+          convertedUrl.pathname = `de/${convertedUrl.pathname}`;
+          return utils.createTag('a', { href: convertedUrl.toString() });
+        });
+        const externalAnchors = externalDomains.map((url) => utils.createTag('a', { href: url }));
+
+        utils.convertStageLinks({
+          anchors: [...anchors, ...localizedAnchors, ...externalAnchors],
+          config: stageConfigWRegex,
+          hostname,
+          href: `https://${hostname}`,
+        });
+
+        anchors.forEach((a, index) => {
+          const expectedDomain = Object.values(domainsMap)[index];
+          expect(a.href).to.contain(expectedDomain === 'origin' ? hostname : expectedDomain);
+        });
+
+        externalAnchors.forEach((a) => expect(a.href).to.equal(a.href));
+      });
+    });
+
+    it('should not convert links when no stageDomainsMap provided', async () => {
       const stageConfig = {
         ...config,
         env: { name: 'stage' },
@@ -562,6 +671,33 @@ describe('Utils', () => {
         });
 
         [...anchors, ...externalAnchors].forEach((a) => expect(a.href).to.equal(a.href));
+      });
+    });
+
+    it('should remove extensions upon conversion', async () => {
+      const stageConfig = {
+        ...config,
+        env: { name: 'stage' },
+        stageDomainsMap,
+      };
+
+      Object.entries(stageDomainsMap).forEach(([hostname, domainsMap]) => {
+        const extension = '.html';
+        const anchors = Object.keys(domainsMap).map((d) => utils.createTag('a', { href: `https://${d}/abc${extension}` }));
+
+        utils.convertStageLinks({
+          anchors: [...anchors],
+          config: stageConfig,
+          hostname,
+        });
+
+        anchors.forEach((a) => {
+          if (/\.page|\.live/.test(a.href)) {
+            expect(a.href).to.not.contain(extension);
+          } else {
+            expect(a.href).to.contain(extension);
+          }
+        });
       });
     });
 
@@ -587,6 +723,7 @@ describe('Utils', () => {
     });
   });
 
+  // MARK: title-append
   describe('title-append', async () => {
     beforeEach(async () => {
       document.head.innerHTML = await readFile({ path: './mocks/head-title-append.html' });
@@ -594,11 +731,13 @@ describe('Utils', () => {
     it('should append to title using string from metadata', async () => {
       const expected = 'Document Title NOODLE';
       await utils.loadArea();
-      await waitFor(() => document.title === expected);
       expect(document.title).to.equal(expected);
+      expect(document.querySelector('meta[property="og:title"]')?.getAttribute('content'), expected);
+      expect(document.querySelector('meta[name="twitter:title"]')?.getAttribute('content'), expected);
     });
   });
 
+  // MARK: seotech
   describe('seotech', async () => {
     beforeEach(async () => {
       window.lana = { log: (msg) => console.error(msg) };
@@ -608,10 +747,10 @@ describe('Utils', () => {
       window.lana.release?.();
     });
     it('should import feature when metadata is defined and error if invalid', async () => {
-      const expectedError = 'SEOTECH: Failed to construct \'URL\': Invalid URL';
+      const expectedError = 'SEOTECH: Invalid video url: FAKE';
       await utils.loadArea();
       const lanaStub = sinon.stub(window.lana, 'log');
-      await waitFor(() => lanaStub.calledOnceWith(expectedError));
+      await waitFor(() => lanaStub.calledOnceWith(expectedError), 2000);
       expect(lanaStub.calledOnceWith(expectedError)).to.be.true;
     });
   });

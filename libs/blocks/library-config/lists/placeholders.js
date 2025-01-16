@@ -21,7 +21,6 @@ export default async function placeholderList(content, list) {
       const formatted = `{{${placeholder.key}}}`;
       const blob = new Blob([formatted], { type: 'text/plain' });
       createCopy(blob);
-      window.hlx?.rum.sampleRUM('click', { source: e.target });
     });
     title.append(copy);
     list.append(title);

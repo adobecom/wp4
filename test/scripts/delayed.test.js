@@ -42,10 +42,10 @@ describe('Delayed', () => {
   it('should load interlinks logic', async () => {
     const clock = sinon.useFakeTimers({ toFake: ['setTimeout'] });
     document.querySelector('head')?.insertAdjacentHTML('beforeend', '<meta name="interlinks" content="on">');
-    loadDelayed([getConfig, getMetadata, loadScript, loadStyle, loadIms]).then((module) => {
-      expect(module).to.exist;
-      expect(typeof module === 'object').to.equal(true);
-    });
+    loadDelayed([getConfig, getMetadata, loadScript, loadStyle, loadIms])
+      .then((module) => {
+        expect(typeof module === 'object').to.equal(true);
+      });
     await clock.runAllAsync();
     clock.restore();
   });
@@ -53,9 +53,10 @@ describe('Delayed', () => {
   it('should skip load interlinks logic when metadata is off', async () => {
     const clock = sinon.useFakeTimers({ toFake: ['setTimeout'] });
     document.head.querySelector('meta[name="interlinks"]')?.remove();
-    loadDelayed([getConfig, getMetadata, loadScript, loadStyle, loadIms]).then((module) => {
-      expect(module == null).to.equal(true);
-    });
+    loadDelayed([getConfig, getMetadata, loadScript, loadStyle, loadIms])
+      .then((module) => {
+        expect(module == null).to.equal(true);
+      });
     await clock.runAllAsync();
     clock.restore();
   });

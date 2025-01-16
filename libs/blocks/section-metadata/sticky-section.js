@@ -2,10 +2,20 @@ import { createTag } from '../../utils/utils.js';
 import { getMetadata, getDelayTime } from './section-metadata.js';
 
 function handleTopHeight(section) {
-  const headerHeight = document.querySelector('header').offsetHeight;
-  section.style.top = `${headerHeight}px`;
+  let topHeight = document.querySelector('header')?.offsetHeight ?? 0;
+  const localNav = document.querySelector('.feds-localnav');
+  const fedsPromo = document.querySelector('.feds-promo-wrapper');
+  if (localNav && localNav.offsetHeight > 0) {
+    topHeight = localNav.offsetHeight;
+  }
+  if (fedsPromo) {
+    topHeight += fedsPromo.offsetHeight;
+  }
+
+  section.style.top = `${topHeight}px`;
 }
 
+let isFooterStart = false;
 function promoIntersectObserve(el, stickySectionEl, options = {}) {
   const io = new IntersectionObserver((entries, observer) => {
     entries.forEach((entry) => {
@@ -17,7 +27,8 @@ function promoIntersectObserve(el, stickySectionEl, options = {}) {
       const isPromoStart = entry.target === stickySectionEl;
       const abovePromoStart = (isPromoStart && entry.isIntersecting)
         || stickySectionEl?.getBoundingClientRect().y > 0;
-      if (entry.isIntersecting || abovePromoStart) el.classList.add('hide-sticky-section');
+      if (entry.target === document.querySelector('footer')) isFooterStart = entry.isIntersecting;
+      if (entry.isIntersecting || abovePromoStart || isFooterStart) el.classList.add('hide-sticky-section');
       else el.classList.remove('hide-sticky-section');
     });
   }, options);
@@ -27,11 +38,13 @@ function promoIntersectObserve(el, stickySectionEl, options = {}) {
 function handleStickyPromobar(section, delay) {
   const main = document.querySelector('main');
   section.classList.add('promo-sticky-section', 'hide-sticky-section');
-  if (section.querySelector('.popup:is(.promobar, .notification.pill)')) section.classList.add('popup');
+  if (section.querySelector('.popup:is(.promobar)')) section.classList.add('popup');
   let stickySectionEl = null;
   let hasScrollControl;
-  if ((section.querySelector(':is(.promobar, .notification.pill)').classList.contains('no-delay')) || (delay && section.classList.contains('popup'))) {
+  if ((section.querySelector(':is(.promobar, .notification)').classList.contains('no-delay'))
+    || (delay && section.classList.contains('popup'))) {
     hasScrollControl = true;
+    section.classList.remove('hide-sticky-section');
   }
   if (!hasScrollControl && main.children[0] !== section) {
     stickySectionEl = createTag('div', { class: 'section show-sticky-section' });
@@ -39,7 +52,9 @@ function handleStickyPromobar(section, delay) {
   }
   const io = promoIntersectObserve(section, stickySectionEl);
   if (stickySectionEl) io.observe(stickySectionEl);
-  io.observe(document.querySelector('footer'));
+  if (section.querySelector(':is(.promobar, .notification:not(.no-hide))')) {
+    io.observe(document.querySelector('footer'));
+  }
 }
 
 export default async function handleStickySection(sticky, section) {
@@ -48,11 +63,12 @@ export default async function handleStickySection(sticky, section) {
     case 'sticky-top': {
       const { debounce } = await import('../../utils/action.js');
       window.addEventListener('resize', debounce(() => handleTopHeight(section)));
+      handleTopHeight(section);
       main.prepend(section);
       break;
     }
     case 'sticky-bottom': {
-      if (section.querySelector(':is(.promobar, .notification.pill.popup)')) {
+      if (section.querySelector(':is(.promobar, .notification)')) {
         const metadata = getMetadata(section.querySelector('.section-metadata'));
         const delay = getDelayTime(metadata.delay?.text);
         if (delay) setTimeout(() => { handleStickyPromobar(section, delay); }, delay);

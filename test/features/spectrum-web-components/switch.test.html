@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <script src="../../../libs/features/spectrum-web-components/dist/theme.js" type="module"></script>
+  <script src="../../../libs/features/spectrum-web-components/dist/switch.js" type="module"></script>
+
+  <style>
+    sp-theme {
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+
+  <script type="module">
+    import { runTests } from '@web/test-runner-mocha';
+    import { expect } from '@esm-bundle/chai';
+
+    runTests(async () => {
+      describe('Spectrum: switch module', async () => {
+        it('sp-switch has a shadow-root', () => {
+          expect(document.querySelector('sp-switch').shadowRoot).to.exist;
+        });
+      });
+    });
+  </script>
+</head>
+
+<body>
+<script type="module">
+
+</script>
+<sp-theme theme="spectrum" color="light" scale="medium">
+  <sp-switch size="m"></sp-switch>
+</sp-theme>
+</body>
+
+</html>

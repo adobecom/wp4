@@ -4,7 +4,12 @@ import { mockOstDeps, unmockOstDeps } from './mocks/ost-utils.js';
 import { CheckoutWorkflow, CheckoutWorkflowStep } from '../../../libs/deps/mas/commerce.js';
 import { DEFAULT_CTA_TEXT, createLinkMarkup } from '../../../libs/blocks/ost/ost.js';
 
-const { perpM2M } = await fetch('./mocks/wcs-artifacts-mock.json').then((res) => res.json());
+const perpM2M = {
+  offer_id: 'aeb0bf53517d46e89a1b039f859cf573',
+  commitment: 'PERPETUAL',
+  name: 'Stock',
+  planType: 'M2M',
+};
 const defaults = {
   checkoutWorkflow: 'UCv3',
   checkoutWorkflowStep: 'email',

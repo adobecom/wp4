@@ -6,7 +6,71 @@ import { getConfig, createTag } from '../../../libs/utils/utils.js';
 import {
   appendScriptTag,
   sha256,
+  REGEX_ADOBETV,
+  REGEX_YOUTUBE,
 } from '../../../libs/features/seotech/seotech.js';
+
+describe('REGEX_ADOBETV', () => {
+  const testCases = [
+    {
+      url: 'https://video.tv.adobe.com/v/26535',
+      expected: '26535',
+    },
+    {
+      url: 'https://video.tv.adobe.com/v/26535/',
+      expected: '26535',
+    },
+    {
+      url: 'https://stage-video.tv.adobe.com/v/26535',
+      expected: '26535',
+    },
+    {
+      url: 'https://blah.com/26535',
+      expected: null,
+    },
+  ];
+  testCases.forEach(({ url, expected }) => {
+    it(`should ${expected ? 'parse' : 'not parse'} adobetv url: ${url}`, () => {
+      const match = url.match(REGEX_ADOBETV);
+      if (expected) {
+        expect(match[1]).to.equal(expected);
+      } else {
+        expect(match).to.be.null;
+      }
+    });
+  });
+});
+
+describe('REGEX_YOUTUBE', () => {
+  const testCases = [
+    {
+      url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      expected: 'dQw4w9WgXcQ',
+    },
+    {
+      url: 'https://youtube.com/watch?v=dQw4w9WgXcQ',
+      expected: 'dQw4w9WgXcQ',
+    },
+    {
+      url: 'https://youtu.be/dQw4w9WgXcQ',
+      expected: 'dQw4w9WgXcQ',
+    },
+    {
+      url: 'https://www.example.com/watch?v=dQw4w9WgXcQ',
+      expected: null,
+    },
+  ];
+  testCases.forEach(({ url, expected }) => {
+    it(`should ${expected ? 'parse' : 'not parse'} youtube url: ${url}`, () => {
+      const match = url.match(REGEX_YOUTUBE);
+      if (expected) {
+        expect(match[1]).to.equal(expected);
+      } else {
+        expect(match).to.be.null;
+      }
+    });
+  });
+});
 
 describe('sha256', () => {
   it('should return a hash', async () => {
@@ -88,13 +152,13 @@ describe('seotech', () => {
       await appendScriptTag(
         { locationUrl: window.location.href, getMetadata, getConfig, createTag },
       );
-      expect(lanaStub.calledOnceWith('SEOTECH: Failed to construct \'URL\': Invalid URL')).to.be.true;
+      expect(lanaStub.calledOnceWith('SEOTECH: Invalid video url: fake')).to.be.true;
     });
 
     it('should not append JSON-LD if url not found', async () => {
       const lanaStub = stub(window.lana, 'log');
       const getMetadata = stub().returns(null);
-      getMetadata.withArgs('seotech-video-url').returns('http://fake');
+      getMetadata.withArgs('seotech-video-url').returns('https://youtu.be/fake');
       const fetchStub = stub(window, 'fetch');
       fetchStub.returns(Promise.resolve(Response.json(
         { error: 'ERROR!' },
@@ -104,7 +168,7 @@ describe('seotech', () => {
         { locationUrl: window.location.href, getMetadata, getConfig, createTag },
       );
       expect(fetchStub.calledOnceWith(
-        'https://14257-seotech-stage.adobeioruntime.net/api/v1/web/seotech/getVideoObject?url=http://fake/',
+        'https://www.adobe.com/seotech/api/json-ld/types/video-object/providers/youtube/fake',
       )).to.be.true;
       expect(lanaStub.calledOnceWith('SEOTECH: Failed to fetch video: ERROR!')).to.be.true;
     });
@@ -113,7 +177,7 @@ describe('seotech', () => {
       const lanaStub = stub(window.lana, 'log');
       const fetchStub = stub(window, 'fetch');
       const getMetadata = stub().returns(null);
-      getMetadata.withArgs('seotech-video-url').returns('http://fake');
+      getMetadata.withArgs('seotech-video-url').returns('https://youtu.be/dQw4w9WgXcQ');
       const expectedVideoObject = {
         '@context': 'http://schema.org',
         '@type': 'VideoObject',
@@ -127,7 +191,7 @@ describe('seotech', () => {
         { locationUrl: window.location.href, getMetadata, getConfig, createTag },
       );
       expect(fetchStub.calledOnceWith(
-        'https://14257-seotech-stage.adobeioruntime.net/api/v1/web/seotech/getVideoObject?url=http://fake/',
+        'https://www.adobe.com/seotech/api/json-ld/types/video-object/providers/youtube/dQw4w9WgXcQ',
       )).to.be.true;
       const el = await waitForElement('script[type="application/ld+json"]');
       const obj = JSON.parse(el.text);

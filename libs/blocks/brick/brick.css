@@ -20,6 +20,14 @@
   color: var(--color-white);
 }
 
+.brick.border {
+  border: 1px solid var(--color-gray-200);
+}
+
+.brick.click > a {
+  text-decoration: none;
+}
+
 .brick .background {
   position: absolute;
   bottom: 0;
@@ -30,7 +38,7 @@
 }
 
 .brick .foreground {
-  position: relative; 
+  position: relative;
   display: flex;
   flex-grow: 1;
   padding: var(--spacing-m);
@@ -90,6 +98,10 @@
   margin: 0;
 }
 
+.brick .foreground div > .video-container {
+  margin: 0;
+}
+
 .brick .foreground div > * {
   margin-top: var(--spacing-xs);
 }
@@ -116,8 +128,17 @@
 .brick .foreground p.action-area {
   display: flex;
   flex-wrap: wrap;
-  gap: 24px;
+  gap: var(--spacing-s);
   margin-top: var(--spacing-s);
+}
+
+.brick .icon-stack-area li,
+.brick .icon-stack-area li a {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  text-align: start;
+  flex-shrink: 0;
 }
 
 .brick .icon-stack-area li picture {
@@ -125,6 +146,11 @@
   margin: 0;
   padding: 0;
   flex-shrink: 0;
+}
+
+.brick .foreground a:not([class]),
+.brick .foreground span.first-link {
+  font-weight: 700;
 }
 
 .brick .foreground .icon-area picture {
@@ -145,10 +171,6 @@
   width: auto;
 }
 
-.brick.click > a {
-  text-decoration: none;
-}
-
 .brick .icon-stack-area {
   display: flex;
   flex-flow: row wrap;
@@ -163,25 +185,6 @@
 .brick.center .icon-stack-area {
   display: inline-flex;
   width: auto;
-}
-
-.brick .icon-stack-area li,
-.brick .icon-stack-area li a {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-xs);
-  text-align: left;
-  flex-shrink: 0;
-}
-
-.brick .foreground a:not([class]),
-.brick .foreground span.first-link {
-  font-weight: 700;
-}
-
-[dir="rtl"] .brick .icon-stack-area li,
-[dir="rtl"] .brick .icon-stack-area li a {
-  text-align: right;
 }
 
 .brick.click a.foreground .first-link:not([class*="button"]) {
@@ -295,6 +298,12 @@
     width: 41.66%;
   }
 
+  .brick.split.row .foreground,
+  .brick.split.row .foreground .brick-media,
+  .brick.split.row .foreground picture {
+    border-radius: inherit;
+  }
+
   .brick.split.horizontal-center .foreground .brick-text,
   .brick.split.center .foreground .brick-text {
     margin: 0;
@@ -320,12 +329,6 @@
     grid-column: 8 / span 5;
   }
 
-  .brick.split.row .foreground,
-  .brick.split.row .foreground .brick-media,
-  .brick.split.row .foreground picture {
-    border-radius: inherit;
-  }
-
   .brick.stack .foreground .brick-media picture,
   .brick.stack .foreground .brick-media img,
   .brick.stack .foreground .brick-media video {
@@ -341,6 +344,11 @@
     padding: 0;
     margin: 0;
     position: absolute;
+  }
+
+  .brick.split.row .foreground .brick-media .video-container img,
+  .brick.split.row .foreground .brick-media .video-container video {
+    width: 100%;
   }
   
   .brick .foreground .brick-media video,

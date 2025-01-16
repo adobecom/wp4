@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import {
   fetchAndProcessPlainHtml,
   toFragment,
-  getFedsPlaceholderConfig,
   federatePictureSources,
   getAnalyticsValue,
   decorateCta,
@@ -14,12 +13,15 @@ import {
   trigger,
   getExperienceName,
   logErrorFor,
+  takeWhile,
+  dropWhile,
 } from '../../../../libs/blocks/global-navigation/utilities/utilities.js';
 import { setConfig, getConfig } from '../../../../libs/utils/utils.js';
 import { createFullGlobalNavigation, config } from '../test-utilities.js';
 import mepInBlock from '../mocks/mep-config.js';
+import { getFedsPlaceholderConfig } from '../../../../libs/utils/federated.js';
 
-const baseHost = 'https://main--federal--adobecom.hlx.page';
+const baseHost = 'https://main--federal--adobecom.aem.page';
 describe('global navigation utilities', () => {
   beforeEach(() => {
     document.body.innerHTML = '';
@@ -206,7 +208,7 @@ describe('global navigation utilities', () => {
     });
   });
 
-  // No tests for using the the live url and .hlx. urls
+  // No tests for using the the live url and .aem. urls
   // as mocking window.location.origin is not possible
   describe('getFedsPlaceholderConfig', () => {
     it('should return contentRoot for localhost', () => {
@@ -386,6 +388,93 @@ describe('global navigation utilities', () => {
 
       // Restore the original window.lana.log method
       window.lana.log = originalLanaLog;
+    });
+  });
+
+  describe('takeWhile functionality', () => {
+    it('should take elements from the array while the predicate returns true', () => {
+      const array = [1, 2, 3, 4, 5];
+      const predicate = sinon.stub();
+      predicate.withArgs(1).returns(true);
+      predicate.withArgs(2).returns(true);
+      predicate.withArgs(3).returns(false);
+
+      const result = takeWhile(array, predicate);
+
+      expect(result).to.deep.equal([1, 2]);
+      expect(predicate.callCount).to.equal(3);
+      expect(predicate.firstCall.args[0]).to.equal(1);
+      expect(predicate.secondCall.args[0]).to.equal(2);
+      expect(predicate.thirdCall.args[0]).to.equal(3);
+    });
+
+    it('should return an empty array if the predicate returns false for the first element', () => {
+      const array = [1, 2, 3, 4, 5];
+      const predicate = sinon.stub();
+      predicate.withArgs(1).returns(false);
+
+      const result = takeWhile(array, predicate);
+
+      expect(result).to.deep.equal([]);
+      expect(predicate.callCount).to.equal(1);
+      expect(predicate.firstCall.args[0]).to.equal(1);
+    });
+
+    it('should return the entire array if the predicate always returns true', () => {
+      const array = [1, 2, 3, 4, 5];
+      const predicate = sinon.stub().returns(true);
+
+      const result = takeWhile(array, predicate);
+
+      expect(result).to.deep.equal(array);
+      expect(predicate.callCount).to.equal(array.length);
+      array.forEach((value, index) => {
+        expect(predicate.getCall(index).args[0]).to.equal(value);
+      });
+    });
+  });
+
+  describe('dropWhile functionality', () => {
+    it('should drop elements from the array while the predicate returns true', () => {
+      const array = [1, 2, 3, 4, 5];
+      const predicate = sinon.stub();
+      predicate.withArgs(1).returns(true);
+      predicate.withArgs(2).returns(true);
+      predicate.withArgs(3).returns(false);
+      const result = dropWhile(array, predicate);
+      expect(result).to.deep.equal([3, 4, 5]);
+      expect(predicate.callCount).to.equal(3);
+      expect(predicate.firstCall.args[0]).to.equal(1);
+      expect(predicate.secondCall.args[0]).to.equal(2);
+      expect(predicate.thirdCall.args[0]).to.equal(3);
+    });
+
+    it('should return an empty array if the predicate returns true for all elements', () => {
+      const array = [1, 2, 3, 4, 5];
+      const predicate = sinon.stub().returns(true);
+      const result = dropWhile(array, predicate);
+      expect(result).to.deep.equal([]);
+      expect(predicate.callCount).to.equal(array.length);
+      array.forEach((value, index) => {
+        expect(predicate.getCall(index).args[0]).to.equal(value);
+      });
+    });
+
+    it('should return the original array if the predicate returns false for the first element', () => {
+      const array = [1, 2, 3, 4, 5];
+      const predicate = sinon.stub().returns(false);
+      const result = dropWhile(array, predicate);
+      expect(result).to.deep.equal(array);
+      expect(predicate.callCount).to.equal(1);
+      expect(predicate.firstCall.args[0]).to.equal(1);
+    });
+
+    it('should handle an empty array gracefully', () => {
+      const array = [];
+      const predicate = sinon.stub().returns(true);
+      const result = dropWhile(array, predicate);
+      expect(result).to.deep.equal([]);
+      expect(predicate.callCount).to.equal(0);
     });
   });
 });

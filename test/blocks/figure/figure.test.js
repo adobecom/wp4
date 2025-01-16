@@ -1,10 +1,11 @@
 import { expect } from '@esm-bundle/chai';
 import { readFile } from '@web/test-runner-commands';
+import { setConfig } from '../../../libs/utils/utils.js';
 
 document.body.innerHTML = await readFile({ path: './mocks/body.html' });
 const ogDocument = document.body.innerHTML;
-
 const { default: init } = await import('../../../libs/blocks/figure/figure.js');
+setConfig({});
 
 describe('init', () => {
   afterEach(() => {
@@ -42,8 +43,9 @@ describe('init', () => {
     init(blockEl);
 
     const figures = blockEl.querySelectorAll('.figure');
-    expect(figures[0].querySelector('a > picture')).to.be.exist;
-    expect(figures[1].querySelector('a > video')).to.be.exist;
+    expect(figures[0].querySelector('a > picture')).to.exist;
+    expect(figures[1].querySelector('a > video')).to.exist;
+    expect(figures[1].querySelector('a > video > source')).to.exist;
   });
 
   it('should not add any classes to the block element when no pictures are present', () => {

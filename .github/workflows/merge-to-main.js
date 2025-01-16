@@ -9,6 +9,7 @@ const {
 const PR_TITLE = '[Release] Stage to Main';
 const STAGE = 'stage';
 const PROD = 'main';
+const MIN_SOT_APPROVALS = process.env.MIN_SOT_APPROVALS ? Number(process.env.MIN_SOT_APPROVALS) : 4;
 
 let github, owner, repo;
 
@@ -40,7 +41,7 @@ const main = async (params) => {
     const stageToMainPR = await getStageToMainPR();
     const signOffs = stageToMainPR?.labels.filter((l) => l.includes('SOT'));
     console.log(`${signOffs.length} SOT labels on PR ${stageToMainPR.number}`);
-    if (signOffs.length >= 4) {
+    if (signOffs.length >= MIN_SOT_APPROVALS) {
       console.log('Stage to Main  PR has all required labels. Merging...');
       await github.rest.pulls.merge({
         owner,

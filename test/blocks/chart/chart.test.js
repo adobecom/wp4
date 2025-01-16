@@ -369,12 +369,14 @@ describe('chart', () => {
     expect(Array.isArray(areaSeriesOptions(firstDataset))).to.be.true;
     const expected = [
       {
+        name: 1,
         areaStyle: { opacity: 1 },
         stack: 'area',
         symbol: 'none',
         type: 'line',
       },
       {
+        name: 2,
         areaStyle: { opacity: 1 },
         stack: 'area',
         symbol: 'none',
@@ -510,6 +512,7 @@ describe('chart', () => {
           fontSize: 14,
         },
         colorBy: 'series',
+        name: 100,
         showBackground: true,
         backgroundStyle: {
           color: '#EA3829',
@@ -532,6 +535,7 @@ describe('chart', () => {
           fontSize: 14,
         },
         colorBy: 'series',
+        name: 156,
         showBackground: true,
         backgroundStyle: {
           color: '#F48411',
@@ -555,6 +559,7 @@ describe('chart', () => {
     const expected = [
       {
         type: 'line',
+        name: 100,
         symbol: 'none',
         lineStyle: { width: 3 },
         yAxisIndex: 0,
@@ -598,12 +603,14 @@ describe('chart', () => {
       },
       {
         type: 'line',
+        name: 156,
         symbol: 'none',
         lineStyle: { width: 3 },
         yAxisIndex: 0,
       },
       {
         type: 'line',
+        name: 160,
         symbol: 'none',
         lineStyle: { width: 3 },
         yAxisIndex: 0,
@@ -704,6 +711,9 @@ describe('chart', () => {
     init(el);
     const svg = await waitForElement('svg');
     expect(svg).to.exist;
+    const chartWrapper = await waitForElement('.chart-wrapper');
+    expect(chartWrapper.getAttribute('role')).to.equal('img');
+    expect(chartWrapper.getAttribute('aria-label')).to.exist;
   });
 
   it('getOversizedNumberSize returns maximum size for 1 character', () => {
@@ -759,5 +769,9 @@ describe('chart', () => {
     init(el);
     const subheading = await waitForElement('.subheading');
     expect(subheading).to.exist;
+    const chartWrapper = await waitForElement('.chart-wrapper');
+    expect(chartWrapper).to.exist;
+    expect(chartWrapper.getAttribute('role')).to.equal('img');
+    expect(chartWrapper.getAttribute('aria-label')).to.contain('This is a chart');
   });
 });

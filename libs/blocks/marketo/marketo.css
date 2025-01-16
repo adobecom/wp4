@@ -4,7 +4,9 @@
   --marketo-form-border: #6E6E6E;
   --marketo-form-error: #D7373F;
   --marketo-form-selected: #0265DC;
-  --marketo-form-placeholder-height: calc(78px * 3 + 57px); /* 3 rows + submit */
+  --marketo-form-focus: #147AF3;
+  --marketo-form-placeholder-height: calc(78px * 7 + 57px); /* 7 rows + submit */
+  --marketo-form-placeholder-height-desktop: calc(78px * 4 + 57px); /* 4 rows + submit */
   --marketo-form-min-height: 215px;
   --marketo-form-max-height: 10000px;
 }
@@ -174,8 +176,8 @@
 }
 
 .marketo .mktoForm .mktoField:focus-visible {
-  outline: 0;
-  border-color: var(--link-color-dark);
+  outline: 2px solid var(--marketo-form-focus);
+  outline-offset: 2px;
 }
 
 .marketo .mktoForm select {
@@ -194,7 +196,7 @@
 
 .marketo .mktoForm .mktoCheckboxList .mktoField:focus-visible,
 .marketo .mktoForm .mktoRadioList .mktoField:focus-visible {
-  outline: var(--link-color-dark) auto 2px;
+  outline: 2px solid var(--marketo-form-focus);
 }
 
 .marketo .mktoForm .mktoCheckboxList label,
@@ -230,16 +232,16 @@
   border-radius: 2px;
 }
 
-.marketo .mktoForm .mktoCheckboxList.mktoInvalid input::before {
-  border: 2px solid var(--marketo-form-error);
-}
-
 .marketo .mktoForm .mktoCheckboxList input:checked::before {
   border: 2px solid var(--marketo-form-selected);
   background: var(--marketo-form-selected);
 }
 
-.marketo .mktoForm .mktoCheckboxList.mktoInvalid input:checked::before {
+.marketo .mktoForm.show-warnings .mktoCheckboxList.mktoInvalid input::before {
+  border: 2px solid var(--marketo-form-error);
+}
+
+.marketo .mktoForm.show-warnings .mktoCheckboxList.mktoInvalid input:checked::before {
   background: var(--marketo-form-error);
 }
 
@@ -579,6 +581,14 @@
 }
 
 @media screen and (min-width: 1200px) {
+  .marketo.loading form {
+    min-height: var(--marketo-form-placeholder-height-desktop);
+  }
+
+  .marketo .mktoForm {
+    max-height: var(--marketo-form-placeholder-height-desktop);
+  }
+  
   .resource-form.section.two-up {
     grid-template-columns: repeat(2, 1fr);
   }

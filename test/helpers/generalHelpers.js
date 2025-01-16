@@ -6,6 +6,7 @@ export const mockRes = ({ payload, status = 200, ok = true } = {}) => new Promis
     ok,
     json: () => payload,
     text: () => payload,
+    blob: () => payload,
   });
 });
 

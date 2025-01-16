@@ -9,7 +9,7 @@ module.exports = {
       tags: '@figure @smoke @regression @milo',
     },
     {
-      tcid: '01',
+      tcid: '1',
       name: '@Multiple images with caption',
       path: '/drafts/nala/blocks/figure/multiple-images-with-captions',
       data: {
