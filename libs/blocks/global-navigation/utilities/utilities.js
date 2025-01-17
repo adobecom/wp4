@@ -547,7 +547,6 @@ export const dropWhile = (xs, f) => {
 };
 
 export function isLocalNav() {
-  if (isDesktop.matches) return false;
   const { locale = {} } = getConfig();
   const gnavSource = getMetadata('gnav-source') || `${locale.contentRoot}/gnav`;
   const newNavEnabled = new URLSearchParams(window.location.search).get('newNav') || getMetadata('mobile-gnav-v2') !== 'off';
