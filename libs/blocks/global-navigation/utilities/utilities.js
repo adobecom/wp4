@@ -548,14 +548,14 @@ export const dropWhile = (xs, f) => {
 
 export function isLocalNav() {
   if (isDesktop.matches) return false;
-  const { locale } = getConfig();
+  const { locale = {} } = getConfig();
   const gnavSource = getMetadata('gnav-source') || `${locale.contentRoot}/gnav`;
   const newNavEnabled = new URLSearchParams(window.location.search).get('newNav') || getMetadata('mobile-gnav-v2') !== 'off';
   return gnavSource.split('/').pop().startsWith('localnav-') && newNavEnabled;
 }
 
 export function getGnavHeight() {
-  let topHeight = document.querySelector('header').offsetHeight;
+  let topHeight = document.querySelector('header')?.offsetHeight || 0;
   if (isLocalNav()) {
     const localNav = document.querySelector('.feds-localnav');
     topHeight = localNav.offsetHeight || DEFAULT_LOCALNAV_HEIGHT;
