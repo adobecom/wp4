@@ -542,3 +542,32 @@ export const dropWhile = (xs, f) => {
   if (f(xs[0])) return dropWhile(xs.slice(1), f);
   return xs;
 };
+
+export async function getGnavSource() {
+  const { locale, dynamicNavKey } = getConfig();
+  let url = getMetadata('gnav-source') || `${locale.contentRoot}/gnav`;
+  if (dynamicNavKey) {
+    const { default: dynamicNav } = await import('../features/dynamic-navigation/dynamic-navigation.js');
+    url = dynamicNav(url, dynamicNavKey);
+  }
+  return url;
+}
+
+export async function isLocalNav() {
+  const gnavSource = await getGnavSource();
+  const newNavEnabled = new URLSearchParams(window.location.search).get('newNav') || getMetadata('mobile-gnav-v2') !== 'off';
+  return gnavSource.split('/').pop().startsWith('localnav-') && newNavEnabled;
+}
+
+export function getGnavHeight() {
+  let topHeight = document.querySelector('header').offsetHeight;
+  if (isLocalNav()) {
+    const localNav = document.querySelector('.feds-localnav');
+    topHeight = localNav.offsetHeight || 40;
+  }
+  if (fedsPromo) {
+    const fedsPromo = document.querySelector('.feds-promo-wrapper');
+    topHeight += fedsPromo.offsetHeight;
+  }
+
+}

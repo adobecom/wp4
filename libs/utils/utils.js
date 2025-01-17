@@ -812,10 +812,9 @@ async function decorateHeader() {
   const dynamicNavActive = getMetadata('dynamic-nav') === 'on'
     && window.sessionStorage.getItem('gnavSource') !== null;
   if (!dynamicNavActive && (baseBreadcrumbs || breadcrumbs || autoBreadcrumbs)) header.classList.add('has-breadcrumbs');
-  const gnavSource = await getGnavSource();
-  let newNavEnabled = new URLSearchParams(window.location.search).get('newNav');
-  newNavEnabled = newNavEnabled ? newNavEnabled !== 'false' : getMetadata('mobile-gnav-v2') !== 'off';
-  if (gnavSource.split('/').pop().startsWith('localnav-') && newNavEnabled) {
+  const { isLocalNav } = await import('../blocks/global-navigation/utilities/utilities.js');
+  const hasLocalNav = await isLocalNav();
+  if (hasLocalNav) {
     // Preserving space to avoid CLS issue
     const localNavWrapper = createTag('div', { class: 'feds-localnav' });
     header.after(localNavWrapper);
