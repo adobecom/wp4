@@ -545,18 +545,10 @@ export const dropWhile = (xs, f) => {
   return xs;
 };
 
-export async function getGnavSource() {
-  const { locale, dynamicNavKey } = getConfig();
-  let url = getMetadata('gnav-source') || `${locale.contentRoot}/gnav`;
-  if (dynamicNavKey) {
-    const { default: dynamicNav } = await import('../features/dynamic-navigation/dynamic-navigation.js');
-    url = dynamicNav(url, dynamicNavKey);
-  }
-  return url;
-}
-
-export async function isLocalNav() {
-  const gnavSource = await getGnavSource();
+export function isLocalNav() {
+  if (isDesktop.matches) return false;
+  const { locale } = getConfig();
+  const gnavSource = getMetadata('gnav-source') || `${locale.contentRoot}/gnav`;
   const newNavEnabled = new URLSearchParams(window.location.search).get('newNav') || getMetadata('mobile-gnav-v2') !== 'off';
   return gnavSource.split('/').pop().startsWith('localnav-') && newNavEnabled;
 }

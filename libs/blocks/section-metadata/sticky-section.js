@@ -1,17 +1,9 @@
 import { createTag } from '../../utils/utils.js';
 import { getMetadata, getDelayTime } from './section-metadata.js';
+import { getGnavHeight } from '../global-navigation/utilities/utilities.js';
 
 function handleTopHeight(section) {
-  let topHeight = document.querySelector('header')?.offsetHeight ?? 0;
-  const localNav = document.querySelector('.feds-localnav');
-  const fedsPromo = document.querySelector('.feds-promo-wrapper');
-  if (localNav && localNav.offsetHeight > 0) {
-    topHeight = localNav.offsetHeight;
-  }
-  if (fedsPromo) {
-    topHeight += fedsPromo.offsetHeight;
-  }
-
+  const topHeight = getGnavHeight();
   section.style.top = `${topHeight}px`;
 }
 
