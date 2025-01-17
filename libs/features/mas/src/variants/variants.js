@@ -9,6 +9,7 @@ import { SpecialOffer } from './special-offer.js';
 import { TWP } from './twp.js';
 import { CCDSuggested } from './ccd-suggested.js';
 import { CCDSlice } from './ccd-slice.js';
+import { AHSinglePlan } from './ah-single-plan.js';
 
 const getVariantLayout = (card, mustMatch = false) => {
     switch (card.variant) {
@@ -34,6 +35,8 @@ const getVariantLayout = (card, mustMatch = false) => {
               return new CCDSuggested(card);
         case 'ccd-slice':
             return new CCDSlice(card);
+        case 'ah-single-plan':
+                return new AHSinglePlan(card);
         default:
             return mustMatch ? undefined : new Product(card);
     }
@@ -50,6 +53,7 @@ const getVariantStyles = () => {
     styles.push(TWP.variantStyle);
     styles.push(CCDSuggested.variantStyle);
     styles.push(CCDSlice.variantStyle);
+    styles.push(AHSinglePlan.variantStyle);
     return styles;
 };
 
