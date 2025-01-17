@@ -635,12 +635,12 @@ const FilterPanel = ({ tagsData }) => {
   `;
 
   return html`
-    <${DropdownSelect} id="filterEvent" options=${defaultOptions.filterEvent} prop="filterEvent" label="Event Filter" />
     <${Input} label="Show Filters" prop="showFilters" type="checkbox" />
     ${state.showFilters
       && (state.filterBuildPanel === 'custom'
         ? FilterCustomBuildPanel
         : FilterBuildPanel)}
+    <${DropdownSelect} id="filterEvent" options=${defaultOptions.filterEvent} prop="filterEvent" label="Event Filters" />
   `;
 };
 
