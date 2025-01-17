@@ -10,7 +10,8 @@ import { PERSONALIZATION_TAGS } from '../../../features/personalization/personal
 loadLana();
 
 const FEDERAL_PATH_KEY = 'federal';
-// Set a default height for LocalNav, as some sticky blocks position themselves before LocalNav loads into the DOM.
+// Set a default height for LocalNav,
+// as sticky blocks position themselves before LocalNav loads into the DOM.
 const DEFAULT_LOCALNAV_HEIGHT = 40;
 
 const selectorMap = {
@@ -561,7 +562,7 @@ export function getGnavHeight() {
   }
 
   const fedsPromo = document.querySelector('.feds-promo-aside-wrapper');
-  if (fedsPromo instanceof HTMLElement ) {
+  if (fedsPromo instanceof HTMLElement) {
     topHeight += fedsPromo.offsetHeight;
   }
 
