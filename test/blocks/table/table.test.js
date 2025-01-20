@@ -1,10 +1,13 @@
 import { readFile, sendMouse, sendKeys, resetMouse } from '@web/test-runner-commands';
 import { expect } from 'chai';
-import { MILO_EVENTS } from '../../../libs/utils/utils.js';
+import { getConfig, MILO_EVENTS, setConfig } from '../../../libs/utils/utils.js';
 import { delay, waitForElement } from '../../helpers/waitfor.js';
 
 document.body.innerHTML = await readFile({ path: './mocks/body.html' });
 const { default: init } = await import('../../../libs/blocks/table/table.js');
+const config = getConfig();
+config.env = { locale: { contentRoot: `${window.location.origin}` } };
+setConfig(config);
 
 describe('table and tablemetadata', () => {
   beforeEach(() => {
@@ -110,6 +113,16 @@ describe('table and tablemetadata', () => {
       const tooltipHeading = document.querySelector('.tooltip-heading');
       expect(tooltipHeading.childNodes.length).to.equal(2);
       expect(tooltipHeading.querySelector('.milo-tooltip, .icon-tooltip')).to.exist;
+    });
+
+    it('should apply aria-label to all selects within .filters on mobile', async () => {
+      window.innerWidth = 375;
+      window.dispatchEvent(new Event('resize'));
+      await delay(500);
+      const selectElements = document.querySelectorAll('.filters select');
+      selectElements.forEach((selectElement) => {
+        expect(selectElement.getAttribute('aria-label')).to.equal('choose table column');
+      });
     });
   });
 });
