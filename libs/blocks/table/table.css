@@ -322,14 +322,16 @@
 }
 
 /* icons */
-.table:not(.merch) .row .col span.milo-tooltip {
-  margin-left: var(--spacing-xs);
-  margin-right: 0;
+[dir='ltr'] .table:not(.merch) .row .col span.milo-tooltip {
+  margin-right: -4px;
 }
 
 [dir='rtl'] .table:not(.merch) .row .col span.milo-tooltip {
-  margin-left: 0;
-  margin-right: var(--spacing-xs);
+  margin-left: -4px;
+}
+
+.table .milo-tooltip svg{
+  top: unset;
 }
 
 .table .icon-milo-info {

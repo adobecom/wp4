@@ -2,6 +2,11 @@
   position: relative;
   text-decoration: none;
   border-bottom: none;
+  min-width: 24px;
+  display: flex;
+  min-height: 24px;
+  align-items: center;
+  justify-content: center;
 }
 
 .milo-tooltip::before {
