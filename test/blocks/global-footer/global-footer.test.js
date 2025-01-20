@@ -355,7 +355,7 @@ describe('global footer', () => {
       };
 
       const logMessage = 'test message';
-      const logTags = 'errorType=error,module=global-footer';
+      const logTags = 'global-footer';
       await logErrorFor(erroneousFunction, logMessage, logTags);
 
       expect(window.lana.log.calledOnce).to.be.true;

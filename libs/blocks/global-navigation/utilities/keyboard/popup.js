@@ -149,14 +149,14 @@ class Popup {
         const element = getOpenPopup();
         if (!e.target.closest(selectors.popup) || !element || !this.desktop.matches) return;
         this.handleKeyDown({ e, element, isFooter: false });
-      }, `popup key failed ${e.code}`, 'errorType=error,module=gnav-keyboard'));
+      }, `popup key failed ${e.code}`, 'gnav-keyboard', 'error'));
 
     document.querySelector(selectors.globalFooter)
       ?.addEventListener('keydown', (e) => logErrorFor(() => {
         if (!this.desktop.matches) return;
         const element = e.target.closest(selectors.globalFooter);
         this.handleKeyDown({ e, element, isFooter: true });
-      }, `footer key failed ${e.code}`, 'errorType=error,module=gnav-keyboard'));
+      }, `footer key failed ${e.code}`, 'gnav-keyboard', 'error'));
   };
 }
 
