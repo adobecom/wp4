@@ -1,7 +1,8 @@
 /* eslint-disable no-plusplus */
-import { createTag, MILO_EVENTS } from '../../utils/utils.js';
+import { createTag, getConfig, MILO_EVENTS } from '../../utils/utils.js';
 import { decorateButtons } from '../../utils/decorate.js';
 import { debounce } from '../../utils/action.js';
+import { replaceKey } from '../../features/placeholders.js';
 
 const DESKTOP_SIZE = 900;
 const MOBILE_SIZE = 768;
@@ -63,7 +64,7 @@ function handleHeading(table, headingCols) {
       });
 
       const headingContent = createTag('div', { class: 'heading-content' });
-      const headingButton = createTag('div', { class: 'heading-button' });
+      const headingButton = createTag('div', { class: 'heading-button', role: 'cell' });
 
       [...elements].forEach((e) => {
         if (e.classList.contains('pricing') && isPriceBottom) headingButton.appendChild(e);
@@ -448,6 +449,13 @@ function applyStylesBasedOnScreenSize(table, originTable) {
     if ((!isMerch && !table.querySelector('.col-3'))
       || (isMerch && !table.querySelector('.col-2'))) return;
 
+    async function setAriaLabelsForElements(first, second) {
+      const config = getConfig();
+      const ariaLabel = await replaceKey('choose-table-column', config);
+      first.setAttribute('aria-label', ariaLabel);
+      second.setAttribute('aria-label', ariaLabel);
+    }
+
     const filterChangeEvent = () => {
       table.innerHTML = originTable.innerHTML;
       reAssignEvents(table);
@@ -508,6 +516,7 @@ function applyStylesBasedOnScreenSize(table, originTable) {
       table.parentElement.insertBefore(filters, table);
       table.parentElement.classList.add(`table-${table.classList.contains('merch') ? 'merch-' : ''}section`);
       filterChangeEvent();
+      setAriaLabelsForElements(colSelect0, colSelect1);
     }
   };
 
