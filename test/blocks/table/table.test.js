@@ -7,7 +7,7 @@ import { replaceKey } from '../../../libs/features/placeholders.js';
 document.body.innerHTML = await readFile({ path: './mocks/body.html' });
 const { default: init } = await import('../../../libs/blocks/table/table.js');
 const locales = { '': { ietf: 'en-US', tk: 'hah7vzn.css' } };
-const conf = { locales };
+const conf = { locales, contentRoot: '/test/blocks/table/mocks' };
 setConfig(conf);
 const config = getConfig();
 
@@ -118,7 +118,6 @@ describe('table and tablemetadata', () => {
     });
 
     it('should apply aria-label to all selects within .filters on mobile', async () => {
-      config.locale.contentRoot = '/test/blocks/table/mocks';
       window.innerWidth = 375;
       window.dispatchEvent(new Event('resize'));
       const ariaLabel = await replaceKey('choose-table-column', config);
