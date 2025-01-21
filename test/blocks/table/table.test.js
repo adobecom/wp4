@@ -2,12 +2,14 @@ import { readFile, sendMouse, sendKeys, resetMouse } from '@web/test-runner-comm
 import { expect } from 'chai';
 import { getConfig, MILO_EVENTS, setConfig } from '../../../libs/utils/utils.js';
 import { delay, waitForElement } from '../../helpers/waitfor.js';
+import { replaceKey } from '../../../libs/features/placeholders.js';
 
 document.body.innerHTML = await readFile({ path: './mocks/body.html' });
 const { default: init } = await import('../../../libs/blocks/table/table.js');
+const locales = { '': { ietf: 'en-US', tk: 'hah7vzn.css' } };
+const conf = { locales };
+setConfig(conf);
 const config = getConfig();
-config.env = { locale: { contentRoot: `${window.location.origin}` } };
-setConfig(config);
 
 describe('table and tablemetadata', () => {
   beforeEach(() => {
@@ -116,12 +118,14 @@ describe('table and tablemetadata', () => {
     });
 
     it('should apply aria-label to all selects within .filters on mobile', async () => {
+      config.locale.contentRoot = '/test/blocks/table/mocks';
       window.innerWidth = 375;
       window.dispatchEvent(new Event('resize'));
-      await delay(500);
+      const ariaLabel = await replaceKey('choose-table-column', config);
       const selectElements = document.querySelectorAll('.filters select');
+
       selectElements.forEach((selectElement) => {
-        expect(selectElement.getAttribute('aria-label')).to.equal('choose table column');
+        expect(selectElement.getAttribute('aria-label')).to.equal(ariaLabel);
       });
     });
   });

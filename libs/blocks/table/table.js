@@ -449,11 +449,13 @@ function applyStylesBasedOnScreenSize(table, originTable) {
     if ((!isMerch && !table.querySelector('.col-3'))
       || (isMerch && !table.querySelector('.col-2'))) return;
 
-    async function setAriaLabelsForElements(first, second) {
+    async function setAriaLabelsForElements(selectArray) {
       const config = getConfig();
       const ariaLabel = await replaceKey('choose-table-column', config);
-      first.setAttribute('aria-label', ariaLabel);
-      second.setAttribute('aria-label', ariaLabel);
+
+      selectArray.forEach((item) => {
+        item.setAttribute('aria-label', ariaLabel);
+      });
     }
 
     const filterChangeEvent = () => {
@@ -516,7 +518,7 @@ function applyStylesBasedOnScreenSize(table, originTable) {
       table.parentElement.insertBefore(filters, table);
       table.parentElement.classList.add(`table-${table.classList.contains('merch') ? 'merch-' : ''}section`);
       filterChangeEvent();
-      setAriaLabelsForElements(colSelect0, colSelect1);
+      setAriaLabelsForElements([colSelect0, colSelect1]);
     }
   };
 
