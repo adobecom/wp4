@@ -64,7 +64,7 @@ function handleHeading(table, headingCols) {
       });
 
       const headingContent = createTag('div', { class: 'heading-content' });
-      const headingButton = createTag('div', { class: 'heading-button', role: 'cell' });
+      const headingButton = createTag('div', { class: 'heading-button' });
 
       [...elements].forEach((e) => {
         if (e.classList.contains('pricing') && isPriceBottom) headingButton.appendChild(e);
@@ -91,10 +91,9 @@ function handleHeading(table, headingCols) {
       const describedBy = `${headerBody?.id ?? ''} ${headerPricing?.id ?? ''}`.trim();
       trackingHeader.setAttribute('aria-describedby', describedBy);
 
-      col.removeAttribute('role');
+      col.setAttribute('role', 'columnheader');
     }
 
-    nodeToApplyRoleScope.setAttribute('role', 'columnheader');
     nodeToApplyRoleScope.setAttribute('scope', 'col');
   });
 }
@@ -152,6 +151,15 @@ function handleAddOnContent(table) {
   });
   setTimeout(() => handleEqualHeight(table, '.row-heading'), 0);
   table.addEventListener('mas:resolved', debounce(() => { handleEqualHeight(table, '.row-heading'); }));
+}
+
+async function setAriaLabelsForExpandableIcons() {
+  const config = getConfig();
+  const ariaLabel = await replaceKey('toggle-row', config);
+  const icons = document.querySelectorAll('.icon.expand[role="button"]');
+  icons.forEach((icon) => {
+    icon.setAttribute('aria-label', ariaLabel);
+  });
 }
 
 function handleHighlight(table) {
@@ -256,7 +264,7 @@ function handleSection(sectionParams) {
     }
 
     if (isCollapseTable) {
-      const iconTag = createTag('span', { class: 'icon expand' });
+      const iconTag = createTag('span', { class: 'icon expand', role: 'button' });
       sectionHeadTitle.appendChild(iconTag);
 
       if (expandSection) {
@@ -577,6 +585,7 @@ export default function init(el) {
   });
 
   handleHighlight(el);
+  setAriaLabelsForExpandableIcons();
   if (isMerch) formatMerchTable(el);
 
   let isDecorated = false;
