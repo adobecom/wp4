@@ -487,6 +487,6 @@ describe('global navigation utilities', () => {
       document.body.append(gnav, lnav);
       const gnavHeight = getGnavHeight();
       expect(gnavHeight).to.equal(40);
-    }) 
+    });
   });
 });
