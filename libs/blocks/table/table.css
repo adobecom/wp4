@@ -322,11 +322,12 @@
 }
 
 /* icons */
-[dir='ltr'] .table:not(.merch) .row .col span.milo-tooltip {
+.table:not(.merch) .row .col span.milo-tooltip {
   margin-right: -4px;
 }
 
 [dir='rtl'] .table:not(.merch) .row .col span.milo-tooltip {
+  margin-right: 0;
   margin-left: -4px;
 }
 
