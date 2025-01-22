@@ -147,8 +147,7 @@ test.describe('Milo Accordion Block test suite', () => {
     });
 
     await test.step('step-4: Verify the accessibility test on the Accordion seo editorial block', async () => {
-      // The accessibility test for the Accordion seo editorial is failing, so skipping it.
-      await runAccessibilityTest({ page, testScope: accordion.accordion, skipA11yTest: true });
+      await runAccessibilityTest({ page, testScope: accordion.accordion });
     });
   });
 });

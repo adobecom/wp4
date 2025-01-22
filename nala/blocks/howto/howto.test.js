@@ -36,7 +36,7 @@ test.describe('Milo HowTo block test suite', () => {
 
     await test.step('step-3: Verify the accessibility test on the HowTo default block', async () => {
       // The accessibility test for the HowTo default block is failing, so skipping it.
-      await runAccessibilityTest({ page, testScope: howTo.howTo, skipA11yTest: true });
+      await runAccessibilityTest({ page, testScope: howTo.howTo });
     });
   });
 

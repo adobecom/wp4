@@ -140,7 +140,7 @@ test.describe('Milo Columns Block test suite', () => {
     });
 
     await test.step('step-3: Verify the accessibility test on the Columns(table) block', async () => {
-      await runAccessibilityTest({ page, testScope: column.column, skipA11yTest: true });
+      await runAccessibilityTest({ page, testScope: column.column });
     });
   });
 

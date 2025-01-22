@@ -239,8 +239,7 @@ test.describe('Milo Text Block test suite', () => {
     });
 
     await test.step('step-4: Verify the accessibility test on the text (legal) block', async () => {
-      // The accessibility test is failing, so skipping it.
-      await runAccessibilityTest({ page, testScope: text.textlegal, skipA11yTest: true });
+      await runAccessibilityTest({ page, testScope: text.textlegal });
     });
   });
 

@@ -38,8 +38,7 @@ test.describe('Aside Block test suite', () => {
     });
 
     await test.step('step-3: Verify the accessibility test on the Aside Small block', async () => {
-      // The accessibility test for the Aside Small is failing, so skipping it.
-      await runAccessibilityTest({ page, testScope: Aside.asideSmall, skipA11yTest: true });
+      await runAccessibilityTest({ page, testScope: Aside.asideSmall });
     });
   });
 
@@ -73,7 +72,7 @@ test.describe('Aside Block test suite', () => {
     });
 
     await test.step('step-3: Verify the accessibility test on the Aside Medium block', async () => {
-      await runAccessibilityTest({ page, testScope: Aside.asideMedium, skipA11yTest: true });
+      await runAccessibilityTest({ page, testScope: Aside.asideMedium });
     });
   });
 
@@ -107,7 +106,7 @@ test.describe('Aside Block test suite', () => {
     });
 
     await test.step('step-3: Verify the accessibility test on the Aside Large block', async () => {
-      await runAccessibilityTest({ page, testScope: Aside.asideLarge, skipA11yTest: true });
+      await runAccessibilityTest({ page, testScope: Aside.asideLarge });
     });
   });
 
@@ -416,8 +415,7 @@ test.describe('Aside Block test suite', () => {
     });
 
     await test.step('step-3: Verify the accessibility test on the Aside Notification Extra Small Dark block', async () => {
-      // The accessibility test for the AAside Notification Extra Small is failing, so skipping it.
-      await runAccessibilityTest({ page, testScope: Aside.asideNotifExtraSmallDark, skipA11yTest: true });
+      await runAccessibilityTest({ page, testScope: Aside.asideNotifExtraSmallDark });
     });
   });
 

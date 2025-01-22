@@ -77,7 +77,7 @@ test.describe('Milo Marquee Anchors test suite', () => {
     });
 
     await test.step('step-4: Verify the accessibility test on the marquee anchors block', async () => {
-      await runAccessibilityTest({ page, testScope: marquee.marqueeAnchors, skipA11yTest: true });
+      await runAccessibilityTest({ page, testScope: marquee.marqueeAnchors });
     });
   });
 
@@ -142,7 +142,7 @@ test.describe('Milo Marquee Anchors test suite', () => {
     });
 
     await test.step('step-4: Verify the accessibility test on the marquee anchors (transparent) block', async () => {
-      await runAccessibilityTest({ page, testScope: marquee.marqueeAnchorsTransparent, skipA11yTest: true });
+      await runAccessibilityTest({ page, testScope: marquee.marqueeAnchorsTransparent });
     });
   });
 });
