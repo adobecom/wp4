@@ -549,7 +549,8 @@ export const dropWhile = (xs, f) => {
 export function isLocalNav() {
   const { locale = {} } = getConfig();
   const gnavSource = getMetadata('gnav-source') || `${locale.contentRoot}/gnav`;
-  const newNavEnabled = new URLSearchParams(window.location.search).get('newNav') || getMetadata('mobile-gnav-v2') !== 'off';
+  let newNavEnabled = new URLSearchParams(window.location.search).get('newNav');
+  newNavEnabled = newNavEnabled ? newNavEnabled !== 'false' : getMetadata('mobile-gnav-v2') !== 'off';
   return gnavSource.split('/').pop().startsWith('localnav-') && newNavEnabled;
 }
 
