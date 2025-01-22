@@ -103,7 +103,7 @@ export default async function loadBlock(configs, customLib) {
   }
 
   // Relative paths work just fine since they exist in the context of this file's origin
-  const [{ default: bootstrapBlock }, { default: locales }, { setConfig }] = await Promise.all([
+  const [{ default: bootstrapBlock }, { default: locales }, { setConfig, getConfig }] = await Promise.all([
     import('./bootstrapper.js'),
     import('../utils/locales.js'),
     import('../utils/utils.js'),
@@ -126,12 +126,15 @@ export default async function loadBlock(configs, customLib) {
   setConfig(clientConfig);
   for await (const block of blockConfig) {
     const configBlock = configs[block.key];
+    const { locale } = getConfig();
+    const gnavSource =  `${locale.contentRoot}/gnav`;
     try {
       if (configBlock) {
         if (block.key === 'header') {
           const { default: init } = await import('../blocks/global-navigation/global-navigation.js');
           await bootstrapBlock(init, {
             ...block,
+            gnavSource,
             unavComponents: configBlock.unav?.unavComponents,
             redirect: configBlock.redirect,
             layout: configBlock.layout,
