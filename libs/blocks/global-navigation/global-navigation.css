@@ -1030,6 +1030,11 @@ header.new-nav .feds-nav > section.feds-navItem > .feds-popup .tab-content {
   border-left: 1px solid var(--feds-borderColor-link-v2);
 }
 
+header.new-nav .feds-nav > section.feds-navItem > .feds-popup .tab-content .feds-cta--secondary {
+  margin: 12px;
+  max-width: 180px;
+}
+
 [dir = "rtl"] header.new-nav .feds-nav > section.feds-navItem > .feds-popup .tab-content {
   border-left: none;
   border-right: 1px solid var(--feds-borderColor-link-v2);
