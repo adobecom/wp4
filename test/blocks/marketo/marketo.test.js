@@ -2,7 +2,7 @@ import { readFile } from '@web/test-runner-commands';
 import { expect } from '@esm-bundle/chai';
 import sinon, { stub } from 'sinon';
 import { delay } from '../../helpers/waitfor.js';
-import { setConfig } from '../../../libs/utils/utils.js';
+import { setConfig, MILO_EVENTS } from '../../../libs/utils/utils.js';
 import init, { setPreferences, decorateURL, FORM_PARAM } from '../../../libs/blocks/marketo/marketo.js';
 
 const innerHTML = await readFile({ path: './mocks/body.html' });
@@ -137,6 +137,7 @@ describe('Marketo ungated one page experience', () => {
     init(document.querySelector('.marketo'));
     expect(document.querySelector('#success-section').classList.contains('hide-block')).to.be.true;
     document.querySelector('#success-section').classList.add('form-success');
+    document.dispatchEvent(new Event(MILO_EVENTS.DEFERRED));
     clock.tick(500);
     expect(document.querySelector('#success-section').classList.contains('hide-block')).to.be.false;
   });

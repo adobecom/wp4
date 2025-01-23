@@ -59,6 +59,15 @@
         </div>
       </div>
     </div>
+    <div class="section hide-block form-success">
+      <div class="content" daa-lh="b1|content"><p>Form Success 2</p></div>
+      <div class="section-metadata">
+        <div>
+          <div>style</div>
+          <div>hide block, form success</div>
+        </div>
+      </div>
+    </div>
   </body>
   <script type="module">
     import { runTests } from '@web/test-runner-mocha';
@@ -115,14 +124,15 @@
 
         it('shows success section', async () => {
           const form = document.querySelector('form');
-          const section = document.querySelector('.form-success');
+          const sections = document.querySelectorAll('.form-success');
           const formData = {
             'form.success.type': 'section',
             'form.success.section': 'form success',
           };
 
           formSuccess(form, formData);
-          expect(section.classList.contains('hide-block')).to.be.false;
+          expect(sections[0].classList.contains('hide-block')).to.be.false;
+          expect(sections[1].classList.contains('hide-block')).to.be.false;
         });
       });
     });

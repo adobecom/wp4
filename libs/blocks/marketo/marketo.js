@@ -22,6 +22,7 @@ import {
   getConfig,
   createIntersectionObserver,
   SLD,
+  MILO_EVENTS,
 } from '../../utils/utils.js';
 
 const ROOT_MARGIN = 50;
@@ -54,6 +55,7 @@ export const decorateURL = (destination, baseURL = window.location) => {
     let destinationUrl = new URL(destination, baseURL.origin);
     const { hostname, pathname, search, hash } = destinationUrl;
 
+    /* c8 ignore next 3 */
     if (!hostname) {
       throw new Error('URL does not have a valid host');
     }
@@ -94,36 +96,31 @@ export const setPreferences = (formData) => {
   Object.entries(formData).forEach(([key, value]) => setPreference(key, value));
 };
 
-const showSuccessSection = (formData, scroll = true) => {
-  const show = (el) => {
-    el.classList.remove('hide-block');
-    if (scroll) el.scrollIntoView({ behavior: 'smooth' });
+const showSuccessSection = (formData) => {
+  const show = (sections) => {
+    sections.forEach((section) => section.classList.remove('hide-block'));
+    sections[0]?.scrollIntoView({ behavior: 'smooth' });
   };
   const successClass = formData[SUCCESS_SECTION]?.toLowerCase().replaceAll(' ', '-');
   if (!successClass) {
     window.lana?.log('Error showing Marketo success section', { tags: 'warn,marketo' });
     return;
   }
-  const section = document.querySelector(`.section.${successClass}`);
-  if (section) {
-    show(section);
-    return;
-  }
-  // For Marquee use case
-  const maxIntervals = 6;
-  let count = 0;
-  const interval = setInterval(() => {
-    const el = document.querySelector(`.section.${successClass}`);
-    if (el) {
-      clearInterval(interval);
-      show(el);
-    }
-    count += 1;
-    if (count > maxIntervals) {
-      clearInterval(interval);
-      window.lana?.log('Error showing Marketo success section', { tags: 'warn,marketo' });
-    }
-  }, 500);
+
+  let successSections = document.querySelectorAll(`.section.${successClass}`);
+  show(successSections);
+  document.addEventListener(
+    MILO_EVENTS.DEFERRED,
+    () => {
+      successSections = document.querySelectorAll(`.section.${successClass}`);
+      show(successSections);
+      /* c8 ignore next 3 */
+      if (!document.querySelector(`.section.${successClass}`)) {
+        window.lana?.log(`Error showing Marketo success section ${successClass}`, { tags: 'warn,marketo' });
+      }
+    },
+    false,
+  );
 };
 
 export const formSuccess = (formEl, formData) => {
@@ -229,7 +226,7 @@ export default function init(el) {
 
   if (formData[SUCCESS_TYPE] === 'section' && ungated) {
     el.classList.add('hide-block');
-    showSuccessSection(formData, true);
+    showSuccessSection(formData);
     return;
   }
 

@@ -72,5 +72,6 @@ export const customFetch = stub();
 
 const PAGE_URL = new URL(window.location.href);
 export const SLD = PAGE_URL.hostname.includes('.aem.') ? 'aem' : 'hlx';
+export const MILO_EVENTS = { DEFERRED: 'milo:deferred' };
 
 export const getConfig = () => ({ base: '' });
