@@ -86,6 +86,14 @@ function decorateBrickIconStack(el) {
     const liTxt = liEl.textContent?.trim();
     if (!liTxt || (liTxt === aTxt)) return;
     const pic = liEl.querySelector('picture');
+    // TODO: Remove after bugfix PR adobe/helix-html2md#556 is merged
+    liEl.querySelectorAll('p').forEach((pElement) => {
+      while (pElement.firstChild) {
+        pElement.parentNode.insertBefore(pElement.firstChild, pElement);
+      }
+      pElement.remove();
+    });
+    // TODO: Remove after bugfix PR adobe/helix-html2md#556 is merged
     let icn = pic;
     if (pic && pic.parentElement !== liEl) {
       icn = pic.parentElement.cloneNode(false);

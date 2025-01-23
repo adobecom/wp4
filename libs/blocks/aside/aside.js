@@ -215,7 +215,23 @@ function decorateLayout(el) {
   } else if (!iconArea) {
     foreground?.classList.add('no-image');
   }
-  if (el.classList.contains('split')) decorateIconStack(el);
+  if (el.classList.contains('split')) {
+    decorateIconStack(el);
+    // TODO: Remove after bugfix PR adobe/helix-html2md#556 is merged
+    const icnStk = el.querySelector('.icon-stack-area');
+    if (icnStk) {
+      const liELs = icnStk.querySelectorAll('li');
+      [...liELs].forEach((liEl) => {
+        liEl.querySelectorAll('p').forEach((pElement) => {
+          while (pElement.firstChild) {
+            pElement.parentNode.insertBefore(pElement.firstChild, pElement);
+          }
+          pElement.remove();
+        });
+      });
+    }
+    // TODO: Remove after bugfix PR adobe/helix-html2md#556 is merged
+  }
   return foreground;
 }
 
