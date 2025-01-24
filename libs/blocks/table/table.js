@@ -2,7 +2,7 @@
 import { createTag, getConfig, MILO_EVENTS } from '../../utils/utils.js';
 import { decorateButtons } from '../../utils/decorate.js';
 import { debounce } from '../../utils/action.js';
-import { replaceKey } from '../../features/placeholders.js';
+import { replaceKey, replaceKeyArray } from '../../features/placeholders.js';
 
 const DESKTOP_SIZE = 900;
 const MOBILE_SIZE = 768;
@@ -153,12 +153,22 @@ function handleAddOnContent(table) {
   table.addEventListener('mas:resolved', debounce(() => { handleEqualHeight(table, '.row-heading'); }));
 }
 
-async function setAriaLabelsForExpandableIcons() {
+async function setAriaLabelForIcons(el) {
   const config = getConfig();
-  const ariaLabel = await replaceKey('toggle-row', config);
-  const icons = document.querySelectorAll('.icon.expand[role="button"]');
-  icons.forEach((icon) => {
-    icon.setAttribute('aria-label', ariaLabel);
+
+  const expendableIcons = el.querySelectorAll('.icon.expand[role="button"]');
+  const selectFilters = document.querySelectorAll('.filters .filter');
+  const ariaLabelElements = [...selectFilters, ...expendableIcons];
+
+  if (!ariaLabelElements.length) {
+    return;
+  }
+
+  const ariaLabels = await replaceKeyArray(['toggle-row', 'choose-table-column'], config);
+
+  ariaLabelElements.forEach((element) => {
+    const labelIndex = element.classList.contains('filter') ? 1 : 0;
+    element.setAttribute('aria-label', ariaLabels[labelIndex]);
   });
 }
 
@@ -457,15 +467,6 @@ function applyStylesBasedOnScreenSize(table, originTable) {
     if ((!isMerch && !table.querySelector('.col-3'))
       || (isMerch && !table.querySelector('.col-2'))) return;
 
-    async function setAriaLabelsForElements(selectArray) {
-      const config = getConfig();
-      const ariaLabel = await replaceKey('choose-table-column', config);
-
-      selectArray.forEach((item) => {
-        item.setAttribute('aria-label', ariaLabel);
-      });
-    }
-
     const filterChangeEvent = () => {
       table.innerHTML = originTable.innerHTML;
       reAssignEvents(table);
@@ -526,7 +527,6 @@ function applyStylesBasedOnScreenSize(table, originTable) {
       table.parentElement.insertBefore(filters, table);
       table.parentElement.classList.add(`table-${table.classList.contains('merch') ? 'merch-' : ''}section`);
       filterChangeEvent();
-      setAriaLabelsForElements([colSelect0, colSelect1]);
     }
   };
 
@@ -585,7 +585,6 @@ export default function init(el) {
   });
 
   handleHighlight(el);
-  setAriaLabelsForExpandableIcons();
   if (isMerch) formatMerchTable(el);
 
   let isDecorated = false;
@@ -620,6 +619,7 @@ export default function init(el) {
     });
 
     isDecorated = true;
+    setAriaLabelForIcons(el);
   };
 
   window.addEventListener(MILO_EVENTS.DEFERRED, () => {
