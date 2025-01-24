@@ -2,7 +2,7 @@
 import { createTag, getConfig, MILO_EVENTS } from '../../utils/utils.js';
 import { decorateButtons } from '../../utils/decorate.js';
 import { debounce } from '../../utils/action.js';
-import { replaceKey, replaceKeyArray } from '../../features/placeholders.js';
+import { replaceKeyArray } from '../../features/placeholders.js';
 
 const DESKTOP_SIZE = 900;
 const MOBILE_SIZE = 768;
