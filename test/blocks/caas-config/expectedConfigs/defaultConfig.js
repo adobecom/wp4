@@ -120,7 +120,7 @@ const defaultConfig = {
       },
     ],
     enabled: false,
-    eventFilter: '',
+    eventFilter: [],
     type: 'left',
     showEmptyFilters: false,
     filters: [],
