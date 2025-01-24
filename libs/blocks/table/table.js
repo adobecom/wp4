@@ -155,9 +155,8 @@ function handleAddOnContent(table) {
 
 async function setAriaLabelForIcons(el) {
   const config = getConfig();
-
   const expendableIcons = el.querySelectorAll('.icon.expand[role="button"]');
-  const selectFilters = document.querySelectorAll('.filters .filter');
+  const selectFilters = el.parentElement.querySelectorAll('.filters .filter');
   const ariaLabelElements = [...selectFilters, ...expendableIcons];
 
   if (!ariaLabelElements.length) {
