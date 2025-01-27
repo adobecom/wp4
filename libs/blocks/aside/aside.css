@@ -171,7 +171,7 @@
   align-items: center;
 }
 
-.aside:not(.notification) .foreground.container .icon-area {
+.aside:not(.notification) .foreground.container .icon-area:not(.con-button) {
   max-height: 80px;
   display: flex;
   align-items: center;
@@ -554,7 +554,7 @@
   display: flex;
 }
 
-.aside.split.bio .foreground.container .text .icon-area {
+.aside.split.bio .foreground.container .text .icon-area:not(.con-button) {
   display: none;
 }
 
@@ -1235,4 +1235,11 @@
   .aside.split .foreground.container .text {
     flex: 0 0 calc(500px - 10.5vw);
   }
+}
+
+.aside .foreground.container .action-area a.icon-area.con-button,
+.aside.split.bio .foreground.container .text .action-area a.icon-area.con-button {
+  display: inline-block;
+  height: auto;
+  margin-bottom: 0;
 }
