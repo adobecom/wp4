@@ -204,6 +204,7 @@
 .heading-m,
 .heading-s,
 .heading-xs,
+.heading-xxs,
 .body-xxl,
 .body-xl,
 .body-l,
@@ -251,6 +252,11 @@
 .heading-xs {
   font-size: var(--type-heading-xs-size);
   line-height: var(--type-heading-xs-lh);
+}
+
+.heading-xxs {
+  font-size: var(--type-heading-xxs-size);
+  line-height: var(--type-heading-xxs-lh);
 }
 
 .body-xxl {
