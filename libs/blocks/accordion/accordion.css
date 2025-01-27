@@ -23,6 +23,37 @@ dl.accordion {
   line-height: var(--type-body-s-lh);
 }
 
+.accordion-expand-all {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: var(--grid-container-width);
+  margin: 0 auto 40px;
+}
+
+.accordion-expand-all button {
+  display: flex;
+  align-items: center;
+  box-sizing: content-box;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
+.accordion-expand-all button.disabled {
+  color: #909090;
+  border-color: #909090;
+  background-color: #fff;
+  text-decoration: line-through;
+  cursor: auto;
+}
+
+.accordion-expand-all .expand-btn {
+  margin-inline-end: 24px;
+}
+
+.accordion-expand-all svg {
+  margin-inline-start: 8px;
+}
+
 .accordion dt button {
   align-items: center;
   background: none;
@@ -209,6 +240,16 @@ div.media-p {
   padding: 0;
 }
 
+@media screen and (min-width: 600px) {
+  .accordion-expand-all .con-button.button-l {
+    border-radius: 25px;
+    font-size: 19px;
+    line-height: 24px;
+    min-height: 28px;
+    padding: 10px 24px 8px;
+  }
+}
+
 @media screen and (min-width: 1200px) {
   .editorial {
     display: flex;
@@ -235,5 +276,20 @@ div.media-p {
     align-items: center;
     overflow: hidden;
     margin: 0;
+  }
+
+  .editorial.expand-all-button {
+    display: grid;
+    grid-template-columns: minmax(41.67%, 1fr) minmax(400px, 700px);
+    row-gap: 0;
+  }
+
+  .editorial.expand-all-button > * {
+    width: 100%;
+  }
+
+  .editorial.expand-all-button .accordion-expand-all {
+    grid-column: span 2;
+    max-width: 100%;
   }
 }
