@@ -194,6 +194,8 @@ function decorateLayout(el) {
     const iconClass = iconVariant ? `${iconVariant[1]}-area` : 'icon-area';
     if (iconVariant) loadIconography();
     iconArea.classList.add(iconClass);
+    const image = iconArea.querySelector('img');
+    iconArea.style.aspectRatio = image.width / image.height;
   }
   const foregroundImage = foreground.querySelector(':scope > div:not(.text) img')?.closest('div');
   const bgImage = el.querySelector(':scope > div:not(.text):not(.foreground) img')?.closest('div');
