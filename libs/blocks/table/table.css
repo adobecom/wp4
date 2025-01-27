@@ -323,25 +323,28 @@
 
 /* icons */
 .table:not(.merch) .row .col span.milo-tooltip {
-  margin-left: var(--spacing-xs);
-  margin-right: 0;
+  margin-right: -4px;
 }
 
 [dir='rtl'] .table:not(.merch) .row .col span.milo-tooltip {
-  margin-left: 0;
-  margin-right: var(--spacing-xs);
+  margin-right: 0;
+  margin-left: -4px;
+}
+
+.table .milo-tooltip svg {
+  top: unset;
 }
 
 .table .icon-milo-info {
   height: 16px;
 }
 
-.table .icon-milo-info:hover {
+.table .icon-info:hover {
   cursor: pointer;
 }
 
-.table .icon-milo-info:hover path,
-.table .active .icon-milo-info path {
+.table .icon-info:hover path,
+.table .active .icon-info path {
   color: var(--hover-border-color);
 }
 
