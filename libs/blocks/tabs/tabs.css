@@ -130,7 +130,7 @@
   margin: auto;
 }
 
-.tabs.center div[role="tablist"] .tab-list-container {
+.tabs.center:not(.same-width) div[role="tablist"] .tab-list-container {
   width: auto;
 }
 
@@ -179,6 +179,10 @@
   white-space: nowrap;
   width: auto;
   z-index: 1;
+}
+
+.tabs.same-width div[role="tablist"] button {
+  flex: 1;
 }
 
 .tabs .paddle {

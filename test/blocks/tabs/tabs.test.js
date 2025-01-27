@@ -24,9 +24,12 @@ describe('tabs', () => {
   });
 
   it('clicks on a tabList button', async () => {
-    const unSelectedBtn = allTabs[0].querySelector('div[role="tablist"] button[aria-selected="false"]');
-    unSelectedBtn.click();
-    expect(unSelectedBtn.ariaSelected).to.equal('true');
+    const selectedButton = allTabs[0].querySelector('div[role="tablist"] button[aria-selected="true"]');
+    const unselectedButton = allTabs[0].querySelectorAll('div[role="tablist"] button[aria-selected="false"]');
+    unselectedButton[0].click();
+    expect(unselectedButton[0].ariaSelected).to.equal('true');
+    expect(selectedButton.ariaSelected).to.equal('false');
+    expect(unselectedButton[1].ariaSelected).to.equal('false');
   });
 
   it('focus on tabList button, ArrowRight key to next tab and Enter key to select aria', async () => {
@@ -104,6 +107,35 @@ describe('tabs', () => {
       await delay(50);
       const newPosition = window.scrollY;
       expect(newPosition).to.be.above(oldPosition);
+    });
+  });
+
+  describe('tabs with background color', () => {
+    it('sets the background color of the active tab', async () => {
+      const coloredTabs = document.querySelector('#colored');
+      const tabs = coloredTabs.querySelectorAll('button[role="tab"]');
+      expect(coloredTabs).to.exist;
+      expect(tabs[0].style.backgroundColor).to.equal('rgb(255, 0, 0)');
+      expect(tabs[1].style.backgroundColor).to.equal('');
+      expect(tabs[2].style.backgroundColor).to.equal('');
+      tabs[1].click();
+      expect(tabs[0].style.backgroundColor).to.equal('');
+      expect(tabs[1].style.backgroundColor).to.equal('rgb(255, 255, 0)');
+      expect(tabs[2].style.backgroundColor).to.equal('');
+      tabs[2].click();
+      expect(tabs[0].style.backgroundColor).to.equal('');
+      expect(tabs[1].style.backgroundColor).to.equal('');
+      expect(tabs[2].style.backgroundColor).to.equal('rgb(255, 165, 0)');
+    });
+
+    it('sets tab panel IDs and data-nested-lh attributes', () => {
+      const tabPanels = document.querySelectorAll('#colored div[role="tabpanel"]');
+      tabPanels.forEach((panel, index) => {
+        expect(panel.id).to.equal(`tab-panel-colored-${index + 1}`);
+      });
+      expect(tabPanels[0].getAttribute('data-nested-lh')).to.equal('t1Ind');
+      expect(tabPanels[1].getAttribute('data-nested-lh')).to.equal('t2Bus');
+      expect(tabPanels[2].getAttribute('data-nested-lh')).to.equal('t3Stu');
     });
   });
 
