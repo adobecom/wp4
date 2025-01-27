@@ -694,6 +694,7 @@ export function decorateLinks(el) {
   const { hostname, href } = window.location;
   const links = [...anchors].reduce((rdx, a) => {
     appendHtmlToLink(a);
+    if (a.href.includes('http:')) a.setAttribute('data-http-link', 'true');
     a.href = localizeLink(a.href);
     decorateSVG(a);
     if (a.href.includes('#_blank')) {

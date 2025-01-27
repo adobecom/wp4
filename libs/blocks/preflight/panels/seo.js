@@ -227,8 +227,9 @@ async function checkLinks() {
         && !link.closest('.preflight') // Is not inside preflight
         && !knownBadUrls.some((url) => url === link.hostname) // Is not a known bad url
       ) {
-        link.liveHref = link.href.replace('hlx.page', 'hlx.live');
-        link.liveHref = link.href.replace('aem.page', 'aem.live');
+        link.liveHref = link.href;
+        if (link.href.includes('hlx.page')) link.liveHref = link.href.replace('hlx.page', 'hlx.live');
+        if (link.href.includes('aem.page')) link.liveHref = link.href.replace('aem.page', 'aem.live');
         return true;
       }
       return false;
@@ -237,6 +238,16 @@ async function checkLinks() {
   const groups = makeGroups(links);
   const baseOpts = { method: 'POST', headers: { 'Content-Type': 'application/json' } };
   const badResults = [];
+
+  [...document.querySelectorAll('a')].forEach((link) => {
+    if (link.dataset?.httpLink) {
+      const httpLink = {
+        url: link.liveHref,
+        status: 'authored as http',
+      };
+      badResults.push(httpLink);
+    }
+  });
 
   for (const group of groups) {
     const urls = group.map((link) => link.liveHref);

@@ -426,6 +426,13 @@ describe('Utils', () => {
       expect(noFollowLink.href).to.equal('https://www.adobe.com/test');
     });
 
+    it('Add data-attribute "data-http-link" if http shceme found', () => {
+      const linksContainer = document.querySelector('main div');
+      utils.decorateLinks(linksContainer);
+      const httpLink = linksContainer.querySelector('[data-http-link]');
+      expect(httpLink.dataset.httpLink).to.equal('true');
+    });
+
     it('Sets up milo.deferredPromise', async () => {
       const { resolveDeferred } = utils.getConfig();
       expect(window.milo.deferredPromise).to.exist;
