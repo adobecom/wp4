@@ -162,9 +162,9 @@ describe('MMM', () => {
     expect(copyButton.dataset.destination).to.include('geos');
     expect(copyButton.dataset.destination).to.not.include('pages');
     expect(copyButton.dataset.destination).to.not.include('urls');
+
     const pageDropdown = document.querySelector('#mmm-dropdown-pages');
     expect(pageDropdown).to.exist;
-
     pageDropdown.options[2].selected = true;
     pageDropdown.dispatchEvent(event);
     expect(copyButton.dataset.destination).to.include('geos');
@@ -177,12 +177,16 @@ describe('MMM', () => {
     expect(copyButton.dataset.destination).to.include('pages');
     expect(copyButton.dataset.destination).to.not.include('urls');
 
+    const lastSeenManifestDropdown = document.querySelector('#mmm-lastSeenManifest');
+    lastSeenManifestDropdown.options[0].selected = true;
+    lastSeenManifestDropdown.dispatchEvent(event);
+    expect(copyButton.dataset.destination).to.include('lastSeenManifest');
+
     const mmmSearchQuery = document.querySelector('#mmm-search-urls');
     expect(mmmSearchQuery).to.exist;
     mmmSearchQuery.value = 'pricing';
     mmmSearchQuery.dispatchEvent(event);
-    // await debounce time
-    await delay(DEBOUNCE_TIME + 1);
+    await delay(DEBOUNCE_TIME + 1); // await debounce time
     expect(copyButton.dataset.destination).to.not.include('geos');
     expect(copyButton.dataset.destination).to.include('pages');
     expect(copyButton.dataset.destination).to.include('urls');
