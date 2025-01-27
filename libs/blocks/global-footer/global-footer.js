@@ -179,7 +179,7 @@ class Footer {
 
     if (placeholder && placeholder.length) {
       this.elements.featuredProducts
-        .append(toFragment`<span class="feds-featuredProducts-label">${placeholder}</span>`);
+        .append(toFragment`<h2 class="feds-featuredProducts-label">${placeholder}</h2>`);
     }
 
     featuredProductsContent.querySelectorAll('.link-group').forEach((linkGroup) => {

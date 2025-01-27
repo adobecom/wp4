@@ -76,6 +76,8 @@
   flex-shrink: 0;
   font-size: 14px;
   font-weight: 700;
+  margin: 0;
+  line-height: 0;
 }
 
 /* Options (region selector, social, privacy) */
