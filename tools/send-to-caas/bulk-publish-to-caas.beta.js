@@ -127,7 +127,7 @@ const showSuccessTable = (successArr) => {
     tableBody.innerHTML += `<tr>
       <td>${++index}</td>
       <td class="ok">OK</td>
-      <td><a href="${pageUrl}" title="View page">${pageUrl}</a></td>
+      <td><a href="${pageUrl}" target="_blank" title="View page">${pageUrl}</a></td>
       <td class="entityid"><a target="_blank" href="${chimeraEndpoint}${response}" title="View Card JSON">${response}</a></td>
     </tr>`;
   });
@@ -147,7 +147,7 @@ const showErrorTable = (errorArr) => {
     tableBody.innerHTML += `<tr>
       <td>${index}</td>
       <td class="error">Failed</td>
-      <td><a href="${pageUrl}">${pageUrl}</a></td>
+      <td><a href="${pageUrl}" target="_blank">${pageUrl}</a></td>
       <td>${message}</td>
     </tr>`;
   });
@@ -170,6 +170,7 @@ const processData = async (data, accessToken) => {
     repo,
     useHtml,
     usePreview,
+    previewHost,
     publishToFloodgate,
   } = getConfig();
 
@@ -182,7 +183,7 @@ const processData = async (data, accessToken) => {
   let domain = `https://${host}`;
 
   if (usePreview) {
-    domain = `https://stage--${repo}--${owner}.hlx.page`;
+    domain = `https://${previewHost}`;
   } else if (publishToFloodgate !== 'default') {
     domain = `https://main--${repo}--${owner}.hlx.live`;
   }
@@ -192,16 +193,13 @@ const processData = async (data, accessToken) => {
 
     try {
       const rawUrl = page.Path || page.path || page.url || page.URL || page.Url || page;
-
       const { pathname } = new URL(rawUrl);
       const pathnameNoHtml = pathname.replace('.html', '');
-      const pageUrl = usePreview ? `${domain}${pathnameNoHtml}` : `${domain}${pathname}`;
       const prodUrl = `${host}${pathnameNoHtml}${useHtml ? '.html' : ''}`;
+      const pageUrl = `${domain}${pathname}`;
 
       index += 1;
       statusModal.setContent(`Publishing ${index} of ${data.length}:<br>${pageUrl}`);
-
-      if (pageUrl === 'stop') break; // debug, stop on empty line
 
       const { dom, error, lastModified } = await getPageDom(pageUrl, now);
       if (error) {
@@ -283,7 +281,7 @@ const bulkPublish = async () => {
 const loadFromLS = () => {
   BODY.classList = '';
   const ls = localStorage.getItem(LS_KEY);
-  if (!ls || !ls.includes('presetSelector')) return;
+  if (!ls || !ls.includes('presetSelector') || !ls.includes('previewHost')) return;
   try {
     setConfig(JSON.parse(ls));
     const config = getConfig();
@@ -386,6 +384,7 @@ presetSelector.addEventListener('change', () => {
   } else {
     config.contentType = selectedPreset.contentType;
   }
+  config.previewHost = selectedPreset.previewHost || 'www.stage.adobe.com';
 
   setConfig(config);
   window.localStorage.setItem(LS_KEY, JSON.stringify(getConfig()));
@@ -487,9 +486,15 @@ helpButtons.forEach((btn) => {
 
       case 'use-preview':
         showAlert(`<p><b>Use Preview Content</b>
-          <p>When this option is checked, the tool will publish content from:
-          <p><tt>https://stage--{repo}--{owner}.hlx.<b>page</b></tt>
-          <p>This can be useful for testing before publishing to production.</p>`);
+          <p>When this option is checked, the tool will publish CaaS Metadata content from the stage environments:</p>
+          <p>For example:<br>
+            <tt> - https://www.stage.adobe.com</tt><br>
+            <tt> - https://business.stage.adobe.com</tt><br>
+            <tt> - https://blog.stage.adobe.com</tt><br>
+            <tt> - https://milo.stage.adobe.com</tt><br>
+            <tt> - https://news.stage.adobe.com</tt>
+          </p>
+          <p>This can be useful for testing before publishing content to production.</p>`);
         break;
 
       default:
