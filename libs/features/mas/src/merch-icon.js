@@ -6,21 +6,23 @@ export default class MerchIcon extends LitElement {
         src: { type: String, attribute: true },
         alt: { type: String, attribute: true },
         href: { type: String, attribute: true },
+        loading: { type: String, attribute: true },
     };
 
     constructor() {
         super();
         this.size = 'm';
         this.alt = '';
+        this.loading = 'lazy';
     }
 
     render() {
         const { href } = this;
         return href
             ? html`<a href="${href}">
-                  <img src="${this.src}" alt="${this.alt}" loading="lazy" />
+                  <img src="${this.src}" alt="${this.alt}" loading="${this.loading}" />
               </a>`
-            : html` <img src="${this.src}" alt="${this.alt}" loading="lazy" />`;
+            : html` <img src="${this.src}" alt="${this.alt}" loading="${this.loading}" />`;
     }
 
     static styles = css`

@@ -14,13 +14,12 @@ import { mockIms } from './mocks/ims.js';
 import { withWcs } from './mocks/wcs.js';
 import mas from './mas.js';
 
-
 runTests(async () => {
     mockIms();
     mockLana();
     await mockFetch(withWcs);
     await mas();
-    
+
     describe('merch-card web component', () => {
       it('should exist in the HTML document', async () => {
           expect(document.querySelector('merch-card[variant="ccd-suggested"]')).to.exist;
@@ -34,11 +33,22 @@ runTests(async () => {
 
       });
 
-     it('should have dark theme', async () => {
-      const ccdSliceDarkCard = document.querySelector('merch-card[variant="ccd-suggested"].dark-theme');
-      const theme = ccdSliceDarkCard.theme.color;
-      expect(theme).to.equal('dark');
-   });
-    });
+        it('should have strip with size wide for the ccd-suggested wide card', async () => {
+            const ccdSuggestedCard = document.querySelector(
+                'merch-card[variant="ccd-suggested"][background-image]',
+            );
+            expect(ccdSuggestedCard.getAttribute('variant')).to.equal(
+                'ccd-suggested',
+            );
+            expect(ccdSuggestedCard.getAttribute('background-image')).to.exist;
+        });
 
+        it('should have dark theme', async () => {
+            const ccdSuggestedDarkCard = document.querySelector(
+                'merch-card[variant="ccd-suggested"].dark-theme',
+            );
+            const theme = ccdSuggestedDarkCard.theme.color;
+            expect(theme).to.equal('dark');
+        });
+    });
 });

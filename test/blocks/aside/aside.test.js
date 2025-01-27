@@ -20,7 +20,7 @@ describe('aside', () => {
 
     it('allows a background color', async () => {
       const el = await waitForElement('#test-default');
-      expect(window.getComputedStyle(el)?.backgroundColor).to.equal('rgb(238, 238, 238)');
+      expect(window.getComputedStyle(el)?.backgroundColor).to.be.oneOf(['rgb(249, 249, 249)', 'rgb(238, 238, 238)']);
     });
 
     it('allows a background image', async () => {

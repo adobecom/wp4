@@ -6,6 +6,7 @@ export default class Carousel {
     this.carouselLightbox = page.locator('.carousel.lightbox');
     this.carouselContainerShow2 = page.locator('.carousel.show-2.container');
     this.carousel = page.locator('.carousel');
+    this.carouselJumpTo = page.locator('.carousel.jump-to');
 
     // carousel selectors
     this.slides = this.carousel.locator('.carousel-slides');
@@ -213,6 +214,10 @@ export default class Carousel {
       case 'carousel':
         await this.carouselDefault.waitFor({ state: 'visible', timeout });
         isDisplayed = await this.carouselDefault.isVisible();
+        break;
+      case 'carouselJumpTo':
+        await this.carouselJumpTo.waitFor({ state: 'visible', timeout });
+        isDisplayed = await this.carouselJumpTo.isVisible();
         break;
       default:
         throw new Error(`Invalid carousel type: ${type}`);

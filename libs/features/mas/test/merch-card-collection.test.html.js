@@ -6,7 +6,12 @@ import { mockFetch } from './mocks/fetch.js';
 
 import { pushState } from '../src/deeplink.js';
 
-import { appendMiloStyles, delay, toggleLargeDesktop } from './utils.js';
+import {
+    appendMiloStyles,
+    delay,
+    toggleLargeDesktop,
+    toggleMobile,
+} from './utils.js';
 
 import '../src/sidenav/merch-sidenav.js';
 import '../src/merch-card-collection.js';
@@ -74,6 +79,10 @@ runTests(async () => {
     await mas();
     if (shouldSkipTests === 'true') return;
     describe('merch-card-collection web component on phones and tablets', () => {
+        before(async () => {
+            await toggleMobile();
+        });
+
         beforeEach(async () => {
             [merchCards, render] = prepareTemplate('catalogCards', false);
         });
@@ -119,8 +128,11 @@ runTests(async () => {
     });
 
     describe('merch-card-collection web component on desktop', () => {
-        beforeEach(async () => {
+        before(async () => {
             await toggleLargeDesktop();
+        });
+
+        beforeEach(async () => {
             document.location.hash = '';
             [merchCards, render] = prepareTemplate('catalogCards', false);
         });

@@ -33,6 +33,7 @@
       const card = document.createElement('merch-card');
       const fragment = document.createElement('aem-fragment');
       fragment.setAttribute('fragment', fragmentId);
+      card.setAttribute('id', fragmentId);
       card.appendChild(fragment);
       let timeoutId;
       const onReady = () => {

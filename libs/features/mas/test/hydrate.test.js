@@ -18,7 +18,7 @@ import {
     processDescription,
     updateLinksCSS,
 } from '../src/hydrate.js';
-import { AEM_FRAGMENT_MAPPING } from '../src/variants/ccd-slice.js';
+import { CCD_SLICE_AEM_FRAGMENT_MAPPING } from '../src/variants/ccd-slice.js';
 
 import { mockFetch } from './mocks/fetch.js';
 import { withWcs } from './mocks/wcs.js';
@@ -26,6 +26,7 @@ import { withWcs } from './mocks/wcs.js';
 const mockMerchCard = () => {
     const merchCard = document.createElement('div');
     merchCard.spectrum = 'css';
+    merchCard.loading = 'lazy';
     document.body.appendChild(merchCard);
     const originalAppend = merchCard.append;
     merchCard.append = sinon.spy(function () {
@@ -50,7 +51,7 @@ describe('processMnemonics', async () => {
         const mnemonicsConfig = { size: 'm' };
         processMnemonics(fields, merchCard, mnemonicsConfig);
         expect(merchCard.outerHTML).to.equal(
-            '<div><merch-icon slot="icons" src="www.adobe.com/icons/photoshop.svg" size="m" href="https://www.adobe.com/"></merch-icon></div>',
+            '<div><merch-icon slot="icons" src="www.adobe.com/icons/photoshop.svg" loading="lazy" size="m" href="https://www.adobe.com/"></merch-icon></div>',
         );
     });
 });
@@ -316,7 +317,10 @@ describe('processBackgroundImage', () => {
     });
 
     it('should not process background image when fields.backgroundImage is falsy', () => {
-        const fields = { backgroundImage: null, backgroundImageAltText: 'Test Image' };
+        const fields = {
+            backgroundImage: null,
+            backgroundImageAltText: 'Test Image',
+        };
         const backgroundImageConfig = { tag: 'div', slot: 'image' };
         const variant = 'ccd-slice';
 
@@ -332,7 +336,10 @@ describe('processBackgroundImage', () => {
     });
 
     it('should append background image for ccd-slice variant', () => {
-        const fields = { backgroundImage: 'test-image.jpg', backgroundImageAltText: 'Test Image' };
+        const fields = {
+            backgroundImage: 'test-image.jpg',
+            backgroundImageAltText: 'Test Image',
+        };
         const backgroundImageConfig = { tag: 'div', slot: 'image' };
         const variant = 'ccd-slice';
 
@@ -465,7 +472,9 @@ describe('hydrate', () => {
                 tags: ['mas:term/montly', 'mas:product_code/ccsn'],
             },
         };
-        merchCard.variantLayout = { aemFragmentMapping: AEM_FRAGMENT_MAPPING };
+        merchCard.variantLayout = {
+            aemFragmentMapping: CCD_SLICE_AEM_FRAGMENT_MAPPING,
+        };
         await hydrate(fragment, merchCard);
 
         expect(merchCard.getAttribute(ANALYTICS_SECTION_ATTR)).to.equal('ccsn');

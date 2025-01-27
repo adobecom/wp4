@@ -2,7 +2,7 @@ import { html, css } from 'lit';
 import { VariantLayout } from './variant-layout';
 import { CSS } from './special-offer.css.js';
 
-const AEM_FRAGMENT_MAPPING = {
+export const SPECIAL_OFFERS_AEM_FRAGMENT_MAPPING = {
     name: { tag: 'h4', slot: 'detail-m' },
     title: { tag: 'h4', slot: 'detail-m' },
     backgroundImage: { tag: 'div', slot: 'bg-image' },
@@ -25,7 +25,7 @@ export class SpecialOffer extends VariantLayout {
     }
 
     get aemFragmentMapping() {
-        return AEM_FRAGMENT_MAPPING;
+        return SPECIAL_OFFERS_AEM_FRAGMENT_MAPPING;
     }
 
     renderLayout() {

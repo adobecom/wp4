@@ -19,6 +19,7 @@ const CONFIG = {
   selectors: { prompt: '.appPrompt' },
   delay: 7000,
   loaderColor: '#EB1000',
+  pauseOnHover: 'off',
   ...DISMISSAL_CONFIG,
 };
 
@@ -155,7 +156,7 @@ export class AppPrompt {
     this.parent.prepend(this.template);
     this.elements.closeIcon.focus();
 
-    this.redirectFn = this.initRedirect();
+    this.redirectFn = this.initRedirect(this.options['pause-on-hover'] === 'on');
   };
 
   doesEntitlementMatch = async () => {
@@ -225,10 +226,12 @@ export class AppPrompt {
     metadata['dismissal-animation-duration'] = parseInt(metadata['dismissal-animation-duration'] ?? CONFIG.animationDuration, 10);
     metadata['dismissal-tooltip-message'] ??= CONFIG.tooltipMessage;
     metadata['dismissal-tooltip-duration'] = parseInt(metadata['dismissal-tooltip-duration'] ?? CONFIG.tooltipDuration, 10);
+    metadata['pause-on-hover'] ??= CONFIG.pauseOnHover;
     this.options = metadata;
   };
 
   decorate = () => {
+    const animationPauseOnHover = this.options['pause-on-hover'] === 'on';
     this.elements.closeIcon = toFragment`<button daa-ll="Close Modal" aria-label="${this.cancel}" class="appPrompt-close"></button>`;
     this.elements.cta = toFragment`<button daa-ll="Stay on this page" class="appPrompt-cta appPrompt-cta--close">${this.cancel}</button>`;
     this.elements.profile = this.profile
@@ -257,7 +260,7 @@ export class AppPrompt {
         ${this.elements.cta}
       </div>
       <div class="appPrompt-progressWrapper">
-        <div class="appPrompt-progress" style="background-color: ${this.options['loader-color']}; animation-duration: ${this.options['loader-duration']}ms;"></div>
+        <div class="appPrompt-progress ${animationPauseOnHover && 'appPrompt-progressPauseOnHover'}" style="background-color: ${this.options['loader-color']}; animation-duration: ${this.options['loader-duration']}ms;"></div>
       </div>
     </div>`;
   };
@@ -278,10 +281,35 @@ export class AppPrompt {
     window.location.assign(url);
   }
 
-  initRedirect = () => setTimeout(() => {
-    this.close({ saveDismissal: false, dismissalActions: false });
-    AppPrompt.redirectTo(this.options['redirect-url']);
-  }, this.options['loader-duration']);
+  initRedirect = (withPause = false) => {
+    let timeoutId;
+    let remainingTime = this.options['loader-duration'];
+    let startTime;
+
+    const startTimeout = () => {
+      startTime = performance.now();
+      timeoutId = setTimeout(() => {
+        this.close({ saveDismissal: false, dismissalActions: false });
+        AppPrompt.redirectTo(this.options['redirect-url']);
+      }, remainingTime);
+    };
+
+    const stopTimeout = () => {
+      clearTimeout(timeoutId);
+      remainingTime -= performance.now() - startTime;
+    };
+
+    if (withPause) {
+      const appPromptElem = document.querySelector(CONFIG.selectors.prompt);
+      if (appPromptElem) {
+        appPromptElem.addEventListener('mouseenter', stopTimeout);
+        appPromptElem.addEventListener('mouseleave', startTimeout);
+      }
+    }
+
+    // Start the timeout initially
+    startTimeout();
+  };
 
   isDismissedPrompt = () => AppPrompt.getDismissedPrompts().includes(this.id);
 

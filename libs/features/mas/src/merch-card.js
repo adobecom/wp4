@@ -1,6 +1,10 @@
 import { LitElement } from 'lit';
 import { sizeStyles, styles } from './merch-card.css.js';
-import { getVariantLayout, getVariantStyles } from './variants/variants.js';
+import {
+    getVariantLayout,
+    getVariantStyles,
+    variantFragmentMappings,
+} from './variants/variants.js';
 
 import './global.css.js';
 import {
@@ -46,7 +50,7 @@ export class MerchCard extends LitElement {
         actionMenu: { type: Boolean, attribute: 'action-menu' },
         customHr: { type: Boolean, attribute: 'custom-hr' },
         consonant: { type: Boolean, attribute: 'consonant' },
-        spectrum: { type: String, attribute: 'spectrum' }, /* css|swc */
+        spectrum: { type: String, attribute: 'spectrum' } /* css|swc */,
         detailBg: { type: String, attribute: 'detail-bg' },
         secureLabel: { type: String, attribute: 'secure-label' },
         checkboxLabel: { type: String, attribute: 'checkbox-label' },
@@ -98,7 +102,12 @@ export class MerchCard extends LitElement {
             reflect: true,
         },
         merchOffer: { type: Object },
-        analyticsId: { type: String, attribute: ANALYTICS_SECTION_ATTR, reflect: true },
+        analyticsId: {
+            type: String,
+            attribute: ANALYTICS_SECTION_ATTR,
+            reflect: true,
+        },
+        loading: { type: String },
     };
 
     static styles = [styles, getVariantStyles(), ...sizeStyles()];
@@ -116,7 +125,12 @@ export class MerchCard extends LitElement {
         this.types = '';
         this.selected = false;
         this.spectrum = 'css';
+        this.loading = 'lazy';
         this.handleAemFragmentEvents = this.handleAemFragmentEvents.bind(this);
+    }
+
+    static getFragmentMapping(variant) {
+        return variantFragmentMappings[variant];
     }
 
     firstUpdated() {
@@ -139,7 +153,10 @@ export class MerchCard extends LitElement {
             changedProperties.has('badgeBackgroundColor') ||
             changedProperties.has('borderColor')
         ) {
-            this.style.setProperty('--consonant-merch-card-border', this.computedBorderStyle);
+            this.style.setProperty(
+                '--consonant-merch-card-border',
+                this.computedBorderStyle,
+            );
         }
         this.variantLayout?.postCardUpdateHook(changedProperties);
     }
@@ -360,7 +377,9 @@ export class MerchCard extends LitElement {
         );
         const success = await Promise.race([successPromise, timeoutPromise]);
         if (success === true) {
-            performance.mark(`${MARK_MERCH_CARD_PREFIX}${this.id}${MARK_READY_SUFFIX}`);
+            performance.mark(
+                `${MARK_MERCH_CARD_PREFIX}${this.id}${MARK_READY_SUFFIX}`,
+            );
             this.dispatchEvent(
                 new CustomEvent(EVENT_MAS_READY, {
                     bubbles: true,

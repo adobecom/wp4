@@ -66,6 +66,11 @@
     width: 100%;
 }
 
+.media .text .action-area a:not(.con-button),
+.media .text > :nth-last-child(-n+1 of p[class^="body-"]) a:not(.con-button) {
+  font-weight: 700;
+}
+
 .media .text .action-area {
   display: flex;
   gap: var(--spacing-s);
@@ -88,7 +93,7 @@ div[class*="-up"] .media {
   width: 100%;
 }
 
-div[class*="-up"] .media.has-bg {  
+div[class*="-up"] .media.has-bg {
   width: initial;
 }
 
@@ -318,7 +323,7 @@ div[class*="-up"] .media .foreground > .media-row {
   .media.medium-compact > .foreground .media-row .text {
     width: 55%;
   }
-  
+
   .media[class*="-up"] .foreground > .media-row .image,
   div[class*="-up"] .media .foreground > .media-row .image {
       margin-bottom: var(--spacing-s);
@@ -371,7 +376,7 @@ div[class*="-up"] .media .foreground > .media-row {
     grid-template-rows: auto;
     gap: var(--spacing-m);
   }
-  
+
   .media .icon-stack-area {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -497,7 +502,7 @@ div[class*="-up"] .media .foreground > .media-row {
   .media.in-modal.media-reverse-mobile > .container.foreground > .media-row div:first-child {
     grid-area: 2 / 1 / 3 / 2;
   }
-  
+
   .media.in-modal.media-reverse-mobile > .container.foreground > .media-row div:nth-child(2) {
     grid-area: 1 / 1 / 2 / 2;
   }
@@ -511,7 +516,7 @@ div[class*="-up"] .media .foreground > .media-row {
   .media.in-modal > .container.foreground > .media-row div:first-child {
     grid-area: 1 / 1 / 2 / 2;
   }
-  
+
   .media.in-modal > .container.foreground > .media-row div:nth-child(2) {
     grid-area: 1 / 2 / 2 / 3;
   }

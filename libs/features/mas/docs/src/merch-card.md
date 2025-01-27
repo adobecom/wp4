@@ -19,8 +19,6 @@ CCD Gallery provides a comprehensive list of all supported card variants in CCD.
 
 ## Examples
 
-### With an Odin/AEM Fragment (VPN required)
-
 ```html {.demo .light}
 <merch-card id="card1">
     <aem-fragment

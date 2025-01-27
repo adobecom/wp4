@@ -4,12 +4,14 @@ import { isMobileOrTablet } from '../utils.js';
 import { EVENT_MERCH_CARD_ACTION_MENU_TOGGLE } from '../constants.js';
 import { CSS } from './catalog.css.js';
 
-const AEM_FRAGMENT_MAPPING = {
-    title: { tag: 'h3', slot: 'heading-xs' },
-    prices: { tag: 'h3', slot: 'heading-xs' },
-    description: { tag: 'div', slot: 'body-xs' },
+export const CATALOG_AEM_FRAGMENT_MAPPING = {
+    badge: true,
     ctas: { slot: 'footer', size: 'm' },
-    allowedSizes: ['wide', 'super-wide'],
+    description: { tag: 'div', slot: 'body-xs' },
+    mnemonics: { size: 'l' },
+    prices: { tag: 'h3', slot: 'heading-xs' },
+    size: ['wide', 'super-wide'],
+    title: { tag: 'h3', slot: 'heading-xs' },
 };
 
 export class Catalog extends VariantLayout {
@@ -19,7 +21,15 @@ export class Catalog extends VariantLayout {
 
     /* c8 ignore next 3 */
     get aemFragmentMapping() {
-        return AEM_FRAGMENT_MAPPING;
+        return CATALOG_AEM_FRAGMENT_MAPPING;
+    }
+
+    get actionMenu() {
+        return this.card.shadowRoot.querySelector('.action-menu');
+    }
+
+    get actionMenuContentSlot() {
+        return this.card.shadowRoot.querySelector('slot[name="action-menu-content"]');
     }
 
     renderLayout() {
@@ -35,6 +45,7 @@ export class Catalog extends VariantLayout {
                         @click="${this.toggleActionMenu}"
                         @keypress="${this.toggleActionMenu}"
                         tabindex="0"
+                        aria-expanded="false"
                         role="button"
                     >Action Menu</div>
                 </div>
@@ -80,49 +91,45 @@ export class Catalog extends VariantLayout {
     };
 
     toggleActionMenu = (e) => {
-      const actionMenuContentSlot = this.card.shadowRoot.querySelector(
-          'slot[name="action-menu-content"]',
-      );
-      if (!actionMenuContentSlot || !e || (e.type !== 'click' && e.code !== 'Space' && e.code !== 'Enter')) return;
+      if (!this.actionMenuContentSlot || !e || (e.type !== 'click' && e.code !== 'Space' && e.code !== 'Enter')) return;
 
       e.preventDefault();
-      actionMenuContentSlot.classList.toggle('hidden');
-      if (!actionMenuContentSlot.classList.contains('hidden')) this.dispatchActionMenuToggle();
+      this.actionMenuContentSlot.classList.toggle('hidden');
+      const isHidden = this.actionMenuContentSlot.classList.contains('hidden');
+      if (!isHidden) this.dispatchActionMenuToggle();
+      this.setAriaExpanded(this.actionMenu, (!isHidden).toString());
     };
     
     toggleActionMenuFromCard = (e) => {
         //beware this is an event on card, so this points to the card, not the layout
         const retract = e?.type === 'mouseleave' ? true : undefined;
-        const shadowRoot = this.card.shadowRoot;
-        const actionMenu = shadowRoot.querySelector('.action-menu');
         this.card.blur();
-        actionMenu?.classList.remove('always-visible');
-        const actionMenuContentSlot = shadowRoot.querySelector(
-            'slot[name="action-menu-content"]',
-        );
-        if (!actionMenuContentSlot) return;
+        this.actionMenu?.classList.remove('always-visible');
+        if (!this.actionMenuContentSlot) return;
 
         if (!retract) this.dispatchActionMenuToggle();
-        actionMenuContentSlot.classList.toggle('hidden', retract);
+        this.actionMenuContentSlot.classList.toggle('hidden', retract);
+        this.setAriaExpanded(this.actionMenu, 'false');
     };
     
     hideActionMenu = (e) => {
-      const actionMenuContentSlot = this.card.shadowRoot.querySelector(
-        'slot[name="action-menu-content"]',
-      );
-      actionMenuContentSlot?.classList.add('hidden');
+      this.actionMenuContentSlot?.classList.add('hidden');
+      this.setAriaExpanded(this.actionMenu, 'false');
     }
     
     focusEventHandler = (e) => {
-        const actionMenu = this.card.shadowRoot.querySelector('.action-menu');
-        if (!actionMenu) return;
-        
-        actionMenu.classList.add('always-visible');
+        if (!this.actionMenu) return;
+
+        this.actionMenu.classList.add('always-visible');
         if (e.relatedTarget?.nodeName === 'MERCH-CARD-COLLECTION'
             || (e.relatedTarget?.nodeName === 'MERCH-CARD' && e.target.nodeName !== 'MERCH-ICON')) {
-            actionMenu.classList.remove('always-visible');
+            this.actionMenu.classList.remove('always-visible');
         }
     };
+
+    setAriaExpanded(element, value) {
+        element.setAttribute('aria-expanded', value);
+    }
 
     connectedCallbackHook() {
         this.card.addEventListener('mouseleave', this.toggleActionMenuFromCard);

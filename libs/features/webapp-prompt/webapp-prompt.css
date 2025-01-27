@@ -184,6 +184,10 @@
     transform-origin: top right;
   }
 
+  .appPrompt:hover .appPrompt-progressPauseOnHover {
+    animation-play-state: paused;
+  }
+
   @keyframes appPrompt-animate {
     100% {
       transform: scaleX(1);

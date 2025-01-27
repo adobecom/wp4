@@ -119,8 +119,12 @@ describe('Carousel', () => {
   });
 
   it('Clicks on a carousel-indicator', () => {
-    const unselectedInicator = document.body.querySelector('.carousel-indicators li[tabindex="-1"]');
-    const indicatorDot = document.body.querySelectorAll('.carousel-indicator');
+    const el = document.body.querySelector('.carousel');
+    const jumpToEnabled = el.classList.contains('jump-to');
+    expect(jumpToEnabled).to.be.true;
+
+    const unselectedInicator = document.body.querySelector('.jump-to .carousel-indicators li[tabindex="-1"]');
+    const indicatorDot = document.body.querySelectorAll('.jump-to .carousel-indicator');
     const firstIndicator = indicatorDot[0];
     const lastIndicator = indicatorDot[indicatorDot.length - 1];
     let jumpToIndex;

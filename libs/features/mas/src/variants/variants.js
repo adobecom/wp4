@@ -1,14 +1,20 @@
-import { Catalog } from './catalog.js';
+import { Catalog, CATALOG_AEM_FRAGMENT_MAPPING } from './catalog.js';
 import { Image } from './image.js';
 import { InlineHeading } from './inline-heading.js';
 import { MiniCompareChart } from './mini-compare-chart.js';
 import { Plans } from './plans.js';
 import { Product } from './product.js';
 import { Segment } from './segment.js';
-import { SpecialOffer } from './special-offer.js';
+import {
+    SPECIAL_OFFERS_AEM_FRAGMENT_MAPPING,
+    SpecialOffer,
+} from './special-offer.js';
 import { TWP } from './twp.js';
-import { CCDSuggested } from './ccd-suggested.js';
-import { CCDSlice } from './ccd-slice.js';
+import {
+    CCD_SUGGESTED_AEM_FRAGMENT_MAPPING,
+    CCDSuggested,
+} from './ccd-suggested.js';
+import { CCD_SLICE_AEM_FRAGMENT_MAPPING, CCDSlice } from './ccd-slice.js';
 
 const getVariantLayout = (card, mustMatch = false) => {
     switch (card.variant) {
@@ -31,12 +37,26 @@ const getVariantLayout = (card, mustMatch = false) => {
         case 'twp':
             return new TWP(card);
         case 'ccd-suggested':
-              return new CCDSuggested(card);
+            return new CCDSuggested(card);
         case 'ccd-slice':
             return new CCDSlice(card);
         default:
             return mustMatch ? undefined : new Product(card);
     }
+};
+
+export const variantFragmentMappings = {
+    catalog: CATALOG_AEM_FRAGMENT_MAPPING,
+    image: null,
+    'inline-heading': null,
+    'mini-compare-chart': null,
+    plans: null,
+    product: null,
+    segment: null,
+    'special-offers': SPECIAL_OFFERS_AEM_FRAGMENT_MAPPING,
+    twp: null,
+    'ccd-suggested': CCD_SUGGESTED_AEM_FRAGMENT_MAPPING,
+    'ccd-slice': CCD_SLICE_AEM_FRAGMENT_MAPPING,
 };
 
 const getVariantStyles = () => {

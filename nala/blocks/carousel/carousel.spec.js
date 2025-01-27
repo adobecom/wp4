@@ -22,5 +22,12 @@ module.exports = {
       tags: '@carousel @carousel-container @regression @milo',
       envs: '@milo-live milo-prod',
     },
+    {
+      tcid: '3',
+      name: '@Carousel(jump-to)',
+      path: '/drafts/nala/blocks/carousel/carousel-jumpto',
+      tags: '@carousel @carousel-container @smoke @regression @milo',
+      envs: '@milo-live milo-prod',
+    },
   ],
 };

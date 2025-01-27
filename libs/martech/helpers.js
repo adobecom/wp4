@@ -1,4 +1,13 @@
 const AMCV_COOKIE = 'AMCV_9E1005A551ED61CA0A490D45@AdobeOrg';
+const KNDCTR_COOKIE_KEYS = [
+  'kndctr_9E1005A551ED61CA0A490D45_AdobeOrg_identity',
+  'kndctr_9E1005A551ED61CA0A490D45_AdobeOrg_cluster',
+];
+
+function getDomainWithoutWWW() {
+  const domain = window?.location?.hostname;
+  return domain.replace(/^www\./, '');
+}
 
 /**
  * Generates a random UUIDv4 using cryptographically secure random values.
@@ -117,7 +126,7 @@ function setCookie(key, value, options = {}) {
   date.setTime(date.getTime() + expires * 24 * 60 * 60 * 1000);
   const expiresString = `expires=${date.toUTCString()}`;
 
-  document.cookie = `${key}=${value}; ${expiresString}; path=/`;
+  document.cookie = `${key}=${value}; ${expiresString}; path=/ ; domain=.${getDomainWithoutWWW()};`;
 }
 
 /**
@@ -211,16 +220,10 @@ function getUpdatedContext({
  * @returns {Array<Object>} List of MarTech cookies with each
  * object containing 'key' and 'value' properties.
  */
-const getMarctechCookies = () => {
-  const KNDCTR_COOKIE_KEYS = [
-    'kndctr_9E1005A551ED61CA0A490D45_AdobeOrg_identity',
-    'kndctr_9E1005A551ED61CA0A490D45_AdobeOrg_cluster',
-  ];
-  return document.cookie.split(';')
-    .map((x) => x.trim().split('='))
-    .filter(([key]) => KNDCTR_COOKIE_KEYS.includes(key))
-    .map(([key, value]) => ({ key, value }));
-};
+const getMartechCookies = () => document.cookie.split(';')
+  .map((x) => x.trim().split('='))
+  .filter(([key]) => KNDCTR_COOKIE_KEYS.includes(key))
+  .map(([key, value]) => ({ key, value }));
 
 /**
  * Creates the request payload for Adobe Analytics and Target.
@@ -300,24 +303,28 @@ function createRequestPayload({ updatedContext, pageName, locale, env }) {
         com_adobe_target: { propertyToken: AT_PROPERTY_VAL },
       },
       state: {
-        domain: 'localhost',
+        domain: getDomainWithoutWWW(),
         cookiesEnabled: true,
-        entries: getMarctechCookies(),
+        entries: getMartechCookies(),
       },
     },
   };
 }
 
 /**
- * Extracts the ECID (Experience Cloud ID) from the API response data.
+ * Updates the specified cookies with new values if they don't already exist.
  *
- * @param {Object} data - The response data from the API.
- * @returns {string|null} The ECID value, or null if not found.
+ * @param {Array<Object>} cookieData - An array of objects containing
+ * `key` and `value` pairs for the cookies.
+ *
  */
-function extractECIDFromResp(data) {
-  return data.handle
-    .flatMap((item) => item.payload)
-    .find((p) => p.namespace?.code === 'ECID')?.id || null;
+function updateMartechCookies(cookieData) {
+  cookieData?.forEach(({ key, value }) => {
+    const currentCookie = getCookie(key);
+    if (!currentCookie) {
+      setCookie(encodeURIComponent(key), value);
+    }
+  });
 }
 
 /**
@@ -374,11 +381,11 @@ export const loadAnalyticsAndInteractionData = async ({ locale, env, calculatedT
   const value = getCookie('kndctr_9E1005A551ED61CA0A490D45_AdobeOrg_consent');
 
   if (value === 'general=out') {
-    return Promise.reject(new Error('Consent Cookie doesnt allow interact'));
+    return {};
   }
 
   // Define constants based on environment
-  const DATA_STREAM_ID = env === 'prod' ? '5856abb0-95d8-4f9a-bb92-37f99d2bd492' : '87f9b644-5fd3-4015-81d5-f68ad81c3561';
+  const DATA_STREAM_ID = env === 'prod' ? '913eac4d-900b-45e8-9ee7-306216765cd2' : 'e065836d-be57-47ef-b8d1-999e1657e8fd';
   const TARGET_API_URL = getUrl();
 
   // Device and viewport information
@@ -425,10 +432,23 @@ export const loadAnalyticsAndInteractionData = async ({ locale, env, calculatedT
       throw new Error('Failed to fetch interact call');
     }
     const targetRespJson = await targetResp.json();
-    const ECID = extractECIDFromResp(targetRespJson);
-
-    // Update the AMCV cookie with ECID
+    const ECID = targetRespJson.handle
+      .flatMap((item) => item.payload)
+      .find((p) => p.namespace?.code === 'ECID')?.id || null;
     updateAMCVCookie(ECID);
+
+    const extractedData = [];
+    targetRespJson?.handle?.forEach((item) => {
+      if (item?.type === 'state:store') {
+        item?.payload?.forEach((payload) => {
+          if (payload?.key === KNDCTR_COOKIE_KEYS[0] || payload?.key === KNDCTR_COOKIE_KEYS[1]) {
+            extractedData.push({ ...payload });
+          }
+        });
+      }
+    });
+
+    updateMartechCookies(extractedData);
 
     // Resolve or reject based on propositions
     const resultPayload = targetRespJson?.handle?.find((d) => d.type === 'personalization:decisions')?.payload;

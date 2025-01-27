@@ -34,8 +34,6 @@ describe('loadAnalyticsAndInteractionData', () => {
   });
 
   it('should handle consent cookie being set to "out"', async () => {
-    window.getCookie = () => 'general%3Dout';
-
     try {
       await loadAnalyticsAndInteractionData({
         locale: { ietf: 'en-US', prefix: 'us' },
@@ -95,8 +93,6 @@ describe('loadAnalyticsAndInteractionData', () => {
   });
 
   it('should return the correct target property for non-prod environments', async () => {
-    window.getCookie = () => null;
-
     const result = await loadAnalyticsAndInteractionData({
       locale: { ietf: 'en-US', prefix: 'us' },
       env: 'dev',
@@ -108,8 +104,6 @@ describe('loadAnalyticsAndInteractionData', () => {
   });
 
   it('should return the correct target property for prod environment', async () => {
-    window.getCookie = () => null;
-
     const result = await loadAnalyticsAndInteractionData({
       locale: { ietf: 'en-US', prefix: 'us' },
       env: 'prod',
@@ -142,7 +136,6 @@ describe('loadAnalyticsAndInteractionData', () => {
   it('should generate a new FPID when ECID is not present', async () => {
     window.innerWidth = 234;
     window.innerHeight = 1234;
-    window.getCookie = () => null;
     const data = {
       handle: [
         {
@@ -243,9 +236,59 @@ describe('loadAnalyticsAndInteractionData', () => {
       expect(err.message).to.equal('Error: No propositions found');
     }
   });
+
+  it('should handle cookies update on api payload', async () => {
+    document.cookie = 'AMCV_9E1005A551ED61CA0A490D45%40AdobeOrg=65550139393016453617222570753620662484';
+    window.fetch = () => Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve({
+        handle: [
+          {
+            type: 'personalization:decisions',
+            payload: [],
+          },
+          {
+            payload: [
+              {
+                id: '65550139393016453617222570753620662484',
+                namespace: { code: 'ECID' },
+              },
+            ],
+            type: 'identity:result',
+          },
+          {
+            payload: [
+              {
+                key: 'kndctr_9E1005A551ED61CA0A490D45_AdobeOrg_cluster',
+                value: 'irl1',
+                maxAge: 1800,
+                attrs: { SameSite: 'None' },
+              },
+              {
+                key: 'kndctr_9E1005A551ED61CA0A490D45_AdobeOrg_identity',
+                value: 'CiY2NTU1MDEzOTM5MzAxNjQ1MzYxNzIyMjU3MDc1MzYyMDY2MjQ4NFIRCOHA5pvHMhgCKgRJUkwxMAPwAeHA5pvHMg==',
+                maxAge: 34128000,
+                attrs: { SameSite: 'None' },
+              },
+            ],
+            type: 'state:store',
+          },
+        ],
+      }),
+    });
+    try {
+      await loadAnalyticsAndInteractionData({
+        locale: { ietf: 'en-US', prefix: 'us' },
+        env: 'prod',
+        calculatedTimeout: 10000,
+      });
+    } catch (err) {
+      expect(err.message).to.equal('Error: No propositions found');
+    }
+  });
+
   it('should throw error when cookie prohibits it', async () => {
     document.cookie = 'kndctr_9E1005A551ED61CA0A490D45_AdobeOrg_consent=general=out';
-    window.getCookie = () => null;
 
     try {
       await loadAnalyticsAndInteractionData({

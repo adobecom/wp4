@@ -117,7 +117,7 @@ merch-card {
 }
 
 merch-card:not([variant]) {
-  display: none;
+  visibility: hidden;
 }
 
 pre {

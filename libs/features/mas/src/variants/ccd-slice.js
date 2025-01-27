@@ -2,12 +2,13 @@ import { VariantLayout } from './variant-layout.js';
 import { html, css } from 'lit';
 import { CSS } from './ccd-slice.css.js';
 
-export const AEM_FRAGMENT_MAPPING = {
-    mnemonics: { size: 'm' },
+export const CCD_SLICE_AEM_FRAGMENT_MAPPING = {
     backgroundImage: { tag: 'div', slot: 'image' },
-    description: { tag: 'div', slot: 'body-s' },
+    badge: true,
     ctas: { slot: 'footer', size: 'S' },
-    allowedSizes: ['wide'],
+    description: { tag: 'div', slot: 'body-s' },
+    mnemonics: { size: 'm' },
+    size: ['wide'],
 };
 
 export class CCDSlice extends VariantLayout {
@@ -17,7 +18,7 @@ export class CCDSlice extends VariantLayout {
 
     /* c8 ignore next 3 */
     get aemFragmentMapping() {
-        return AEM_FRAGMENT_MAPPING;
+        return CCD_SLICE_AEM_FRAGMENT_MAPPING;
     }
 
     renderLayout() {

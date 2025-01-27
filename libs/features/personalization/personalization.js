@@ -1,9 +1,8 @@
+/* eslint-disable default-param-last */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
 
-import {
-  createTag, getConfig, loadLink, loadScript, localizeLink, enablePersonalizationV2,
-} from '../../utils/utils.js';
+import { createTag, getConfig, loadLink, loadScript, localizeLink } from '../../utils/utils.js';
 import { getFederatedUrl } from '../../utils/federated.js';
 
 /* c8 ignore start */
@@ -763,7 +762,11 @@ export const getEntitlements = async (data) => {
   });
 };
 
-async function getPersonalizationVariant(manifestPath, variantNames = [], variantLabel = null) {
+async function getPersonalizationVariant(
+  manifestPath,
+  variantNames = [],
+  variantLabel = null,
+) {
   const config = getConfig();
   if (config.mep?.variantOverride?.[manifestPath]) {
     return config.mep.variantOverride[manifestPath];
@@ -776,7 +779,7 @@ async function getPersonalizationVariant(manifestPath, variantNames = [], varian
 
   let userEntitlements = [];
   if (hasEntitlementTag) {
-    if (enablePersonalizationV2()) {
+    if (config?.mep?.enablePersV2) {
       userEntitlements = [];
     } else {
       userEntitlements = await config.entitlements();
@@ -1040,12 +1043,15 @@ export function parseNestedPlaceholders({ placeholders }) {
   });
 }
 
-export async function applyPers(manifests) {
+export async function applyPers({ manifests }) {
   if (!manifests?.length) return;
   let experiments = manifests;
   const config = getConfig();
   for (let i = 0; i < experiments.length; i += 1) {
-    experiments[i] = await getManifestConfig(experiments[i], config.mep?.variantOverride);
+    experiments[i] = await getManifestConfig(
+      experiments[i],
+      config.mep?.variantOverride,
+    );
   }
 
   experiments = cleanAndSortManifestList(experiments);
@@ -1121,12 +1127,14 @@ export const combineMepSources = async (persEnabled, promoEnabled, mepParam) => 
   return persManifests;
 };
 
-async function updateManifestsAndPropositions({ config, targetManifests, targetPropositions }) {
+async function updateManifestsAndPropositions(
+  { config, targetManifests, targetPropositions },
+) {
   targetManifests.forEach((manifest) => {
     manifest.source = ['target'];
   });
   config.mep.targetManifests = targetManifests;
-  if (enablePersonalizationV2()) {
+  if (config?.mep?.enablePersV2) {
     window.addEventListener('alloy_sendEvent', () => {
       if (targetPropositions?.length && window._satellite) {
         window._satellite.track('propositionDisplay', targetPropositions);
@@ -1199,7 +1207,7 @@ async function handleMartechTargetInteraction(
 ) {
   let targetManifests = [];
   let targetPropositions = [];
-  if (enablePersonalizationV2() && targetInteractionPromise) {
+  if (config?.mep?.enablePersV2 && targetInteractionPromise) {
     const { targetInteractionData, respTime, respStartTime } = await targetInteractionPromise;
     sendTargetResponseAnalytics(false, respStartTime, calculatedTimeout);
     if (targetInteractionData.result) {
@@ -1217,7 +1225,9 @@ async function handleMartechTargetInteraction(
     }
   }
 
-  return updateManifestsAndPropositions({ config, targetManifests, targetPropositions });
+  return updateManifestsAndPropositions(
+    { config, targetManifests, targetPropositions },
+  );
 }
 
 async function callMartech(config) {
@@ -1226,7 +1236,9 @@ async function callMartech(config) {
     targetManifests,
     targetPropositions,
   } = await getTargetPersonalization({ handleAlloyResponse, sendTargetResponseAnalytics });
-  return updateManifestsAndPropositions({ config, targetManifests, targetPropositions });
+  return updateManifestsAndPropositions(
+    { config, targetManifests, targetPropositions },
+  );
 }
 
 const awaitMartech = () => new Promise((resolve) => {
@@ -1237,7 +1249,7 @@ const awaitMartech = () => new Promise((resolve) => {
 export async function init(enablements = {}) {
   let manifests = [];
   const {
-    mepParam, mepHighlight, mepButton, pzn, promo,
+    mepParam, mepHighlight, mepButton, pzn, promo, enablePersV2,
     target, targetInteractionPromise, calculatedTimeout, postLCP,
   } = enablements;
   const config = getConfig();
@@ -1253,6 +1265,7 @@ export async function init(enablements = {}) {
       targetEnabled: target,
       experiments: [],
       prefix: config.locale?.prefix.split('/')[1]?.toLowerCase() || US_GEO,
+      enablePersV2,
     };
     manifests = manifests.concat(await combineMepSources(pzn, promo, mepParam));
     manifests?.forEach((manifest) => {
@@ -1263,20 +1276,20 @@ export async function init(enablements = {}) {
     if (pzn) loadLink(getXLGListURL(config), { as: 'fetch', crossorigin: 'anonymous', rel: 'preload' });
   }
 
-  if (enablePersonalizationV2()) {
+  if (enablePersV2 && target === true) {
     manifests = manifests.concat(await handleMartechTargetInteraction(
       { config, targetInteractionPromise, calculatedTimeout },
     ));
   } else {
     if (target === true) manifests = manifests.concat(await callMartech(config));
     if (target === 'postlcp') callMartech(config);
-    if (postLCP) {
-      if (!config.mep.targetManifests) await awaitMartech();
-      manifests = config.mep.targetManifests;
-    }
+  }
+  if (postLCP) {
+    if (!config.mep.targetManifests) await awaitMartech();
+    manifests = config.mep.targetManifests;
   }
   try {
-    if (manifests?.length) await applyPers(manifests);
+    if (manifests?.length) await applyPers({ manifests });
     if (config.mep?.preview) await import('./preview.js').then(({ saveToMmm }) => saveToMmm());
   } catch (e) {
     log(`MEP Error: ${e.toString()}`);

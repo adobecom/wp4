@@ -32,7 +32,7 @@ test.describe('Milo Carousel Block test suite', () => {
       // verify carousel indictor and active indicator
       expect(await carousel.areIndicatorsDisplayed()).toBeTruthy();
       expect(await carousel.getNumberOfIndicators()).toBe(4);
-      expect(await carousel.getCurrentIndicatorIndex()).toBe('0');
+      expect(await carousel.getCurrentIndicatorIndex()).toBeNull();
 
       // verify carousel next and previous buttons
       expect(await carousel.isNextButtonlVisible()).toBeTruthy();
@@ -47,7 +47,7 @@ test.describe('Milo Carousel Block test suite', () => {
 
       // move to 3rd slide by clicking indicator and verify h2 tag header
       await carousel.moveToIndicator(3);
-      expect(await carousel.getCurrentIndicatorIndex()).toBe('0');
+      expect(await carousel.getCurrentIndicatorIndex()).toBeNull();
       expect(await carousel.getSlideText(3, 'h2', 'Apples')).toBeTruthy();
     });
 
@@ -76,7 +76,7 @@ test.describe('Milo Carousel Block test suite', () => {
       // verify indicator visibility, count and index of active slide
       expect(await carousel.areIndicatorsDisplayed()).toBeTruthy();
       expect(await carousel.getNumberOfIndicators()).toBe(4);
-      expect(await carousel.getCurrentIndicatorIndex()).toBe('0');
+      expect(await carousel.getCurrentIndicatorIndex()).toBeNull();
 
       expect(await carousel.isNextButtonlVisible()).toBeTruthy();
       expect(await carousel.isPreviousButtonlVisible()).toBeTruthy();
@@ -124,6 +124,36 @@ test.describe('Milo Carousel Block test suite', () => {
 
     await test.step('step-3: Verify the accessibility test on the carousel show-2 container block', async () => {
       await runAccessibilityTest({ page, testScope: carousel.carouselContainerShow2 });
+    });
+  });
+
+  test(`${features[3].name},${features[3].tags}`, async ({ page, baseURL }) => {
+    console.info(`[Test Page]: ${baseURL}${features[3].path}${miloLibs}`);
+
+    await test.step('step-1: Go to Carousel jump-to block test page', async () => {
+      await page.goto(`${baseURL}${features[3].path}${miloLibs}`);
+      await page.waitForLoadState('networkidle');
+      await expect(page).toHaveURL(`${baseURL}${features[3].path}${miloLibs}`);
+    });
+
+    await test.step('step-2: Verify carousel with jump-to features', async () => {
+      expect(await carousel.isCarouselDisplayed('carouselJumpTo')).toBeTruthy();
+
+      // verify active slide and slides count
+      expect(await carousel.getNumberOfSlides()).toBe(4);
+      expect(await carousel.getCurrentSlideIndex()).toBe('0');
+
+      // verify indicator visibility, count and index of active slide
+      expect(await carousel.areIndicatorsDisplayed()).toBeTruthy();
+      expect(await carousel.getNumberOfIndicators()).toBe(4);
+      expect(await carousel.getCurrentIndicatorIndex()).toBe('0');
+
+      expect(await carousel.isNextButtonlVisible()).toBeTruthy();
+      expect(await carousel.isPreviousButtonlVisible()).toBeTruthy();
+    });
+
+    await test.step('step-3: Verify the accessibility test on the carousel jump-to block', async () => {
+      await runAccessibilityTest({ page, testScope: carousel.carouselJumpTo });
     });
   });
 });

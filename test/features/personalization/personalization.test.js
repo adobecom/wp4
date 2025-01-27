@@ -110,7 +110,7 @@ describe('Functional Test', () => {
     manifestJson = JSON.parse(manifestJson);
     setFetchResponse(manifestJson);
     expect(document.querySelector('a[href="/test/features/personalization/mocks/fragments/insertafter3"]')).to.be.null;
-    await applyPers(promoMepSettings);
+    await applyPers({ manifests: promoMepSettings });
 
     const fragment = document.querySelector('a[href="/test/features/personalization/mocks/fragments/insertafter3"]');
     expect(fragment).to.not.be.null;
@@ -137,7 +137,7 @@ describe('Functional Test', () => {
     ];
     await loadManifestAndSetResponse('./mocks/manifestScheduledInactive.json');
     expect(document.querySelector('a[href="/fragments/insertafter4"]')).to.be.null;
-    await applyPers(promoMepSettings);
+    await applyPers({ manifests: promoMepSettings });
 
     const fragment = document.querySelector('a[href="/fragments/insertafter4"]');
     expect(fragment).to.be.null;

@@ -240,6 +240,13 @@ main > .section[class*='-up'] > .content {
   display: grid;
 }
 
+.fill-sticky-section > div.notification.pill,
+.fill-sticky-section > div.aside.promobar {
+  width: 100%;
+  border-radius: 0;
+  max-width: unset;
+}
+
 /* mobile only */
 @media (max-width: 600px) {
   .section.two-up.reverse-mobile > div:nth-child(1) {
