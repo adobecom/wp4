@@ -600,7 +600,7 @@ export const getConfig = async (originalState, strs = {}) => {
       }&complexQuery=${complexQuery
       }&excludeIds=${excludedCards
       }&currentEntityId=&featuredCards=${featuredCards
-      }&environment=&draft=${state.draftDb
+      }&environment=${state.environment}&draft=${state.draftDb
       }&size=${state.collectionSize || state.totalCardsToShow
       }${localesQueryParam
       }${debug

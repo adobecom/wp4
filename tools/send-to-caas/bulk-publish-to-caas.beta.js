@@ -380,12 +380,15 @@ presetSelector.addEventListener('change', () => {
   config.host = selectedPreset.host || '';
   config.owner = selectedPreset.owner || '';
   config.repo = selectedPreset.repo || '';
+  config.contentType = selectedPreset.contentType;
+  config.useHtml = selectedPreset.useHtml === 'true';
   config.useHtml = selectedPreset.useHtml === 'true';
   if (selectedPreset.contentType === '' || selectedPreset.contentType?.toLowerCase() === 'auto') {
     config.contentType = '';
   } else {
     config.contentType = selectedPreset.contentType;
   }
+
 
   setConfig(config);
   window.localStorage.setItem(LS_KEY, JSON.stringify(getConfig()));
