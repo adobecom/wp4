@@ -1,7 +1,8 @@
 /* eslint-disable no-plusplus */
-import { createTag, MILO_EVENTS } from '../../utils/utils.js';
+import { createTag, getConfig, MILO_EVENTS } from '../../utils/utils.js';
 import { decorateButtons } from '../../utils/decorate.js';
 import { debounce } from '../../utils/action.js';
+import { replaceKeyArray } from '../../features/placeholders.js';
 
 const DESKTOP_SIZE = 900;
 const MOBILE_SIZE = 768;
@@ -90,10 +91,9 @@ function handleHeading(table, headingCols) {
       const describedBy = `${headerBody?.id ?? ''} ${headerPricing?.id ?? ''}`.trim();
       trackingHeader.setAttribute('aria-describedby', describedBy);
 
-      col.removeAttribute('role');
+      col.setAttribute('role', 'columnheader');
     }
 
-    nodeToApplyRoleScope.setAttribute('role', 'columnheader');
     nodeToApplyRoleScope.setAttribute('scope', 'col');
   });
 }
@@ -151,6 +151,24 @@ function handleAddOnContent(table) {
   });
   setTimeout(() => handleEqualHeight(table, '.row-heading'), 0);
   table.addEventListener('mas:resolved', debounce(() => { handleEqualHeight(table, '.row-heading'); }));
+}
+
+async function setAriaLabelForIcons(el) {
+  const config = getConfig();
+  const expendableIcons = el.querySelectorAll('.icon.expand[role="button"]');
+  const selectFilters = el.parentElement.querySelectorAll('.filters .filter');
+  const ariaLabelElements = [...selectFilters, ...expendableIcons];
+
+  if (!ariaLabelElements.length) {
+    return;
+  }
+
+  const ariaLabels = await replaceKeyArray(['toggle-row', 'choose-table-column'], config);
+
+  ariaLabelElements.forEach((element) => {
+    const labelIndex = element.classList.contains('filter') ? 1 : 0;
+    element.setAttribute('aria-label', ariaLabels[labelIndex]);
+  });
 }
 
 function handleHighlight(table) {
@@ -255,7 +273,7 @@ function handleSection(sectionParams) {
     }
 
     if (isCollapseTable) {
-      const iconTag = createTag('span', { class: 'icon expand' });
+      const iconTag = createTag('span', { class: 'icon expand', role: 'button' });
       sectionHeadTitle.appendChild(iconTag);
 
       if (expandSection) {
@@ -600,6 +618,7 @@ export default function init(el) {
     });
 
     isDecorated = true;
+    setAriaLabelForIcons(el);
   };
 
   window.addEventListener(MILO_EVENTS.DEFERRED, () => {
