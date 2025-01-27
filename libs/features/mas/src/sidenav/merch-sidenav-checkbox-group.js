@@ -1,5 +1,6 @@
 import { html, LitElement, css } from 'lit';
 import { parseState, pushStateFromComponent } from '../deeplink.js';
+import { createTag } from '../utils.js';
 
 export class MerchSidenavCheckboxGroup extends LitElement {
     static properties = {
@@ -16,17 +17,6 @@ export class MerchSidenavCheckboxGroup extends LitElement {
             contain: content;
             border-top: 1px solid var(--color-gray-200);
             padding: 12px;
-        }
-        h3 {
-            font-size: 14px;
-            font-style: normal;
-            font-weight: 700;
-            height: 32px;
-            letter-spacing: 0px;
-            padding: 0px;
-            line-height: 18.2px;
-            color: var(--color-gray-600);
-            margin: 0px;
         }
         .checkbox-group {
             display: flex;
@@ -69,16 +59,30 @@ export class MerchSidenavCheckboxGroup extends LitElement {
         pushStateFromComponent(this, this.selectedValues.join(','));
     }
 
+    addGroupTitle() {
+        const id = 'sidenav-checkbox-group-title';
+        const h3El = createTag('h3', { id });
+        h3El.textContent = this.sidenavCheckboxTitle;
+        this.prepend(h3El);
+
+        this.childNodes.forEach((el) => {
+            if (el.id !== id) {
+                el.setAttribute('role', 'group');
+                el.setAttribute('aria-labelledby', id);
+            }
+        });
+    }
+
     connectedCallback() {
         super.connectedCallback();
         this.updateComplete.then(async () => {
             this.setStateFromURL();
+            this.addGroupTitle();
         });
     }
 
     render() {
         return html`<div aria-label="${this.label}">
-            <h3>${this.sidenavCheckboxTitle}</h3>
             <div
                 @change="${(e) => this.selectionChanged(e)}"
                 class="checkbox-group"

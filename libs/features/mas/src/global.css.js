@@ -432,5 +432,14 @@ body.merch-modal {
     height: 100vh;
 }
 
+merch-sidenav-checkbox-group h3 {
+    font-size: 14px;
+    height: 32px;
+    letter-spacing: 0px;
+    line-height: 18.2px;
+    color: var(--color-gray-600);
+    margin: 0px;
+}
+
 `;
 document.head.appendChild(styles);
