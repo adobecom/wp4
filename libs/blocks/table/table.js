@@ -256,7 +256,9 @@ function handleSection(sectionParams) {
 
     if (isCollapseTable) {
       const iconTag = createTag('span', { class: 'icon expand' });
-      sectionHeadTitle.appendChild(iconTag);
+      if (!sectionHeadTitle.querySelector('.icon.expand')) {
+        sectionHeadTitle.prepend(iconTag);
+      }
 
       if (expandSection) {
         iconTag.setAttribute('aria-expanded', 'true');

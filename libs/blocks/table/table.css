@@ -292,7 +292,7 @@
 .table .section-head .section-head-title > :not(.icon) {
   font-size: var(--type-body-m-size);
   line-height: var(--type-heading-s-lh);
-  width: calc(100% - 20px);
+  width: calc(100% - 25px);
 }
 
 .table .section-head .section-head-title,
@@ -354,12 +354,18 @@
 .table .icon.expand {
   background-color: transparent;
   border: 0;
-  background-image: url('../../ui/img/expand2.svg');
+  background-image: url('../../ui/img/chevron-wide-black.svg');
   background-repeat: no-repeat;
-  background-position: center right;
-  width: 15px;
-  height: 15px;
+  background-position: center;
+  width: 12px;
+  height: 17px;
   cursor: pointer;
+  rotate: -90deg;
+  background-size: contain;
+}
+
+[dir="rtl"] .table .icon.expand {
+  rotate: 90deg;
 }
 
 .table .section-head-title:hover .icon.expand {
@@ -367,7 +373,7 @@
 }
 
 .table .icon.expand[aria-expanded=true] {
-  background-image: url('../../ui/img/collapse2.svg');
+  rotate: unset;
 }
 
 .table .row-highlight .col-highlight.transparent-border {
