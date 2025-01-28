@@ -518,6 +518,28 @@ describe('Merch Block', () => {
         document.body.querySelector('.dialog-modal').remove();
         window.location.hash = prevHash;
       });
+
+      it('opens the 3-in-1 modal', async () => {
+        const checkoutLink = document.createElement('a');
+        checkoutLink.setAttribute('is', 'checkout-link');
+        checkoutLink.setAttribute('data-checkout-workflow', 'UCv3');
+        checkoutLink.setAttribute('data-checkout-workflow-step', 'segmentation');
+        checkoutLink.setAttribute('data-modal', 'true');
+        checkoutLink.setAttribute('data-quantity', '1');
+        checkoutLink.setAttribute('data-wcs-osi', 'L2C9cKHNNDaFtBVB6GVsyNI88RlyimSlzVfkMM2gH4A');
+        checkoutLink.setAttribute('data-extra-options', '{}');
+        checkoutLink.setAttribute('class', 'con-button placeholder-resolved');
+        checkoutLink.setAttribute('href', 'https://commerce.adobe.com/store/segmentation?ms=COM&ot=TRIAL&pa=phsp_direct_individual&cli=adobe_com&ctx=if&co=US&lang=en');
+        checkoutLink.setAttribute('daa-ll', 'Free trial-1--');
+        checkoutLink.setAttribute('data-modal-id', 'mini-plans-web-cta-photoshop-card');
+        checkoutLink.setAttribute('data-modal-type', 'twp');
+        await openModal(new CustomEvent('test'), 'https://www.adobe.com/mini-plans/creativecloud.html?mid=ft&web=1', 'TRIAL', 'try-photoshop', {}, checkoutLink);
+        const threeInOneModal = document.querySelector('.dialog-modal.three-in-one');
+        expect(threeInOneModal).to.exist;
+        const iFrame = document.querySelector('.dialog-modal.three-in-one iframe');
+        expect(iFrame.src).to.equal('https://commerce.adobe.com/store/segmentation?ms=COM&ot=TRIAL&pa=phsp_direct_individual&cli=adobe_com&ctx=if&co=US&lang=en');
+        threeInOneModal.remove();
+      });
     });
   });
 

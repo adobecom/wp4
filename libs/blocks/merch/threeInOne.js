@@ -1,6 +1,6 @@
 import { createTag, getConfig } from '../../utils/utils.js';
 
-const MSG_SUBTYPE = {
+export const MSG_SUBTYPE = {
   AppLoaded: 'AppLoaded',
   EXTERNAL: 'EXTERNAL',
   SWITCH: 'SWITCH',
@@ -16,7 +16,7 @@ export const LANA_OPTIONS = {
   tags: 'three-in-one',
 };
 
-const handle3in1IFrameEvents = ({ data: msgData }) => {
+export const handle3in1IFrameEvents = ({ data: msgData }) => {
   let parsedMsg = null;
   try {
     parsedMsg = JSON.parse(msgData);
@@ -55,7 +55,7 @@ const handle3in1IFrameEvents = ({ data: msgData }) => {
   }
 };
 
-async function createContent(iframeUrl) {
+export async function createContent(iframeUrl) {
   const { base } = getConfig();
   await Promise.all([
     import(`${base}/features/spectrum-web-components/dist/theme.js`),
