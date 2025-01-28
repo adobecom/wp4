@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Merch Card CCD Pricing Widget Web Component demo page</title>
+    <script>
+        window.process = {
+            env: {},
+        };
+    </script>
+    <style>
+        main {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-direction: column;
+            padding-top: 80px;
+            width: 100%;
+            height: 100%;
+        }
+        merch-card {
+          margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <script type="module">
+        // @ts-nocheck
+        import { runTests } from '@web/test-runner-mocha';
+        import { expect } from '@esm-bundle/chai';
+
+        import { mockLana } from './mocks/lana.js';
+        import { mockFetch } from './mocks/fetch.js';
+
+        import './spectrum.js';
+        import '../src/merch-offer.js';
+        import '../src/merch-offer-select.js';
+        import '../src/merch-quantity-select.js';
+
+        import { mockIms } from './mocks/ims.js';
+        import { withWcs } from './mocks/wcs.js';
+        import mas from './mas.js';
+
+
+        runTests(async () => {
+            mockIms();
+            mockLana();
+            await mockFetch(withWcs);
+            await mas();
+            
+            describe('merch-card web component', () => {
+                it('should exist in the HTML document', async () => {
+                    expect(document.querySelector('merch-card[variant="ah-pricing-widget"]')).to.exist;
+                });
+            });
+        });
+    </script>
+    <main>
+        <merch-card size="gray" class="" tabindex="0" variant="ah-pricing-widget">
+            <sp-status-light size="s" variant="info" dir="ltr"></sp-status-light>
+            <merch-icon
+              slot="icons"
+              src="./img/pixel.png"
+              alt=""
+              href=""
+              size="s"
+              >undefined</merch-icon
+            >
+            <h3 slot="heading-xxxs">Creative Cloud All Apps</h3>
+            <p slot="body-xxs">
+              Get 20+ creative apps including Photoshop and Illustrator.
+            </p>
+            <div slot="price">
+              <strong><span is="inline-price" data-wcs-osi="r_JXAnlFI7xD6FxWKl2ODvZriLYBoSL701Kd1hRyhe8"></span></strong>
+                <p><em>Annual, paid monthly</em></p>
+                <a href="#">See terms</a>
+        </div>
+          <div slot="cta">
+            <sp-button size="s" variant="secondary">Free trial</sp-button>
+            <sp-button size="s" variant="accent">Buy</sp-button>
+          </div>
+          </merch-card>
+          <merch-card tabindex="0" variant="ah-pricing-widget">
+            <sp-status-light size="s" variant="info" dir="ltr"></sp-status-light>
+            <merch-icon
+              slot="icons"
+              src="./img/pixel.png"
+              alt=""
+              href=""
+              size="s"
+              >undefined</merch-icon
+            >
+            <h3 slot="heading-xxxs">Photoshop</h3>
+            <p slot="body-xxs">
+              Create beautiful graphics, photos and art anywhere.
+            </p>
+            <div slot="price">
+              <strong><span is="inline-price" data-wcs-osi="r_JXAnlFI7xD6FxWKl2ODvZriLYBoSL701Kd1hRyhe8"></span></strong>
+                <a href="#">See terms</a>
+        </div>
+          <div slot="cta">
+            <sp-button size="s" variant="secondary">Try</sp-button>
+            <sp-button size="s" variant="primary">Buy</sp-button>
+          </div>
+          </merch-card>
+          <merch-card class="" tabindex="0" variant="ah-pricing-widget">
+            <sp-status-light size="s" variant="info" dir="ltr"></sp-status-light>
+            <merch-icon
+              slot="icons"
+              src="./img/pixel.png"
+              alt=""
+              href=""
+              size="s"
+              >undefined</merch-icon
+            >
+            <h3 slot="heading-xxxs">Acrobat</h3>
+            <p slot="body-xxs">
+              View, share, or comment on PDFs for free. Subscribe for premium tools like editing text and images.
+            </p>
+            <div slot="price">
+              <strong><span is="inline-price" data-wcs-osi="r_JXAnlFI7xD6FxWKl2ODvZriLYBoSL701Kd1hRyhe8"></span></strong>
+              <a href="#">See terms</a>
+          </div>
+          <div slot="cta">
+            <sp-button size="s" variant="secondary">Try</sp-button>
+            <sp-button size="s" variant="primary">Buy</sp-button>
+          </div>
+          </merch-card>
+    </main>
+</body>
+</html>

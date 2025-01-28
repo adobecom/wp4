@@ -15,6 +15,7 @@ import {
     CCDSuggested,
 } from './ccd-suggested.js';
 import { CCD_SLICE_AEM_FRAGMENT_MAPPING, CCDSlice } from './ccd-slice.js';
+import { AHPricingWidget } from './ah-pricing-widget.js';
 
 const getVariantLayout = (card, mustMatch = false) => {
     switch (card.variant) {
@@ -40,6 +41,8 @@ const getVariantLayout = (card, mustMatch = false) => {
             return new CCDSuggested(card);
         case 'ccd-slice':
             return new CCDSlice(card);
+          case 'ah-pricing-widget':
+            return new AHPricingWidget(card);
         default:
             return mustMatch ? undefined : new Product(card);
     }
@@ -70,6 +73,7 @@ const getVariantStyles = () => {
     styles.push(TWP.variantStyle);
     styles.push(CCDSuggested.variantStyle);
     styles.push(CCDSlice.variantStyle);
+    styles.push(AHPricingWidget.variantStyle);
     return styles;
 };
 

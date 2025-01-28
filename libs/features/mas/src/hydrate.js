@@ -61,11 +61,21 @@ export function processSize(fields, merchCard, sizeConfig) {
 
 export function processTitle(fields, merchCard, titleConfig) {
     if (fields.cardTitle && titleConfig) {
+        const attributes = { slot: titleConfig.slot };
+        let title = fields.cardTitle;
+        const { maxCount } = titleConfig;
+        if (maxCount) {
+            const [truncatedTitle, cleanTitle] = getTruncatedTextData(fields.cardTitle, maxCount);
+            if (truncatedTitle !== fields.cardTitle) {
+                attributes.title = cleanTitle;
+                title = `${truncatedTitle.trim()}...`;
+            }
+        }
         merchCard.append(
             createTag(
                 titleConfig.tag,
-                { slot: titleConfig.slot },
-                fields.cardTitle,
+                attributes,
+                title
             ),
         );
     }
@@ -81,6 +91,13 @@ export function processSubtitle(fields, merchCard, subtitleConfig) {
             ),
         );
     }
+}
+
+export function processBackgroundColor(fields, merchCard, allowedColors) {
+    if (!allowedColors?.includes(fields.backgroundColor)) {
+        return;
+    }
+    merchCard.setAttribute('background-color', fields.backgroundColor);
 }
 
 export function processBackgroundImage(
@@ -129,13 +146,57 @@ export function processPrices(fields, merchCard, pricesConfig) {
 
 export function processDescription(fields, merchCard, descriptionConfig) {
     if (fields.description && descriptionConfig) {
-        const body = createTag(
+        const attributes = { slot: descriptionConfig.slot };
+        let description = fields.description;
+        const { maxCount } = descriptionConfig;
+        if (maxCount) {
+            const [truncatedDescription, cleanDescription] = getTruncatedTextData(fields.description, maxCount);
+            if (truncatedDescription !== fields.description) {
+                attributes.title = cleanDescription;
+                description = `${truncatedDescription.trim()}...`;
+            }
+        }
+        merchCard.append(createTag(
             descriptionConfig.tag,
-            { slot: descriptionConfig.slot },
-            fields.description,
-        );
-        merchCard.append(body);
+            attributes,
+            description,
+        ));
     }
+}
+
+function getTruncatedTextData(text, limit) {
+    const cleanText = clearTags(text);
+    if (cleanText.length <= limit) return [text, cleanText];
+    let index = 0;
+    let inTag = false;
+    let remaining = limit - 3 < 1 ? 1 : limit - 3;
+    for (const char of text) {
+        index++;
+        if (char === '<') inTag = true;
+        if (char === '>') {
+            inTag = false;
+            continue;
+        }
+        if (inTag) continue;
+        remaining--;
+        if (remaining === 0) break;
+    }
+    return [text.substring(0, index), cleanText];
+}
+
+function clearTags(text) {
+    let result = '';
+    let inTag = false;
+    for (const char of text) {
+        if (char === '<') inTag = true;
+        if (char === '>') {
+            inTag = false;
+            continue;
+        }
+        if (inTag) continue;
+        result += char;
+    }
+    return result;
 }
 
 function createSpectrumCssButton(cta, aemFragmentMapping, isOutline, variant) {
@@ -286,6 +347,7 @@ export async function hydrate(fragment, merchCard) {
     });
 
     merchCard.removeAttribute('background-image');
+    merchCard.removeAttribute('background-color');
     merchCard.removeAttribute('badge-background-color');
     merchCard.removeAttribute('badge-color');
     merchCard.removeAttribute('badge-text');
@@ -311,6 +373,7 @@ export async function hydrate(fragment, merchCard) {
         merchCard,
         aemFragmentMapping.backgroundImage,
     );
+    processBackgroundColor(fields, merchCard, aemFragmentMapping.allowedColors);
     processDescription(fields, merchCard, aemFragmentMapping.description);
     processCTAs(fields, merchCard, aemFragmentMapping, variant);
     processAnalytics(fields, merchCard);
