@@ -10,6 +10,11 @@ export const CSS = `
     line-height: var(--consonant-merch-card-body-xxs-line-height);
   }
 
+  merch-card[variant="ccd-suggested"] [slot="price"] em {
+      font-size: var(--consonant-merch-card-body-xxs-font-size);
+      line-height: var(--consonant-merch-card-body-xxs-line-height);
+  }
+
 .spectrum--darkest merch-card[variant="ccd-suggested"] {
   --consonant-merch-card-background-color:rgb(30, 30, 30);
   --consonant-merch-card-heading-xs-color:rgb(239, 239, 239);
