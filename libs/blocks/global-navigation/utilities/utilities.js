@@ -10,6 +10,9 @@ import { PERSONALIZATION_TAGS } from '../../../features/personalization/personal
 loadLana();
 
 const FEDERAL_PATH_KEY = 'federal';
+// Set a default height for LocalNav,
+// as sticky blocks position themselves before LocalNav loads into the DOM.
+const DEFAULT_LOCALNAV_HEIGHT = 40;
 
 const selectorMap = {
   headline: '.feds-menu-headline[aria-expanded="true"]',
@@ -542,3 +545,26 @@ export const dropWhile = (xs, f) => {
   if (f(xs[0])) return dropWhile(xs.slice(1), f);
   return xs;
 };
+
+export function isLocalNav() {
+  const { locale = {} } = getConfig();
+  const gnavSource = getMetadata('gnav-source') || `${locale.contentRoot}/gnav`;
+  let newNavEnabled = new URLSearchParams(window.location.search).get('newNav');
+  newNavEnabled = newNavEnabled ? newNavEnabled !== 'false' : getMetadata('mobile-gnav-v2') !== 'off';
+  return gnavSource.split('/').pop().startsWith('localnav-') && newNavEnabled;
+}
+
+export function getGnavHeight() {
+  let topHeight = document.querySelector('header')?.offsetHeight || 0;
+  if (isLocalNav()) {
+    const localNav = document.querySelector('.feds-localnav');
+    topHeight = localNav.offsetHeight || DEFAULT_LOCALNAV_HEIGHT;
+  }
+
+  const fedsPromo = document.querySelector('.feds-promo-aside-wrapper');
+  if (fedsPromo instanceof HTMLElement) {
+    topHeight += fedsPromo.offsetHeight;
+  }
+
+  return topHeight;
+}
