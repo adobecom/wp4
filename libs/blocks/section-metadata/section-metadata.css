@@ -272,7 +272,7 @@ main > .section[class*='-up'] > .content {
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   }  
   
-  .section.masonry-layout .grid-full-width:first-child {
+  .section.masonry-layout .grid-full-width {
     grid-column: 1 / -1;
   }
 }
