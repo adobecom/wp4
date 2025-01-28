@@ -8,6 +8,12 @@ await esbuild.build({
   bundle: true,
   minify: true,
   outdir: './dist/',
+  plugins: [{
+    name: 'dont-bundle-svg',
+    setup({ onResolve }) {
+      onResolve({ filter: /^<svg/ }, ({ path }) => ({ path, external: true }));
+    },
+  }],
 });
 
 // This function behaves slightly different
