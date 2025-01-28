@@ -82,7 +82,7 @@ class KeyboardNavigation {
       }
       this.desktop = window.matchMedia('(min-width: 900px)');
     } catch (e) {
-      lanaLog({ message: 'Keyboard Navigation failed to load', e, tags: 'errorType=error,module=gnav-keyboard' });
+      lanaLog({ message: 'Keyboard Navigation failed to load', e, tags: 'gnav-keyboard', errorType: 'error' });
     }
   }
 
@@ -93,7 +93,7 @@ class KeyboardNavigation {
           const { default: LnavNavigation } = await import('./localNav.js');
           return new LnavNavigation();
         } catch (e) {
-          lanaLog({ message: 'Keyboard Navigation failed to load for LNAV', e, tags: 'errorType=info,module=gnav-keyboard' });
+          lanaLog({ message: 'Keyboard Navigation failed to load for LNAV', e, tags: 'gnav-keyboard', errorType: 'info' });
           return null;
         }
       })();
@@ -153,7 +153,7 @@ class KeyboardNavigation {
             default:
               break;
           }
-        }, `KeyboardNavigation index failed. ${e.code}`, 'errorType=error,module=gnav-keyboard'));
+        }, `KeyboardNavigation index failed. ${e.code}`, 'gnav-keyboard', 'error'));
       });
   };
 }

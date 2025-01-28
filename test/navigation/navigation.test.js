@@ -31,6 +31,14 @@ describe('Navigation component', async () => {
     expect(el).to.exist;
   });
 
+  it('Renders the header block', async () => {
+    const onReady = stub();
+    await loadBlock({ authoringPath: '/federal/dev', header: { imsClientId: 'fedsmilo', onReady }, env: 'prod', theme: 'dark' }, 'http://localhost:2000');
+    const el = document.getElementsByTagName('header');
+    expect(el).to.exist;
+    expect(onReady.called).to.be.true;
+  });
+
   it('Renders the footer block should not load when config is not passed', async () => {
     try {
       const onError = stub();
@@ -41,14 +49,6 @@ describe('Navigation component', async () => {
     } catch (e) {
       // handle error
     }
-  });
-
-  it('Renders the header block', async () => {
-    const onReady = stub();
-    await loadBlock({ authoringPath: '/federal/dev', header: { imsClientId: 'fedsmilo', onReady }, env: 'prod', theme: 'dark' }, 'http://localhost:2000');
-    const el = document.getElementsByTagName('header');
-    expect(el).to.exist;
-    expect(onReady.called).to.be.true;
   });
 
   it('Does not render either header or footer if not found in configs', async () => {

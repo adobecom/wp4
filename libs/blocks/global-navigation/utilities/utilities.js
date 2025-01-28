@@ -47,20 +47,21 @@ export const darkIcons = {
   company: '<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 133.5 118.1"><defs><style>.cls-1 {fill: currentColor;}</style></defs><g><g><polygon class="cls-1" points="84.1 0 133.5 0 133.5 118.1 84.1 0"/><polygon class="cls-1" points="49.4 0 0 0 0 118.1 49.4 0"/><polygon class="cls-1" points="66.7 43.5 98.2 118.1 77.6 118.1 68.2 94.4 45.2 94.4 66.7 43.5"/></g></g></svg>',
 };
 
-export const lanaLog = ({ message, e = '', tags = 'errorType=default' }) => {
+export const lanaLog = ({ message, e = '', tags = 'default', errorType }) => {
   const url = getMetadata('gnav-source');
   window.lana.log(`${message} | gnav-source: ${url} | href: ${window.location.href} | ${e.reason || e.error || e.message || e}`, {
     clientId: 'feds-milo',
     sampleRate: 1,
     tags,
+    errorType,
   });
 };
 
-export const logErrorFor = async (fn, message, tags) => {
+export const logErrorFor = async (fn, message, tags, errorType) => {
   try {
     await fn();
   } catch (e) {
-    lanaLog({ message, e, tags });
+    lanaLog({ message, e, tags, errorType });
   }
 };
 
@@ -151,7 +152,8 @@ export function loadStyles(url, override = false) {
       lanaLog({
         message: 'GNAV: Error in loadStyles',
         e: `error loading style: ${url}`,
-        tags: 'errorType=info,module=utilities',
+        tags: 'utilities',
+        errorType: 'info',
       });
     }
   });
@@ -356,7 +358,8 @@ export async function fetchAndProcessPlainHtml({ url, shouldDecorateLinks = true
     lanaLog({
       message: 'Error in fetchAndProcessPlainHtml',
       e: `${res.statusText} url: ${res.url}`,
-      tags: 'errorType=info,module=utilities',
+      tags: 'utilities',
+      errorType: 'info',
     });
     return null;
   }
@@ -394,7 +397,8 @@ export async function fetchAndProcessPlainHtml({ url, shouldDecorateLinks = true
         lanaLog({
           message: 'Error in fetchAndProcessPlainHtml',
           e,
-          tags: 'errorType=info,module=utilities',
+          tags: 'utilities',
+          errorType: 'info',
         });
       });
   }

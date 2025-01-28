@@ -66,7 +66,7 @@ class Footer {
       observer.disconnect();
       this.decorateContent();
     }, CONFIG.delays.decoration);
-  }, 'Error in global footer init', 'errorType=error,module=global-footer');
+  }, 'Error in global footer init', 'global-footer', 'error');
 
   decorateContent = () => logErrorFor(async () => {
     // Fetch footer content
@@ -114,7 +114,7 @@ class Footer {
     this.block.setAttribute('daa-lh', `gnav|${getExperienceName()}|footer${mepMartech}`);
 
     this.block.append(this.elements.footer);
-  }, 'Failed to decorate footer content', 'errorType=error,module=global-footer');
+  }, 'Failed to decorate footer content', 'global-footer', 'error');
 
   loadMenuLogic = async () => {
     this.menuLogic = this.menuLogic || new Promise(async (resolve) => {
@@ -154,7 +154,8 @@ class Footer {
       lanaLog({
         message: 'Issue with loadIcons',
         e: `${file.statusText} url: ${file.url}`,
-        tags: 'errorType=info,module=global-footer',
+        tags: 'global-footer',
+        errorType: 'info',
       });
     }
     const content = await file.text();
@@ -199,7 +200,7 @@ class Footer {
     try {
       url = new URL(regionSelector.href);
     } catch (e) {
-      lanaLog({ message: `Could not create URL for region picker; href: ${regionSelector.href}`, tags: 'errorType=error,module=global-footer' });
+      lanaLog({ message: `Could not create URL for region picker; href: ${regionSelector.href}`, tags: 'global-footer', errorType: 'error' });
       return this.elements.regionPicker;
     }
 
@@ -234,7 +235,8 @@ class Footer {
       if (regionPickerElem.classList[0] !== 'modal') {
         lanaLog({
           message: `Modal block class missing from region picker pre loading the block; locale: ${locale}; regionPickerElem: ${regionPickerElem.outerHTML}`,
-          tags: 'errorType=warn,module=global-footer',
+          tags: 'global-footer',
+          errorType: 'warn',
         });
       }
       loadStyle(`${base}/blocks/modal/modal.css`);
@@ -264,7 +266,8 @@ class Footer {
       if (regionPickerElem.classList[0] !== 'modal') {
         lanaLog({
           message: `Modal block class missing from region picker post loading the block; locale: ${locale}; regionPickerElem: ${regionPickerElem.outerHTML}`,
-          tags: 'errorType=warn,module=global-footer',
+          tags: 'global-footer',
+          errorType: 'warn',
         });
       }
       regionPickerElem.addEventListener('click', () => {
