@@ -366,9 +366,11 @@ class Footer {
     while (privacyContent.children.length) {
       const privacySection = privacyContent.firstElementChild;
       privacySection.classList.add('feds-footer-privacySection');
+      privacySection.setAttribute('role', 'list');
       privacySection.querySelectorAll('a').forEach((link, index) => {
         link.classList.add('feds-footer-privacyLink');
         link.setAttribute('daa-ll', getAnalyticsValue(link.textContent, index + 1));
+        link.setAttribute('role', 'listitem');
       });
       this.elements.legal.append(privacySection);
     }

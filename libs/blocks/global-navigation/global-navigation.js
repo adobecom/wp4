@@ -973,7 +973,7 @@ class Gnav {
 
   decorateMainNav = async () => {
     const breadcrumbs = isDesktop.matches ? '' : await this.decorateBreadcrumbs();
-    this.elements.mainNav = toFragment`<div class="feds-nav"></div>`;
+    this.elements.mainNav = toFragment`<div class="feds-nav" role="list"></div>`;
     this.elements.navWrapper = toFragment`
       <div class="feds-nav-wrapper" id="feds-nav-wrapper">
         ${breadcrumbs}
@@ -1160,7 +1160,7 @@ class Gnav {
         const sectionModifier = isSectionMenu ? ' feds-navItem--section' : '';
         const sectionDaaLh = isSectionMenu ? ` daa-lh='${getAnalyticsValue(item.textContent)}'` : '';
         const triggerTemplate = toFragment`
-          <${tag} class="feds-navItem${sectionModifier}${activeModifier}" ${sectionDaaLh}>
+          <${tag} role="listitem" class="feds-navItem${sectionModifier}${activeModifier}" ${sectionDaaLh}>
             ${dropdownTrigger}
           </${tag}>`;
 
@@ -1198,7 +1198,7 @@ class Gnav {
         // Remove its 'em' or 'strong' wrapper
         item.parentElement.replaceWith(item);
 
-        return addMepHighlightAndTargetId(toFragment`<div class="feds-navItem feds-navItem--centered">
+        return addMepHighlightAndTargetId(toFragment`<div class="feds-navItem feds-navItem--centered" role="listitem">
             ${decorateCta({ elem: item, type: itemType, index: index + 1 })}
           </div>`, item);
       case 'link': {
@@ -1232,7 +1232,7 @@ class Gnav {
         }
 
         const linkTemplate = toFragment`
-          <div class="feds-navItem${activeModifier}${customLinkModifier}">
+          <div class="feds-navItem${activeModifier}${customLinkModifier}" role="listitem">
             ${linkElem}
           </div>`;
         return removeCustomLink ? '' : addMepHighlightAndTargetId(linkTemplate, item);
