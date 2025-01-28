@@ -273,6 +273,14 @@ export const [setDisableAEDState, getDisableAEDState] = (() => {
   ];
 })();
 
+export const [setAsyncDropdownCount, getAsyncDropdownCount] = (() => {
+  let asyncDropdownCount = 0;
+  return [
+    (val) => { asyncDropdownCount = val; },
+    () => asyncDropdownCount,
+  ];
+})();
+
 export const [hasActiveLink, setActiveLink, isActiveLink, getActiveLink] = (() => {
   let activeLinkFound;
   const { origin, pathname } = window.location;
