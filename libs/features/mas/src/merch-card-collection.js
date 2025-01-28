@@ -165,6 +165,7 @@ export class MerchCardCollection extends LitElement {
             if (reduced.has(child)) {
                 child.size = child.filters[this.filter]?.size;
                 child.style.removeProperty('display');
+                child.setAttribute('tabindex', '0');
                 child.requestUpdate();
             } else {
                 child.style.display = 'none';
