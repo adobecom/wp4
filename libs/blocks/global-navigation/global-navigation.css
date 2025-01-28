@@ -407,7 +407,6 @@ header.global-navigation {
 
 .feds-utilities .unav-comp-app-switcher-popover, /* App Switcher */
 .feds-utilities .spectrum-Dialog-content, /* Notifications */
-.feds-utilities .unav-comp-external-profile, /* Profile */
 .feds-utilities .unav-comp-help-popover, /* Help */
 .feds-utilities .unc-overlay-container { /* Tooltips */
   transform: translate3d(0,0,0); /* Fix Safari issues w/ position: sticky */

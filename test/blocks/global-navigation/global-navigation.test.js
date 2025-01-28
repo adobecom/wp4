@@ -398,6 +398,7 @@ describe('global navigation', () => {
       });
       window.UniversalNav = sinon.spy(() => Promise.resolve());
       window.UniversalNav.reload = sinon.spy(() => Promise.resolve());
+      window.adobeProfile = { getUserProfile: sinon.spy(() => Promise.resolve({})) };
       // eslint-disable-next-line no-underscore-dangle
       window._satellite = { track: sinon.spy() };
       window.alloy = () => new Promise((resolve) => {
@@ -430,6 +431,27 @@ describe('global navigation', () => {
         isDesktop.dispatchEvent(new Event('change'));
         await clock.runAllAsync();
         expect(window.UniversalNav.reload.getCall(0)).to.exist;
+      });
+
+      it('should handle message events correctly', async () => {
+        // eslint-disable-next-line max-len
+        const mockEvent = (name, payload) => ({ detail: { name, payload, executeDefaultAction: sinon.spy(() => Promise.resolve(null)) } });
+        await createFullGlobalNavigation({ unavContent: 'on' });
+        const messageEventListener = window.UniversalNav.getCall(0).args[0].children
+          .map((c) => c.attributes.messageEventListener)
+          .find((listener) => listener);
+
+        const appInitiatedEvent = mockEvent('System', { subType: 'AppInitiated' });
+        messageEventListener(appInitiatedEvent);
+        expect(window.adobeProfile.getUserProfile.called).to.be.true;
+
+        const signOutEvent = mockEvent('System', { subType: 'SignOut' });
+        messageEventListener(signOutEvent);
+        expect(signOutEvent.detail.executeDefaultAction.called).to.be.true;
+
+        const profileSwitch = mockEvent('System', { subType: 'ProfileSwitch' });
+        messageEventListener(profileSwitch);
+        expect(profileSwitch.detail.executeDefaultAction.called).to.be.true;
       });
 
       it('should send the correct analytics events', async () => {
@@ -485,6 +507,14 @@ describe('global navigation', () => {
         for (const data of unavLocalesTestData) {
           expect(getUniversalNavLocale({ prefix: data.prefix })).to.equal(data.expectedLocale);
         }
+      });
+
+      it('should pass enableProfileSwitcher to the profile component configuration', async () => {
+        await createFullGlobalNavigation({ unavContent: 'on' });
+        const profileConfig = window.UniversalNav.getCall(0).args[0].children
+          .find((c) => c.name === 'profile').attributes.componentLoaderConfig.config;
+
+        expect(profileConfig.enableProfileSwitcher).to.be.true;
       });
     });
 
