@@ -121,7 +121,7 @@ export function getLanguageDetails(lang) {
       action: 'Rollout',
       langCode: langDetails.languagecode,
       language: langDetails.language,
-      locales: langDetails.livecopies.split(','),
+      locales: langDetails.livecopies?.split(','),
       workflow: '',
     },
   ];
