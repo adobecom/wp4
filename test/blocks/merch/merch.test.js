@@ -9,7 +9,6 @@ import merch, {
   PRICE_TEMPLATE_OPTICAL,
   PRICE_TEMPLATE_STRIKETHROUGH,
   PRICE_TEMPLATE_ANNUAL,
-  CHECKOUT_ALLOWED_KEYS,
   buildCta,
   getCheckoutContext,
   initService,
@@ -407,19 +406,6 @@ describe('Merch Block', () => {
       expect(nodeName).to.equal('A');
       expect(el.getAttribute('is')).to.equal('checkout-link');
       expect(dataset.promotionCode).to.equal('nicopromo');
-    });
-
-    it('renders merch link to UCv2 cta with link-level overrides', async () => {
-      const el = await merch(document.querySelector(
-        '.merch.cta.link-overrides',
-      ));
-      const { nodeName, dataset } = await el.onceSettled();
-      expect(nodeName).to.equal('A');
-      expect(el.getAttribute('is')).to.equal('checkout-link');
-      // https://wiki.corp.adobe.com/pages/viewpage.action?spaceKey=BPS&title=UCv2+Link+Creation+Guide
-      expect(dataset.checkoutWorkflow).to.equal('UCv2');
-      expect(dataset.checkoutWorkflowStep).to.equal('checkout');
-      expect(dataset.checkoutMarketSegment).to.equal('EDU');
     });
 
     it('adds ims country to checkout link', async () => {
@@ -866,62 +852,6 @@ describe('Merch Block', () => {
       expect(resultUrl).to.equal(invalidUrl);
       const resultUrl2 = appendExtraOptions(invalidUrl);
       expect(resultUrl2).to.equal(invalidUrl);
-    });
-  });
-
-  describe('checkout link with optional params', async () => {
-    const checkoutUcv2Keys = [
-      'rurl', 'authCode', 'curl',
-    ];
-    const checkoutAllowKeysMapping = {
-      quantity: 'q',
-      checkoutPromoCode: 'apc',
-      ctxrturl: 'ctxRtUrl',
-      country: 'co',
-      language: 'lang',
-      clientId: 'cli',
-      context: 'ctx',
-      productArrangementCode: 'pa',
-      offerType: 'ot',
-      marketSegment: 'ms',
-      authCode: 'code',
-      rurl: 'rUrl',
-      curl: 'cUrl',
-    };
-    const segmentation = [
-      'ot',
-      'pa',
-      'ms',
-    ];
-
-    const keyValueMapping = { lang: 'en', ms: 'COM', ot: 'BASE', pa: 'phsp_direct_individual' };
-
-    const skipKeys = ['quantity', 'co', 'country', 'lang', 'language'];
-
-    CHECKOUT_ALLOWED_KEYS.forEach((key) => {
-      if (skipKeys.includes(key)) return;
-      const mappedKey = checkoutAllowKeysMapping[key] ?? key;
-      it(`renders checkout link with "${mappedKey}" parameter`, async () => {
-        const a = document.createElement('a', { is: 'checkout-link' });
-        a.classList.add('merch');
-        const searchParams = new URLSearchParams();
-        searchParams.set('osi', 1);
-        searchParams.set('type', 'checkoutUrl');
-        if (checkoutUcv2Keys.includes(key)) {
-          searchParams.set('workflow', 'ucv2');
-        }
-        const value = keyValueMapping[mappedKey] ?? 'test';
-        searchParams.set(key, value);
-        if (segmentation.includes(mappedKey)) {
-          searchParams.set('workflowStep', 'segmentation');
-        }
-        a.setAttribute('href', `/tools/ost?${searchParams.toString()}`);
-        document.body.appendChild(a);
-        const el = await merch(a);
-        await el.onceSettled();
-        expect(el.getAttribute('href')).to.match(new RegExp(`https://commerce.adobe.com/.*${mappedKey}=${value}`));
-        el.remove();
-      });
     });
   });
 

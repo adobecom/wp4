@@ -27,6 +27,24 @@ a[is='checkout-link'].con-button > span {
   content: "\00a0";
 }
 
+.three-in-one {
+  display: flex;
+  height: 100%;
+}
+
+.three-in-one .loading iframe {
+  visibility: hidden;
+}
+
+.three-in-one sp-theme {
+  width: max-content;
+  height: max-content;
+  left: 50%; 
+  position: relative; 
+  top: 50%; 
+  transform: translate(-50%,-50%);
+}
+
 @media (max-width: 1199px) {
   #checkout-link-modal {
     height: 100vh;

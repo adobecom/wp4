@@ -21,6 +21,29 @@
   z-index: 102;
 }
 
+.dialog-modal.three-in-one {
+  height: 100%;
+  width: 100%;
+  max-height: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.three-in-one .dialog-close {
+  display: none;
+}
+
+.three-in-one .milo-iframe {
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box; 
+}
+
+.three-in-one iframe {
+  width: 100%;
+}
+
 #locale-modal-v2 .dialog-close,
 #locale-modal-v2 .georouting-wrapper {
   display: block;
@@ -357,6 +380,13 @@
     max-width: 1100px;
     overflow: hidden;
     width: 80%;
+  }
+
+  .dialog-modal.three-in-one {
+    height: 820px;
+    width: 80%;
+    max-width: 1100px;
+    overflow: hidden;
   }
 
   .dialog-modal.tall-video,
