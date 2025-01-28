@@ -46,8 +46,8 @@ let isPostLCP = false;
 
 export const TRACKED_MANIFEST_TYPE = 'personalization';
 
-// Replace any non-alpha chars except comma, space, ampersand and hyphen
-const RE_KEY_REPLACE = /[^a-z0-9\- _,&=]/g;
+// Replace any non-alpha chars except comma, space, ampersand, colon, and hyphen
+const RE_KEY_REPLACE = /[^a-z0-9\- _,&=:]/g;
 
 const MANIFEST_KEYS = [
   'action',
@@ -209,7 +209,7 @@ export const createContent = (el, { content, manifestId, targetManifestId, actio
 const COMMANDS = {
   [COMMANDS_KEYS.remove]: (el, { content, manifestId }) => {
     if (content === 'false') return;
-    if (manifestId) {
+    if (manifestId && !el.href?.includes('/tools/ost')) {
       el.dataset.removedManifestId = manifestId;
       return;
     }
@@ -573,7 +573,7 @@ const getVariantInfo = (line, variantNames, variants, manifestPath, fTargetId) =
   if (!config.mep?.preview) manifestId = false;
   const { origin } = PAGE_URL;
   variantNames.forEach((vn) => {
-    const targetManifestId = vn.startsWith(TARGET_EXP_PREFIX) ? targetId : false;
+    const targetManifestId = vn.includes(TARGET_EXP_PREFIX) ? targetId : false;
     if (!line[vn] || line[vn].toLowerCase() === 'false') return;
 
     const variantInfo = {
@@ -787,14 +787,16 @@ async function getPersonalizationVariant(
   }
 
   const hasMatch = (name) => {
-    if (name === '') return true;
+    if (!name) return true;
     if (name === variantLabel?.toLowerCase()) return true;
     if (name.startsWith('param-')) return checkForParamMatch(name);
     if (userEntitlements?.includes(name)) return true;
     return PERSONALIZATION_KEYS.includes(name) && PERSONALIZATION_TAGS[name]();
   };
 
-  const matchVariant = (name) => {
+  const matchVariant = (n) => {
+    // split before checks
+    const name = n.includes(':') ? n.split(':')[1] : n;
     if (name.startsWith(TARGET_EXP_PREFIX)) return hasMatch(name);
     const processedList = name.split('&').map((condition) => {
       const reverse = condition.trim().startsWith(COLUMN_NOT_OPERATOR);
@@ -970,10 +972,11 @@ function compareExecutionOrder(a, b) {
   return a.executionOrder > b.executionOrder ? 1 : -1;
 }
 
-export function cleanAndSortManifestList(manifests) {
-  const config = getConfig();
+export function cleanAndSortManifestList(manifests, conf) {
+  const config = conf ?? getConfig();
   const manifestObj = {};
   let allManifests = manifests;
+  let targetManifestWinsOverServerManifest = false;
   if (config.mep?.experiments) allManifests = [...manifests, ...config.mep.experiments];
   allManifests.forEach((manifest) => {
     try {
@@ -989,6 +992,12 @@ export function cleanAndSortManifestList(manifests) {
         freshManifest.source = freshManifest.source.concat(fullManifest.source);
         freshManifest.name = fullManifest.name;
         freshManifest.selectedVariantName = fullManifest.selectedVariantName;
+        targetManifestWinsOverServerManifest = config?.env?.name === 'prod' && fullManifest.selectedVariantName.startsWith('target-');
+
+        freshManifest.variants = targetManifestWinsOverServerManifest
+          ? fullManifest.variants
+          : freshManifest.variants;
+
         freshManifest.selectedVariant = freshManifest.variants[freshManifest.selectedVariantName];
         manifestObj[manifest.manifestPath] = freshManifest;
       } else {
@@ -997,9 +1006,8 @@ export function cleanAndSortManifestList(manifests) {
 
       const manifestConfig = manifestObj[manifest.manifestPath];
       const { selectedVariantName, variantNames, placeholderData } = manifestConfig;
+
       if (selectedVariantName && variantNames.includes(selectedVariantName)) {
-        manifestConfig.run = true;
-        manifestConfig.selectedVariantName = selectedVariantName;
         manifestConfig.selectedVariant = manifestConfig.variants[selectedVariantName];
       } else {
         /* c8 ignore next 2 */
@@ -1084,7 +1092,12 @@ export async function applyPers({ manifests }) {
 
   const pznVariants = pznList.map((r) => {
     const val = r.experiment.selectedVariantName.replace(TARGET_EXP_PREFIX, '').trim().slice(0, 15);
-    return val === 'default' ? 'nopzn' : val;
+    const arr = val.split(':');
+    if (arr.length > 2 || arr[0]?.trim() === '' || arr[1]?.trim() === '') {
+      log('MEP Error: When using (optional) column nicknames, please use the following syntax: "<nickname>: <original audience>"');
+    }
+    if (!val.includes(':') || val.startsWith(':')) return val === 'default' ? 'nopzn' : val;
+    return arr[0].trim();
   });
   const pznManifests = pznList.map((r) => r.experiment.analyticsTitle);
   config.mep.martech = `|${pznVariants.join('--')}|${pznManifests.join('--')}`;
@@ -1215,7 +1228,11 @@ async function handleMartechTargetInteraction(
       performance.clearMarks();
       performance.clearMeasures();
       try {
-        window.lana.log(`target response time: ${roundedResponseTime}`, { tags: 'martech', errorType: 'i' });
+        window.lana.log(`target response time: ${roundedResponseTime}`, {
+          tags: 'martech',
+          errorType: 'e',
+          sampleRate: 0.5,
+        });
       } catch (e) {
         // eslint-disable-next-line no-console
         console.error('Error logging target response time:', e);

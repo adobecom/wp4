@@ -1,0 +1,53 @@
+{
+  "info": {
+    "total": 3,
+    "offset": 0,
+    "limit": 3,
+    "data": [
+      {
+        "key": "manifest-type",
+        "value": "Personalization"
+      },
+      {
+        "key": "manifest-override-name",
+        "value": ""
+      },
+      {
+        "key": "manifest-execution-order",
+        "value": "Normal"
+      }
+    ]
+  },
+  "experiences": {
+    "total": 1,
+    "offset": 0,
+    "limit": 1,
+    "data": [
+      {
+        "action": "replace",
+        "selector": "any-header",
+        "page filter (optional)": "",
+        "target-var1": "target-var1",
+        "challenger 2: target-var2": "challenger 2: target-var2",
+        "param-nickname=false": "param-nickname=false",
+        "pzn2: param-nickname=true": "pzn2: param-nickname=true",
+        "pzn2: param-nickname=double:": "pzn2: param-nickname=double:",
+        "param-nickname=end:": "param-nickname=end:",
+        ":param-nickname=start": ":param-nickname=start"
+      }
+    ]
+  },
+  "placeholders": {
+    "total": 0,
+    "offset": 0,
+    "limit": 0,
+    "data": []
+  },
+  ":version": 3,
+  ":names": [
+    "experiences",
+    "info",
+    "placeholders"
+  ],
+  ":type": "multi-sheet"
+}

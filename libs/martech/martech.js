@@ -69,7 +69,11 @@ export const getTargetPersonalization = async (
   window.addEventListener(ALLOY_SEND_EVENT, () => {
     const responseTime = calculateResponseTime(responseStart);
     try {
-      window.lana.log(`target response time: ${responseTime}`, { tags: 'martech', errorType: 'i' });
+      window.lana.log(`target response time: ${responseTime}`, {
+        tags: 'martech',
+        errorType: 'e',
+        sampleRate: 0.5,
+      });
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error('Error logging target response time:', e);
@@ -82,7 +86,11 @@ export const getTargetPersonalization = async (
   const response = await waitForEventOrTimeout(ALLOY_SEND_EVENT, timeout);
   if (response.error) {
     try {
-      window.lana.log('target response time: ad blocker', { tags: 'martech', errorType: 'i' });
+      window.lana.log('target response time: ad blocker', {
+        tags: 'martech',
+        errorType: 'e',
+        sampleRate: 0.5,
+      });
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error('Error logging target response time for ad blocker:', e);

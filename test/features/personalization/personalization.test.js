@@ -3,7 +3,7 @@ import { readFile } from '@web/test-runner-commands';
 import { assert, stub } from 'sinon';
 import { getConfig, setConfig } from '../../../libs/utils/utils.js';
 import {
-  handleFragmentCommand, applyPers,
+  handleFragmentCommand, applyPers, cleanAndSortManifestList,
   init, matchGlob, createContent, combineMepSources, buildVariantInfo,
 } from '../../../libs/features/personalization/personalization.js';
 import mepSettings from './mepSettings.js';
@@ -35,6 +35,7 @@ describe('Functional Test', () => {
     // Add custom keys so tests doesn't rely on real data
     const config = getConfig();
     config.env = { name: 'prod' };
+    config.locale = { ietf: 'en-US', prefix: '' };
     config.consumerEntitlements = {
       '11111111-aaaa-bbbb-6666-cccccccccccc': 'my-special-app',
       '22222222-xxxx-bbbb-7777-cccccccccccc': 'fireflies',
@@ -152,11 +153,11 @@ describe('Functional Test', () => {
     expect(config.mep?.martech).to.be.undefined;
   });
 
-  it('should choose chrome & logged out', async () => {
+  it('should choose chrome & logged out (using nickname)', async () => {
     await loadManifestAndSetResponse('./mocks/manifestWithAmpersand.json');
     await init(mepSettings);
     const config = getConfig();
-    expect(config.mep?.martech).to.equal('|chrome & logged|ampersand');
+    expect(config.mep?.martech).to.equal('|my nickname|ampersand');
   });
 
   it('should choose not firefox', async () => {
@@ -164,6 +165,52 @@ describe('Functional Test', () => {
     await init(mepSettings);
     const config = getConfig();
     expect(config.mep?.martech).to.equal('|not firefox|not');
+  });
+
+  it('should not error when nickname has multiple colons', async () => {
+    await loadManifestAndSetResponse('./mocks/manifestWithNicknames.json');
+    const tempMepSettings = {
+      mepParam: '/path/to/manifest.json--pzn2: param-nickname=double:',
+      mepHighlight: false,
+      mepButton: false,
+      pzn: '/path/to/manifest.json',
+      promo: false,
+      target: false,
+    };
+    await init(tempMepSettings);
+    const config = getConfig();
+    console.log('test: ', config);
+    expect(config.mep?.martech).to.equal('|pzn2|manifest');
+  });
+
+  it('should not error when name nickname is empty', async () => {
+    await loadManifestAndSetResponse('./mocks/manifestWithNicknames.json');
+    const tempMepSettings = {
+      mepParam: '/path/to/manifest.json--:param-nickname=start',
+      mepHighlight: false,
+      mepButton: false,
+      pzn: '/path/to/manifest.json',
+      promo: false,
+      target: false,
+    };
+    await init(tempMepSettings);
+    const config = getConfig();
+    expect(config.mep?.martech).to.equal('|:param-nickname|manifest');
+  });
+
+  it('should show nickname instead of original audience when using nicknames syntax', async () => {
+    await loadManifestAndSetResponse('./mocks/manifestWithNicknames.json');
+    const tempMepSettings = {
+      mepParam: '/path/to/manifest.json--pzn2: param-nickname=true',
+      mepHighlight: false,
+      mepButton: false,
+      pzn: '/path/to/manifest.json',
+      promo: false,
+      target: false,
+    };
+    await init(tempMepSettings);
+    const config = getConfig();
+    expect(config.mep?.martech).to.equal('|pzn2|manifest');
   });
 
   it('should read and use entitlement data', async () => {
@@ -394,6 +441,30 @@ describe('MEP Utils', () => {
       expect(manifests[2].manifestPath).to.equal('/black-friday.json');
       expect(manifests[3].manifestPath).to.equal('/mep-param/manifest1.json');
       expect(manifests[4].manifestPath).to.equal('/mep-param/manifest2.json');
+    });
+  });
+  describe('cleanAndSortManifestList', async () => {
+    it('chooses server manifest over target manifest if same manifest path', async () => {
+      const config = { env: { name: 'stage' } };
+      let manifests = await readFile({ path: './mocks/manifestLists/two-manifests-one-from-target.json' });
+      manifests = JSON.parse(manifests);
+      manifests[0].manifestPath = 'same path';
+      manifests[1].manifestPath = 'same path';
+      const response = cleanAndSortManifestList(manifests, config);
+      const result = response.find((manifest) => manifest.source.length > 1);
+      expect(result).to.be.not.null;
+      expect(result.selectedVariant.commands[0].action).to.equal('appendtosection');
+    });
+    it('chooses target manifest over server manifest if same manifest path and in production and selected audience is "target-*"', async () => {
+      const config = { env: { name: 'prod' } };
+      let manifests = await readFile({ path: './mocks/manifestLists/two-manifests-one-from-target.json' });
+      manifests = JSON.parse(manifests);
+      manifests[0].manifestPath = 'same path';
+      manifests[1].manifestPath = 'same path';
+      const response = cleanAndSortManifestList(manifests, config);
+      const result = response.find((manifest) => manifest.source.length > 1);
+      expect(result).to.be.not.null;
+      expect(result.selectedVariant.commands[0].action).to.equal('append');
     });
   });
 });
