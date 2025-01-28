@@ -123,7 +123,6 @@
   display: flex;
   z-index: 2;
   margin: 0 var(--spacing-m);
-
   /* ScrollProps - If content exceeds height of container, overflow! */
   overflow: auto;
   overflow-y: hidden;
@@ -538,6 +537,10 @@
   [role='tabpanel'] > .section[class*='-up'] > .content,
   [role='tabpanel'] > .section[class*='grid-width-'] > .content {
     width: auto;
+  }
+
+  .tabs .tabList {
+    min-height: 62px;
   }
 
   .tabs div[role="tablist"] button {
