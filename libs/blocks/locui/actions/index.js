@@ -79,6 +79,21 @@ function findMetaFragments(doc) {
   return fragments;
 }
 
+function findMatchingUrl(url) {
+  return !urls.value.some((existing) => removeLangstorePrefix(existing.pathname) === url.pathname);
+}
+
+function removeDuplicateUrls(urlObjects) {
+  const uniqueUrls = [];
+  const filteredUrls = urlObjects.filter((url) => findMatchingUrl(url));
+  filteredUrls.forEach((url) => {
+    if (!uniqueUrls.some((unique) => unique.pathname === url.pathname)) {
+      uniqueUrls.push(url);
+    }
+  });
+  return uniqueUrls;
+}
+
 async function findPageFragments(path) {
   const page = path.split('/').pop();
   const isIndex = page === 'index' ? path.lastIndexOf('index') : 0;
@@ -108,7 +123,7 @@ async function findPageFragments(path) {
     acc.push(fragmentUrl);
     return acc;
   }, []);
-  fragmentUrls = [...fragmentUrls, ...findMetaFragments(doc)];
+  fragmentUrls = removeDuplicateUrls([...fragmentUrls, ...findMetaFragments(doc)]);
   if (fragmentUrls.length === 0) return [];
   return fragmentUrls;
 }
@@ -269,7 +284,7 @@ export async function sendForLoc() {
       // Give the service time to digest and error check creating a project
       setStatus('service', 'info', 'Starting project.');
     } else {
-      allowSyncToLangstore.value = true;
+      allowSyncToLangstore.value = heading.value.projectType !== 'rollout';
       allowSendForLoc.value = true;
       allowCancelProject.value = false;
       return;

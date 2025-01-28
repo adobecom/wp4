@@ -125,7 +125,7 @@ async function loadLocales() {
 
 async function loadProjectSettings(projSettings) {
   const settings = projSettings.reduce((acc, { key, value }) => ({ ...acc, [key]: value }), {});
-  heading.value = { ...heading.value, env: settings.env, projectId: settings['Project ID'] };
+  heading.value = { ...heading.value, env: settings.env, projectId: settings['Project ID'], projectType: settings['project.type'] };
   if (settings['Project ID']) {
     setStatus('service', 'info', 'Connecting to localization service.');
     await getServiceUpdates();

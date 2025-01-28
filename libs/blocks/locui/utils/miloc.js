@@ -78,7 +78,7 @@ export async function getProjectStatus() {
     }
 
     if (json.projectStatus === 'draft') {
-      allowSyncToLangstore.value = true;
+      allowSyncToLangstore.value = heading.value.projectType !== 'rollout';
       allowSendForLoc.value = true;
     }
 
