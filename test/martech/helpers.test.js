@@ -1,5 +1,6 @@
 import { expect } from 'chai';
-import { loadAnalyticsAndInteractionData } from '../../libs/martech/helpers.js';
+import sinon from 'sinon';
+import { getTargetPropertyBasedOnPageRegion, getVisitorStatus, loadAnalyticsAndInteractionData } from '../../libs/martech/helpers.js';
 
 describe('loadAnalyticsAndInteractionData', () => {
   beforeEach(() => {
@@ -20,11 +21,12 @@ describe('loadAnalyticsAndInteractionData', () => {
     delete window.fetch;
   });
 
-  it('should fetch and return the proposition data', async () => {
+  it('should fetch and return the proposition data without hybrid pers', async () => {
     const result = await loadAnalyticsAndInteractionData({
       locale: { ietf: 'en-US', prefix: 'us' },
       env: 'prod',
       calculatedTimeout: 10000,
+      isHybridPersFlagEnabled: false,
     });
 
     expect(result).to.deep.equal({
@@ -33,12 +35,48 @@ describe('loadAnalyticsAndInteractionData', () => {
     });
   });
 
+  it('should fetch and return the proposition data with hybrid', async () => {
+    window.fetch = () => Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve({
+        handle: [
+          {
+            type: 'personalization:decisions',
+            payload: [
+              {
+                decisionId: '1',
+                proposition: 'Test Proposition',
+                items: [{
+                  data: {
+                    id: '901343',
+                    format: 'application/json',
+                  },
+                },
+                ],
+              },
+            ],
+          },
+        ],
+      }),
+    });
+    const result = await loadAnalyticsAndInteractionData({
+      locale: { ietf: 'en-US', prefix: 'us' },
+      env: 'prod',
+      calculatedTimeout: 10000,
+      isHybridPersFlagEnabled: true,
+    });
+
+    expect(result.result.propositions).to.have.lengthOf(1);
+    expect(result.type).to.be.equal('pageView');
+  });
+
   it('should handle consent cookie being set to "out"', async () => {
     try {
       await loadAnalyticsAndInteractionData({
         locale: { ietf: 'en-US', prefix: 'us' },
         env: 'prod',
         calculatedTimeout: 10000,
+        isHybridPersFlagEnabled: false,
       });
     } catch (err) {
       expect(err.message).to.equal('Consent Cookie doesnt allow interact');
@@ -53,6 +91,7 @@ describe('loadAnalyticsAndInteractionData', () => {
         locale: { ietf: 'en-US', prefix: 'us' },
         env: 'prod',
         calculatedTimeout: 10000,
+        isHybridPersFlagEnabled: false,
       });
     } catch (err) {
       expect(err.message).to.equal('Error: Network error');
@@ -69,6 +108,7 @@ describe('loadAnalyticsAndInteractionData', () => {
         locale: { ietf: 'en-US', prefix: 'us' },
         env: 'prod',
         calculatedTimeout: 1000,
+        isHybridPersFlagEnabled: false,
       });
     } catch (err) {
       expect(err.message).to.equal('Error: Request timed out');
@@ -86,6 +126,7 @@ describe('loadAnalyticsAndInteractionData', () => {
         locale: { ietf: 'en-US', prefix: 'us' },
         env: 'prod',
         calculatedTimeout: 10000,
+        isHybridPersFlagEnabled: false,
       });
     } catch (err) {
       expect(err.message).to.be.string;
@@ -97,9 +138,9 @@ describe('loadAnalyticsAndInteractionData', () => {
       locale: { ietf: 'en-US', prefix: 'us' },
       env: 'dev',
       calculatedTimeout: 10000,
+      isHybridPersFlagEnabled: false,
     });
 
-    expect(result.type).to.equal('propositionFetch');
     expect(result.result.propositions).to.have.lengthOf(1);
   });
 
@@ -108,9 +149,9 @@ describe('loadAnalyticsAndInteractionData', () => {
       locale: { ietf: 'en-US', prefix: 'us' },
       env: 'prod',
       calculatedTimeout: 10000,
+      isHybridPersFlagEnabled: false,
     });
 
-    expect(result.type).to.equal('propositionFetch');
     expect(result.result.propositions).to.have.lengthOf(1);
   });
 
@@ -127,9 +168,9 @@ describe('loadAnalyticsAndInteractionData', () => {
       locale: { ietf: 'en-US', prefix: 'us' },
       env: 'prod',
       calculatedTimeout: 10000,
+      isHybridPersFlagEnabled: false,
     });
 
-    expect(result.type).to.equal('propositionFetch');
     expect(result.result.propositions).to.have.lengthOf(1);
   });
 
@@ -184,9 +225,9 @@ describe('loadAnalyticsAndInteractionData', () => {
       locale: { ietf: 'en-US', prefix: 'us' },
       env: 'prod',
       calculatedTimeout: 10000,
+      isHybridPersFlagEnabled: false,
     });
 
-    expect(result.type).to.equal('propositionFetch');
     expect(result.result.propositions).to.have.lengthOf(2);
   });
 
@@ -200,6 +241,7 @@ describe('loadAnalyticsAndInteractionData', () => {
         locale: { ietf: 'en-US', prefix: 'us' },
         env: 'prod',
         calculatedTimeout: 10000,
+        isHybridPersFlagEnabled: false,
       });
 
       expect.fail('Error: Failed to fetch interact call');
@@ -231,6 +273,7 @@ describe('loadAnalyticsAndInteractionData', () => {
         locale: { ietf: 'en-US', prefix: 'us' },
         env: 'prod',
         calculatedTimeout: 10000,
+        isHybridPersFlagEnabled: false,
       });
     } catch (err) {
       expect(err.message).to.equal('Error: No propositions found');
@@ -281,6 +324,7 @@ describe('loadAnalyticsAndInteractionData', () => {
         locale: { ietf: 'en-US', prefix: 'us' },
         env: 'prod',
         calculatedTimeout: 10000,
+        isHybridPersFlagEnabled: false,
       });
     } catch (err) {
       expect(err.message).to.equal('Error: No propositions found');
@@ -295,9 +339,108 @@ describe('loadAnalyticsAndInteractionData', () => {
         locale: { ietf: 'en-US', prefix: 'us' },
         env: 'prod',
         calculatedTimeout: 1000,
+        isHybridPersFlagEnabled: false,
       });
     } catch (err) {
       expect(err.message).to.equal('Consent Cookie doesnt allow interact');
     }
+
+    document.cookie = 'kndctr_9E1005A551ED61CA0A490D45_AdobeOrg_consent=general=in';
+  });
+
+  describe('getTargetPropertyBasedOnPageRegion', () => {
+    it('should return "bc8dfa27-29cc-625c-22ea-f7ccebfc6231" when env is not "prod"', () => {
+      const result = getTargetPropertyBasedOnPageRegion({ env: 'dev', pathname: '/fr/' });
+      expect(result).to.equal('bc8dfa27-29cc-625c-22ea-f7ccebfc6231');
+    });
+
+    it('should return "488edf5f-3cbe-f410-0953-8c0c5c323772" for EMEA & LATAM regions when env is "prod"', () => {
+      const result1 = getTargetPropertyBasedOnPageRegion({ env: 'prod', pathname: '/fr/' });
+      const result2 = getTargetPropertyBasedOnPageRegion({ env: 'prod', pathname: '/uk/' });
+      const result3 = getTargetPropertyBasedOnPageRegion({ env: 'prod', pathname: '/br/' });
+
+      expect(result1).to.equal('488edf5f-3cbe-f410-0953-8c0c5c323772');
+      expect(result2).to.equal('488edf5f-3cbe-f410-0953-8c0c5c323772');
+      expect(result3).to.equal('488edf5f-3cbe-f410-0953-8c0c5c323772');
+    });
+
+    it('should return "3de509ee-bbc7-58a3-0851-600d1c2e2918" for APAC regions when env is "prod"', () => {
+      const result1 = getTargetPropertyBasedOnPageRegion({ env: 'prod', pathname: '/au/' });
+      const result2 = getTargetPropertyBasedOnPageRegion({ env: 'prod', pathname: '/hk_en/' });
+      const result3 = getTargetPropertyBasedOnPageRegion({ env: 'prod', pathname: '/in/' });
+
+      expect(result1).to.equal('3de509ee-bbc7-58a3-0851-600d1c2e2918');
+      expect(result2).to.equal('3de509ee-bbc7-58a3-0851-600d1c2e2918');
+      expect(result3).to.equal('3de509ee-bbc7-58a3-0851-600d1c2e2918');
+    });
+
+    it('should return "ba5bc9e8-8fb4-037a-12c8-682384720007" for JP region when env is "prod"', () => {
+      const result = getTargetPropertyBasedOnPageRegion({ env: 'prod', pathname: '/jp/' });
+      expect(result).to.equal('ba5bc9e8-8fb4-037a-12c8-682384720007');
+    });
+
+    it('should return "4db35ee5-63ad-59f6-cec6-82ef8863b22d" when no region matches and env is "prod"', () => {
+      const result1 = getTargetPropertyBasedOnPageRegion({ env: 'prod', pathname: '/us/' });
+      const result2 = getTargetPropertyBasedOnPageRegion({ env: 'prod', pathname: '/ca/' });
+
+      expect(result1).to.equal('4db35ee5-63ad-59f6-cec6-82ef8863b22d');
+      expect(result2).to.equal('4db35ee5-63ad-59f6-cec6-82ef8863b22d');
+    });
+  });
+
+  describe('getVisitorStatus', () => {
+    let getCookieStub;
+    let setCookieStub;
+    let clock;
+
+    const mockCurrentTime = (time) => {
+      clock = sinon.useFakeTimers({ now: time, toNow: 'date' });
+    };
+
+    beforeEach(() => {
+      getCookieStub = sinon.stub().returns('');
+      setCookieStub = sinon.stub();
+    });
+
+    afterEach(() => {
+      clock.restore();
+    });
+
+    it('should return "New" and set a new cookie when no cookie exists', () => {
+      mockCurrentTime(new Date('2025-01-01T00:00:00Z'));
+
+      const result = getVisitorStatus({
+        getCookie: getCookieStub,
+        setCookie: setCookieStub,
+      });
+
+      expect(result).to.equal('New');
+    });
+
+    it('should return "New" when cookie exists and is within 30 minutes of being set', () => {
+      mockCurrentTime(new Date('2025-01-01T00:29:00Z'));
+
+      getCookieStub.returns('1704084000000-New');
+
+      const result = getVisitorStatus({
+        getCookie: getCookieStub,
+        setCookie: setCookieStub,
+      });
+
+      expect(result).to.equal('New');
+    });
+
+    it('should return "Repeat" when cookie exists and is older than 30 minutes', () => {
+      mockCurrentTime(new Date('2025-01-01T01:01:00Z'));
+
+      getCookieStub.returns('1704084000000-New');
+
+      const result = getVisitorStatus({
+        getCookie: getCookieStub,
+        setCookie: setCookieStub,
+      });
+
+      expect(result).to.equal('Repeat');
+    });
   });
 });

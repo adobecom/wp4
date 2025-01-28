@@ -1140,7 +1140,7 @@ async function checkForPageMods() {
       const now = performance.now();
       performance.mark('interaction-start');
       const data = await loadAnalyticsAndInteractionData(
-        { locale, env: getEnv({})?.name, calculatedTimeout },
+        { locale, env: getEnv({})?.name, calculatedTimeout, isHybridPersFlagEnabled: getMepEnablement('hybrid-pers') },
       );
       performance.mark('interaction-end');
       performance.measure('total-time', 'interaction-start', 'interaction-end');
