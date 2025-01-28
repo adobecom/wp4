@@ -5,7 +5,7 @@ const userCanPublishPage = async (detail, isBulk = true) => {
   const { live, profile, webPath } = detail;
   let canPublish = isBulk ? live?.permissions?.includes('write') : true;
   let message = 'Publishing is currently disabled for this page';
-  const config = await getCustomConfig('/.milo/publish-permissions-config.json');
+  const config = await getCustomConfig('/.milo/publish-permissions-config.json?limit=50000');
   const item = config?.urls?.data?.find(({ url }) => (
     url.endsWith('**') ? webPath.includes(url.slice(0, -2)) : url === webPath
   ));

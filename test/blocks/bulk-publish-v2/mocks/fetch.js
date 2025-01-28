@@ -12,7 +12,7 @@ const requests = {
   delstatus: 'https://admin.hlx.page/job/adobecom/milo/main/preview-remove/job-2024-01-24t23-16-20-377z/details',
   retry: 'https://admin.hlx.page/preview/adobecom/milo/main/tools/bulk-publish-v2-test',
   index: 'https://admin.hlx.page/index/adobecom/milo/main/tools/bulk-publish-v2-test',
-  permissions: '/.milo/publish-permissions-config.json',
+  permissions: '/.milo/publish-permissions-config.json?limit=50000',
   sharestatus: 'https://admin.hlx.page/job/adobecom/milo/main/preview/testshare/details',
 };
 
