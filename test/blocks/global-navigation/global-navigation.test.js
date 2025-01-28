@@ -102,7 +102,7 @@ describe('global navigation', () => {
       });
       window.adobeIMS = { isSignedInUser: () => true };
       await gnav.imsReady();
-      expect(window.lana.log.getCalls().find((c) => c.args[0].includes('issues within onReady'))).to.exist;
+      expect(window.lana.log.getCalls().find((c) => c.firstArg.includes('issues within imsReady'))).to.exist;
       window.adobeIMS = ogIms;
     });
 

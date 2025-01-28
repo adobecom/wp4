@@ -576,8 +576,8 @@ class Gnav {
         e,
         tags: 'gnav',
         errorType: 'info',
-        message: `GNAV: issues within imsReady - ${this.useUniversalNav ? 'decorateUniversalNav':  'decorateProfile'}`,
-        });
+        message: `GNAV: issues within imsReady - ${this.useUniversalNav ? 'decorateUniversalNav' : 'decorateProfile'}`,
+      });
     }
   };
 
