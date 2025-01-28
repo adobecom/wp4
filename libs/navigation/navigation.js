@@ -156,6 +156,11 @@ export default async function loadBlock(configs, customLib) {
       }
     } catch (e) {
       configBlock.onError?.(e);
+      window.lana.log(`${e.message} | gnav-source: ${gnavSource} | href: ${window.location.href}`, {
+        clientId: 'feds-milo',
+        tags: 'standalone-gnav',
+        errorType: e.errorType,
+      });
     }
   }
 }
