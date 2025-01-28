@@ -1,0 +1,713 @@
+{
+  "id": 1,
+  "tenant": "",
+  "enabled": true,
+  "description": "Unity Configuration",
+  "name": "Unity",
+  "fieldsMetadata": {
+    "steps": [
+      {
+        "id": "step1",
+        "type": "Step",
+        "title": "Unity Configurator",
+        "children": [
+          {
+            "id": "col1",
+            "type": "Column",
+            "title": "",
+            "children": [
+              {
+                "id": "unityConfigName",
+                "type": "TextField",
+                "title": "Unity  Block Name",
+                "children": [{}],
+                "properties": {
+                  "required": true,
+                  "metaDataId": "product"
+                }
+              },
+              {
+                "id": "product",
+                "type": "Select",
+                "title": "Select Adobe Product",
+                "children": [{}],
+                "properties": {
+                  "required": true,
+                  "metaDataId": "product",
+                  "resetNextSections": true
+                }
+              }
+            ],
+            "properties": {}
+          }
+        ],
+        "properties": {}
+      },
+      {
+        "id": "step2",
+        "type": "Step",
+        "title": "Unity  Block Features Selector",
+        "children": [
+          {
+            "id": "col2",
+            "type": "Column",
+            "title": "",
+            "children": [
+              {
+                "id": "features",
+                "type": "CheckboxGroup",
+                "title": "Select Unity Block Feature/s",
+                "children": [{}],
+                "properties": {
+                  "multiple": true,
+                  "required": true,
+                  "metaDataId": "$<product>Features"
+                }
+              }
+            ],
+            "properties": {}
+          }
+        ],
+        "properties": {}
+      },
+      {
+        "id": "step3",
+        "type": "Step",
+        "title": "Feature-Specific Configurations",
+        "children": [
+          {
+            "id": "col3",
+            "type": "Column",
+            "title": "Appearance",
+            "children": [
+              {
+                "id": "colorMode",
+                "type": "RadioGroup",
+                "title": "Theme",
+                "children": [{}],
+                "properties": {
+                  "required": true,
+                  "metaDataId": "colorMode"
+                }
+              },
+              {
+                "id": "featureValues",
+                "slot": "$<features>",
+                "type": "SectionFields",
+                "title": "",
+                "children": [{}]
+              }
+            ],
+            "properties": {}
+          }
+        ],
+        "properties": {
+          "additionalCta": [
+            {
+              "id": "unityLivePreview",
+              "type": "UnityLivePreview",
+              "title": "",
+              "children": [{}],
+              "properties": {}
+            }
+          ],
+          "renderConditions": {
+            "conditions": {
+              "condition": "notEqual",
+              "operands": ["$<product>", "Acrobat"]
+            },
+            "subscriptions": ["product"]
+          }
+        }
+      },
+      {
+        "id": "step4",
+        "type": "Step",
+        "title": "Unity Configuration",
+        "children": [
+          {
+            "id": "col4",
+            "type": "Column",
+            "title": "",
+            "children": [
+              {
+                "id": "configurations",
+                "slot": "",
+                "type": "ConfigurationDisplay",
+                "title": "Your Unity Block is Ready:",
+                "children": [{}],
+                "properties": {}
+              }
+            ],
+            "properties": {}
+          }
+        ],
+        "properties": {
+          "additionalCta": [
+            {
+              "id": "copyUnityBlock",
+              "type": "UnityCopyBlock",
+              "title": "Copy Unity Block",
+              "children": [{}],
+              "properties": {}
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "createdDate": 1723108792219,
+  "modifiedDate": 1725011314076,
+  "linkedSchema": [
+    {
+      "id": 2,
+      "tenant": "",
+      "enabled": false,
+      "description": "Unity photoshop hue sat schema",
+      "name": "hueSat",
+      "fieldsMetadata": {
+        "steps": [
+          {
+            "id": "step1",
+            "type": "Step",
+            "title": "Hue Sat",
+            "children": [
+              {
+                "id": "col7",
+                "type": "Column",
+                "title": "",
+                "children": [
+                  {
+                    "id": "featureValues.hueSat.sliderLabel",
+                    "type": "TextField",
+                    "title": "Slider Label",
+                    "children": [{}],
+                    "properties": {
+                      "default": "",
+                      "required": true
+                    }
+                  },
+                  {
+                    "id": "featureValues.hueSat.hue",
+                    "type": "TextField",
+                    "title": "Hue",
+                    "children": [{}],
+                    "properties": {
+                      "required": true
+                    }
+                  }
+                ],
+                "properties": {}
+              },
+              {
+                "id": "col8",
+                "type": "Column",
+                "title": "",
+                "children": [
+                  {
+                    "id": "featureValues.hueSat.sliderSvgLink",
+                    "type": "Select",
+                    "title": "Slider Svg Link",
+                    "children": [{}],
+                    "properties": {
+                      "required": true,
+                      "metaDataId": "svgPicker"
+                    }
+                  },
+                  {
+                    "id": "featureValues.hueSat.saturation",
+                    "type": "TextField",
+                    "title": "Saturation",
+                    "children": [{}],
+                    "properties": {
+                      "required": true
+                    }
+                  }
+                ],
+                "properties": {}
+              }
+            ]
+          }
+        ]
+      },
+      "templates": {
+        "template": [
+          {
+            "content": ":slider: $<sliderSvgLink> $<sliderLabel>",
+            "children": [
+              {
+                "content": ":hue: $<hue>"
+              },
+              {
+                "content": ":saturation: $<saturation>"
+              }
+            ]
+          }
+        ],
+        "franklinTemplate": [
+          {
+            "content": " <span class=\"icon icon-slider\"></span><a href=\"$<sliderSvgLink>\">$<sliderSvgLink></a> $<sliderLabel>",
+            "children": [
+              {
+                "content": "<span class=\"icon icon-hue\"></span>$<hue>"
+              },
+              {
+                "content": "<span class=\"icon icon-saturation\"></span>$<saturation>"
+              }
+            ]
+          }
+        ]
+      },
+      "createdDate": 1723108945060,
+      "modifiedDate": 1725011475643,
+      "workflowTypeCollection": [],
+      "parentSchemaId": 1
+    },
+    {
+      "id": 4,
+      "tenant": "",
+      "enabled": false,
+      "description": "Unity photoshop product feature changeBackground",
+      "name": "changeBackground",
+      "fieldsMetadata": {
+        "steps": [
+          {
+            "id": "step1",
+            "type": "Step",
+            "title": "Change Background",
+            "children": [
+              {
+                "id": "col9",
+                "type": "Column",
+                "title": "",
+                "children": [
+                  {
+                    "id": "featureValues.changeBackground.changeBackgroundLabel",
+                    "type": "TextField",
+                    "title": "Change Background Label",
+                    "children": [{}],
+                    "properties": {
+                      "default": "Change Background",
+                      "required": true
+                    }
+                  },
+                  {
+                    "id": "featureValues.changeBackground.changeBackgroundImages",
+                    "type": "ImageUpload",
+                    "title": "Images and Thumbnails",
+                    "children": [{}],
+                    "properties": {
+                      "id": "imagesThumbnails",
+                      "required": true,
+                      "buttonTitle": "Upload Images and Thumbnails"
+                    }
+                  }
+                ],
+                "properties": {}
+              },
+              {
+                "id": "col10",
+                "type": "Column",
+                "title": "",
+                "children": [
+                  {
+                    "id": "featureValues.changeBackground.changeBackgroundSvg",
+                    "type": "Select",
+                    "title": "Change Background svg",
+                    "children": [{}],
+                    "properties": {
+                      "required": true,
+                      "metaDataId": "svgPicker"
+                    }
+                  }
+                ],
+                "properties": {}
+              }
+            ],
+            "properties": {}
+          }
+        ]
+      },
+      "templates": {
+        "template": [
+          {
+            "content": ":changebg: $<changeBackgroundSvg> $<changeBackgroundLabel>",
+            "children": [
+              {
+                "content": ["$<thumbnail>", "$<mainImage>"],
+                "iterable": true,
+                "parentId": "changeBackgroundImages",
+                "contentType": "img"
+              }
+            ]
+          }
+        ],
+        "franklinTemplate": [
+          {
+            "content": "<span class=\"icon icon-changebg\"></span><a href=\"/unity/assets/test/changebg.svg\">$<changeBackgroundSvg></a> $<changeBackgroundLabel>",
+            "children": [
+              {
+                "content": [
+                  "<picture><source type=\"image/webp\" srcset=\"$<thumbnail>\" media=\"(min-width: 600px)\"><source type=\"image/webp\" srcset=\"$<thumbnail>\"><source type=\"image/jpeg\" srcset=\"$<thumbnail>\" media=\"(min-width: 600px)\"><img loading=\"lazy\" alt=\"light up flowers\" src=\"$<thumbnail>\" width=\"570\" height=\"570\"></picture>",
+                  " <picture><source type=\"image/webp\" srcset=\"$<mainImage>\" media=\"(min-width: 600px)\"><source type=\"image/webp\" srcset=\"$<mainImage>\"><source type=\"image/jpeg\" srcset=\"$<mainImage>\" media=\"(min-width: 600px)\"><img loading=\"lazy\" alt=\"light up flowers\" src=\"$<mainImage>\" width=\"570\" height=\"570\"></picture>"
+                ],
+                "iterable": true,
+                "parentId": "changeBackgroundImages"
+              }
+            ]
+          }
+        ]
+      },
+      "createdDate": 1723109032135,
+      "modifiedDate": 1725011811992,
+      "workflowTypeCollection": [],
+      "parentSchemaId": 1
+    },
+    {
+      "id": 6,
+      "tenant": "",
+      "enabled": false,
+      "description": "unity schema for redirection",
+      "name": "redirectionToApp",
+      "fieldsMetadata": {
+        "steps": [
+          {
+            "type": "step",
+            "title": "Redirection to App",
+            "children": [
+              {
+                "id": "col3",
+                "type": "Column",
+                "title": "",
+                "children": [
+                  {
+                    "id": "featureValues.redirectionToApp.redirectionButtonLabel",
+                    "type": "TextField",
+                    "title": "Redirection Button Label",
+                    "children": [{}],
+                    "properties": {
+                      "default": "Continue to App",
+                      "required": true
+                    }
+                  }
+                ],
+                "properties": {}
+              }
+            ]
+          }
+        ]
+      },
+      "templates": {
+        "template": [
+          {
+            "content": ":app-connector: $<redirectionSvg> $<redirectionButtonLabel>"
+          }
+        ],
+        "franklinTemplate": [
+          {
+            "content": "<span class=\"icon icon-app-connector\"></span><a href=\"$<redirectionSvg>\">$<redirectionSvg></a> $<redirectionButtonLabel>"
+          }
+        ]
+      },
+      "createdDate": 1723109106417,
+      "modifiedDate": 1725012074280,
+      "workflowTypeCollection": [],
+      "parentSchemaId": 1
+    },
+    {
+      "id": 5,
+      "tenant": "",
+      "enabled": false,
+      "description": "unity schema for upload",
+      "name": "upload",
+      "fieldsMetadata": {
+        "steps": [
+          {
+            "type": "Step",
+            "title": "Upload",
+            "children": [
+              {
+                "id": "col5",
+                "type": "Column",
+                "title": "",
+                "children": [
+                  {
+                    "id": "featureValues.upload.uploadButtonLabel",
+                    "type": "TextField",
+                    "title": "Upload Button Label",
+                    "children": [{}],
+                    "properties": {
+                      "id": "uploadButtonLabel",
+                      "required": true
+                    }
+                  }
+                ],
+                "properties": {}
+              },
+              {
+                "id": "col6",
+                "type": "Column",
+                "title": "",
+                "children": [
+                  {
+                    "id": "featureValues.upload.uploadButtonSvg",
+                    "type": "Select",
+                    "title": "Upload Button svg",
+                    "children": [{}],
+                    "properties": {
+                      "id": "uploadButtonSvg",
+                      "required": true,
+                      "metaDataId": "svgPicker"
+                    }
+                  }
+                ],
+                "properties": {}
+              }
+            ]
+          }
+        ]
+      },
+      "templates": {
+        "template": [
+          {
+            "content": ":upload: $<uploadButtonSvg>  $<uploadButtonLabel>"
+          }
+        ],
+        "franklinTemplate": [
+          {
+            "content": "<span class=\"icon icon-upload\"></span><a href=\"$<uploadButtonSvg>\">$<uploadButtonSvg></a> $<uploadButtonLabel>"
+          }
+        ]
+      },
+      "createdDate": 1723109068545,
+      "modifiedDate": 1725011932526,
+      "workflowTypeCollection": [],
+      "parentSchemaId": 1
+    },
+    {
+      "id": 3,
+      "tenant": "",
+      "enabled": false,
+      "description": "Unity photoshop product feature removeBackground",
+      "name": "removeBackground",
+      "fieldsMetadata": {
+        "steps": [
+          {
+            "id": "step1",
+            "type": "Step",
+            "title": "Remove Background",
+            "children": [
+              {
+                "id": "col11",
+                "type": "Column",
+                "title": "",
+                "children": [
+                  {
+                    "id": "featureValues.removeBackground.removebg",
+                    "type": "TextField",
+                    "title": "Remove Background Label",
+                    "children": [{}],
+                    "properties": {
+                      "default": "Remove Background",
+                      "required": true
+                    }
+                  }
+                ],
+                "properties": {}
+              },
+              {
+                "id": "col12",
+                "type": "Column",
+                "title": "",
+                "children": [
+                  {
+                    "id": "featureValues.removeBackground.removeBackgroundSvg",
+                    "type": "Select",
+                    "title": "Remove Background svg",
+                    "children": [{}],
+                    "properties": {
+                      "required": true,
+                      "metaDataId": "svgPicker"
+                    }
+                  }
+                ],
+                "properties": {}
+              }
+            ],
+            "properties": {}
+          }
+        ]
+      },
+      "templates": {
+        "template": [
+          {
+            "content": ":removebg: $<removeBackgroundSvg> $<removebg>"
+          }
+        ],
+        "franklinTemplate": [
+          {
+            "content": "<span class=\"icon icon-removebg\"></span><a href=\"$<removeBackgroundSvg>\">$<removeBackgroundSvg></a> $<removebg>"
+          }
+        ]
+      },
+      "createdDate": 1723108990720,
+      "modifiedDate": 1725011647126,
+      "workflowTypeCollection": [],
+      "parentSchemaId": 1
+    },
+    {
+      "id": 7,
+      "tenant": "",
+      "enabled": false,
+      "description": "Unity arcobat product feature fillAndSign",
+      "name": "fillAndSign",
+      "fieldsMetadata": {},
+      "templates": {
+        "template": [
+          {
+            "content": ":fillsign:"
+          }
+        ]
+      },
+      "createdDate": 1723108990720,
+      "modifiedDate": 1725011647126,
+      "workflowTypeCollection": [],
+      "parentSchemaId": 1
+    }
+  ],
+  "configurationMetadataCollection": [
+    {
+      "id": 5,
+      "type": "RadioGroup",
+      "name": "colorMode",
+      "values": [
+        {
+          "label": "Dark",
+          "value": "dark",
+          "isDisabled": false
+        },
+        {
+          "label": "Light",
+          "value": "light",
+          "isDisabled": false
+        }
+      ],
+      "createdDate": 1724162544929,
+      "modifiedDate": 1724162544929,
+      "configSchemaId": 1
+    },
+    {
+      "id": 5,
+      "type": "CheckboxGroup",
+      "name": "AcrobatFeatures",
+      "values": [
+        {
+          "label": "Fill and Sign",
+          "value": "fillAndSign"
+        }
+      ],
+      "configSchemaId": 1
+    },
+    {
+      "id": 3,
+      "type": "CheckboxGroup",
+      "name": "PhotoshopFeatures",
+      "values": [
+        {
+          "label": "Upload",
+          "value": "upload"
+        },
+        {
+          "label": "Change Background",
+          "value": "changeBackground"
+        },
+        {
+          "label": "Hue Sat",
+          "value": "hueSat"
+        },
+        {
+          "label": "Remove Background",
+          "value": "removeBackground"
+        },
+        {
+          "label": "Redirection to App",
+          "value": "redirectionToApp"
+        }
+      ],
+      "createdDate": 1724162344933,
+      "modifiedDate": 1724162344933,
+      "configSchemaId": 1
+    },
+    {
+      "id": 4,
+      "type": "select",
+      "name": "product",
+      "values": [
+        {
+          "icon": "https://main--unity--adobecom.hlx.page/unity/assets/product-icons/photoshop.svg",
+          "label": "Photoshop",
+          "value": "Photoshop",
+          "isDisabled": false
+        },
+        {
+          "icon": "https://main--unity--adobecom.hlx.page/unity/assets/product-icons/acrobat-pro.svg",
+          "label": "Acrobat",
+          "value": "Acrobat",
+          "isDisabled": false
+        },
+        {
+          "icon": "https://main--unity--adobecom.hlx.page/unity/assets/product-icons/firefly.svg",
+          "label": "Firefly",
+          "value": "Firefly",
+          "isDisabled": true
+        },
+        {
+          "icon": "https://main--unity--adobecom.hlx.page/unity/assets/product-icons/lightroom.svg",
+          "label": "Lightroom",
+          "value": "Lightroom",
+          "isDisabled": true
+        }
+      ],
+      "createdDate": 1724162399886,
+      "modifiedDate": 1724162399886,
+      "configSchemaId": 1
+    },
+    {
+      "id": 2,
+      "type": "select",
+      "name": "svgPicker",
+      "values": [
+        {
+          "icon": "https://main--unity--adobecom.hlx.page/unity/assets/icon-picker/back.svg",
+          "label": "Back",
+          "value": "https://main--unity--adobecom.hlx.page/unity/assets/icon-picker/back.svg"
+        },
+        {
+          "icon": "https://main--unity--adobecom.hlx.page/unity/assets/icon-picker/changebg.svg",
+          "label": "Change Background",
+          "value": "https://main--unity--adobecom.hlx.page/unity/assets/icon-picker/changebg.svg"
+        },
+        {
+          "icon": "https://main--unity--adobecom.hlx.page/unity/assets/icon-picker/huesat.svg",
+          "label": "Hue Sat",
+          "value": "https://main--unity--adobecom.hlx.page/unity/assets/icon-picker/huesat.svg"
+        },
+        {
+          "icon": "https://main--unity--adobecom.hlx.page/unity/assets/icon-picker/removebg.svg",
+          "label": "Remove Background",
+          "value": "https://main--unity--adobecom.hlx.page/unity/assets/icon-picker/removebg.svg"
+        },
+        {
+          "icon": "https://main--unity--adobecom.hlx.page/unity/assets/icon-picker/upload.svg",
+          "label": "Upload",
+          "value": "https://main--unity--adobecom.hlx.page/unity/assets/icon-picker/upload.svg"
+        }
+      ],
+      "createdDate": 1724162240876,
+      "modifiedDate": 1724162240876,
+      "configSchemaId": 1
+    }
+  ],
+  "workflowTypeCollection": []
+}
+
