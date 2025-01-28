@@ -2,12 +2,12 @@ import { CheckoutLink } from './checkout-link.js';
 import {
     CheckoutWorkflow,
     CheckoutWorkflowStep,
-    buildCheckoutUrl,
     computePromoStatus,
     omitProperties,
     toBoolean,
     toEnumeration,
 } from './external.js';
+import { buildCheckoutUrl } from './buildCheckoutUrl.js';
 import { Defaults } from './defaults.js';
 import { toOfferSelectorIds, toQuantity } from './utilities.js';
 
@@ -138,7 +138,7 @@ export function Checkout({ providers, settings }) {
                 })),
             );
         }
-        return buildCheckoutUrl(workflow, data);
+        return buildCheckoutUrl(data);
     }
 
     const { createCheckoutLink } = CheckoutLink;

@@ -9,7 +9,6 @@ import merch, {
   PRICE_TEMPLATE_OPTICAL,
   PRICE_TEMPLATE_STRIKETHROUGH,
   PRICE_TEMPLATE_ANNUAL,
-  CHECKOUT_ALLOWED_KEYS,
   buildCta,
   getCheckoutContext,
   initService,
@@ -409,19 +408,6 @@ describe('Merch Block', () => {
       expect(dataset.promotionCode).to.equal('nicopromo');
     });
 
-    it('renders merch link to UCv2 cta with link-level overrides', async () => {
-      const el = await merch(document.querySelector(
-        '.merch.cta.link-overrides',
-      ));
-      const { nodeName, dataset } = await el.onceSettled();
-      expect(nodeName).to.equal('A');
-      expect(el.getAttribute('is')).to.equal('checkout-link');
-      // https://wiki.corp.adobe.com/pages/viewpage.action?spaceKey=BPS&title=UCv2+Link+Creation+Guide
-      expect(dataset.checkoutWorkflow).to.equal('UCv2');
-      expect(dataset.checkoutWorkflowStep).to.equal('checkout');
-      expect(dataset.checkoutMarketSegment).to.equal('EDU');
-    });
-
     it('adds ims country to checkout link', async () => {
       await mockIms('CH');
       await initService();
@@ -531,6 +517,28 @@ describe('Merch Block', () => {
         expect(window.location.hash).to.equal(prevHash);
         document.body.querySelector('.dialog-modal').remove();
         window.location.hash = prevHash;
+      });
+
+      it('opens the 3-in-1 modal', async () => {
+        const checkoutLink = document.createElement('a');
+        checkoutLink.setAttribute('is', 'checkout-link');
+        checkoutLink.setAttribute('data-checkout-workflow', 'UCv3');
+        checkoutLink.setAttribute('data-checkout-workflow-step', 'segmentation');
+        checkoutLink.setAttribute('data-modal', 'true');
+        checkoutLink.setAttribute('data-quantity', '1');
+        checkoutLink.setAttribute('data-wcs-osi', 'L2C9cKHNNDaFtBVB6GVsyNI88RlyimSlzVfkMM2gH4A');
+        checkoutLink.setAttribute('data-extra-options', '{}');
+        checkoutLink.setAttribute('class', 'con-button placeholder-resolved');
+        checkoutLink.setAttribute('href', 'https://commerce.adobe.com/store/segmentation?ms=COM&ot=TRIAL&pa=phsp_direct_individual&cli=adobe_com&ctx=if&co=US&lang=en');
+        checkoutLink.setAttribute('daa-ll', 'Free trial-1--');
+        checkoutLink.setAttribute('data-modal-id', 'mini-plans-web-cta-photoshop-card');
+        checkoutLink.setAttribute('data-modal-type', 'twp');
+        await openModal(new CustomEvent('test'), 'https://www.adobe.com/mini-plans/creativecloud.html?mid=ft&web=1', 'TRIAL', 'try-photoshop', {}, checkoutLink);
+        const threeInOneModal = document.querySelector('.dialog-modal.three-in-one');
+        expect(threeInOneModal).to.exist;
+        const iFrame = document.querySelector('.dialog-modal.three-in-one iframe');
+        expect(iFrame.src).to.equal('https://commerce.adobe.com/store/segmentation?ms=COM&ot=TRIAL&pa=phsp_direct_individual&cli=adobe_com&ctx=if&co=US&lang=en');
+        threeInOneModal.remove();
       });
     });
   });
@@ -866,62 +874,6 @@ describe('Merch Block', () => {
       expect(resultUrl).to.equal(invalidUrl);
       const resultUrl2 = appendExtraOptions(invalidUrl);
       expect(resultUrl2).to.equal(invalidUrl);
-    });
-  });
-
-  describe('checkout link with optional params', async () => {
-    const checkoutUcv2Keys = [
-      'rurl', 'authCode', 'curl',
-    ];
-    const checkoutAllowKeysMapping = {
-      quantity: 'q',
-      checkoutPromoCode: 'apc',
-      ctxrturl: 'ctxRtUrl',
-      country: 'co',
-      language: 'lang',
-      clientId: 'cli',
-      context: 'ctx',
-      productArrangementCode: 'pa',
-      offerType: 'ot',
-      marketSegment: 'ms',
-      authCode: 'code',
-      rurl: 'rUrl',
-      curl: 'cUrl',
-    };
-    const segmentation = [
-      'ot',
-      'pa',
-      'ms',
-    ];
-
-    const keyValueMapping = { lang: 'en', ms: 'COM', ot: 'BASE', pa: 'phsp_direct_individual' };
-
-    const skipKeys = ['quantity', 'co', 'country', 'lang', 'language'];
-
-    CHECKOUT_ALLOWED_KEYS.forEach((key) => {
-      if (skipKeys.includes(key)) return;
-      const mappedKey = checkoutAllowKeysMapping[key] ?? key;
-      it(`renders checkout link with "${mappedKey}" parameter`, async () => {
-        const a = document.createElement('a', { is: 'checkout-link' });
-        a.classList.add('merch');
-        const searchParams = new URLSearchParams();
-        searchParams.set('osi', 1);
-        searchParams.set('type', 'checkoutUrl');
-        if (checkoutUcv2Keys.includes(key)) {
-          searchParams.set('workflow', 'ucv2');
-        }
-        const value = keyValueMapping[mappedKey] ?? 'test';
-        searchParams.set(key, value);
-        if (segmentation.includes(mappedKey)) {
-          searchParams.set('workflowStep', 'segmentation');
-        }
-        a.setAttribute('href', `/tools/ost?${searchParams.toString()}`);
-        document.body.appendChild(a);
-        const el = await merch(a);
-        await el.onceSettled();
-        expect(el.getAttribute('href')).to.match(new RegExp(`https://commerce.adobe.com/.*${mappedKey}=${value}`));
-        el.remove();
-      });
     });
   });
 

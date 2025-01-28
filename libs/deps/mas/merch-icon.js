@@ -1,4 +1,4 @@
-var g=Object.defineProperty;var a=(i,t,h)=>t in i?g(i,t,{enumerable:!0,configurable:!0,writable:!0,value:h}):i[t]=h;var r=(i,t,h)=>a(i,typeof t!="symbol"?t+"":t,h);import{LitElement as m,html as s,css as d}from"../lit-all.min.js";var e=class extends m{constructor(){super(),this.size="m",this.alt="",this.loading="lazy"}render(){let{href:t}=this;return t?s`<a href="${t}">
+var g=Object.defineProperty;var a=(i,t,h)=>t in i?g(i,t,{enumerable:!0,configurable:!0,writable:!0,value:h}):i[t]=h;var r=(i,t,h)=>(a(i,typeof t!="symbol"?t+"":t,h),h);import{LitElement as m,html as s,css as d}from"../lit-all.min.js";var e=class extends m{constructor(){super(),this.size="m",this.alt="",this.loading="lazy"}render(){let{href:t}=this;return t?s`<a href="${t}">
                   <img src="${this.src}" alt="${this.alt}" loading="${this.loading}" />
               </a>`:s` <img src="${this.src}" alt="${this.alt}" loading="${this.loading}" />`}};r(e,"properties",{size:{type:String,attribute:!0},src:{type:String,attribute:!0},alt:{type:String,attribute:!0},href:{type:String,attribute:!0},loading:{type:String,attribute:!0}}),r(e,"styles",d`
         :host {

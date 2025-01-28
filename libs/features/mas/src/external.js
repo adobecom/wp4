@@ -2,7 +2,6 @@
 import {
     CheckoutType,
     WorkflowStep,
-    buildCheckoutUrl,
 } from '@pandora/commerce-checkout-url-builder';
 import { Term, Commitment } from '@pandora/data-models-odm';
 
@@ -63,7 +62,6 @@ export {
     WcsTerm,
     WcsPlanType,
     applyPlanType,
-    buildCheckoutUrl,
     computePromoStatus,
     delay,
     equalsCaseInsensitive,
