@@ -109,6 +109,7 @@ const AUTO_BLOCKS = [
   { 'pdf-viewer': '.pdf', styles: false },
   { video: '.mp4' },
   { merch: '/tools/ost?' },
+  { 'mas-autoblock': 'mas.adobe.com/studio' },
 ];
 const DO_NOT_INLINE = [
   'accordion',
